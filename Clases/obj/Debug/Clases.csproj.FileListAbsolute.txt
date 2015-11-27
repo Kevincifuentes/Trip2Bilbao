@@ -1,0 +1,6 @@
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Clases\bin\Debug\Clases.exe.config
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Clases\bin\Debug\Clases.exe
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Clases\bin\Debug\Clases.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Clases\obj\Debug\Clases.exe
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Clases\obj\Debug\Clases.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Clases\obj\Debug\Clases.csprojResolveAssemblyReference.cache

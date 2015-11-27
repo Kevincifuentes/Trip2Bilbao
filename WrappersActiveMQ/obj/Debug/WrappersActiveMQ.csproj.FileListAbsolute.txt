@@ -1,0 +1,7 @@
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WrappersActiveMQ\bin\Debug\WrappersActiveMQ.dll
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WrappersActiveMQ\bin\Debug\WrappersActiveMQ.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WrappersActiveMQ\bin\Debug\Clases.exe
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WrappersActiveMQ\bin\Debug\Clases.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WrappersActiveMQ\obj\Debug\WrappersActiveMQ.csprojResolveAssemblyReference.cache
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WrappersActiveMQ\obj\Debug\WrappersActiveMQ.dll
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WrappersActiveMQ\obj\Debug\WrappersActiveMQ.pdb

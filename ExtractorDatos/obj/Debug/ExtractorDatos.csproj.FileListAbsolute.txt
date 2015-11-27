@@ -1,0 +1,17 @@
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\ExtractorDatos.exe.config
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\ExtractorDatos.exe
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\ExtractorDatos.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\Apache.NMS.ActiveMQ.dll
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\Apache.NMS.dll
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\Clases.exe
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\Clases.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\Apache.NMS.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\Apache.NMS.xml
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\Apache.NMS.ActiveMQ.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\Apache.NMS.ActiveMQ.xml
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\obj\Debug\ExtractorDatos.csprojResolveAssemblyReference.cache
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\obj\Debug\ExtractorDatos.exe
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\obj\Debug\ExtractorDatos.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\WrappersActiveMQ.dll
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\WrappersActiveMQ.pdb
