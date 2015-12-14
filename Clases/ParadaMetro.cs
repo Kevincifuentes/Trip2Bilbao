@@ -13,11 +13,11 @@ namespace Clases
             
         }
 
-        public ParadaMetro(string id, string codigo, string nombreParada, Coordenadas localizacion, string tipoLocalizacion, string idParadaPadre)
+        public ParadaMetro(string id, string codigo, string nombre, Coordenadas localizacion, string tipoLocalizacion, string idParadaPadre)
         {
             this.id = id;
             this.codigo = codigo;
-            this.nombreParada = nombreParada;
+            this.nombre = nombre;
             this.localizacion = localizacion;
             this.tipoLocalizacion = tipoLocalizacion;
             this.idParadaPadre = idParadaPadre;
@@ -25,14 +25,14 @@ namespace Clases
 
         public string id { get; set; }
         public string codigo { get; set; }
-        public string nombreParada { get; set; }
+        public string nombre { get; set; }
         public Coordenadas localizacion { get; set; }
         public string tipoLocalizacion { get; set; }
         public string idParadaPadre { get; set; }
 
         public override string ToString()
         {
-            string respuesta = "Parada " + nombreParada + " : ID " + id  + " Lugar: " + localizacion.longitud + " , " + localizacion.latitud + "\n";
+            string respuesta = "Parada " + nombre + " : ID " + id  + " Lugar: " + localizacion.longitud + " , " + localizacion.latitud + "\n";
             respuesta = respuesta  + " Tipo Localizacion " + tipoLocalizacion + " ID parada padre " + idParadaPadre + "\n";
             return respuesta;
         }
