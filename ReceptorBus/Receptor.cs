@@ -225,7 +225,7 @@ namespace ReceptorBus
                         {
                             foreach (Clases.KeyValuePair<int, ParadaBizkaibus> temporal in bizkaibus.lista)
                             {
-                                Console.WriteLine(temporal.Value.nombreParada + "\r\n");
+                                Console.WriteLine(temporal.Value.nombre + "\r\n");
                             }
                         }
                         else
@@ -408,7 +408,7 @@ namespace ReceptorBus
                                     //Console.WriteLine(temporal2.Value.id);
                                     foreach (Clases.KeyValuePair<int, ParadaMetro>temporal3 in temporal2.Value.paradasList)
                                     {
-                                        Console.WriteLine(temporal3.Value.nombreParada);
+                                        Console.WriteLine(temporal3.Value.nombre);
                                     }
                                 }
 
