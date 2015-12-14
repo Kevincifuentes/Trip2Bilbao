@@ -14,10 +14,10 @@ namespace Clases
             
         }
 
-        public CentroSalud(string nombreCentro, string dirCompleta, string codigoCentro, int codigoPostal, string provincia, string region, string[] servicios, string horario, string calle, string ciudad, string urlAdicional, Coordenadas localizacion, string email, string web, long telefono, long fax)
+        public CentroSalud(string nombreCentro, string direccionCompleta, string codigoCentro, int codigoPostal, string provincia, string region, string[] servicios, string horario, string calle, string ciudad, string urlAdicional, Coordenadas localizacion, string email, string web, long telefono, long fax)
         {
             this.nombreCentro = nombreCentro;
-            this.dirCompleta = dirCompleta;
+            this.direccionCompleta = direccionCompleta;
             this.codigoCentro = codigoCentro;
             this.codigoPostal = codigoPostal;
             this.provincia = provincia;
@@ -35,7 +35,7 @@ namespace Clases
         }
 
         public string nombreCentro { get; set; }
-        public string dirCompleta { get; set; }
+        public string direccionCompleta { get; set; }
         public string codigoCentro { get; set; }
         public int codigoPostal { get; set; }
         public string provincia { get; set; }
@@ -54,7 +54,7 @@ namespace Clases
         public override string ToString()
         {
             string respuesta = nombreCentro + " : " + "Direccion completa: " +
-                                dirCompleta + " Localización: ";
+                                direccionCompleta + " Localización: ";
 
             respuesta = respuesta + "CP: " + codigoPostal + " Region: " + region + " Calle: " +
                         calle + " Ciudad: " + ciudad + " Telefono: " + telefono + " Web: " + web + "\n";
