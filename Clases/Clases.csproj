@@ -55,7 +55,6 @@
     <Compile Include="LineaEuskotren.cs" />
     <Compile Include="LineaMetro.cs" />
     <Compile Include="ParadaTranvia.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Mantenimiento.cs" />
     <Compile Include="Obra.cs" />
     <Compile Include="ParadaBilbo.cs" />

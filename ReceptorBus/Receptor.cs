@@ -89,7 +89,7 @@ namespace ReceptorBus
                     {
                         foreach (Clases.KeyValuePair<string, TiempoComarca> temp2 in tiempoComarca.lista)
                         {
-                            Console.WriteLine(temp2.Value.nombreComarcaEs);
+                            Console.WriteLine(temp2.Value.nombreComarcaES);
                         }
                     }
                     break;

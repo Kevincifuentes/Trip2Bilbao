@@ -118,7 +118,7 @@ namespace ExtractorDatos
                 }
                 foreach (Clases.KeyValuePair<string, TiempoComarca> pair in miKeyValue)
                 {
-                    Console.WriteLine(pair.Value.nombreComarcaEs);
+                    Console.WriteLine(pair.Value.nombreComarcaES);
                 }
                 _producer.Send(new ParesTiempoComarca(miKeyValue));
             }

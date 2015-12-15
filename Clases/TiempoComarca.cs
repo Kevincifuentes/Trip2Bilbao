@@ -16,19 +16,19 @@ namespace Clases
         public TiempoComarca(DateTime diaActualizacion, string nombreComarcaEs, string nombreComarcaEu, List<TiempoDiaComarca> tiempoComarcaDia)
         {
             this.diaActualizacion = diaActualizacion;
-            this.nombreComarcaEs = nombreComarcaEs;
+            this.nombreComarcaES = nombreComarcaEs;
             nombreComarcaEU = nombreComarcaEu;
             this.tiempoComarcaDia = tiempoComarcaDia;
         }
 
         public DateTime diaActualizacion { get; set; }
-        public string nombreComarcaEs { get; set; }
+        public string nombreComarcaES { get; set; }
         public string nombreComarcaEU { get; set; }
         public List<TiempoDiaComarca> tiempoComarcaDia { get; set; }
 
         public override string ToString()
         {
-            string respuesta = "Día de actualización: " + diaActualizacion + " Nombre Comarca ES: " + nombreComarcaEs +
+            string respuesta = "Día de actualización: " + diaActualizacion + " Nombre Comarca ES: " + nombreComarcaES +
                                " Nombre Comarca EU: " + nombreComarcaEU + "\n";
             foreach (TiempoDiaComarca temp in tiempoComarcaDia)
             {
