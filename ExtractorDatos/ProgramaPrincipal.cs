@@ -35,7 +35,7 @@ namespace ExtractorDatos
         private Dictionary<int, ParadaBizkaibus> paradasBizkaibus= new Dictionary<int, ParadaBizkaibus>();
         private Dictionary<string , ParadaMetro> paradasMetro = new Dictionary<string, ParadaMetro>(); 
         private Dictionary<int, ParadaEuskotren> paradasEuskotren = new Dictionary<int, ParadaEuskotren>();
-        private Dictionary<string, LineaBilbobus> lineasBilbo = new Dictionary<string, LineaBilbobus>();
+        public Dictionary<string, LineaBilbobus> lineasBilbo = new Dictionary<string, LineaBilbobus>();
         private Dictionary<int, LineaEuskotren> lineasEusko = new Dictionary<int, LineaEuskotren>();
         private Dictionary<int, LineaBizkaibus> lineasBizkaia = new Dictionary<int, LineaBizkaibus>();
         private Dictionary<string, LineaMetro> lineasMetroBilbao = new Dictionary<string, LineaMetro>();  
@@ -129,10 +129,13 @@ namespace ExtractorDatos
                             case '1':
                                 Console.WriteLine("Case 1");
                                 p.paradasAutobusesBilbo();
+                                Console.WriteLine(lineasBilbo.Count);
                                 InformacionDinamica i = new InformacionDinamica(p);
+                                Console.WriteLine(lineasBilbo.Count);
                                 p.lineasBilbobus();
+                                Console.WriteLine(lineasBilbo.Count);
                                 Console.ReadLine();
-                                emisor.enviarLineasBilbobus(lineasBilbo);
+                                emisor.enviarTiemposLineas(lineasBilbo);
                                 
                                 break;
                             case '2':
@@ -1286,9 +1289,9 @@ namespace ExtractorDatos
 
         private void metroBilbao()
         {
-            if (paradasBizkaibus.Count != 0)
+            if (paradasMetro.Count != 0)
             {
-                lineasBilbo.Clear();
+                lineasMetroBilbao.Clear();
             }
 
             Console.WriteLine("Empiezo Metro");
@@ -1420,9 +1423,9 @@ namespace ExtractorDatos
 
         private void euskotren()
         {
-            if (paradasBizkaibus.Count != 0)
+            if (paradasEuskotren.Count != 0)
             {
-                paradasBizkaibus.Clear();
+                paradasEuskotren.Clear();
             }
 
             Console.WriteLine("Empiezo Euskotren");
@@ -1562,11 +1565,6 @@ namespace ExtractorDatos
 
         private void lineasBilbobus()
         {
-            if (paradasBizkaibus.Count != 0)
-            {
-                paradasBizkaibus.Clear();
-            }
-
             Console.WriteLine("Empiezo Lineas Bilbobus");
 
             if (

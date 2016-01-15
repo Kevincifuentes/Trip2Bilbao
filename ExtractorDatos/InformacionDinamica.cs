@@ -42,7 +42,7 @@ namespace ExtractorDatos
                 case 2:
                     Console.WriteLine("Case 2");
                     tiemposParadaBilbo(p);
-                    ProgramaPrincipal.emisor.enviarParadasBilbobus(p.paradasBilbobus);
+                    //ProgramaPrincipal.emisor.enviarTiemposLineas(p.lineasBilbo);
                     break;
                 case 3:
                     Console.WriteLine("Case 3");

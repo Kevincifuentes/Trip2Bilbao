@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtractorDatos", "ExtractorDatos\ExtractorDatos.csproj", "{9D81587E-53EB-4D7D-9C78-89CA235E99A2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7DB1BC5B-416E-4F07-927B-DC0FEFE15EFD} = {7DB1BC5B-416E-4F07-927B-DC0FEFE15EFD}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clases", "Clases\Clases.csproj", "{7DB1BC5B-416E-4F07-927B-DC0FEFE15EFD}"
 EndProject
