@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 using Apache.NMS;
 using Apache.NMS.ActiveMQ;
@@ -36,7 +38,7 @@ namespace ExtractorDatos
                 _session = _connection.CreateSession();
 
                 // Create the destination (Topic or Queue)
-                IDestination destination = _session.GetQueue(QUEUE_DESTINATION);
+                IDestination destination = _session.GetTopic(QUEUE_DESTINATION);
 
                 // Create a MessageProducer from the Session to the Topic or Queue
                 _producer = _session.CreateProducer(destination);
@@ -81,11 +83,13 @@ namespace ExtractorDatos
                 Console.WriteLine("No se ha podido inicializar el productor. Compruebe que ApacheMQ esté encendido.");
                 Console.ReadKey();
             }*/
-            XElement xml = convertirXMLParking(m);
-            ITextMessage temporal = _producer.CreateXmlMessage(xml);
-            temporal.NMSType = "Parkings";
-            _producer.Send(temporal);
-
+            foreach (Parking parking in m.Values)
+            {
+                XElement xml = convertirUnParking(parking);
+                ITextMessage temporal = _producer.CreateXmlMessage(xml);
+                temporal.NMSType = "Parkings";
+                _producer.Send(temporal); 
+            }
         }
 
         public void enviarTiempoCiudad(Dictionary<string, TiempoCiudad> tiempoC)
@@ -217,18 +221,24 @@ namespace ExtractorDatos
                 Console.WriteLine("No se ha podido inicializar el productor. Compruebe que ApacheMQ esté encendido.");
                 Console.ReadKey();
             }*/
-            XElement xml = convertirXMLTiemposParada(m);
-            ITextMessage temporal = _producer.CreateXmlMessage(xml);
-            temporal.NMSType = "TiemposParada";
-            _producer.Send(temporal);
+            foreach (ParadaBilbo paradaBilbo in m.Values)
+            {
+                XElement xml = convertirTiempoDeUnaParada(paradaBilbo);
+                ITextMessage temporal = _producer.CreateXmlMessage(xml);
+                temporal.NMSType = "TiemposParada";
+                _producer.Send(temporal);
+            }
         }
 
         public void enviarTiemposLineas(Dictionary<string, LineaBilbobus> lineas)
         {
-            XElement xml = convertirXMLTiemposLinea(lineas);
-            ITextMessage temporal = _producer.CreateXmlMessage(xml);
-            temporal.NMSType = "TiemposLinea";
-            _producer.Send(temporal);
+            foreach (LineaBilbobus lineaBilbobus in lineas.Values)
+            {
+                XElement xml = convertirTiempoDeUnaLinea(lineaBilbobus);
+                ITextMessage temporal = _producer.CreateXmlMessage(xml);
+                temporal.NMSType = "TiemposLinea";
+                _producer.Send(temporal);
+            }
         }
 
         public void enviarParadasEuskotren(Dictionary<int, ParadaEuskotren> m)
@@ -323,16 +333,18 @@ namespace ExtractorDatos
                 Console.WriteLine("No se ha podido inicializar el productor. Compruebe que ApacheMQ esté encendido.");
                 Console.ReadKey();
             }*/
-            XElement xml = convertirXMLBicis(bicis);
-            ITextMessage temporal = _producer.CreateXmlMessage(xml);
-            temporal.NMSType = "Bicis";
-            _producer.Send(temporal);
-
+            foreach (PuntoBici puntoBici in bicis)
+            {
+                XElement xml = convertirUnPuntoBici(puntoBici);
+                ITextMessage temporal = _producer.CreateXmlMessage(xml);
+                temporal.NMSType = "Bicis";
+                _producer.Send(temporal);
+            }
         }
 
         public void enviarParkingDeusto(int dbs, int general)
         {
-            try
+            /*try
             {
                 _producer.Send(new WrapperParkingDeusto(dbs, general));
             }
@@ -340,7 +352,12 @@ namespace ExtractorDatos
             {
                 Console.WriteLine("No se ha podido inicializar el productor. Compruebe que ApacheMQ esté encendido.");
                 Console.ReadKey();
-            }
+            }*/
+
+            XElement xml = convertirParkingDeusto(dbs, general);
+            ITextMessage temporal = _producer.CreateXmlMessage(xml);
+            temporal.NMSType = "Deusto";
+            _producer.Send(temporal);
         }
 
         public void enviarLineasBilbobus(Dictionary<string, LineaBilbobus> lineas)
@@ -752,6 +769,300 @@ namespace ExtractorDatos
 
 
             return futuro;
+        }
+
+        public XElement convertirUnParking(Parking p)
+        {
+            XElement xmlParking = new XElement("Parking", new XAttribute("id", p.id));
+            //Cabecera
+
+            XElement cabecera = new XElement("Cabecera");
+            XElement tipo = new XElement("Tipo", "parkingId");
+            XElement zona = new XElement("Zona", "ZonaX");
+
+            XElement influencia = new XElement("Influencia");
+            XElement codigoPostal = new XElement("CP", 48001);
+            XElement barrio = new XElement("Barrio", "Desconocido");
+            XElement distrito = new XElement("Distrito", "Desconocido");
+            influencia.Add(codigoPostal);
+            influencia.Add(barrio);
+            influencia.Add(distrito);
+
+            cabecera.Add(tipo);
+            cabecera.Add(zona);
+            cabecera.Add(influencia);
+
+            xmlParking.Add(cabecera);
+
+            //Contenido
+
+            XElement cuerpo = new XElement("Cuerpo");
+
+            XElement id = new XElement("Id", p.id);
+            XElement nombreParking = new XElement("Nombre", p.nombre);
+
+            XElement localizacion = new XElement("Localizacion");
+            XElement latitud = new XElement("Latitud", p.latlong.latitud);
+            XElement longitud = new XElement("Longitud", p.latlong.longitud);
+            localizacion.Add(latitud);
+            localizacion.Add(longitud);
+
+            XElement capacidad = new XElement("Capacidad", p.capacidad);
+            // Console.WriteLine(objParking.capacidad + " " + objParking.ocupacion);
+            XElement disponibilidad = new XElement("Disponibilidad", (p.capacidad - p.ocupacion));
+
+            cuerpo.Add(id);
+            cuerpo.Add(nombreParking);
+            cuerpo.Add(localizacion);
+            cuerpo.Add(capacidad);
+            cuerpo.Add(disponibilidad);
+
+            xmlParking.Add(cuerpo);
+
+            Console.WriteLine(xmlParking.ToString());
+            return xmlParking;
+        }
+
+        public XElement convertirUnPuntoBici(PuntoBici pb)
+        {
+            XElement puntoBici = new XElement("PuntoBici", new XAttribute("id", pb.id));
+            //Cabecera
+
+            XElement cabecera = new XElement("Cabecera");
+            XElement tipo = new XElement("Tipo", "PBB");
+            XElement zona = new XElement("Zona", "ZonaX");
+
+            XElement influencia = new XElement("Influencia");
+            XElement codigoPostal = new XElement("CP", 48001);
+            XElement barrio = new XElement("Barrio", "Desconocido");
+            XElement distrito = new XElement("Distrito", "Desconocido");
+
+            influencia.Add(codigoPostal);
+            influencia.Add(barrio);
+            influencia.Add(distrito);
+
+            cabecera.Add(tipo);
+            cabecera.Add(zona);
+            cabecera.Add(influencia);
+
+            puntoBici.Add(cabecera);
+
+            //Contenido
+
+            XElement cuerpo = new XElement("Cuerpo");
+
+            XElement id = new XElement("Id", pb.id);
+            XElement nombrePunto = new XElement("Nombre", pb.nombre);
+
+            XElement localizacion = new XElement("Localizacion");
+            XElement latitud = new XElement("Latitud", pb.localizacion.latitud);
+            XElement longitud = new XElement("Longitud", pb.localizacion.longitud);
+            localizacion.Add(latitud);
+            localizacion.Add(longitud);
+
+            XElement capacidad = new XElement("CapacidadAnclaje", pb.anclajesLibres + pb.anclajesAveriados + pb.anclajesUsados);
+            // Console.WriteLine(objParking.capacidad + " " + objParking.ocupacion);
+            XElement bicislibres = new XElement("BicisLibres", pb.bicisLibres);
+            XElement disponibilidad = new XElement("DisponibilidadAnclaje", pb.anclajesLibres);
+
+            cuerpo.Add(id);
+            cuerpo.Add(nombrePunto);
+            cuerpo.Add(localizacion);
+            cuerpo.Add(capacidad);
+            cuerpo.Add(bicislibres);
+            cuerpo.Add(disponibilidad);
+
+
+            puntoBici.Add(cuerpo);
+            Console.WriteLine(puntoBici.ToString());
+            return puntoBici;
+        }
+
+        public XElement convertirTiempoDeUnaParada(ParadaBilbo pbi)
+        {
+            XElement parada = new XElement("TiemposParada", new XAttribute("id", pbi.id));
+            //Cabecera
+
+            XElement cabecera = new XElement("Cabecera");
+            XElement tipo = new XElement("Tipo", "paradaId");
+            XElement zona = new XElement("Zona", "ZonaX");
+
+            XElement influencia = new XElement("Influencia");
+            XElement codigoPostal = new XElement("CP", 48001);
+            XElement barrio = new XElement("Barrio", "Desconocido");
+            XElement distrito = new XElement("Distrito", "Desconocido");
+            influencia.Add(codigoPostal);
+            influencia.Add(barrio);
+            influencia.Add(distrito);
+
+            cabecera.Add(tipo);
+            cabecera.Add(zona);
+            cabecera.Add(influencia);
+
+            parada.Add(cabecera);
+
+            //Contenido
+
+            XElement cuerpo = new XElement("Cuerpo");
+
+            XElement id = new XElement("Id", pbi.idParada);
+            XElement nombrePunto = new XElement("Nombre", pbi.nombre);
+
+            XElement localizacion = new XElement("Localizacion");
+            XElement latitud = new XElement("Latitud", pbi.lugar.latitud);
+            XElement longitud = new XElement("Longitud", pbi.lugar.longitud);
+            localizacion.Add(latitud);
+            localizacion.Add(longitud);
+
+            XElement lineas = new XElement("Lineas");
+            foreach (Clases.KeyValuePair<string, LineaBusTiempo> temporal in pbi.lineasYTiempo)
+            {
+                LineaBusTiempo var = temporal.Value;
+                XElement linea = new XElement("Linea", new XAttribute("id", var.codigoLinea));
+                XElement idLinea = new XElement("Id", var.codigoLinea);
+                XElement nombreLinea = new XElement("NombreLinea", var.descripcionLinea);
+                XElement tiempo = new XElement("TiempoRestante", var.tiempoEspera);
+
+
+                linea.Add(idLinea);
+                linea.Add(nombreLinea);
+                linea.Add(tiempo);
+
+                lineas.Add(linea);
+            }
+            if (!lineas.IsEmpty)
+            {
+                Console.WriteLine(pbi.ToString() + "" + lineas.ToString());
+            }
+
+
+            cuerpo.Add(id);
+            cuerpo.Add(nombrePunto);    
+            cuerpo.Add(localizacion);
+            cuerpo.Add(lineas);
+
+            parada.Add(cuerpo);
+
+            //Console.WriteLine(coleccionParadas.ToString());
+            return parada;
+        }
+
+        public XElement convertirTiempoDeUnaLinea(LineaBilbobus lb)
+        {
+            XElement linea = new XElement("TiemposLinea", new XAttribute("Id", lb.id));
+            //Cabecera
+
+            XElement cabecera = new XElement("Cabecera");
+            XElement tipo = new XElement("Tipo", "lineaId");
+            XElement zona = new XElement("Zona", "ZonaX");
+
+            XElement influencia = new XElement("Influencia");
+            XElement codigoPostal = new XElement("CP", 48001);
+            XElement barrio = new XElement("Barrio", "Desconocido");
+            XElement distrito = new XElement("Distrito", "Desconocido");
+            influencia.Add(codigoPostal);
+            influencia.Add(barrio);
+            influencia.Add(distrito);
+
+            cabecera.Add(tipo);
+            cabecera.Add(zona);
+            cabecera.Add(influencia);
+
+            linea.Add(cabecera);
+
+            //Contenido
+
+            XElement cuerpo = new XElement("Cuerpo");
+            XElement paradas = new XElement("Paradas");
+
+            if (lb.viajes.Count > 0)
+            {
+                Clases.KeyValuePair<int, ViajeBilbobus> viajeLinea = lb.viajes[0];
+                List<Clases.KeyValuePair<int, ParadaBilbo>> paradasViaje = viajeLinea.Value.paradas;
+
+                foreach (var paradasDeViaje in paradasViaje)
+                {
+                    ParadaBilbo objParada = paradasDeViaje.Value;
+                    XElement parada = new XElement("Parada", new XAttribute("id", objParada.idParada));
+
+                    XElement idParada = new XElement("Id", objParada.idParada);
+                    XElement nombreParada = new XElement("Nombre", objParada.nombre);
+
+                    XElement localizacionParada = new XElement("Localizacion");
+                    XElement latitudP = new XElement("Latitud", objParada.lugar.latitud);
+                    XElement longitudP = new XElement("Longitud", objParada.lugar.longitud);
+                    localizacionParada.Add(latitudP);
+                    localizacionParada.Add(longitudP);
+
+                    List<Clases.KeyValuePair<string, LineaBusTiempo>> temporal = objParada.lineasYTiempo;
+                    int index = 0;
+                    while (index < temporal.Count && !(temporal[0].Key.Equals(lb.id)))
+                    {
+                        index++;
+                    }
+                    XElement tiempoRestante = null;
+                    if (index == temporal.Count)
+                    {
+                        tiempoRestante = new XElement("TiempoRestante", -1);
+                    }
+                    else
+                    {
+                        Console.WriteLine(temporal[index].Value.tiempoEspera);
+                        tiempoRestante = new XElement("TiempoRestante", temporal[index].Value.tiempoEspera);
+                    }
+
+                    parada.Add(idParada);
+                    parada.Add(nombreParada);
+                    parada.Add(localizacionParada);
+                    parada.Add(tiempoRestante);
+
+                    paradas.Add(parada);
+                    // Console.WriteLine(paradas.ToString());
+
+                }
+            }
+
+            cuerpo.Add(paradas);
+            linea.Add(cuerpo);
+
+            //Console.WriteLine(coleccionLineas.ToString());
+            return linea; 
+        }
+
+        public XElement convertirParkingDeusto(int dbs, int general)
+        {
+            XElement deusto = new XElement("ParkingDeusto");
+            //Cabecera
+
+            XElement cabecera = new XElement("Cabecera");
+            XElement tipo = new XElement("Tipo", "parkingDeusto");
+            XElement zona = new XElement("Zona", "ZonaX");
+
+            XElement influencia = new XElement("Influencia");
+            XElement codigoPostal = new XElement("CP", 48001);
+            XElement barrio = new XElement("Barrio", "Desconocido");
+            XElement distrito = new XElement("Distrito", "Desconocido");
+            influencia.Add(codigoPostal);
+            influencia.Add(barrio);
+            influencia.Add(distrito);
+
+            cabecera.Add(tipo);
+            cabecera.Add(zona);
+            cabecera.Add(influencia);
+
+            deusto.Add(cabecera);
+
+            XElement cuerpo = new XElement("Cuerpo");
+            XElement dbsX = new XElement("Dbs", dbs);
+            XElement generalX = new XElement("General", general);
+
+            cuerpo.Add(dbsX);
+            cuerpo.Add(generalX);
+
+            deusto.Add(cuerpo);
+
+            return deusto;
+
         }
     }
 }

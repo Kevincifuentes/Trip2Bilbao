@@ -135,6 +135,7 @@ namespace ExtractorDatos
                                 p.lineasBilbobus();
                                 Console.WriteLine(lineasBilbo.Count);
                                 Console.ReadLine();
+                                //emisor.enviarTiemposParadas(paradasBilbobus);
                                 emisor.enviarTiemposLineas(lineasBilbo);
                                 
                                 break;

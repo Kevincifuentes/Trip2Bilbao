@@ -4,6 +4,8 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
 using Apache.NMS;
 using Apache.NMS.ActiveMQ;
 using Clases;
@@ -422,8 +424,54 @@ namespace ReceptorBus
 
                     }
                     break;
-
-
+                case "Parkings":
+                   // XElement parking = XElement.Parse(temp.Text);
+                     XmlDocument parking = new XmlDocument();
+                    parking.LoadXml(temp.Text);
+                    if (parking != null)
+                    {
+                        Console.WriteLine(parking.InnerXml);
+                        Console.WriteLine(parking.ChildNodes[1].Name);
+                    }
+                    break;
+                case "TiemposParada":
+                    XElement parada = XElement.Parse(temp.Text);
+                    //XmlDocument parada = new XmlDocument();
+                    //parada.LoadXml(temp.Text);
+                    if (parada != null)
+                    {
+                        Console.WriteLine(parada.ToString());
+                    }
+                    break;
+                case "TiemposLinea":
+                    XElement linea = XElement.Parse(temp.Text);
+                    //XmlDocument linea = new XmlDocument();
+                    //linea.LoadXml(temp.Text);
+                    if (linea != null)
+                    {
+                        Console.WriteLine(linea.ToString());
+                    }
+                    break;
+                case "Bicis":
+                    //XElement bici = XElement.Parse(temp.Text);
+                    XmlDocument bici = new XmlDocument();
+                    bici.LoadXml(temp.Text);
+                    if (bici != null)
+                    {
+                        //Console.WriteLine(bici.InnerXml);
+                        Console.WriteLine(bici.InnerXml);
+                    }
+                    break;
+                case "Deusto":
+                    XElement deustoP = XElement.Parse(temp.Text);
+                    //XmlDocument deusto = new XmlDocument();
+                    //bici.LoadXml(temp.Text);
+                    if (deustoP != null)
+                    {
+                        //Console.WriteLine(bici.InnerXml);
+                        Console.WriteLine(deustoP.ToString());
+                    }
+                    break;
             }
 
         }
