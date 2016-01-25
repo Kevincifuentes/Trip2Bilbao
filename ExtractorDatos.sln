@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReceptorBus", "ReceptorBus\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WrappersActiveMQ", "WrappersActiveMQ\WrappersActiveMQ.csproj", "{745FAF3D-A179-420D-9CA9-074C2FB1F60F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Almacenamiento", "Almacenamiento\Almacenamiento.csproj", "{D6FF31C3-B629-45D7-BB3B-5FAE0E0E7B68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 		{745FAF3D-A179-420D-9CA9-074C2FB1F60F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{745FAF3D-A179-420D-9CA9-074C2FB1F60F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{745FAF3D-A179-420D-9CA9-074C2FB1F60F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6FF31C3-B629-45D7-BB3B-5FAE0E0E7B68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6FF31C3-B629-45D7-BB3B-5FAE0E0E7B68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6FF31C3-B629-45D7-BB3B-5FAE0E0E7B68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6FF31C3-B629-45D7-BB3B-5FAE0E0E7B68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

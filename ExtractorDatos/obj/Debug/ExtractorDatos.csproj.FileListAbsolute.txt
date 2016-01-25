@@ -15,3 +15,9 @@ C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDat
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\Apache.NMS.ActiveMQ.xml
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\obj\Debug\ExtractorDatos.exe
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\obj\Debug\ExtractorDatos.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\Almacenamiento.exe
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\EntityFramework.dll
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\Almacenamiento.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\EntityFramework.xml
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\EntityFramework.SqlServer.xml

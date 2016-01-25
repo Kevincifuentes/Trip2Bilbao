@@ -14,3 +14,7 @@ C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\bin\Debug\Apache.NMS.ActiveMQ.xml
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\obj\Debug\ReceptorBus.exe
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\obj\Debug\ReceptorBus.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\bin\Debug\Almacenamiento.exe
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\bin\Debug\EntityFramework.dll
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\bin\Debug\Almacenamiento.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\bin\Debug\EntityFramework.xml

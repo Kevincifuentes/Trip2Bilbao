@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using Almacenamiento;
 using Clases;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
@@ -161,20 +162,15 @@ namespace ExtractorDatos
                     case 4:
                         Console.WriteLine("Case 4");
                         p.hospitales();
-                        emisor.enviarHospitales(hospitalList);
-                        /*foreach (Hospital h in p.hospitalList)
-                    {
-                        Console.WriteLine(h.ToString());
-                    }*/
+                        Insertar insertar = new Insertar();
+                        insertar.hospital(hospitalList[0]);
                         break;
                     case 5:
                         Console.WriteLine("Case 5");
                         p.centrosDeSalud();
-                        emisor.enviarCentrosSalud(centroSaludList);
-                        /*foreach (CentroSalud centro in p.centroSaludList)
-                    {
-                        Console.WriteLine(centro.ToString());
-                    }*/
+                        //emisor.enviarCentrosSalud(centroSaludList);
+                        //Insertar insertar = new Insertar();
+                        //insertar.centrodeSalud(centroSaludList[0]);
                         break;
                     case 6:
                         Console.WriteLine("Case 6");

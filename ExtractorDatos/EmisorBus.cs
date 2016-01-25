@@ -67,22 +67,6 @@ namespace ExtractorDatos
 
         public void enviarParkings(Dictionary<int, Parking> m)
         {
-            //ENVIO DE OBJETO
-            /*try
-            {
-                List<System.Collections.Generic.KeyValuePair<int, Parking>> temporal = m.ToList();
-                List<Clases.KeyValuePair<int, Parking>> miKeyValue = new List<Clases.KeyValuePair<int, Parking>>();
-                foreach (System.Collections.Generic.KeyValuePair<int, Parking> valuePair in temporal)
-                {
-                    miKeyValue.Add(new Clases.KeyValuePair<int, Parking>(valuePair.Key, valuePair.Value));
-                }
-                _producer.Send(new ParesParking(miKeyValue));
-            }
-            catch (System.NullReferenceException ex)
-            {
-                Console.WriteLine("No se ha podido inicializar el productor. Compruebe que ApacheMQ esté encendido.");
-                Console.ReadKey();
-            }*/
             foreach (Parking parking in m.Values)
             {
                 XElement xml = convertirUnParking(parking);
@@ -92,6 +76,51 @@ namespace ExtractorDatos
             }
         }
 
+        public void enviarTiemposParadas(Dictionary<int, ParadaBilbo> m)
+        {
+            foreach (ParadaBilbo paradaBilbo in m.Values)
+            {
+                XElement xml = convertirTiempoDeUnaParada(paradaBilbo);
+                ITextMessage temporal = _producer.CreateXmlMessage(xml);
+                temporal.NMSType = "TiemposParada";
+                _producer.Send(temporal);
+            }
+        }
+
+        public void enviarTiemposLineas(Dictionary<string, LineaBilbobus> lineas)
+        {
+            foreach (LineaBilbobus lineaBilbobus in lineas.Values)
+            {
+                XElement xml = convertirTiempoDeUnaLinea(lineaBilbobus);
+                ITextMessage temporal = _producer.CreateXmlMessage(xml);
+                temporal.NMSType = "TiemposLinea";
+                _producer.Send(temporal);
+            }
+        }
+
+        public void enviarBicicletas(List<PuntoBici> bicis)
+        {
+            foreach (PuntoBici puntoBici in bicis)
+            {
+                XElement xml = convertirUnPuntoBici(puntoBici);
+                ITextMessage temporal = _producer.CreateXmlMessage(xml);
+                temporal.NMSType = "Bicis";
+                _producer.Send(temporal);
+            }
+        }
+
+        public void enviarParkingDeusto(int dbs, int general)
+        {
+            XElement xml = convertirParkingDeusto(dbs, general);
+            ITextMessage temporal = _producer.CreateXmlMessage(xml);
+            temporal.NMSType = "Deusto";
+            _producer.Send(temporal);
+        }
+
+/// <summary>
+/// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// </summary>
+/// <param name="tiempoC"></param>
         public void enviarTiempoCiudad(Dictionary<string, TiempoCiudad> tiempoC)
         {
             try
@@ -203,44 +232,6 @@ namespace ExtractorDatos
             }
         }
 
-        public void enviarTiemposParadas(Dictionary<int, ParadaBilbo> m)
-        {
-            //IObjectMessage objecto = _producer.CreateObjectMessage(m);
-            /*try
-            {
-                List<System.Collections.Generic.KeyValuePair<int, ParadaBilbo>> temporal = m.ToList();
-                List<Clases.KeyValuePair<int, ParadaBilbo>> miKeyValue = new List<Clases.KeyValuePair<int, ParadaBilbo>>();
-                foreach (System.Collections.Generic.KeyValuePair<int, ParadaBilbo> valuePair in temporal)
-                {
-                    miKeyValue.Add(new Clases.KeyValuePair<int, ParadaBilbo>(valuePair.Key, valuePair.Value));
-                }
-                _producer.Send(new ParesBilbobus(miKeyValue));
-            }
-            catch (System.NullReferenceException ex)
-            {
-                Console.WriteLine("No se ha podido inicializar el productor. Compruebe que ApacheMQ esté encendido.");
-                Console.ReadKey();
-            }*/
-            foreach (ParadaBilbo paradaBilbo in m.Values)
-            {
-                XElement xml = convertirTiempoDeUnaParada(paradaBilbo);
-                ITextMessage temporal = _producer.CreateXmlMessage(xml);
-                temporal.NMSType = "TiemposParada";
-                _producer.Send(temporal);
-            }
-        }
-
-        public void enviarTiemposLineas(Dictionary<string, LineaBilbobus> lineas)
-        {
-            foreach (LineaBilbobus lineaBilbobus in lineas.Values)
-            {
-                XElement xml = convertirTiempoDeUnaLinea(lineaBilbobus);
-                ITextMessage temporal = _producer.CreateXmlMessage(xml);
-                temporal.NMSType = "TiemposLinea";
-                _producer.Send(temporal);
-            }
-        }
-
         public void enviarParadasEuskotren(Dictionary<int, ParadaEuskotren> m)
         {
             //IObjectMessage objecto = _producer.CreateObjectMessage(m);
@@ -320,44 +311,6 @@ namespace ExtractorDatos
                 Console.WriteLine("No se ha podido inicializar el productor. Compruebe que ApacheMQ esté encendido.");
                 Console.ReadKey();
             }
-        }
-
-        public void enviarBicicletas(List<PuntoBici> bicis)
-        {
-           /* try
-            {
-                _producer.Send(new WrapperBicicleta(bicis));
-            }
-            catch (System.NullReferenceException ex)
-            {
-                Console.WriteLine("No se ha podido inicializar el productor. Compruebe que ApacheMQ esté encendido.");
-                Console.ReadKey();
-            }*/
-            foreach (PuntoBici puntoBici in bicis)
-            {
-                XElement xml = convertirUnPuntoBici(puntoBici);
-                ITextMessage temporal = _producer.CreateXmlMessage(xml);
-                temporal.NMSType = "Bicis";
-                _producer.Send(temporal);
-            }
-        }
-
-        public void enviarParkingDeusto(int dbs, int general)
-        {
-            /*try
-            {
-                _producer.Send(new WrapperParkingDeusto(dbs, general));
-            }
-            catch (System.NullReferenceException ex)
-            {
-                Console.WriteLine("No se ha podido inicializar el productor. Compruebe que ApacheMQ esté encendido.");
-                Console.ReadKey();
-            }*/
-
-            XElement xml = convertirParkingDeusto(dbs, general);
-            ITextMessage temporal = _producer.CreateXmlMessage(xml);
-            temporal.NMSType = "Deusto";
-            _producer.Send(temporal);
         }
 
         public void enviarLineasBilbobus(Dictionary<string, LineaBilbobus> lineas)
@@ -455,6 +408,7 @@ namespace ExtractorDatos
 
         }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Generadores de XML
         public XElement convertirXMLParking(Dictionary<int, Parking> parkings)
         {

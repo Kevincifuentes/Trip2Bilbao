@@ -55,6 +55,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Almacenamiento\Almacenamiento.csproj">
+      <Project>{d6ff31c3-b629-45d7-bb3b-5fae0e0e7b68}</Project>
+      <Name>Almacenamiento</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Clases\Clases.csproj">
       <Project>{7db1bc5b-416e-4f07-927b-dc0fefe15efd}</Project>
       <Name>Clases</Name>
