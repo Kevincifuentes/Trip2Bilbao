@@ -67,6 +67,7 @@
     <Compile Include="EmisorBus.cs" />
     <Compile Include="FTP.cs" />
     <Compile Include="InformacionDinamica.cs" />
+    <Compile Include="ObtencionDatos.cs" />
     <Compile Include="ProgramaPrincipal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

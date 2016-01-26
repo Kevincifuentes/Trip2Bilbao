@@ -26,11 +26,11 @@ namespace ExtractorDatos
         public ProgramaPrincipal()
         {
             emisor.inicializar();
-            contadorDBSDeusto = 0;
-            contadorGeneralDeusto = 0;
+            //contadorDBSDeusto = 0;
+            //contadorGeneralDeusto = 0;
         }
 
-        private Dictionary<int, Parking> parkings = new Dictionary<int, Parking>();
+        public Dictionary<int, Parking> parkings = new Dictionary<int, Parking>();
         public Dictionary<int, ParadaBilbo> paradasBilbobus = new Dictionary<int, ParadaBilbo>();
         private List<ParadaTranvia> paradasTranvia = new List<ParadaTranvia>(); 
         private Dictionary<int, ParadaBizkaibus> paradasBizkaibus= new Dictionary<int, ParadaBizkaibus>();
@@ -43,9 +43,9 @@ namespace ExtractorDatos
         private List<Farmacia> farmaciasList = new List<Farmacia>(); 
         private List<Hospital> hospitalList = new List<Hospital>();
         private List<CentroSalud> centroSaludList = new List<CentroSalud>();
-        private List<PuntoBici> puntosBicisList = new List<PuntoBici>();
-        private int contadorGeneralDeusto;
-        private int contadorDBSDeusto;
+        //private List<PuntoBici> puntosBicisList = new List<PuntoBici>();
+        //private int contadorGeneralDeusto;
+        //private int contadorDBSDeusto;
         public static EmisorBus emisor = new EmisorBus();
 
         static void Main(string[] args)
@@ -103,21 +103,6 @@ namespace ExtractorDatos
                         int mal = 0;
                         p.recintosAparcamiento();
                         p.recintosAparcamientoEstatico();
-                        emisor.enviarParkings(p.parkings);
-                        Console.ReadKey();
-                        foreach (Parking p2 in p.parkings.Values)
-                        {
-                            if (p2.fecha.Day == DateTime.Today.Day && p2.fecha.Month == DateTime.Today.Month && p2.fecha.Year == DateTime.Today.Year)
-                            {
-                                Console.WriteLine(p2.ToString());
-                                bien++;
-                            }
-                            else
-                            {
-                                mal++;
-                            }
-                           
-                        }
                         Console.WriteLine("Parkings: Bien "+ bien+ " Mal "+mal);
                         break;
                     case 2:
@@ -174,8 +159,8 @@ namespace ExtractorDatos
                         break;
                     case 6:
                         Console.WriteLine("Case 6");
-                        p.bicicletas();
-                        emisor.enviarBicicletas(puntosBicisList);
+                        //p.bicicletas();
+                        //emisor.enviarBicicletas(puntosBicisList);
                        /* foreach (PuntoBici bici in p.puntosBicisList)
                         {
                             Console.WriteLine(bici.ToString());
@@ -183,8 +168,8 @@ namespace ExtractorDatos
                         break;
                     case 7:
                         Console.WriteLine("Case 7");
-                        p.parkingDeusto();
-                        emisor.enviarParkingDeusto(contadorDBSDeusto, contadorGeneralDeusto);
+                        //p.parkingDeusto();
+                        //emisor.enviarParkingDeusto(contadorDBSDeusto, contadorGeneralDeusto);
                         break;
                     case 8:
                         Console.WriteLine("Case 8");
@@ -241,6 +226,13 @@ namespace ExtractorDatos
         }
 
         //Obtengo la información estática mediante lo que he obtenido dinámicamente
+
+        public void obtenerInformacionParkings()
+        {
+            recintosAparcamiento();
+            recintosAparcamientoEstatico();    
+        }
+
         private void recintosAparcamiento()
         {
             if (parkings.Count != 0)
@@ -534,7 +526,7 @@ namespace ExtractorDatos
             
         }
 
-        private void paradasAutobusesBilbo()
+        public void paradasAutobusesBilbo()
         {
             if (paradasBilbobus.Count != 0)
             {
@@ -1218,7 +1210,7 @@ namespace ExtractorDatos
        
         
         //Metodo para obtener la información de los puntos para bicicletas
-        private void bicicletas()
+       /* private void bicicletas()
         {
             if (puntosBicisList.Count != 0)
             {
@@ -1272,9 +1264,9 @@ namespace ExtractorDatos
                 Console.WriteLine("No se ha podido obtener la información de bicicletas. Compruebe su conexión a internet.");
             }
 
-        }
+        }*/
 
-        private void parkingDeusto()
+        /*private void parkingDeusto()
         {
             Console.WriteLine("Empiezo Aparcamiento Deusto");
             DeustoParkingServiceClient client = new DeustoParkingServiceClient();
@@ -1282,7 +1274,7 @@ namespace ExtractorDatos
             contadorGeneralDeusto = client.GetLastActivity().GRALCounter;
             Console.WriteLine("Número de plazas libres en DBS: "+ contadorDBSDeusto+ " / Número de plazas libres en General: "+ contadorGeneralDeusto);
             
-        }
+        }*/
 
         private void metroBilbao()
         {
@@ -1560,7 +1552,7 @@ namespace ExtractorDatos
             
         }
 
-        private void lineasBilbobus()
+        public void lineasBilbobus()
         {
             Console.WriteLine("Empiezo Lineas Bilbobus");
 

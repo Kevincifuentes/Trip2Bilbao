@@ -111,6 +111,16 @@ namespace ReceptorBus
                         Console.WriteLine(deustoP.ToString());
                     }
                     break;
+                case "Incidencia":
+                    XElement incidencia = XElement.Parse(temp.Text);
+                    //XmlDocument deusto = new XmlDocument();
+                    //bici.LoadXml(temp.Text);
+                    if (incidencia != null)
+                    {
+                        //Console.WriteLine(bici.InnerXml);
+                        Console.WriteLine(incidencia.ToString());
+                    }
+                    break;
             }
 
         }

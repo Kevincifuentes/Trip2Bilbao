@@ -14,18 +14,28 @@ namespace ExtractorDatos
 {
     internal class InformacionDinamica
     {
-        private Dictionary<string, TiempoCiudad> tiempoPorCiudades = new Dictionary<string, TiempoCiudad>();
-        private Dictionary<string, TiempoComarca> tiempoPorComarcas = new Dictionary<string, TiempoComarca>();
-        private List<Obra> obras = new List<Obra>();
-        private List<Incidencia> incidencias = new List<Incidencia>();
-        private List<Mantenimiento> mantenimientos = new List<Mantenimiento>();
-        private List<Evento> eventos = new List<Evento>();
-        
+        public Dictionary<string, TiempoCiudad> tiempoPorCiudades = new Dictionary<string, TiempoCiudad>();
+        public Dictionary<string, TiempoComarca> tiempoPorComarcas = new Dictionary<string, TiempoComarca>();
+        public List<Obra> obras = new List<Obra>();
+        public List<Incidencia> incidencias = new List<Incidencia>();
+        public List<Mantenimiento> mantenimientos = new List<Mantenimiento>();
+        public List<Evento> eventos = new List<Evento>();
+        public List<PuntoBici> puntosBicisList = new List<PuntoBici>();
+        public int contadorGeneralDeusto;
+        public int contadorDBSDeusto;
+
         private TiempoPrediccion tiempoPrediccion;
+
+        public InformacionDinamica()
+        {
+            contadorDBSDeusto = 0;
+            contadorGeneralDeusto = 0;
+        }
 
         public InformacionDinamica(ProgramaPrincipal p)
         {
-            
+            contadorDBSDeusto = 0;
+            contadorGeneralDeusto = 0;
             int c;
             do{
                 Console.WriteLine("1. Meteorología");
@@ -58,7 +68,7 @@ namespace ExtractorDatos
         }
 
 
-        private void meteoMenu()
+        public void meteoMenu()
         {
             Console.WriteLine("1. Meteorología por Ciudades");
             Console.WriteLine("2. Meteorología por Comarca");
@@ -108,7 +118,7 @@ namespace ExtractorDatos
             return document;
         }
 
-        private void meteorologiaCiudad()
+        public void meteorologiaCiudad()
         {
             XmlDocument ciudadesxml =
                 this.descargaDeURL(
@@ -206,7 +216,7 @@ namespace ExtractorDatos
 
         }
 
-        private void meteorologiaComarca()
+        public void meteorologiaComarca()
         {
             XmlDocument comarcasxml =
                 this.descargaDeURL(
@@ -304,7 +314,7 @@ namespace ExtractorDatos
 
         }
 
-        private void meteorologiaPrediccion()
+        public void meteorologiaPrediccion()
         {
             XmlDocument prediccionxml =
                 this.descargaDeURL(
@@ -380,7 +390,7 @@ namespace ExtractorDatos
 
         }
 
-        private void tiemposParadaBilbo(ProgramaPrincipal p)
+        public void tiemposParadaBilbo(ProgramaPrincipal p)
         {
             //Descargar CSV
             string url = "http://www.bilbao.net/autobuses/jsp/od_horarios.jsp?idioma=c&formato=csv&tipo=espera";
@@ -484,7 +494,7 @@ namespace ExtractorDatos
             
         }
 
-        private void incidenciasTrafico()
+        public void incidenciasTrafico()
         {
 
             Console.WriteLine("1. Eventos que afectan al tráfico.");
@@ -498,43 +508,27 @@ namespace ExtractorDatos
                 case '1':
                     Console.WriteLine("Eventos");
                     eventosTrafico();
-                    ProgramaPrincipal.emisor.enviarEventosTrafico(eventos);
-                    foreach (Evento e in eventos)
-                    {
-                        Console.WriteLine(e);
-                    }
+                    ProgramaPrincipal.emisor.enviarIncidencias<List<Evento>, Evento>(eventos);
                     break;
                 case '2':
                     Console.WriteLine("Obras");
                     obrasTrafico();
-                    ProgramaPrincipal.emisor.enviarObrasTrafico(obras);
-                    foreach (Obra o in obras)
-                    {
-                        Console.WriteLine(o);
-                    }
+                    ProgramaPrincipal.emisor.enviarIncidencias<List<Obra>, Obra>(obras);
                     break;
                 case '3':
                     Console.WriteLine("Incidencias");
                     incidenciasVariasTrafico();
-                    ProgramaPrincipal.emisor.enviarIncidenciasTrafico(incidencias);
-                    foreach (Incidencia i in incidencias)
-                    {
-                        Console.WriteLine(i);
-                    }
+                    ProgramaPrincipal.emisor.enviarIncidencias<List<Incidencia>, Incidencia>(incidencias);
                     break;
                 case '4':
                     Console.WriteLine("Mantenimiento");
                     mantenimientoTrafico();
-                    ProgramaPrincipal.emisor.enviarMantenimientosTrafico(mantenimientos);
-                    foreach (Mantenimiento m in mantenimientos)
-                    {
-                        Console.WriteLine(m);
-                    }
+                    ProgramaPrincipal.emisor.enviarIncidencias<List<Mantenimiento>, Mantenimiento>(mantenimientos);
                     break;
             }
         }
 
-        private void eventosTrafico()
+        public void eventosTrafico()
         {
             XmlDocument eventosxml =
                 this.descargaDeURL("http://www.geobilbao.net/wfsCocities?service=wfs&version=1.1.0&request=GetFeature&typeName=eti:Activities");
@@ -607,7 +601,7 @@ namespace ExtractorDatos
         }
 
 
-        private void obrasTrafico()
+        public void obrasTrafico()
         {
             XmlDocument obrasxml =
                 this.descargaDeURL(
@@ -678,7 +672,7 @@ namespace ExtractorDatos
         }
 
 
-        private void incidenciasVariasTrafico()
+        public void incidenciasVariasTrafico()
         {
             XmlDocument incidenciasxml =
                 this.descargaDeURL(
@@ -748,7 +742,7 @@ namespace ExtractorDatos
             
         }
 
-        private void mantenimientoTrafico()
+        public void mantenimientoTrafico()
         {
             XmlDocument mantenimientoxml =
                 this.descargaDeURL(
@@ -816,6 +810,72 @@ namespace ExtractorDatos
             {
                 Console.WriteLine("No se ha podido obtener los mantenimientos que afectan al tráfico. Compruebe su conexión a internet.");
             }
+        }
+
+        public void bicicletas()
+        {
+            if (puntosBicisList.Count != 0)
+            {
+                puntosBicisList.Clear();
+            }
+
+            Console.WriteLine("Empiezo Bicicletas");
+
+            XmlDocument bicicletasxml = this.descargaDeURL("http://www.bilbao.net/WebServicesBilbao/WSBilbao?s=ODPRESBICI&u=OPENDATA&p0=A&p1=A");
+
+            if (bicicletasxml != null)
+            {
+                XmlNodeList temp = bicicletasxml.SelectNodes("//*");
+                foreach (XmlNode node in temp[0].ChildNodes[1].ChildNodes)
+                {
+                    //ID de punto de bicicletas
+                    int id = int.Parse(node.ChildNodes[0].InnerText);
+
+                    //Nombre de punto de bicicletas
+                    string nombre = node.ChildNodes[1].InnerText;
+
+                    //Estado de punto de bicicletas
+                    string estado = node.ChildNodes[2].InnerText;
+
+                    //Coordenadas de punto de bicicletas
+                    double latitud = double.Parse(node.ChildNodes[3].InnerText, CultureInfo.InvariantCulture);
+                    double longitud = double.Parse(node.ChildNodes[4].InnerText, CultureInfo.InvariantCulture);
+
+
+                    //Anclajes libres
+                    int anclajesLibres = int.Parse(node.ChildNodes[5].InnerText);
+
+                    //Anclajes averiados
+                    int anclajesAveriados = int.Parse(node.ChildNodes[6].InnerText);
+
+                    //Anclajes usados
+                    int anclajesUsados = int.Parse(node.ChildNodes[7].InnerText);
+
+                    //Bicis Libres
+                    int bicisLibres = int.Parse(node.ChildNodes[8].InnerText);
+
+                    //Bicis averiadas
+                    int bicisAveriadas = int.Parse(node.ChildNodes[9].InnerText);
+
+                    puntosBicisList.Add(new PuntoBici(id, nombre, estado, new Coordenadas(latitud, longitud), anclajesLibres, anclajesAveriados,
+                        anclajesUsados, bicisLibres, bicisAveriadas));
+                }
+            }
+            else
+            {
+                Console.WriteLine("No se ha podido obtener la información de bicicletas. Compruebe su conexión a internet.");
+            }
+
+        }
+
+        public void parkingDeusto()
+        {
+            Console.WriteLine("Empiezo Aparcamiento Deusto");
+            DeustoParkingServiceClient client = new DeustoParkingServiceClient();
+            contadorDBSDeusto = client.GetLastActivity().DBSCounter;
+            contadorGeneralDeusto = client.GetLastActivity().GRALCounter;
+            Console.WriteLine("Número de plazas libres en DBS: " + contadorDBSDeusto + " / Número de plazas libres en General: " + contadorGeneralDeusto);
+
         }
     }
 }

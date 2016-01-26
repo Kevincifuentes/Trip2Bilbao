@@ -21,6 +21,9 @@ namespace ExtractorDatos
         private const String QUEUE_DESTINATION = "PruebaEMISOR";
         private IMessageProducer _producer;
 
+        private DateTime inicio;
+        private DateTime fin;
+
         public void inicializar()
         {
             // configure the broker
@@ -117,10 +120,24 @@ namespace ExtractorDatos
             _producer.Send(temporal);
         }
 
+        public void enviarIncidencias<U, T>(U arg) where U : IEnumerable<T>
+        {
+            foreach (T variable in arg)
+            {
+                XElement xml = convertirIncidencia(variable);
+                ITextMessage temporal = _producer.CreateXmlMessage(xml);
+                temporal.NMSType = "Incidencia";
+                temporal.NMSTimeToLive =  inicio.Subtract(fin);
+                _producer.Send(temporal);
+            }
+            
+        }
+
 /// <summary>
 /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// </summary>
 /// <param name="tiempoC"></param>
+/// 
         public void enviarTiempoCiudad(Dictionary<string, TiempoCiudad> tiempoC)
         {
             try
@@ -1017,6 +1034,116 @@ namespace ExtractorDatos
 
             return deusto;
 
+        }
+
+        public XElement convertirIncidencia<T>(T arg)
+        {
+            XElement incidencia = new XElement("Incidencia");
+            //Cabecera
+
+            XElement cabecera = new XElement("Cabecera");
+            XElement tipo = new XElement("Tipo", "IncidenciaTrafico");
+            XElement zona = new XElement("Zona", "ZonaX");
+
+            XElement influencia = new XElement("Influencia");
+            XElement codigoPostal = new XElement("CP", 48001);
+            XElement barrio = new XElement("Barrio", "Desconocido");
+            XElement distrito = new XElement("Distrito", "Desconocido");
+            influencia.Add(codigoPostal);
+            influencia.Add(barrio);
+            influencia.Add(distrito);
+
+            cabecera.Add(tipo);
+            cabecera.Add(zona);
+            cabecera.Add(influencia);
+
+            incidencia.Add(cabecera);
+
+            XElement id = null;
+            XElement fechaInicio = null;
+            XElement fechaFin = null;
+            XElement descripcion = null;
+            XElement localizacion = null;
+            XElement latitud = null;
+            XElement longitud = null;
+            XElement ambito = null;
+
+
+            if(arg is Evento)
+            {
+                ambito = new XElement("Ambito","Evento");
+                id= new XElement("Id", (arg as Evento).id);
+                descripcion = new XElement("Descripcion", (arg as Evento).descripcion);
+                fechaInicio = new XElement("FechaInicio", (arg as Evento).fechaInicio);
+                fechaFin = new XElement("FechaFin", (arg as Evento).fechaFin);
+                inicio = (arg as Evento).fechaInicio;
+                fin = (arg as Evento).fechaFin;
+                localizacion = new XElement("Localizacion");
+                latitud = new XElement("Latitud", (arg as Evento).localizacion.latitud);
+                longitud = new XElement("Longitud", (arg as Evento).localizacion.longitud);
+                localizacion.Add(latitud);
+                localizacion.Add(longitud);
+
+            }
+            if (arg is Obra)
+            {
+                ambito = new XElement("Ambito", "Obra");
+                id = new XElement("Id", (arg as Obra).id);
+                descripcion = new XElement("Descripcion", (arg as Obra).descripcion);
+                fechaInicio = new XElement("FechaInicio", (arg as Obra).fechaInicio);
+                fechaFin = new XElement("FechaFin", (arg as Obra).fechaFin);
+                inicio = (arg as Obra).fechaInicio;
+                fin = (arg as Obra).fechaFin;
+                localizacion = new XElement("Localizacion");
+                latitud = new XElement("Latitud", (arg as Obra).localizacion.latitud);
+                longitud = new XElement("Longitud", (arg as Obra).localizacion.longitud);
+                localizacion.Add(latitud);
+                localizacion.Add(longitud);
+            }
+            if (arg is Mantenimiento)
+            {
+                ambito = new XElement("Ambito", "Mantenimiento");
+                id = new XElement("Id", (arg as Mantenimiento).id);
+                descripcion = new XElement("Descripcion", (arg as Mantenimiento).descripcion);
+                fechaInicio = new XElement("FechaInicio", (arg as Mantenimiento).fechaInicio);
+                fechaFin = new XElement("FechaFin", (arg as Mantenimiento).fechaFin);
+                inicio = (arg as Mantenimiento).fechaInicio;
+                fin = (arg as Mantenimiento).fechaFin;
+                localizacion = new XElement("Localizacion");
+                latitud = new XElement("Latitud", (arg as Mantenimiento).localizacion.latitud);
+                longitud = new XElement("Longitud", (arg as Mantenimiento).localizacion.longitud);
+                localizacion.Add(latitud);
+                localizacion.Add(longitud);
+            }
+            if (arg is Incidencia)
+            {
+                ambito = new XElement("Ambito", "Incidencia");
+                id = new XElement("Id", (arg as Incidencia).id);
+                descripcion = new XElement("Descripcion", (arg as Incidencia).descripcion);
+                fechaInicio = new XElement("FechaInicio", (arg as Incidencia).fechaInicio);
+                fechaFin = new XElement("FechaFin", (arg as Incidencia).fechaFin);
+                inicio = (arg as Incidencia).fechaInicio;
+                fin = (arg as Incidencia).fechaFin;
+                localizacion = new XElement("Localizacion");
+                latitud = new XElement("Latitud", (arg as Incidencia).localizacion.latitud);
+                longitud = new XElement("Longitud", (arg as Incidencia).localizacion.longitud);
+                localizacion.Add(latitud);
+                localizacion.Add(longitud);
+            }
+
+            XElement cuerpo = new XElement("Cuerpo");
+
+            cuerpo.Add(id);
+            cuerpo.Add(descripcion);
+            cuerpo.Add(fechaInicio);
+            cuerpo.Add(fechaFin);
+            cuerpo.Add(localizacion);
+            cuerpo.Add(ambito);
+
+            incidencia.Add(cuerpo);
+
+            Console.WriteLine(incidencia.ToString());
+            return incidencia;
         }
     }
 }
