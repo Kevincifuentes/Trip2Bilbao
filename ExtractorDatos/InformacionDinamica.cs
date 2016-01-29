@@ -24,6 +24,12 @@ namespace ExtractorDatos
         public int contadorGeneralDeusto;
         public int contadorDBSDeusto;
 
+        
+        public DateTime descargaIncidencias;
+        public DateTime descargaBicis;
+        public DateTime descargaDeusto;
+        public DateTime descargaBilbobus;
+
         private TiempoPrediccion tiempoPrediccion;
 
         public InformacionDinamica()
@@ -32,7 +38,7 @@ namespace ExtractorDatos
             contadorGeneralDeusto = 0;
         }
 
-        public InformacionDinamica(ProgramaPrincipal p)
+        public InformacionDinamica(InformacionEstatica p)
         {
             contadorDBSDeusto = 0;
             contadorGeneralDeusto = 0;
@@ -63,8 +69,6 @@ namespace ExtractorDatos
                     break;
             }
              } while (c!=4);
-
-            Console.ReadKey();
         }
 
 
@@ -80,17 +84,17 @@ namespace ExtractorDatos
                 case '1':
                     Console.WriteLine("METEO POR CIUDAD");
                     meteorologiaCiudad();
-                    ProgramaPrincipal.emisor.enviarTiempoCiudad(tiempoPorCiudades);
+                    InformacionEstatica.emisor.enviarTiempoCiudad(tiempoPorCiudades);
                     break;
                 case '2':
                     Console.WriteLine("METEO POR COMARCA");
                     meteorologiaComarca();
-                    ProgramaPrincipal.emisor.enviarTiempoComarca(tiempoPorComarcas);
+                    InformacionEstatica.emisor.enviarTiempoComarca(tiempoPorComarcas);
                     break;
                 case '3':
                     Console.WriteLine("METEO POR PREDICCION 6 DIAS");
                     meteorologiaPrediccion();
-                    ProgramaPrincipal.emisor.enviarTiempoPrediccion(tiempoPrediccion);
+                    InformacionEstatica.emisor.enviarTiempoPrediccion(tiempoPrediccion);
                     break;
             }
         }
@@ -390,8 +394,10 @@ namespace ExtractorDatos
 
         }
 
-        public void tiemposParadaBilbo(ProgramaPrincipal p)
+        public void tiemposParadaBilbo(InformacionEstatica p)
         {
+            descargaBilbobus = DateTime.Now;
+
             //Descargar CSV
             string url = "http://www.bilbao.net/autobuses/jsp/od_horarios.jsp?idioma=c&formato=csv&tipo=espera";
             bool correcto=true;
@@ -508,22 +514,22 @@ namespace ExtractorDatos
                 case '1':
                     Console.WriteLine("Eventos");
                     eventosTrafico();
-                    ProgramaPrincipal.emisor.enviarIncidencias<List<Evento>, Evento>(eventos);
+                    //InformacionEstatica.emisor.enviarIncidencias<List<Evento>, Evento>(eventos);
                     break;
                 case '2':
                     Console.WriteLine("Obras");
                     obrasTrafico();
-                    ProgramaPrincipal.emisor.enviarIncidencias<List<Obra>, Obra>(obras);
+                    //InformacionEstatica.emisor.enviarIncidencias<List<Obra>, Obra>(obras);
                     break;
                 case '3':
                     Console.WriteLine("Incidencias");
                     incidenciasVariasTrafico();
-                    ProgramaPrincipal.emisor.enviarIncidencias<List<Incidencia>, Incidencia>(incidencias);
+                    //InformacionEstatica.emisor.enviarIncidencias<List<Incidencia>, Incidencia>(incidencias);
                     break;
                 case '4':
                     Console.WriteLine("Mantenimiento");
                     mantenimientoTrafico();
-                    ProgramaPrincipal.emisor.enviarIncidencias<List<Mantenimiento>, Mantenimiento>(mantenimientos);
+                    //InformacionEstatica.emisor.enviarIncidencias<List<Mantenimiento>, Mantenimiento>(mantenimientos);
                     break;
             }
         }
@@ -819,6 +825,8 @@ namespace ExtractorDatos
                 puntosBicisList.Clear();
             }
 
+            descargaBicis = DateTime.Now;
+
             Console.WriteLine("Empiezo Bicicletas");
 
             XmlDocument bicicletasxml = this.descargaDeURL("http://www.bilbao.net/WebServicesBilbao/WSBilbao?s=ODPRESBICI&u=OPENDATA&p0=A&p1=A");
@@ -870,6 +878,7 @@ namespace ExtractorDatos
 
         public void parkingDeusto()
         {
+            descargaDeusto = DateTime.Now;
             Console.WriteLine("Empiezo Aparcamiento Deusto");
             DeustoParkingServiceClient client = new DeustoParkingServiceClient();
             contadorDBSDeusto = client.GetLastActivity().DBSCounter;

@@ -41,7 +41,7 @@ namespace ExtractorDatos
                 _session = _connection.CreateSession();
 
                 // Create the destination (Topic or Queue)
-                IDestination destination = _session.GetTopic(QUEUE_DESTINATION);
+                IDestination destination = _session.GetQueue(QUEUE_DESTINATION);
 
                 // Create a MessageProducer from the Session to the Topic or Queue
                 _producer = _session.CreateProducer(destination);
@@ -68,69 +68,73 @@ namespace ExtractorDatos
             _producer.Send(objecto);
         }
 
-        public void enviarParkings(Dictionary<int, Parking> m)
+        public void enviarParkings(Dictionary<int, Parking> m, DateTime descarga)
         {
             foreach (Parking parking in m.Values)
             {
-                XElement xml = convertirUnParking(parking);
+                XElement xml = convertirUnParking(parking, descarga);
                 ITextMessage temporal = _producer.CreateXmlMessage(xml);
                 temporal.NMSType = "Parkings";
+                temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
                 _producer.Send(temporal); 
             }
         }
 
-        public void enviarTiemposParadas(Dictionary<int, ParadaBilbo> m)
+        public void enviarTiemposParadas(Dictionary<int, ParadaBilbo> m, DateTime descarga)
         {
             foreach (ParadaBilbo paradaBilbo in m.Values)
             {
-                XElement xml = convertirTiempoDeUnaParada(paradaBilbo);
+                XElement xml = convertirTiempoDeUnaParada(paradaBilbo, descarga);
                 ITextMessage temporal = _producer.CreateXmlMessage(xml);
                 temporal.NMSType = "TiemposParada";
+                temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
                 _producer.Send(temporal);
             }
         }
 
-        public void enviarTiemposLineas(Dictionary<string, LineaBilbobus> lineas)
+        public void enviarTiemposLineas(Dictionary<string, LineaBilbobus> lineas, DateTime descarga)
         {
             foreach (LineaBilbobus lineaBilbobus in lineas.Values)
             {
-                XElement xml = convertirTiempoDeUnaLinea(lineaBilbobus);
+                XElement xml = convertirTiempoDeUnaLinea(lineaBilbobus, descarga);
                 ITextMessage temporal = _producer.CreateXmlMessage(xml);
                 temporal.NMSType = "TiemposLinea";
+                temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
                 _producer.Send(temporal);
             }
         }
 
-        public void enviarBicicletas(List<PuntoBici> bicis)
+        public void enviarBicicletas(List<PuntoBici> bicis, DateTime descarga)
         {
             foreach (PuntoBici puntoBici in bicis)
             {
-                XElement xml = convertirUnPuntoBici(puntoBici);
+                XElement xml = convertirUnPuntoBici(puntoBici, descarga);
                 ITextMessage temporal = _producer.CreateXmlMessage(xml);
                 temporal.NMSType = "Bicis";
+                temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
                 _producer.Send(temporal);
             }
         }
 
-        public void enviarParkingDeusto(int dbs, int general)
+        public void enviarParkingDeusto(int dbs, int general, DateTime descarga)
         {
-            XElement xml = convertirParkingDeusto(dbs, general);
+            XElement xml = convertirParkingDeusto(dbs, general, descarga);
             ITextMessage temporal = _producer.CreateXmlMessage(xml);
             temporal.NMSType = "Deusto";
+            temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
             _producer.Send(temporal);
         }
 
-        public void enviarIncidencias<U, T>(U arg) where U : IEnumerable<T>
+        public void enviarIncidencias<U, T>(U arg, DateTime descarga) where U : IEnumerable<T>
         {
             foreach (T variable in arg)
             {
-                XElement xml = convertirIncidencia(variable);
+                XElement xml = convertirIncidencia(variable, descarga);
                 ITextMessage temporal = _producer.CreateXmlMessage(xml);
                 temporal.NMSType = "Incidencia";
-                temporal.NMSTimeToLive =  inicio.Subtract(fin);
+                temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(86400000);
                 _producer.Send(temporal);
             }
-            
         }
 
 /// <summary>
@@ -427,7 +431,7 @@ namespace ExtractorDatos
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Generadores de XML
-        public XElement convertirXMLParking(Dictionary<int, Parking> parkings)
+        public XElement convertirXMLParking(Dictionary<int, Parking> parkings, DateTime descarga)
         {
             XElement coleccionParkings = new XElement("Parkings");
             //Cabecera
@@ -435,6 +439,7 @@ namespace ExtractorDatos
             XElement cabecera = new XElement("Cabecera");
             XElement tipo = new XElement("Tipo", "parkingId");
             XElement zona = new XElement("Zona", "ZonaX");
+            XElement fecha = new XElement("FechaDescarga", descarga);
 
             XElement influencia = new XElement("Influencia");
             XElement codigoPostal = new XElement("CP", 48001);
@@ -447,6 +452,7 @@ namespace ExtractorDatos
             cabecera.Add(tipo);
             cabecera.Add(zona);
             cabecera.Add(influencia);
+            cabecera.Add(fecha);
 
             coleccionParkings.Add(cabecera);
 
@@ -742,7 +748,7 @@ namespace ExtractorDatos
             return futuro;
         }
 
-        public XElement convertirUnParking(Parking p)
+        public XElement convertirUnParking(Parking p, DateTime descarga)
         {
             XElement xmlParking = new XElement("Parking", new XAttribute("id", p.id));
             //Cabecera
@@ -750,6 +756,7 @@ namespace ExtractorDatos
             XElement cabecera = new XElement("Cabecera");
             XElement tipo = new XElement("Tipo", "parkingId");
             XElement zona = new XElement("Zona", "ZonaX");
+            XElement fecha = new XElement("FechaDescarga", descarga);
 
             XElement influencia = new XElement("Influencia");
             XElement codigoPostal = new XElement("CP", 48001);
@@ -762,6 +769,7 @@ namespace ExtractorDatos
             cabecera.Add(tipo);
             cabecera.Add(zona);
             cabecera.Add(influencia);
+            cabecera.Add(fecha);
 
             xmlParking.Add(cabecera);
 
@@ -794,7 +802,7 @@ namespace ExtractorDatos
             return xmlParking;
         }
 
-        public XElement convertirUnPuntoBici(PuntoBici pb)
+        public XElement convertirUnPuntoBici(PuntoBici pb, DateTime descarga)
         {
             XElement puntoBici = new XElement("PuntoBici", new XAttribute("id", pb.id));
             //Cabecera
@@ -802,6 +810,7 @@ namespace ExtractorDatos
             XElement cabecera = new XElement("Cabecera");
             XElement tipo = new XElement("Tipo", "PBB");
             XElement zona = new XElement("Zona", "ZonaX");
+            XElement fecha = new XElement("FechaDescarga", descarga);
 
             XElement influencia = new XElement("Influencia");
             XElement codigoPostal = new XElement("CP", 48001);
@@ -815,6 +824,7 @@ namespace ExtractorDatos
             cabecera.Add(tipo);
             cabecera.Add(zona);
             cabecera.Add(influencia);
+            cabecera.Add(fecha);
 
             puntoBici.Add(cabecera);
 
@@ -849,7 +859,7 @@ namespace ExtractorDatos
             return puntoBici;
         }
 
-        public XElement convertirTiempoDeUnaParada(ParadaBilbo pbi)
+        public XElement convertirTiempoDeUnaParada(ParadaBilbo pbi, DateTime descarga)
         {
             XElement parada = new XElement("TiemposParada", new XAttribute("id", pbi.id));
             //Cabecera
@@ -857,6 +867,7 @@ namespace ExtractorDatos
             XElement cabecera = new XElement("Cabecera");
             XElement tipo = new XElement("Tipo", "paradaId");
             XElement zona = new XElement("Zona", "ZonaX");
+            XElement fecha = new XElement("FechaDescarga", descarga);
 
             XElement influencia = new XElement("Influencia");
             XElement codigoPostal = new XElement("CP", 48001);
@@ -869,6 +880,7 @@ namespace ExtractorDatos
             cabecera.Add(tipo);
             cabecera.Add(zona);
             cabecera.Add(influencia);
+            cabecera.Add(fecha);
 
             parada.Add(cabecera);
 
@@ -918,7 +930,7 @@ namespace ExtractorDatos
             return parada;
         }
 
-        public XElement convertirTiempoDeUnaLinea(LineaBilbobus lb)
+        public XElement convertirTiempoDeUnaLinea(LineaBilbobus lb, DateTime descarga)
         {
             XElement linea = new XElement("TiemposLinea", new XAttribute("Id", lb.id));
             //Cabecera
@@ -926,6 +938,7 @@ namespace ExtractorDatos
             XElement cabecera = new XElement("Cabecera");
             XElement tipo = new XElement("Tipo", "lineaId");
             XElement zona = new XElement("Zona", "ZonaX");
+            XElement fecha = new XElement("FechaDescarga", descarga);
 
             XElement influencia = new XElement("Influencia");
             XElement codigoPostal = new XElement("CP", 48001);
@@ -938,6 +951,8 @@ namespace ExtractorDatos
             cabecera.Add(tipo);
             cabecera.Add(zona);
             cabecera.Add(influencia);
+            cabecera.Add(fecha);
+
 
             linea.Add(cabecera);
 
@@ -1000,7 +1015,7 @@ namespace ExtractorDatos
             return linea; 
         }
 
-        public XElement convertirParkingDeusto(int dbs, int general)
+        public XElement convertirParkingDeusto(int dbs, int general, DateTime descarga)
         {
             XElement deusto = new XElement("ParkingDeusto");
             //Cabecera
@@ -1008,6 +1023,7 @@ namespace ExtractorDatos
             XElement cabecera = new XElement("Cabecera");
             XElement tipo = new XElement("Tipo", "parkingDeusto");
             XElement zona = new XElement("Zona", "ZonaX");
+            XElement fecha = new XElement("FechaDescarga", descarga);
 
             XElement influencia = new XElement("Influencia");
             XElement codigoPostal = new XElement("CP", 48001);
@@ -1020,6 +1036,7 @@ namespace ExtractorDatos
             cabecera.Add(tipo);
             cabecera.Add(zona);
             cabecera.Add(influencia);
+            cabecera.Add(fecha);
 
             deusto.Add(cabecera);
 
@@ -1036,14 +1053,15 @@ namespace ExtractorDatos
 
         }
 
-        public XElement convertirIncidencia<T>(T arg)
+        public XElement convertirIncidencia<T>(T arg, DateTime descarga)
         {
             XElement incidencia = new XElement("Incidencia");
             //Cabecera
 
             XElement cabecera = new XElement("Cabecera");
-            XElement tipo = new XElement("Tipo", "IncidenciaTrafico");
+            XElement tipo = new XElement("Tipo", "incidenciaTrafico");
             XElement zona = new XElement("Zona", "ZonaX");
+            XElement fecha = new XElement("FechaDescarga", descarga);
 
             XElement influencia = new XElement("Influencia");
             XElement codigoPostal = new XElement("CP", 48001);
@@ -1056,6 +1074,7 @@ namespace ExtractorDatos
             cabecera.Add(tipo);
             cabecera.Add(zona);
             cabecera.Add(influencia);
+            cabecera.Add(fecha);
 
             incidencia.Add(cabecera);
 

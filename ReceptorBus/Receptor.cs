@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Threading;
+using System.Timers;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using Apache.NMS;
 using Apache.NMS.ActiveMQ;
 using Clases;
+using ExtractorDatos;
 using WrappersActiveMQ;
 
 namespace ReceptorBus
@@ -53,6 +56,25 @@ namespace ReceptorBus
                 // TODO Auto-generated catch block
                 Console.WriteLine(e.Message);
             }
+
+
+            //Obtengo estático
+            obtenerParkings();
+            obtenerCentros();
+        }
+
+        public void obtenerParkings()
+        {
+            
+                ObtenerEstatico oe = new ObtenerEstatico();
+                oe.parkingEstatico();
+            
+        }
+
+        public void obtenerCentros()
+        {
+                ObtenerEstatico oe = new ObtenerEstatico();
+                oe.obtenerCentrosSalud();
 
         }
 
