@@ -59,22 +59,34 @@ namespace ReceptorBus
 
 
             //Obtengo estático
-            obtenerParkings();
-            obtenerCentros();
+            ObtenerEstatico oe = new ObtenerEstatico();
+            //obtenerParkings(oe);
+            //obtenerCentros(oe);
+            //obtenerHospitales(oe);
+            obtenerFarmacias(oe);
         }
 
-        public void obtenerParkings()
+        public void obtenerParkings(ObtenerEstatico oe)
         {
-            
-                ObtenerEstatico oe = new ObtenerEstatico();
                 oe.parkingEstatico();
             
         }
 
-        public void obtenerCentros()
+        public void obtenerCentros(ObtenerEstatico oe)
         {
-                ObtenerEstatico oe = new ObtenerEstatico();
                 oe.obtenerCentrosSalud();
+
+        }
+
+        public void obtenerHospitales(ObtenerEstatico oe)
+        {
+            oe.obtenerHospitales();
+
+        }
+
+        public void obtenerFarmacias(ObtenerEstatico oe)
+        {
+            oe.obtenerFarmacias();
 
         }
 

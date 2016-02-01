@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a30c252f1e2e4a4ab0f0971099ff7234" Name="Diagram1">
+        <EntityTypeShape EntityType="trip2bilbaoModel.centros_de_salud" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.entradas" Width="1.5" PointX="10" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.farmacias" Width="1.5" PointX="14.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.hospitales" Width="1.5" PointX="11.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.incidencias" Width="1.5" PointX="13.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.lineas_bilbobus" Width="1.5" PointX="4.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.lineas_bizkaibus" Width="1.5" PointX="2.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.lineas_euskotren" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.lineas_metro" Width="1.5" PointX="9.75" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.paradas_bilbobus" Width="1.5" PointX="4.75" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.paradas_bizkaibus" Width="1.5" PointX="2.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.paradas_euskotren" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.paradas_metro" Width="1.5" PointX="9.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.paradas_tranvia" Width="1.5" PointX="15.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.parkings" Width="1.5" PointX="7.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.puntos_bici" Width="1.5" PointX="2.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.tarifas" Width="1.5" PointX="10" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.tiempo_prediccion" Width="1.5" PointX="6.75" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.tiempos_ciudad" Width="1.5" PointX="14.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.tiempos_comarca" Width="1.5" PointX="12.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.tiempos_dia" Width="1.5" PointX="9" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.tiempos_dia_ciudad" Width="1.5" PointX="17" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.tiempos_dia_comarca" Width="1.5" PointX="15" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.tiempos_linea_parada" Width="1.5" PointX="7" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.viajes_bilbobus" Width="1.5" PointX="7" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.viajes_bizkaibus" Width="1.5" PointX="5" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.viajes_euskotren" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.viajes_metro" Width="1.5" PointX="12" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="trip2bilbaoModel.viajes_metro_has_paradas_metro" Width="1.5" PointX="12" PointY="8.25" IsExpanded="true" />
+        <AssociationConnector Association="trip2bilbaoModel.fk_entradas_parkings" ManuallyRouted="false" />
+        <AssociationConnector Association="trip2bilbaoModel.fk_tiempos_linea_parada_lineas_bilbobus1" ManuallyRouted="false" />
+        <AssociationConnector Association="trip2bilbaoModel.fk_viajes_bilbobus_lineas_bilbobus1" ManuallyRouted="false" />
+        <AssociationConnector Association="trip2bilbaoModel.fk_viajes_bizkaibus_lineas_bizkaibus1" ManuallyRouted="false" />
+        <AssociationConnector Association="trip2bilbaoModel.fk_viajes_euskotren_lineas_euskotren1" ManuallyRouted="false" />
+        <AssociationConnector Association="trip2bilbaoModel.fk_viajes_metro_lineas_metro1" ManuallyRouted="false" />
+        <AssociationConnector Association="trip2bilbaoModel.fk_tiempos_linea_parada_paradas_bilbobus1" ManuallyRouted="false" />
+        <AssociationConnector Association="trip2bilbaoModel.fk_viajes_metro_has_paradas_metro_paradas_metro1" ManuallyRouted="false" />
+        <AssociationConnector Association="trip2bilbaoModel.fk_tarifas_parkings1" ManuallyRouted="false" />
+        <AssociationConnector Association="trip2bilbaoModel.fk_tiempos_Dia_tiempo_prediccion1" ManuallyRouted="false" />
+        <AssociationConnector Association="trip2bilbaoModel.fk_tiempos_Dia_Ciudad_tiempos_ciudad1" ManuallyRouted="false" />
+        <AssociationConnector Association="trip2bilbaoModel.fk_tiempos_dia_comarca_tiempos_comarca1" ManuallyRouted="false" />
+        <AssociationConnector Association="trip2bilbaoModel.paradas_bilbobus_has_viajes_bilbobus" ManuallyRouted="false" />
+        <AssociationConnector Association="trip2bilbaoModel.paradas_bizkaibus_has_viajes_bizkaibus" ManuallyRouted="false" />
+        <AssociationConnector Association="trip2bilbaoModel.viajes_euskotren_has_paradas_euskotren" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

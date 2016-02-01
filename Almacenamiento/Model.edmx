@@ -1,0 +1,1754 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="trip2bilbaoModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="centros_de_salud">
+          <Key>
+            <PropertyRef Name="codigo_centro" />
+          </Key>
+          <Property Name="codigo_centro" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="nombre" Type="mediumtext" />
+          <Property Name="direccionCompleta" Type="longtext" />
+          <Property Name="codigoPostal" Type="int" />
+          <Property Name="provincia" Type="varchar" MaxLength="45" />
+          <Property Name="region" Type="varchar" MaxLength="60" />
+          <Property Name="horario" Type="mediumtext" />
+          <Property Name="calle" Type="mediumtext" />
+          <Property Name="ciudad" Type="varchar" MaxLength="60" />
+          <Property Name="urlAdicional" Type="mediumtext" />
+          <Property Name="latitud" Type="double" />
+          <Property Name="longitud" Type="double" />
+          <Property Name="web" Type="mediumtext" />
+          <Property Name="telefono" Type="mediumtext" />
+        </EntityType>
+        <EntityType Name="entradas">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="parkings_id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="mediumtext" />
+          <Property Name="latitud" Type="double" />
+          <Property Name="longitud" Type="double" />
+          <Property Name="parkings_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="farmacias">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="mediumtext" />
+          <Property Name="latitud" Type="double" />
+          <Property Name="longitud" Type="double" />
+          <Property Name="direccion" Type="mediumtext" />
+          <Property Name="direccionAbreviada" Type="mediumtext" />
+          <Property Name="provincia" Type="varchar" MaxLength="60" />
+          <Property Name="ciudad" Type="varchar" MaxLength="60" />
+          <Property Name="codigoPostal" Type="int" />
+          <Property Name="url" Type="mediumtext" />
+          <Property Name="telefono" Type="mediumtext" />
+          <Property Name="web" Type="mediumtext" />
+          <Property Name="informacionAdicional" Type="longtext" />
+          <Property Name="nombrePropietario" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="hospitales">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="nombre" Type="mediumtext" />
+          <Property Name="direccion" Type="mediumtext" />
+          <Property Name="codigoPostal" Type="int" />
+          <Property Name="region" Type="varchar" MaxLength="60" />
+          <Property Name="calle" Type="varchar" MaxLength="150" />
+          <Property Name="ciudad" Type="varchar" MaxLength="60" />
+          <Property Name="latitud" Type="double" />
+          <Property Name="longitud" Type="double" />
+          <Property Name="web" Type="mediumtext" />
+          <Property Name="telefono" Type="mediumtext" />
+        </EntityType>
+        <EntityType Name="incidencias">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="tipo" Type="varchar" MaxLength="45" />
+          <Property Name="descripcion" Type="longtext" />
+          <Property Name="latitud" Type="double" />
+          <Property Name="longitud" Type="double" />
+          <Property Name="fechaInicio" Type="datetime" Precision="0" />
+          <Property Name="fechaFin" Type="datetime" Precision="0" />
+        </EntityType>
+        <EntityType Name="lineas_bilbobus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="abreviatura" Type="varchar" MaxLength="30" />
+          <Property Name="nombre" Type="varchar" MaxLength="100" />
+          <Property Name="tipoTransporte" Type="int" />
+        </EntityType>
+        <EntityType Name="lineas_bizkaibus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="abreviatura" Type="varchar" MaxLength="30" />
+          <Property Name="nombre" Type="varchar" MaxLength="100" />
+          <Property Name="tipoTransporte" Type="int" />
+        </EntityType>
+        <EntityType Name="lineas_euskotren">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="abreviatura" Type="varchar" MaxLength="30" />
+          <Property Name="nombre" Type="varchar" MaxLength="100" />
+          <Property Name="tipo" Type="int" />
+        </EntityType>
+        <EntityType Name="lineas_metro">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="abreviatura" Type="varchar" MaxLength="30" />
+          <Property Name="nombre" Type="varchar" MaxLength="100" />
+          <Property Name="tipo" Type="int" />
+        </EntityType>
+        <EntityType Name="paradas_bilbobus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="100" />
+          <Property Name="latitud" Type="double" />
+          <Property Name="longitud" Type="double" />
+        </EntityType>
+        <EntityType Name="paradas_bilbobus_has_viajes_bilbobus">
+          <Key>
+            <PropertyRef Name="paradas_bilbobus_id" />
+            <PropertyRef Name="viajes_bilbobus_id" />
+            <PropertyRef Name="viajes_bilbobus_lineas_bilbobus_id" />
+          </Key>
+          <Property Name="paradas_bilbobus_id" Type="int" Nullable="false" />
+          <Property Name="viajes_bilbobus_id" Type="int" Nullable="false" />
+          <Property Name="viajes_bilbobus_lineas_bilbobus_id" Type="varchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="paradas_bizkaibus">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Paradas_Bizkaibus_id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="mediumtext" />
+          <Property Name="descripcion" Type="longtext" />
+          <Property Name="latitud" Type="double" />
+          <Property Name="longitud" Type="double" />
+          <Property Name="url" Type="mediumtext" />
+          <Property Name="tipoLocalizacion" Type="mediumtext" />
+          <Property Name="Paradas_Bizkaibus_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="paradas_bizkaibus_has_viajes_bizkaibus">
+          <Key>
+            <PropertyRef Name="paradas_Bizkaibus_id" />
+            <PropertyRef Name="paradas_Bizkaibus_Paradas_Bizkaibus_id" />
+            <PropertyRef Name="viajes_bizkaibus_id" />
+            <PropertyRef Name="viajes_bizkaibus_lineas_bizkaibus_id" />
+          </Key>
+          <Property Name="paradas_Bizkaibus_id" Type="int" Nullable="false" />
+          <Property Name="paradas_Bizkaibus_Paradas_Bizkaibus_id" Type="int" Nullable="false" />
+          <Property Name="viajes_bizkaibus_id" Type="int" Nullable="false" />
+          <Property Name="viajes_bizkaibus_lineas_bizkaibus_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="paradas_euskotren">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Parada_Euskotren_id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="mediumtext" />
+          <Property Name="descripcion" Type="longtext" />
+          <Property Name="latitud" Type="double" />
+          <Property Name="longitud" Type="double" />
+          <Property Name="url" Type="mediumtext" />
+          <Property Name="tipoLocalizacion" Type="mediumtext" />
+          <Property Name="Parada_Euskotren_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="paradas_metro">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Paradas_Metro_id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="mediumtext" />
+          <Property Name="latitud" Type="double" />
+          <Property Name="longitud" Type="double" />
+          <Property Name="tipoLocalizacion" Type="mediumtext" />
+          <Property Name="Paradas_Metro_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="paradas_tranvia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="60" />
+          <Property Name="latitud" Type="double" />
+          <Property Name="longitud" Type="double" />
+        </EntityType>
+        <EntityType Name="parkings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="45" />
+          <Property Name="tipo" Type="varchar" MaxLength="45" />
+          <Property Name="fecha" Type="datetime" Precision="0" />
+          <Property Name="estado" Type="varchar" MaxLength="45" />
+          <Property Name="capacidad" Type="int" />
+          <Property Name="disponible" Type="int" />
+          <Property Name="latitud" Type="double" />
+          <Property Name="longitud" Type="double" />
+        </EntityType>
+        <EntityType Name="puntos_bici">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="mediumtext" />
+          <Property Name="estado" Type="mediumtext" />
+          <Property Name="latitud" Type="double" />
+          <Property Name="longitud" Type="double" />
+          <Property Name="capacidad" Type="int" />
+          <Property Name="anclajesLibres" Type="int" />
+          <Property Name="bicisLibres" Type="int" />
+        </EntityType>
+        <EntityType Name="tarifas">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="parkings_id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="tipo" Type="mediumtext" />
+          <Property Name="descripcion" Type="longtext" />
+          <Property Name="zona" Type="mediumtext" />
+          <Property Name="actualizacion" Type="datetime" Precision="0" />
+          <Property Name="parkings_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tiempo_prediccion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fechaInicioPrediccion" Type="datetime" Precision="0" />
+          <Property Name="fechaFinPrediccion" Type="datetime" Precision="0" />
+          <Property Name="fechaRealizacionPrediccion" Type="datetime" Precision="0" />
+        </EntityType>
+        <EntityType Name="tiempos_ciudad">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="horaDeActualizacion" Type="datetime" Precision="0" />
+          <Property Name="dia" Type="date" />
+          <Property Name="descripcionES" Type="mediumtext" />
+          <Property Name="descripcionEU" Type="mediumtext" />
+        </EntityType>
+        <EntityType Name="tiempos_comarca">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="diaActualizacion" Type="datetime" Precision="0" />
+          <Property Name="nombreComarcaES" Type="varchar" MaxLength="100" />
+          <Property Name="nombreComarcaEU" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="tiempos_dia">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="tiempo_prediccion_id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fechaPrediccion" Type="date" />
+          <Property Name="vientoES" Type="mediumtext" />
+          <Property Name="vientoEU" Type="mediumtext" />
+          <Property Name="tiempoES" Type="mediumtext" />
+          <Property Name="tiempoEU" Type="mediumtext" />
+          <Property Name="temperaturaES" Type="mediumtext" />
+          <Property Name="temperaturaEU" Type="mediumtext" />
+          <Property Name="tiempo_prediccion_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tiempos_dia_ciudad">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="tiempos_ciudad_id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombreCiudad" Type="varchar" MaxLength="60" />
+          <Property Name="descripcionES" Type="mediumtext" />
+          <Property Name="descripcionEU" Type="mediumtext" />
+          <Property Name="maxima" Type="int" />
+          <Property Name="minima" Type="int" />
+          <Property Name="tiempos_ciudad_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tiempos_dia_comarca">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="tiempos_comarca_id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fechaPrediccion" Type="date" />
+          <Property Name="vientoES" Type="mediumtext" />
+          <Property Name="vientoEU" Type="mediumtext" />
+          <Property Name="tiempoES" Type="mediumtext" />
+          <Property Name="tiempoEU" Type="mediumtext" />
+          <Property Name="temperaturaES" Type="mediumtext" />
+          <Property Name="temperaturaEU" Type="mediumtext" />
+          <Property Name="descripcionES" Type="mediumtext" />
+          <Property Name="descripcionEU" Type="mediumtext" />
+          <Property Name="tiempos_comarca_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tiempos_linea_parada">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="paradas_bilbobus_id" />
+            <PropertyRef Name="lineas_bilbobus_id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcionLinea" Type="mediumtext" />
+          <Property Name="tiempoEspera" Type="int" />
+          <Property Name="paradas_bilbobus_id" Type="int" Nullable="false" />
+          <Property Name="lineas_bilbobus_id" Type="varchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="viajes_bilbobus">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="lineas_bilbobus_id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="lineas_bilbobus_id" Type="varchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="viajes_bizkaibus">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="lineas_bizkaibus_id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="lineas_bizkaibus_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="viajes_euskotren">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="lineas_euskotren_id" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="lineas_euskotren_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="viajes_euskotren_has_paradas_euskotren">
+          <Key>
+            <PropertyRef Name="viajes_euskotren_id" />
+            <PropertyRef Name="viajes_euskotren_lineas_euskotren_id" />
+            <PropertyRef Name="paradas_euskotren_id" />
+            <PropertyRef Name="paradas_euskotren_Parada_Euskotren_id" />
+          </Key>
+          <Property Name="viajes_euskotren_id" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="viajes_euskotren_lineas_euskotren_id" Type="int" Nullable="false" />
+          <Property Name="paradas_euskotren_id" Type="int" Nullable="false" />
+          <Property Name="paradas_euskotren_Parada_Euskotren_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="viajes_metro">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="lineas_metro_id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="lineas_metro_id" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="viajes_metro_has_paradas_metro">
+          <Key>
+            <PropertyRef Name="viajes_metro_id" />
+            <PropertyRef Name="paradas_metro_id" />
+            <PropertyRef Name="paradas_metro_Paradas_Metro_id" />
+          </Key>
+          <Property Name="viajes_metro_id" Type="int" Nullable="false" />
+          <Property Name="paradas_metro_id" Type="int" Nullable="false" />
+          <Property Name="paradas_metro_Paradas_Metro_id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_entradas_parkings">
+          <End Role="parkings" Type="Self.parkings" Multiplicity="1" />
+          <End Role="entradas" Type="Self.entradas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="parkings">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="entradas">
+              <PropertyRef Name="parkings_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk_Parada_Euskotren_Parada_Euskotren1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk_Parada_Euskotren_Parada_Euskotren1" />-->
+        <Association Name="fk_paradas_bilbobus_has_viajes_bilbobus_paradas_bilbobus1">
+          <End Role="paradas_bilbobus" Type="Self.paradas_bilbobus" Multiplicity="1" />
+          <End Role="paradas_bilbobus_has_viajes_bilbobus" Type="Self.paradas_bilbobus_has_viajes_bilbobus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paradas_bilbobus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="paradas_bilbobus_has_viajes_bilbobus">
+              <PropertyRef Name="paradas_bilbobus_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_paradas_bilbobus_has_viajes_bilbobus_viajes_bilbobus1">
+          <End Role="viajes_bilbobus" Type="Self.viajes_bilbobus" Multiplicity="1" />
+          <End Role="paradas_bilbobus_has_viajes_bilbobus" Type="Self.paradas_bilbobus_has_viajes_bilbobus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="viajes_bilbobus">
+              <PropertyRef Name="id" />
+              <PropertyRef Name="lineas_bilbobus_id" />
+            </Principal>
+            <Dependent Role="paradas_bilbobus_has_viajes_bilbobus">
+              <PropertyRef Name="viajes_bilbobus_id" />
+              <PropertyRef Name="viajes_bilbobus_lineas_bilbobus_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_paradas_Bizkaibus_has_viajes_bizkaibus_paradas_Bizkaibus1">
+          <End Role="paradas_bizkaibus" Type="Self.paradas_bizkaibus" Multiplicity="1" />
+          <End Role="paradas_bizkaibus_has_viajes_bizkaibus" Type="Self.paradas_bizkaibus_has_viajes_bizkaibus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paradas_bizkaibus">
+              <PropertyRef Name="id" />
+              <PropertyRef Name="Paradas_Bizkaibus_id" />
+            </Principal>
+            <Dependent Role="paradas_bizkaibus_has_viajes_bizkaibus">
+              <PropertyRef Name="paradas_Bizkaibus_id" />
+              <PropertyRef Name="paradas_Bizkaibus_Paradas_Bizkaibus_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_paradas_Bizkaibus_has_viajes_bizkaibus_viajes_bizkaibus1">
+          <End Role="viajes_bizkaibus" Type="Self.viajes_bizkaibus" Multiplicity="1" />
+          <End Role="paradas_bizkaibus_has_viajes_bizkaibus" Type="Self.paradas_bizkaibus_has_viajes_bizkaibus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="viajes_bizkaibus">
+              <PropertyRef Name="id" />
+              <PropertyRef Name="lineas_bizkaibus_id" />
+            </Principal>
+            <Dependent Role="paradas_bizkaibus_has_viajes_bizkaibus">
+              <PropertyRef Name="viajes_bizkaibus_id" />
+              <PropertyRef Name="viajes_bizkaibus_lineas_bizkaibus_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk_Paradas_Bizkaibus_Paradas_Bizkaibus1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk_Paradas_Bizkaibus_Paradas_Bizkaibus1" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk_Paradas_Metro_Paradas_Metro1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk_Paradas_Metro_Paradas_Metro1" />-->
+        <Association Name="fk_tarifas_parkings1">
+          <End Role="parkings" Type="Self.parkings" Multiplicity="1" />
+          <End Role="tarifas" Type="Self.tarifas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="parkings">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tarifas">
+              <PropertyRef Name="parkings_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tiempos_Dia_Ciudad_tiempos_ciudad1">
+          <End Role="tiempos_ciudad" Type="Self.tiempos_ciudad" Multiplicity="1" />
+          <End Role="tiempos_dia_ciudad" Type="Self.tiempos_dia_ciudad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tiempos_ciudad">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tiempos_dia_ciudad">
+              <PropertyRef Name="tiempos_ciudad_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tiempos_dia_comarca_tiempos_comarca1">
+          <End Role="tiempos_comarca" Type="Self.tiempos_comarca" Multiplicity="1" />
+          <End Role="tiempos_dia_comarca" Type="Self.tiempos_dia_comarca" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tiempos_comarca">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tiempos_dia_comarca">
+              <PropertyRef Name="tiempos_comarca_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tiempos_Dia_tiempo_prediccion1">
+          <End Role="tiempo_prediccion" Type="Self.tiempo_prediccion" Multiplicity="1" />
+          <End Role="tiempos_dia" Type="Self.tiempos_dia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tiempo_prediccion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tiempos_dia">
+              <PropertyRef Name="tiempo_prediccion_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tiempos_linea_parada_lineas_bilbobus1">
+          <End Role="lineas_bilbobus" Type="Self.lineas_bilbobus" Multiplicity="1" />
+          <End Role="tiempos_linea_parada" Type="Self.tiempos_linea_parada" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lineas_bilbobus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tiempos_linea_parada">
+              <PropertyRef Name="lineas_bilbobus_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tiempos_linea_parada_paradas_bilbobus1">
+          <End Role="paradas_bilbobus" Type="Self.paradas_bilbobus" Multiplicity="1" />
+          <End Role="tiempos_linea_parada" Type="Self.tiempos_linea_parada" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paradas_bilbobus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tiempos_linea_parada">
+              <PropertyRef Name="paradas_bilbobus_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_viajes_bilbobus_lineas_bilbobus1">
+          <End Role="lineas_bilbobus" Type="Self.lineas_bilbobus" Multiplicity="1" />
+          <End Role="viajes_bilbobus" Type="Self.viajes_bilbobus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lineas_bilbobus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="viajes_bilbobus">
+              <PropertyRef Name="lineas_bilbobus_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_viajes_bizkaibus_lineas_bizkaibus1">
+          <End Role="lineas_bizkaibus" Type="Self.lineas_bizkaibus" Multiplicity="1" />
+          <End Role="viajes_bizkaibus" Type="Self.viajes_bizkaibus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lineas_bizkaibus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="viajes_bizkaibus">
+              <PropertyRef Name="lineas_bizkaibus_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_viajes_euskotren_has_paradas_euskotren_paradas_euskotren1">
+          <End Role="paradas_euskotren" Type="Self.paradas_euskotren" Multiplicity="1" />
+          <End Role="viajes_euskotren_has_paradas_euskotren" Type="Self.viajes_euskotren_has_paradas_euskotren" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paradas_euskotren">
+              <PropertyRef Name="id" />
+              <PropertyRef Name="Parada_Euskotren_id" />
+            </Principal>
+            <Dependent Role="viajes_euskotren_has_paradas_euskotren">
+              <PropertyRef Name="paradas_euskotren_id" />
+              <PropertyRef Name="paradas_euskotren_Parada_Euskotren_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_viajes_euskotren_has_paradas_euskotren_viajes_euskotren1">
+          <End Role="viajes_euskotren" Type="Self.viajes_euskotren" Multiplicity="1" />
+          <End Role="viajes_euskotren_has_paradas_euskotren" Type="Self.viajes_euskotren_has_paradas_euskotren" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="viajes_euskotren">
+              <PropertyRef Name="id" />
+              <PropertyRef Name="lineas_euskotren_id" />
+            </Principal>
+            <Dependent Role="viajes_euskotren_has_paradas_euskotren">
+              <PropertyRef Name="viajes_euskotren_id" />
+              <PropertyRef Name="viajes_euskotren_lineas_euskotren_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_viajes_euskotren_lineas_euskotren1">
+          <End Role="lineas_euskotren" Type="Self.lineas_euskotren" Multiplicity="1" />
+          <End Role="viajes_euskotren" Type="Self.viajes_euskotren" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lineas_euskotren">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="viajes_euskotren">
+              <PropertyRef Name="lineas_euskotren_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_viajes_metro_has_paradas_metro_paradas_metro1">
+          <End Role="paradas_metro" Type="Self.paradas_metro" Multiplicity="1" />
+          <End Role="viajes_metro_has_paradas_metro" Type="Self.viajes_metro_has_paradas_metro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paradas_metro">
+              <PropertyRef Name="id" />
+              <PropertyRef Name="Paradas_Metro_id" />
+            </Principal>
+            <Dependent Role="viajes_metro_has_paradas_metro">
+              <PropertyRef Name="paradas_metro_id" />
+              <PropertyRef Name="paradas_metro_Paradas_Metro_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk_viajes_metro_has_paradas_metro_viajes_metro1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk_viajes_metro_has_paradas_metro_viajes_metro1" />-->
+        <Association Name="fk_viajes_metro_lineas_metro1">
+          <End Role="lineas_metro" Type="Self.lineas_metro" Multiplicity="1" />
+          <End Role="viajes_metro" Type="Self.viajes_metro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lineas_metro">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="viajes_metro">
+              <PropertyRef Name="lineas_metro_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="trip2bilbaoModelStoreContainer">
+          <EntitySet Name="centros_de_salud" EntityType="Self.centros_de_salud" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="entradas" EntityType="Self.entradas" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="farmacias" EntityType="Self.farmacias" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="hospitales" EntityType="Self.hospitales" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="incidencias" EntityType="Self.incidencias" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="lineas_bilbobus" EntityType="Self.lineas_bilbobus" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="lineas_bizkaibus" EntityType="Self.lineas_bizkaibus" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="lineas_euskotren" EntityType="Self.lineas_euskotren" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="lineas_metro" EntityType="Self.lineas_metro" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="paradas_bilbobus" EntityType="Self.paradas_bilbobus" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="paradas_bilbobus_has_viajes_bilbobus" EntityType="Self.paradas_bilbobus_has_viajes_bilbobus" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="paradas_bizkaibus" EntityType="Self.paradas_bizkaibus" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="paradas_bizkaibus_has_viajes_bizkaibus" EntityType="Self.paradas_bizkaibus_has_viajes_bizkaibus" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="paradas_euskotren" EntityType="Self.paradas_euskotren" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="paradas_metro" EntityType="Self.paradas_metro" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="paradas_tranvia" EntityType="Self.paradas_tranvia" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="parkings" EntityType="Self.parkings" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="puntos_bici" EntityType="Self.puntos_bici" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="tarifas" EntityType="Self.tarifas" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="tiempo_prediccion" EntityType="Self.tiempo_prediccion" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="tiempos_ciudad" EntityType="Self.tiempos_ciudad" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="tiempos_comarca" EntityType="Self.tiempos_comarca" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="tiempos_dia" EntityType="Self.tiempos_dia" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="tiempos_dia_ciudad" EntityType="Self.tiempos_dia_ciudad" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="tiempos_dia_comarca" EntityType="Self.tiempos_dia_comarca" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="tiempos_linea_parada" EntityType="Self.tiempos_linea_parada" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="viajes_bilbobus" EntityType="Self.viajes_bilbobus" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="viajes_bizkaibus" EntityType="Self.viajes_bizkaibus" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="viajes_euskotren" EntityType="Self.viajes_euskotren" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="viajes_euskotren_has_paradas_euskotren" EntityType="Self.viajes_euskotren_has_paradas_euskotren" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="viajes_metro" EntityType="Self.viajes_metro" Schema="trip2bilbao" store:Type="Tables" />
+          <EntitySet Name="viajes_metro_has_paradas_metro" EntityType="Self.viajes_metro_has_paradas_metro" Schema="trip2bilbao" store:Type="Tables" />
+          <AssociationSet Name="fk_entradas_parkings" Association="Self.fk_entradas_parkings">
+            <End Role="parkings" EntitySet="parkings" />
+            <End Role="entradas" EntitySet="entradas" />
+          </AssociationSet>
+          <AssociationSet Name="fk_paradas_bilbobus_has_viajes_bilbobus_paradas_bilbobus1" Association="Self.fk_paradas_bilbobus_has_viajes_bilbobus_paradas_bilbobus1">
+            <End Role="paradas_bilbobus" EntitySet="paradas_bilbobus" />
+            <End Role="paradas_bilbobus_has_viajes_bilbobus" EntitySet="paradas_bilbobus_has_viajes_bilbobus" />
+          </AssociationSet>
+          <AssociationSet Name="fk_paradas_bilbobus_has_viajes_bilbobus_viajes_bilbobus1" Association="Self.fk_paradas_bilbobus_has_viajes_bilbobus_viajes_bilbobus1">
+            <End Role="viajes_bilbobus" EntitySet="viajes_bilbobus" />
+            <End Role="paradas_bilbobus_has_viajes_bilbobus" EntitySet="paradas_bilbobus_has_viajes_bilbobus" />
+          </AssociationSet>
+          <AssociationSet Name="fk_paradas_Bizkaibus_has_viajes_bizkaibus_paradas_Bizkaibus1" Association="Self.fk_paradas_Bizkaibus_has_viajes_bizkaibus_paradas_Bizkaibus1">
+            <End Role="paradas_bizkaibus" EntitySet="paradas_bizkaibus" />
+            <End Role="paradas_bizkaibus_has_viajes_bizkaibus" EntitySet="paradas_bizkaibus_has_viajes_bizkaibus" />
+          </AssociationSet>
+          <AssociationSet Name="fk_paradas_Bizkaibus_has_viajes_bizkaibus_viajes_bizkaibus1" Association="Self.fk_paradas_Bizkaibus_has_viajes_bizkaibus_viajes_bizkaibus1">
+            <End Role="viajes_bizkaibus" EntitySet="viajes_bizkaibus" />
+            <End Role="paradas_bizkaibus_has_viajes_bizkaibus" EntitySet="paradas_bizkaibus_has_viajes_bizkaibus" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tarifas_parkings1" Association="Self.fk_tarifas_parkings1">
+            <End Role="parkings" EntitySet="parkings" />
+            <End Role="tarifas" EntitySet="tarifas" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tiempos_Dia_Ciudad_tiempos_ciudad1" Association="Self.fk_tiempos_Dia_Ciudad_tiempos_ciudad1">
+            <End Role="tiempos_ciudad" EntitySet="tiempos_ciudad" />
+            <End Role="tiempos_dia_ciudad" EntitySet="tiempos_dia_ciudad" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tiempos_dia_comarca_tiempos_comarca1" Association="Self.fk_tiempos_dia_comarca_tiempos_comarca1">
+            <End Role="tiempos_comarca" EntitySet="tiempos_comarca" />
+            <End Role="tiempos_dia_comarca" EntitySet="tiempos_dia_comarca" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tiempos_Dia_tiempo_prediccion1" Association="Self.fk_tiempos_Dia_tiempo_prediccion1">
+            <End Role="tiempo_prediccion" EntitySet="tiempo_prediccion" />
+            <End Role="tiempos_dia" EntitySet="tiempos_dia" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tiempos_linea_parada_lineas_bilbobus1" Association="Self.fk_tiempos_linea_parada_lineas_bilbobus1">
+            <End Role="lineas_bilbobus" EntitySet="lineas_bilbobus" />
+            <End Role="tiempos_linea_parada" EntitySet="tiempos_linea_parada" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tiempos_linea_parada_paradas_bilbobus1" Association="Self.fk_tiempos_linea_parada_paradas_bilbobus1">
+            <End Role="paradas_bilbobus" EntitySet="paradas_bilbobus" />
+            <End Role="tiempos_linea_parada" EntitySet="tiempos_linea_parada" />
+          </AssociationSet>
+          <AssociationSet Name="fk_viajes_bilbobus_lineas_bilbobus1" Association="Self.fk_viajes_bilbobus_lineas_bilbobus1">
+            <End Role="lineas_bilbobus" EntitySet="lineas_bilbobus" />
+            <End Role="viajes_bilbobus" EntitySet="viajes_bilbobus" />
+          </AssociationSet>
+          <AssociationSet Name="fk_viajes_bizkaibus_lineas_bizkaibus1" Association="Self.fk_viajes_bizkaibus_lineas_bizkaibus1">
+            <End Role="lineas_bizkaibus" EntitySet="lineas_bizkaibus" />
+            <End Role="viajes_bizkaibus" EntitySet="viajes_bizkaibus" />
+          </AssociationSet>
+          <AssociationSet Name="fk_viajes_euskotren_has_paradas_euskotren_paradas_euskotren1" Association="Self.fk_viajes_euskotren_has_paradas_euskotren_paradas_euskotren1">
+            <End Role="paradas_euskotren" EntitySet="paradas_euskotren" />
+            <End Role="viajes_euskotren_has_paradas_euskotren" EntitySet="viajes_euskotren_has_paradas_euskotren" />
+          </AssociationSet>
+          <AssociationSet Name="fk_viajes_euskotren_has_paradas_euskotren_viajes_euskotren1" Association="Self.fk_viajes_euskotren_has_paradas_euskotren_viajes_euskotren1">
+            <End Role="viajes_euskotren" EntitySet="viajes_euskotren" />
+            <End Role="viajes_euskotren_has_paradas_euskotren" EntitySet="viajes_euskotren_has_paradas_euskotren" />
+          </AssociationSet>
+          <AssociationSet Name="fk_viajes_euskotren_lineas_euskotren1" Association="Self.fk_viajes_euskotren_lineas_euskotren1">
+            <End Role="lineas_euskotren" EntitySet="lineas_euskotren" />
+            <End Role="viajes_euskotren" EntitySet="viajes_euskotren" />
+          </AssociationSet>
+          <AssociationSet Name="fk_viajes_metro_has_paradas_metro_paradas_metro1" Association="Self.fk_viajes_metro_has_paradas_metro_paradas_metro1">
+            <End Role="paradas_metro" EntitySet="paradas_metro" />
+            <End Role="viajes_metro_has_paradas_metro" EntitySet="viajes_metro_has_paradas_metro" />
+          </AssociationSet>
+          <AssociationSet Name="fk_viajes_metro_lineas_metro1" Association="Self.fk_viajes_metro_lineas_metro1">
+            <End Role="lineas_metro" EntitySet="lineas_metro" />
+            <End Role="viajes_metro" EntitySet="viajes_metro" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="trip2bilbaoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="centros_de_salud">
+          <Key>
+            <PropertyRef Name="codigo_centro" />
+          </Key>
+          <Property Name="codigo_centro" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="direccionCompleta" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="codigoPostal" Type="Int32" />
+          <Property Name="provincia" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="region" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="horario" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="calle" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="ciudad" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="urlAdicional" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="latitud" Type="Double" />
+          <Property Name="longitud" Type="Double" />
+          <Property Name="web" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="entradas">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="parkings_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="latitud" Type="Double" />
+          <Property Name="longitud" Type="Double" />
+          <Property Name="parkings_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="parkings" Relationship="Self.fk_entradas_parkings" FromRole="entradas" ToRole="parkings" />
+        </EntityType>
+        <EntityType Name="farmacias">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="latitud" Type="Double" />
+          <Property Name="longitud" Type="Double" />
+          <Property Name="direccion" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="direccionAbreviada" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="provincia" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="ciudad" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="codigoPostal" Type="Int32" />
+          <Property Name="url" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="web" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="informacionAdicional" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="nombrePropietario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="hospitales">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="direccion" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="codigoPostal" Type="Int32" />
+          <Property Name="region" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="calle" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ciudad" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="latitud" Type="Double" />
+          <Property Name="longitud" Type="Double" />
+          <Property Name="web" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="incidencias">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="tipo" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="latitud" Type="Double" />
+          <Property Name="longitud" Type="Double" />
+          <Property Name="fechaInicio" Type="DateTime" />
+          <Property Name="fechaFin" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="lineas_bilbobus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="abreviatura" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="tipoTransporte" Type="Int32" />
+          <NavigationProperty Name="tiempos_linea_parada" Relationship="Self.fk_tiempos_linea_parada_lineas_bilbobus1" FromRole="lineas_bilbobus" ToRole="tiempos_linea_parada" />
+          <NavigationProperty Name="viajes_bilbobus" Relationship="Self.fk_viajes_bilbobus_lineas_bilbobus1" FromRole="lineas_bilbobus" ToRole="viajes_bilbobus" />
+        </EntityType>
+        <EntityType Name="lineas_bizkaibus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="abreviatura" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="tipoTransporte" Type="Int32" />
+          <NavigationProperty Name="viajes_bizkaibus" Relationship="Self.fk_viajes_bizkaibus_lineas_bizkaibus1" FromRole="lineas_bizkaibus" ToRole="viajes_bizkaibus" />
+        </EntityType>
+        <EntityType Name="lineas_euskotren">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="abreviatura" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="tipo" Type="Int32" />
+          <NavigationProperty Name="viajes_euskotren" Relationship="Self.fk_viajes_euskotren_lineas_euskotren1" FromRole="lineas_euskotren" ToRole="viajes_euskotren" />
+        </EntityType>
+        <EntityType Name="lineas_metro">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="abreviatura" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="tipo" Type="Int32" />
+          <NavigationProperty Name="viajes_metro" Relationship="Self.fk_viajes_metro_lineas_metro1" FromRole="lineas_metro" ToRole="viajes_metro" />
+        </EntityType>
+        <EntityType Name="paradas_bilbobus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="latitud" Type="Double" />
+          <Property Name="longitud" Type="Double" />
+          <NavigationProperty Name="tiempos_linea_parada" Relationship="Self.fk_tiempos_linea_parada_paradas_bilbobus1" FromRole="paradas_bilbobus" ToRole="tiempos_linea_parada" />
+          <NavigationProperty Name="viajes_bilbobus" Relationship="Self.paradas_bilbobus_has_viajes_bilbobus" FromRole="paradas_bilbobus" ToRole="viajes_bilbobus" />
+        </EntityType>
+        <EntityType Name="paradas_bizkaibus">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Paradas_Bizkaibus_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="latitud" Type="Double" />
+          <Property Name="longitud" Type="Double" />
+          <Property Name="url" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="tipoLocalizacion" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="Paradas_Bizkaibus_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="viajes_bizkaibus" Relationship="Self.paradas_bizkaibus_has_viajes_bizkaibus" FromRole="paradas_bizkaibus" ToRole="viajes_bizkaibus" />
+        </EntityType>
+        <EntityType Name="paradas_euskotren">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Parada_Euskotren_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="latitud" Type="Double" />
+          <Property Name="longitud" Type="Double" />
+          <Property Name="url" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="tipoLocalizacion" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="Parada_Euskotren_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="viajes_euskotren" Relationship="Self.viajes_euskotren_has_paradas_euskotren" FromRole="paradas_euskotren" ToRole="viajes_euskotren" />
+        </EntityType>
+        <EntityType Name="paradas_metro">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Paradas_Metro_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="latitud" Type="Double" />
+          <Property Name="longitud" Type="Double" />
+          <Property Name="tipoLocalizacion" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="Paradas_Metro_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="viajes_metro_has_paradas_metro" Relationship="Self.fk_viajes_metro_has_paradas_metro_paradas_metro1" FromRole="paradas_metro" ToRole="viajes_metro_has_paradas_metro" />
+        </EntityType>
+        <EntityType Name="paradas_tranvia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="latitud" Type="Double" />
+          <Property Name="longitud" Type="Double" />
+        </EntityType>
+        <EntityType Name="parkings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="tipo" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="fecha" Type="DateTime" />
+          <Property Name="estado" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="capacidad" Type="Int32" />
+          <Property Name="disponible" Type="Int32" />
+          <Property Name="latitud" Type="Double" />
+          <Property Name="longitud" Type="Double" />
+          <NavigationProperty Name="entradas" Relationship="Self.fk_entradas_parkings" FromRole="parkings" ToRole="entradas" />
+          <NavigationProperty Name="tarifas" Relationship="Self.fk_tarifas_parkings1" FromRole="parkings" ToRole="tarifas" />
+        </EntityType>
+        <EntityType Name="puntos_bici">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="latitud" Type="Double" />
+          <Property Name="longitud" Type="Double" />
+          <Property Name="capacidad" Type="Int32" />
+          <Property Name="anclajesLibres" Type="Int32" />
+          <Property Name="bicisLibres" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tarifas">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="parkings_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="tipo" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="zona" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="actualizacion" Type="DateTime" />
+          <Property Name="parkings_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="parkings" Relationship="Self.fk_tarifas_parkings1" FromRole="tarifas" ToRole="parkings" />
+        </EntityType>
+        <EntityType Name="tiempo_prediccion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fechaInicioPrediccion" Type="DateTime" />
+          <Property Name="fechaFinPrediccion" Type="DateTime" />
+          <Property Name="fechaRealizacionPrediccion" Type="DateTime" />
+          <NavigationProperty Name="tiempos_dia" Relationship="Self.fk_tiempos_Dia_tiempo_prediccion1" FromRole="tiempo_prediccion" ToRole="tiempos_dia" />
+        </EntityType>
+        <EntityType Name="tiempos_ciudad">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="horaDeActualizacion" Type="DateTime" />
+          <Property Name="dia" Type="DateTime" />
+          <Property Name="descripcionES" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="descripcionEU" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tiempos_dia_ciudad" Relationship="Self.fk_tiempos_Dia_Ciudad_tiempos_ciudad1" FromRole="tiempos_ciudad" ToRole="tiempos_dia_ciudad" />
+        </EntityType>
+        <EntityType Name="tiempos_comarca">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="diaActualizacion" Type="DateTime" />
+          <Property Name="nombreComarcaES" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nombreComarcaEU" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tiempos_dia_comarca" Relationship="Self.fk_tiempos_dia_comarca_tiempos_comarca1" FromRole="tiempos_comarca" ToRole="tiempos_dia_comarca" />
+        </EntityType>
+        <EntityType Name="tiempos_dia">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="tiempo_prediccion_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fechaPrediccion" Type="DateTime" />
+          <Property Name="vientoES" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="vientoEU" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="tiempoES" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="tiempoEU" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="temperaturaES" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="temperaturaEU" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="tiempo_prediccion_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tiempo_prediccion" Relationship="Self.fk_tiempos_Dia_tiempo_prediccion1" FromRole="tiempos_dia" ToRole="tiempo_prediccion" />
+        </EntityType>
+        <EntityType Name="tiempos_dia_ciudad">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="tiempos_ciudad_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombreCiudad" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="descripcionES" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="descripcionEU" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="maxima" Type="Int32" />
+          <Property Name="minima" Type="Int32" />
+          <Property Name="tiempos_ciudad_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tiempos_ciudad" Relationship="Self.fk_tiempos_Dia_Ciudad_tiempos_ciudad1" FromRole="tiempos_dia_ciudad" ToRole="tiempos_ciudad" />
+        </EntityType>
+        <EntityType Name="tiempos_dia_comarca">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="tiempos_comarca_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fechaPrediccion" Type="DateTime" />
+          <Property Name="vientoES" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="vientoEU" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="tiempoES" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="tiempoEU" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="temperaturaES" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="temperaturaEU" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="descripcionES" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="descripcionEU" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="tiempos_comarca_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tiempos_comarca" Relationship="Self.fk_tiempos_dia_comarca_tiempos_comarca1" FromRole="tiempos_dia_comarca" ToRole="tiempos_comarca" />
+        </EntityType>
+        <EntityType Name="tiempos_linea_parada">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="paradas_bilbobus_id" />
+            <PropertyRef Name="lineas_bilbobus_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcionLinea" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="tiempoEspera" Type="Int32" />
+          <Property Name="paradas_bilbobus_id" Type="Int32" Nullable="false" />
+          <Property Name="lineas_bilbobus_id" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="lineas_bilbobus" Relationship="Self.fk_tiempos_linea_parada_lineas_bilbobus1" FromRole="tiempos_linea_parada" ToRole="lineas_bilbobus" />
+          <NavigationProperty Name="paradas_bilbobus" Relationship="Self.fk_tiempos_linea_parada_paradas_bilbobus1" FromRole="tiempos_linea_parada" ToRole="paradas_bilbobus" />
+        </EntityType>
+        <EntityType Name="viajes_bilbobus">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="lineas_bilbobus_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="lineas_bilbobus_id" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="lineas_bilbobus" Relationship="Self.fk_viajes_bilbobus_lineas_bilbobus1" FromRole="viajes_bilbobus" ToRole="lineas_bilbobus" />
+          <NavigationProperty Name="paradas_bilbobus" Relationship="Self.paradas_bilbobus_has_viajes_bilbobus" FromRole="viajes_bilbobus" ToRole="paradas_bilbobus" />
+        </EntityType>
+        <EntityType Name="viajes_bizkaibus">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="lineas_bizkaibus_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="lineas_bizkaibus_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="lineas_bizkaibus" Relationship="Self.fk_viajes_bizkaibus_lineas_bizkaibus1" FromRole="viajes_bizkaibus" ToRole="lineas_bizkaibus" />
+          <NavigationProperty Name="paradas_bizkaibus" Relationship="Self.paradas_bizkaibus_has_viajes_bizkaibus" FromRole="viajes_bizkaibus" ToRole="paradas_bizkaibus" />
+        </EntityType>
+        <EntityType Name="viajes_euskotren">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="lineas_euskotren_id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lineas_euskotren_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="lineas_euskotren" Relationship="Self.fk_viajes_euskotren_lineas_euskotren1" FromRole="viajes_euskotren" ToRole="lineas_euskotren" />
+          <NavigationProperty Name="paradas_euskotren" Relationship="Self.viajes_euskotren_has_paradas_euskotren" FromRole="viajes_euskotren" ToRole="paradas_euskotren" />
+        </EntityType>
+        <EntityType Name="viajes_metro">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="lineas_metro_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="lineas_metro_id" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="lineas_metro" Relationship="Self.fk_viajes_metro_lineas_metro1" FromRole="viajes_metro" ToRole="lineas_metro" />
+        </EntityType>
+        <EntityType Name="viajes_metro_has_paradas_metro">
+          <Key>
+            <PropertyRef Name="viajes_metro_id" />
+            <PropertyRef Name="paradas_metro_id" />
+            <PropertyRef Name="paradas_metro_Paradas_Metro_id" />
+          </Key>
+          <Property Name="viajes_metro_id" Type="Int32" Nullable="false" />
+          <Property Name="paradas_metro_id" Type="Int32" Nullable="false" />
+          <Property Name="paradas_metro_Paradas_Metro_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="paradas_metro" Relationship="Self.fk_viajes_metro_has_paradas_metro_paradas_metro1" FromRole="viajes_metro_has_paradas_metro" ToRole="paradas_metro" />
+        </EntityType>
+        <Association Name="fk_entradas_parkings">
+          <End Role="parkings" Type="Self.parkings" Multiplicity="1" />
+          <End Role="entradas" Type="Self.entradas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="parkings">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="entradas">
+              <PropertyRef Name="parkings_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tiempos_linea_parada_lineas_bilbobus1">
+          <End Role="lineas_bilbobus" Type="Self.lineas_bilbobus" Multiplicity="1" />
+          <End Role="tiempos_linea_parada" Type="Self.tiempos_linea_parada" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lineas_bilbobus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tiempos_linea_parada">
+              <PropertyRef Name="lineas_bilbobus_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_viajes_bilbobus_lineas_bilbobus1">
+          <End Role="lineas_bilbobus" Type="Self.lineas_bilbobus" Multiplicity="1" />
+          <End Role="viajes_bilbobus" Type="Self.viajes_bilbobus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lineas_bilbobus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="viajes_bilbobus">
+              <PropertyRef Name="lineas_bilbobus_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_viajes_bizkaibus_lineas_bizkaibus1">
+          <End Role="lineas_bizkaibus" Type="Self.lineas_bizkaibus" Multiplicity="1" />
+          <End Role="viajes_bizkaibus" Type="Self.viajes_bizkaibus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lineas_bizkaibus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="viajes_bizkaibus">
+              <PropertyRef Name="lineas_bizkaibus_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_viajes_euskotren_lineas_euskotren1">
+          <End Role="lineas_euskotren" Type="Self.lineas_euskotren" Multiplicity="1" />
+          <End Role="viajes_euskotren" Type="Self.viajes_euskotren" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lineas_euskotren">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="viajes_euskotren">
+              <PropertyRef Name="lineas_euskotren_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_viajes_metro_lineas_metro1">
+          <End Role="lineas_metro" Type="Self.lineas_metro" Multiplicity="1" />
+          <End Role="viajes_metro" Type="Self.viajes_metro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lineas_metro">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="viajes_metro">
+              <PropertyRef Name="lineas_metro_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tiempos_linea_parada_paradas_bilbobus1">
+          <End Role="paradas_bilbobus" Type="Self.paradas_bilbobus" Multiplicity="1" />
+          <End Role="tiempos_linea_parada" Type="Self.tiempos_linea_parada" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paradas_bilbobus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tiempos_linea_parada">
+              <PropertyRef Name="paradas_bilbobus_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_viajes_metro_has_paradas_metro_paradas_metro1">
+          <End Role="paradas_metro" Type="Self.paradas_metro" Multiplicity="1" />
+          <End Role="viajes_metro_has_paradas_metro" Type="Self.viajes_metro_has_paradas_metro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paradas_metro">
+              <PropertyRef Name="id" />
+              <PropertyRef Name="Paradas_Metro_id" />
+            </Principal>
+            <Dependent Role="viajes_metro_has_paradas_metro">
+              <PropertyRef Name="paradas_metro_id" />
+              <PropertyRef Name="paradas_metro_Paradas_Metro_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tarifas_parkings1">
+          <End Role="parkings" Type="Self.parkings" Multiplicity="1" />
+          <End Role="tarifas" Type="Self.tarifas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="parkings">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tarifas">
+              <PropertyRef Name="parkings_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tiempos_Dia_tiempo_prediccion1">
+          <End Role="tiempo_prediccion" Type="Self.tiempo_prediccion" Multiplicity="1" />
+          <End Role="tiempos_dia" Type="Self.tiempos_dia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tiempo_prediccion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tiempos_dia">
+              <PropertyRef Name="tiempo_prediccion_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tiempos_Dia_Ciudad_tiempos_ciudad1">
+          <End Role="tiempos_ciudad" Type="Self.tiempos_ciudad" Multiplicity="1" />
+          <End Role="tiempos_dia_ciudad" Type="Self.tiempos_dia_ciudad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tiempos_ciudad">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tiempos_dia_ciudad">
+              <PropertyRef Name="tiempos_ciudad_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tiempos_dia_comarca_tiempos_comarca1">
+          <End Role="tiempos_comarca" Type="Self.tiempos_comarca" Multiplicity="1" />
+          <End Role="tiempos_dia_comarca" Type="Self.tiempos_dia_comarca" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tiempos_comarca">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tiempos_dia_comarca">
+              <PropertyRef Name="tiempos_comarca_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="paradas_bilbobus_has_viajes_bilbobus">
+          <End Role="paradas_bilbobus" Type="Self.paradas_bilbobus" Multiplicity="*" />
+          <End Role="viajes_bilbobus" Type="Self.viajes_bilbobus" Multiplicity="*" />
+        </Association>
+        <Association Name="paradas_bizkaibus_has_viajes_bizkaibus">
+          <End Role="paradas_bizkaibus" Type="Self.paradas_bizkaibus" Multiplicity="*" />
+          <End Role="viajes_bizkaibus" Type="Self.viajes_bizkaibus" Multiplicity="*" />
+        </Association>
+        <Association Name="viajes_euskotren_has_paradas_euskotren">
+          <End Role="paradas_euskotren" Type="Self.paradas_euskotren" Multiplicity="*" />
+          <End Role="viajes_euskotren" Type="Self.viajes_euskotren" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="trip2bilbaoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="centros_de_salud" EntityType="Self.centros_de_salud" />
+          <EntitySet Name="entradas" EntityType="Self.entradas" />
+          <EntitySet Name="farmacias" EntityType="Self.farmacias" />
+          <EntitySet Name="hospitales" EntityType="Self.hospitales" />
+          <EntitySet Name="incidencias" EntityType="Self.incidencias" />
+          <EntitySet Name="lineas_bilbobus" EntityType="Self.lineas_bilbobus" />
+          <EntitySet Name="lineas_bizkaibus" EntityType="Self.lineas_bizkaibus" />
+          <EntitySet Name="lineas_euskotren" EntityType="Self.lineas_euskotren" />
+          <EntitySet Name="lineas_metro" EntityType="Self.lineas_metro" />
+          <EntitySet Name="paradas_bilbobus" EntityType="Self.paradas_bilbobus" />
+          <EntitySet Name="paradas_bizkaibus" EntityType="Self.paradas_bizkaibus" />
+          <EntitySet Name="paradas_euskotren" EntityType="Self.paradas_euskotren" />
+          <EntitySet Name="paradas_metro" EntityType="Self.paradas_metro" />
+          <EntitySet Name="paradas_tranvia" EntityType="Self.paradas_tranvia" />
+          <EntitySet Name="parkings" EntityType="Self.parkings" />
+          <EntitySet Name="puntos_bici" EntityType="Self.puntos_bici" />
+          <EntitySet Name="tarifas" EntityType="Self.tarifas" />
+          <EntitySet Name="tiempo_prediccion" EntityType="Self.tiempo_prediccion" />
+          <EntitySet Name="tiempos_ciudad" EntityType="Self.tiempos_ciudad" />
+          <EntitySet Name="tiempos_comarca" EntityType="Self.tiempos_comarca" />
+          <EntitySet Name="tiempos_dia" EntityType="Self.tiempos_dia" />
+          <EntitySet Name="tiempos_dia_ciudad" EntityType="Self.tiempos_dia_ciudad" />
+          <EntitySet Name="tiempos_dia_comarca" EntityType="Self.tiempos_dia_comarca" />
+          <EntitySet Name="tiempos_linea_parada" EntityType="Self.tiempos_linea_parada" />
+          <EntitySet Name="viajes_bilbobus" EntityType="Self.viajes_bilbobus" />
+          <EntitySet Name="viajes_bizkaibus" EntityType="Self.viajes_bizkaibus" />
+          <EntitySet Name="viajes_euskotren" EntityType="Self.viajes_euskotren" />
+          <EntitySet Name="viajes_metro" EntityType="Self.viajes_metro" />
+          <EntitySet Name="viajes_metro_has_paradas_metro" EntityType="Self.viajes_metro_has_paradas_metro" />
+          <AssociationSet Name="fk_entradas_parkings" Association="Self.fk_entradas_parkings">
+            <End Role="parkings" EntitySet="parkings" />
+            <End Role="entradas" EntitySet="entradas" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tiempos_linea_parada_lineas_bilbobus1" Association="Self.fk_tiempos_linea_parada_lineas_bilbobus1">
+            <End Role="lineas_bilbobus" EntitySet="lineas_bilbobus" />
+            <End Role="tiempos_linea_parada" EntitySet="tiempos_linea_parada" />
+          </AssociationSet>
+          <AssociationSet Name="fk_viajes_bilbobus_lineas_bilbobus1" Association="Self.fk_viajes_bilbobus_lineas_bilbobus1">
+            <End Role="lineas_bilbobus" EntitySet="lineas_bilbobus" />
+            <End Role="viajes_bilbobus" EntitySet="viajes_bilbobus" />
+          </AssociationSet>
+          <AssociationSet Name="fk_viajes_bizkaibus_lineas_bizkaibus1" Association="Self.fk_viajes_bizkaibus_lineas_bizkaibus1">
+            <End Role="lineas_bizkaibus" EntitySet="lineas_bizkaibus" />
+            <End Role="viajes_bizkaibus" EntitySet="viajes_bizkaibus" />
+          </AssociationSet>
+          <AssociationSet Name="fk_viajes_euskotren_lineas_euskotren1" Association="Self.fk_viajes_euskotren_lineas_euskotren1">
+            <End Role="lineas_euskotren" EntitySet="lineas_euskotren" />
+            <End Role="viajes_euskotren" EntitySet="viajes_euskotren" />
+          </AssociationSet>
+          <AssociationSet Name="fk_viajes_metro_lineas_metro1" Association="Self.fk_viajes_metro_lineas_metro1">
+            <End Role="lineas_metro" EntitySet="lineas_metro" />
+            <End Role="viajes_metro" EntitySet="viajes_metro" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tiempos_linea_parada_paradas_bilbobus1" Association="Self.fk_tiempos_linea_parada_paradas_bilbobus1">
+            <End Role="paradas_bilbobus" EntitySet="paradas_bilbobus" />
+            <End Role="tiempos_linea_parada" EntitySet="tiempos_linea_parada" />
+          </AssociationSet>
+          <AssociationSet Name="fk_viajes_metro_has_paradas_metro_paradas_metro1" Association="Self.fk_viajes_metro_has_paradas_metro_paradas_metro1">
+            <End Role="paradas_metro" EntitySet="paradas_metro" />
+            <End Role="viajes_metro_has_paradas_metro" EntitySet="viajes_metro_has_paradas_metro" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tarifas_parkings1" Association="Self.fk_tarifas_parkings1">
+            <End Role="parkings" EntitySet="parkings" />
+            <End Role="tarifas" EntitySet="tarifas" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tiempos_Dia_tiempo_prediccion1" Association="Self.fk_tiempos_Dia_tiempo_prediccion1">
+            <End Role="tiempo_prediccion" EntitySet="tiempo_prediccion" />
+            <End Role="tiempos_dia" EntitySet="tiempos_dia" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tiempos_Dia_Ciudad_tiempos_ciudad1" Association="Self.fk_tiempos_Dia_Ciudad_tiempos_ciudad1">
+            <End Role="tiempos_ciudad" EntitySet="tiempos_ciudad" />
+            <End Role="tiempos_dia_ciudad" EntitySet="tiempos_dia_ciudad" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tiempos_dia_comarca_tiempos_comarca1" Association="Self.fk_tiempos_dia_comarca_tiempos_comarca1">
+            <End Role="tiempos_comarca" EntitySet="tiempos_comarca" />
+            <End Role="tiempos_dia_comarca" EntitySet="tiempos_dia_comarca" />
+          </AssociationSet>
+          <AssociationSet Name="paradas_bilbobus_has_viajes_bilbobus" Association="Self.paradas_bilbobus_has_viajes_bilbobus">
+            <End Role="paradas_bilbobus" EntitySet="paradas_bilbobus" />
+            <End Role="viajes_bilbobus" EntitySet="viajes_bilbobus" />
+          </AssociationSet>
+          <AssociationSet Name="paradas_bizkaibus_has_viajes_bizkaibus" Association="Self.paradas_bizkaibus_has_viajes_bizkaibus">
+            <End Role="paradas_bizkaibus" EntitySet="paradas_bizkaibus" />
+            <End Role="viajes_bizkaibus" EntitySet="viajes_bizkaibus" />
+          </AssociationSet>
+          <AssociationSet Name="viajes_euskotren_has_paradas_euskotren" Association="Self.viajes_euskotren_has_paradas_euskotren">
+            <End Role="paradas_euskotren" EntitySet="paradas_euskotren" />
+            <End Role="viajes_euskotren" EntitySet="viajes_euskotren" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="trip2bilbaoModelStoreContainer" CdmEntityContainer="trip2bilbaoEntities">
+          <EntitySetMapping Name="centros_de_salud">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.centros_de_salud">
+              <MappingFragment StoreEntitySet="centros_de_salud">
+                <ScalarProperty Name="codigo_centro" ColumnName="codigo_centro" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="direccionCompleta" ColumnName="direccionCompleta" />
+                <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
+                <ScalarProperty Name="provincia" ColumnName="provincia" />
+                <ScalarProperty Name="region" ColumnName="region" />
+                <ScalarProperty Name="horario" ColumnName="horario" />
+                <ScalarProperty Name="calle" ColumnName="calle" />
+                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+                <ScalarProperty Name="urlAdicional" ColumnName="urlAdicional" />
+                <ScalarProperty Name="latitud" ColumnName="latitud" />
+                <ScalarProperty Name="longitud" ColumnName="longitud" />
+                <ScalarProperty Name="web" ColumnName="web" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="entradas">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.entradas">
+              <MappingFragment StoreEntitySet="entradas">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="latitud" ColumnName="latitud" />
+                <ScalarProperty Name="longitud" ColumnName="longitud" />
+                <ScalarProperty Name="parkings_id" ColumnName="parkings_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="farmacias">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.farmacias">
+              <MappingFragment StoreEntitySet="farmacias">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="latitud" ColumnName="latitud" />
+                <ScalarProperty Name="longitud" ColumnName="longitud" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="direccionAbreviada" ColumnName="direccionAbreviada" />
+                <ScalarProperty Name="provincia" ColumnName="provincia" />
+                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+                <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
+                <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="web" ColumnName="web" />
+                <ScalarProperty Name="informacionAdicional" ColumnName="informacionAdicional" />
+                <ScalarProperty Name="nombrePropietario" ColumnName="nombrePropietario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="hospitales">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.hospitales">
+              <MappingFragment StoreEntitySet="hospitales">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
+                <ScalarProperty Name="region" ColumnName="region" />
+                <ScalarProperty Name="calle" ColumnName="calle" />
+                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+                <ScalarProperty Name="latitud" ColumnName="latitud" />
+                <ScalarProperty Name="longitud" ColumnName="longitud" />
+                <ScalarProperty Name="web" ColumnName="web" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="incidencias">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.incidencias">
+              <MappingFragment StoreEntitySet="incidencias">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="latitud" ColumnName="latitud" />
+                <ScalarProperty Name="longitud" ColumnName="longitud" />
+                <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
+                <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lineas_bilbobus">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.lineas_bilbobus">
+              <MappingFragment StoreEntitySet="lineas_bilbobus">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="abreviatura" ColumnName="abreviatura" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="tipoTransporte" ColumnName="tipoTransporte" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lineas_bizkaibus">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.lineas_bizkaibus">
+              <MappingFragment StoreEntitySet="lineas_bizkaibus">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="abreviatura" ColumnName="abreviatura" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="tipoTransporte" ColumnName="tipoTransporte" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lineas_euskotren">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.lineas_euskotren">
+              <MappingFragment StoreEntitySet="lineas_euskotren">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="abreviatura" ColumnName="abreviatura" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lineas_metro">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.lineas_metro">
+              <MappingFragment StoreEntitySet="lineas_metro">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="abreviatura" ColumnName="abreviatura" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="paradas_bilbobus">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.paradas_bilbobus">
+              <MappingFragment StoreEntitySet="paradas_bilbobus">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="latitud" ColumnName="latitud" />
+                <ScalarProperty Name="longitud" ColumnName="longitud" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="paradas_bizkaibus">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.paradas_bizkaibus">
+              <MappingFragment StoreEntitySet="paradas_bizkaibus">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="latitud" ColumnName="latitud" />
+                <ScalarProperty Name="longitud" ColumnName="longitud" />
+                <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="tipoLocalizacion" ColumnName="tipoLocalizacion" />
+                <ScalarProperty Name="Paradas_Bizkaibus_id" ColumnName="Paradas_Bizkaibus_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="paradas_euskotren">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.paradas_euskotren">
+              <MappingFragment StoreEntitySet="paradas_euskotren">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="latitud" ColumnName="latitud" />
+                <ScalarProperty Name="longitud" ColumnName="longitud" />
+                <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="tipoLocalizacion" ColumnName="tipoLocalizacion" />
+                <ScalarProperty Name="Parada_Euskotren_id" ColumnName="Parada_Euskotren_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="paradas_metro">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.paradas_metro">
+              <MappingFragment StoreEntitySet="paradas_metro">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="latitud" ColumnName="latitud" />
+                <ScalarProperty Name="longitud" ColumnName="longitud" />
+                <ScalarProperty Name="tipoLocalizacion" ColumnName="tipoLocalizacion" />
+                <ScalarProperty Name="Paradas_Metro_id" ColumnName="Paradas_Metro_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="paradas_tranvia">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.paradas_tranvia">
+              <MappingFragment StoreEntitySet="paradas_tranvia">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="latitud" ColumnName="latitud" />
+                <ScalarProperty Name="longitud" ColumnName="longitud" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="parkings">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.parkings">
+              <MappingFragment StoreEntitySet="parkings">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="capacidad" ColumnName="capacidad" />
+                <ScalarProperty Name="disponible" ColumnName="disponible" />
+                <ScalarProperty Name="latitud" ColumnName="latitud" />
+                <ScalarProperty Name="longitud" ColumnName="longitud" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="puntos_bici">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.puntos_bici">
+              <MappingFragment StoreEntitySet="puntos_bici">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="latitud" ColumnName="latitud" />
+                <ScalarProperty Name="longitud" ColumnName="longitud" />
+                <ScalarProperty Name="capacidad" ColumnName="capacidad" />
+                <ScalarProperty Name="anclajesLibres" ColumnName="anclajesLibres" />
+                <ScalarProperty Name="bicisLibres" ColumnName="bicisLibres" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tarifas">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.tarifas">
+              <MappingFragment StoreEntitySet="tarifas">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="zona" ColumnName="zona" />
+                <ScalarProperty Name="actualizacion" ColumnName="actualizacion" />
+                <ScalarProperty Name="parkings_id" ColumnName="parkings_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tiempo_prediccion">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.tiempo_prediccion">
+              <MappingFragment StoreEntitySet="tiempo_prediccion">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="fechaInicioPrediccion" ColumnName="fechaInicioPrediccion" />
+                <ScalarProperty Name="fechaFinPrediccion" ColumnName="fechaFinPrediccion" />
+                <ScalarProperty Name="fechaRealizacionPrediccion" ColumnName="fechaRealizacionPrediccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tiempos_ciudad">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.tiempos_ciudad">
+              <MappingFragment StoreEntitySet="tiempos_ciudad">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="horaDeActualizacion" ColumnName="horaDeActualizacion" />
+                <ScalarProperty Name="dia" ColumnName="dia" />
+                <ScalarProperty Name="descripcionES" ColumnName="descripcionES" />
+                <ScalarProperty Name="descripcionEU" ColumnName="descripcionEU" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tiempos_comarca">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.tiempos_comarca">
+              <MappingFragment StoreEntitySet="tiempos_comarca">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="diaActualizacion" ColumnName="diaActualizacion" />
+                <ScalarProperty Name="nombreComarcaES" ColumnName="nombreComarcaES" />
+                <ScalarProperty Name="nombreComarcaEU" ColumnName="nombreComarcaEU" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tiempos_dia">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.tiempos_dia">
+              <MappingFragment StoreEntitySet="tiempos_dia">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="fechaPrediccion" ColumnName="fechaPrediccion" />
+                <ScalarProperty Name="vientoES" ColumnName="vientoES" />
+                <ScalarProperty Name="vientoEU" ColumnName="vientoEU" />
+                <ScalarProperty Name="tiempoES" ColumnName="tiempoES" />
+                <ScalarProperty Name="tiempoEU" ColumnName="tiempoEU" />
+                <ScalarProperty Name="temperaturaES" ColumnName="temperaturaES" />
+                <ScalarProperty Name="temperaturaEU" ColumnName="temperaturaEU" />
+                <ScalarProperty Name="tiempo_prediccion_id" ColumnName="tiempo_prediccion_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tiempos_dia_ciudad">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.tiempos_dia_ciudad">
+              <MappingFragment StoreEntitySet="tiempos_dia_ciudad">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombreCiudad" ColumnName="nombreCiudad" />
+                <ScalarProperty Name="descripcionES" ColumnName="descripcionES" />
+                <ScalarProperty Name="descripcionEU" ColumnName="descripcionEU" />
+                <ScalarProperty Name="maxima" ColumnName="maxima" />
+                <ScalarProperty Name="minima" ColumnName="minima" />
+                <ScalarProperty Name="tiempos_ciudad_id" ColumnName="tiempos_ciudad_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tiempos_dia_comarca">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.tiempos_dia_comarca">
+              <MappingFragment StoreEntitySet="tiempos_dia_comarca">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="fechaPrediccion" ColumnName="fechaPrediccion" />
+                <ScalarProperty Name="vientoES" ColumnName="vientoES" />
+                <ScalarProperty Name="vientoEU" ColumnName="vientoEU" />
+                <ScalarProperty Name="tiempoES" ColumnName="tiempoES" />
+                <ScalarProperty Name="tiempoEU" ColumnName="tiempoEU" />
+                <ScalarProperty Name="temperaturaES" ColumnName="temperaturaES" />
+                <ScalarProperty Name="temperaturaEU" ColumnName="temperaturaEU" />
+                <ScalarProperty Name="descripcionES" ColumnName="descripcionES" />
+                <ScalarProperty Name="descripcionEU" ColumnName="descripcionEU" />
+                <ScalarProperty Name="tiempos_comarca_id" ColumnName="tiempos_comarca_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tiempos_linea_parada">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.tiempos_linea_parada">
+              <MappingFragment StoreEntitySet="tiempos_linea_parada">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="descripcionLinea" ColumnName="descripcionLinea" />
+                <ScalarProperty Name="tiempoEspera" ColumnName="tiempoEspera" />
+                <ScalarProperty Name="paradas_bilbobus_id" ColumnName="paradas_bilbobus_id" />
+                <ScalarProperty Name="lineas_bilbobus_id" ColumnName="lineas_bilbobus_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="viajes_bilbobus">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.viajes_bilbobus">
+              <MappingFragment StoreEntitySet="viajes_bilbobus">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="lineas_bilbobus_id" ColumnName="lineas_bilbobus_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="viajes_bizkaibus">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.viajes_bizkaibus">
+              <MappingFragment StoreEntitySet="viajes_bizkaibus">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="lineas_bizkaibus_id" ColumnName="lineas_bizkaibus_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="viajes_euskotren">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.viajes_euskotren">
+              <MappingFragment StoreEntitySet="viajes_euskotren">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="lineas_euskotren_id" ColumnName="lineas_euskotren_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="viajes_metro">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.viajes_metro">
+              <MappingFragment StoreEntitySet="viajes_metro">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="lineas_metro_id" ColumnName="lineas_metro_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="viajes_metro_has_paradas_metro">
+            <EntityTypeMapping TypeName="trip2bilbaoModel.viajes_metro_has_paradas_metro">
+              <MappingFragment StoreEntitySet="viajes_metro_has_paradas_metro">
+                <ScalarProperty Name="viajes_metro_id" ColumnName="viajes_metro_id" />
+                <ScalarProperty Name="paradas_metro_id" ColumnName="paradas_metro_id" />
+                <ScalarProperty Name="paradas_metro_Paradas_Metro_id" ColumnName="paradas_metro_Paradas_Metro_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="paradas_bilbobus_has_viajes_bilbobus" TypeName="trip2bilbaoModel.paradas_bilbobus_has_viajes_bilbobus" StoreEntitySet="paradas_bilbobus_has_viajes_bilbobus">
+            <EndProperty Name="paradas_bilbobus">
+              <ScalarProperty Name="id" ColumnName="paradas_bilbobus_id" />
+            </EndProperty>
+            <EndProperty Name="viajes_bilbobus">
+              <ScalarProperty Name="id" ColumnName="viajes_bilbobus_id" />
+              <ScalarProperty Name="lineas_bilbobus_id" ColumnName="viajes_bilbobus_lineas_bilbobus_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="paradas_bizkaibus_has_viajes_bizkaibus" TypeName="trip2bilbaoModel.paradas_bizkaibus_has_viajes_bizkaibus" StoreEntitySet="paradas_bizkaibus_has_viajes_bizkaibus">
+            <EndProperty Name="paradas_bizkaibus">
+              <ScalarProperty Name="id" ColumnName="paradas_Bizkaibus_id" />
+              <ScalarProperty Name="Paradas_Bizkaibus_id" ColumnName="paradas_Bizkaibus_Paradas_Bizkaibus_id" />
+            </EndProperty>
+            <EndProperty Name="viajes_bizkaibus">
+              <ScalarProperty Name="id" ColumnName="viajes_bizkaibus_id" />
+              <ScalarProperty Name="lineas_bizkaibus_id" ColumnName="viajes_bizkaibus_lineas_bizkaibus_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="viajes_euskotren_has_paradas_euskotren" TypeName="trip2bilbaoModel.viajes_euskotren_has_paradas_euskotren" StoreEntitySet="viajes_euskotren_has_paradas_euskotren">
+            <EndProperty Name="paradas_euskotren">
+              <ScalarProperty Name="id" ColumnName="paradas_euskotren_id" />
+              <ScalarProperty Name="Parada_Euskotren_id" ColumnName="paradas_euskotren_Parada_Euskotren_id" />
+            </EndProperty>
+            <EndProperty Name="viajes_euskotren">
+              <ScalarProperty Name="id" ColumnName="viajes_euskotren_id" />
+              <ScalarProperty Name="lineas_euskotren_id" ColumnName="viajes_euskotren_lineas_euskotren_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
