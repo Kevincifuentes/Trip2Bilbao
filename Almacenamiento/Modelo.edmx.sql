@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/01/2016 10:51:57
+-- Date Created: 02/02/2016 12:40:27
 -- Generated from EDMX file: C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\Modelo.edmx
 -- --------------------------------------------------
 
@@ -246,10 +246,11 @@ GO
 
 -- Creating table 'paradas_tranviaSet'
 CREATE TABLE [dbo].[paradas_tranviaSet] (
-    [Id] int  NOT NULL,
+    [Id] int IDENTITY(1,1) NOT NULL,
     [nombre] nvarchar(max)  NOT NULL,
     [latitud] float  NOT NULL,
-    [longitud] float  NOT NULL
+    [longitud] float  NOT NULL,
+    [descripcion] nvarchar(max)  NOT NULL
 );
 GO
 

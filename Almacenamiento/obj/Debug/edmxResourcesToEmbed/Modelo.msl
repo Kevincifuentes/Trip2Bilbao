@@ -58,6 +58,7 @@
           <ScalarProperty Name="nombre" ColumnName="nombre" />
           <ScalarProperty Name="latitud" ColumnName="latitud" />
           <ScalarProperty Name="longitud" ColumnName="longitud" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

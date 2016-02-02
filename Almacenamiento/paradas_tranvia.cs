@@ -18,5 +18,6 @@ namespace Almacenamiento
         public string nombre { get; set; }
         public double latitud { get; set; }
         public double longitud { get; set; }
+        public string descripcion { get; set; }
     }
 }

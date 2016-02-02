@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using Almacenamiento;
+using Apache.NMS.ActiveMQ.Transport;
 using Clases;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
@@ -24,15 +28,15 @@ namespace ExtractorDatos
     {
         
 
-        public ObtenerEstatico()
+        public ObtenerEstatico(ModeloContainer context)
         {
-           contexto = new ModeloContainer(); 
+            contexto = context;
         }
 
         public ModeloContainer contexto;
         public Dictionary<int, parkings> parkingslist = new Dictionary<int, parkings>();
         public Dictionary<int, ParadaBilbo> paradasBilbobus = new Dictionary<int, ParadaBilbo>();
-        private List<ParadaTranvia> paradasTranvia = new List<ParadaTranvia>(); 
+        private List<paradas_tranvia> paradasTranvia = new List<paradas_tranvia>(); 
         private Dictionary<int, ParadaBizkaibus> paradasBizkaibus= new Dictionary<int, ParadaBizkaibus>();
         private Dictionary<string , ParadaMetro> paradasMetro = new Dictionary<string, ParadaMetro>(); 
         private Dictionary<int, ParadaEuskotren> paradasEuskotren = new Dictionary<int, ParadaEuskotren>();
@@ -43,11 +47,16 @@ namespace ExtractorDatos
         private List<farmacias> farmaciasList = new List<farmacias>(); 
         private List<hospitales> hospitalList = new List<hospitales>();
         private List<centros_de_salud> centroSaludList = new List<centros_de_salud>();
-
+        private List<puntos_bici> puntosBicisList = new List<puntos_bici>(); 
+        private FileStream fichero;
         
 
         private XmlDocument descargaDeURL(string url)
         {
+            if (fichero != null)
+            {
+                fichero.Dispose();
+            }
 
             XmlDocument document = new XmlDocument();
             try
@@ -60,17 +69,44 @@ namespace ExtractorDatos
             catch(System.Net.WebException e)
             {
                 Console.WriteLine("Error al intentar obtener la url (WebException): " + url);
-                //WebClient webClient = new WebClient();
-                //webClient.DownloadFile(url, @"C:\Users\Kevin\Documents\Visual Studio 2013\Projects\ExtractorDatos\ReceptorBus\temporal\temporal.xml");
-                //document.Load(new StreamReader(File.Open(@"C:\Users\Kevin\Documents\Visual Studio 2013\Projects\ExtractorDatos\ReceptorBus\temporal\temporal.xml", FileMode.Open), Encoding.GetEncoding("UTF-8"))); 
-                document = null;
+                WebClient webClient = new WebClient();
+                webClient.DownloadFile(url, @"C:\Users\Kevin\Documents\Visual Studio 2013\Projects\ExtractorDatos\ReceptorBus\temporal\temporal.xml");
+                File.WriteAllText(@"C:\Users\Kevin\Documents\Visual Studio 2013\Projects\ExtractorDatos\ReceptorBus\temporal\temporal.xml", Regex.Replace(File.ReadAllText(@"C:\Users\Kevin\Documents\Visual Studio 2013\Projects\ExtractorDatos\ReceptorBus\temporal\temporal.xml"), @"<!DOCTYPE sanidad_ubicacion SYSTEM ""/iwmnt/euskadiplus/main/r01_system/WORKAREA/wr01_system/templatedata/sanidad/sanidad_ubicacion/sanidad_ubicacion.dtd"">", ""));
+                fichero =
+                    File.Open(
+                        @"C:\Users\Kevin\Documents\Visual Studio 2013\Projects\ExtractorDatos\ReceptorBus\temporal\temporal.xml",
+                        FileMode.Open);
+                try
+                {
+                    document.Load(new StreamReader(fichero, Encoding.GetEncoding("UTF-8")));
+                }
+                catch (XmlException ex)
+                {
+                    document = null;
+                }
+                //document = null;
             }
             catch (System.Xml.XmlException ex)
             {
                 Console.WriteLine("Error al intentar obtener la url (XmlException): " + url);
                 Console.Write(ex.Message);
+                WebClient webClient = new WebClient();
+                webClient.DownloadFile(url, @"C:\Users\Kevin\Documents\Visual Studio 2013\Projects\ExtractorDatos\ReceptorBus\temporal\temporal.xml");
+                File.WriteAllText(@"C:\Users\Kevin\Documents\Visual Studio 2013\Projects\ExtractorDatos\ReceptorBus\temporal\temporal.xml", Regex.Replace(File.ReadAllText(@"C:\Users\Kevin\Documents\Visual Studio 2013\Projects\ExtractorDatos\ReceptorBus\temporal\temporal.xml"), @"<!DOCTYPE sanidad_ubicacion SYSTEM ""/iwmnt/euskadiplus/main/r01_system/WORKAREA/wr01_system/templatedata/sanidad/sanidad_ubicacion/sanidad_ubicacion.dtd"">", ""));
+                fichero =
+                    File.Open(
+                        @"C:\Users\Kevin\Documents\Visual Studio 2013\Projects\ExtractorDatos\ReceptorBus\temporal\temporal.xml",
+                        FileMode.Open);
+                try
+                {
+                    document.Load(new StreamReader(fichero, Encoding.GetEncoding("UTF-8")));
+                }
+                catch (XmlException ex2)
+                {
+                    document = null;
+                }
                 
-                document = null;
+                //document = null;
                 
             }
             return document;
@@ -85,7 +121,25 @@ namespace ExtractorDatos
             recintosAparcamiento();
             recintosAparcamientoEstatico();
             contexto.parkingsSet.AddRange(parkingslist.Values.Where(p => p.entradas.Count != 0));
-            contexto.SaveChanges();
+            try
+            {
+                contexto.SaveChanges();
+                Console.WriteLine(">>>>>Insercción de PARKING realizada<<<<<");
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
         }
 
         public void obtenerCentrosSalud()
@@ -94,7 +148,25 @@ namespace ExtractorDatos
             contexto.SaveChanges();
             centrosDeSalud();
             contexto.centros_de_saludSet.AddRange(centroSaludList);
-            contexto.SaveChanges();
+            try
+            {
+                contexto.SaveChanges();
+                Console.WriteLine(">>>>>Insercción de CENTROS DE SALUD realizada<<<<<");
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
         }
 
         public void obtenerHospitales()
@@ -103,7 +175,25 @@ namespace ExtractorDatos
             contexto.SaveChanges();
             hospitales();
             contexto.hospitalesSet.AddRange(hospitalList);
-            contexto.SaveChanges();
+            try
+            {
+                contexto.SaveChanges();
+                Console.WriteLine(">>>>>Insercción de HOSPITALES realizada<<<<<");
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
         }
 
         public void obtenerFarmacias()
@@ -115,9 +205,65 @@ namespace ExtractorDatos
             try
             {
                 contexto.SaveChanges();
+                Console.WriteLine(">>>>>Insercción de FARMACIAS realizada<<<<<");
             }
             catch (DbEntityValidationException e)
             {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
+        }
+
+        public void obtenerBicis()
+        {
+            contexto.puntos_biciSet.RemoveRange(contexto.puntos_biciSet);
+            contexto.SaveChanges();
+            bicicletas();
+            contexto.puntos_biciSet.AddRange(puntosBicisList);
+            try
+            {
+                contexto.SaveChanges();
+                Console.WriteLine(">>>>>Insercción de BICIS realizada<<<<<");
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
+        }
+
+        public void obtenerTranvia()
+        {
+            contexto.paradas_tranviaSet.RemoveRange(contexto.paradas_tranviaSet);
+            contexto.SaveChanges();
+            tranvia();
+            contexto.paradas_tranviaSet.AddRange(paradasTranvia);
+            try
+            {
+                contexto.SaveChanges();
+                Console.WriteLine(">>>>>Insercción de TRANVIA realizada<<<<<");
+            }
+            catch (DbEntityValidationException e)
+            {
+                
                 foreach (var eve in e.EntityValidationErrors)
                 {
                     Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
@@ -758,22 +904,26 @@ namespace ExtractorDatos
                             Console.WriteLine(masInfo.ChildNodes[1].Name);
 
                             //Localización
-                            latitud = double.Parse(masInfo.ChildNodes[1].ChildNodes[4].ChildNodes[6].ChildNodes[0].InnerText, CultureInfo.InvariantCulture);
-                            longitud = double.Parse(masInfo.ChildNodes[1].ChildNodes[4].ChildNodes[6].ChildNodes[1].InnerText, CultureInfo.InvariantCulture);
+                            if (!masInfo.ChildNodes[1].ChildNodes[4].ChildNodes[6].ChildNodes[0].InnerText.Equals(""))
+                            {
+                                latitud = double.Parse(masInfo.ChildNodes[1].ChildNodes[4].ChildNodes[6].ChildNodes[0].InnerText, CultureInfo.InvariantCulture);
+                                longitud = double.Parse(masInfo.ChildNodes[1].ChildNodes[4].ChildNodes[6].ChildNodes[1].InnerText, CultureInfo.InvariantCulture);
+                            }
+                            
                             
                             //Información de contacto
                             //Telefono (si tiene)
 
                             if (!masInfo.ChildNodes[1].ChildNodes[5].ChildNodes[0].InnerText.Equals(""))
                             {
-                                telefono = long.Parse(masInfo.ChildNodes[1].ChildNodes[5].ChildNodes[0].InnerText);
+                                telefono = long.Parse(masInfo.ChildNodes[1].ChildNodes[5].ChildNodes[0].InnerText.Replace(" ", ""));
                             }
 
                             //Web (si tiene)
 
-                            if (!masInfo.ChildNodes[1].ChildNodes[5].ChildNodes[3].InnerText.Equals(""))
+                            if (!masInfo.ChildNodes[1].ChildNodes[5].ChildNodes[4].InnerText.Equals(""))
                             {
-                                web = masInfo.ChildNodes[1].ChildNodes[5].ChildNodes[3].InnerText;
+                                web = masInfo.ChildNodes[1].ChildNodes[5].ChildNodes[4].InnerText;
                             }
                         }
                     }
@@ -798,6 +948,11 @@ namespace ExtractorDatos
                     f.informacionAdcional = "";
                     
                     farmaciasList.Add(f);
+
+                    if (fichero != null)
+                    {
+                        fichero.Dispose();
+                    }
                 }
             }
             else
@@ -808,6 +963,9 @@ namespace ExtractorDatos
 
             //Indica cuantas URLs están mal
             Console.WriteLine("Hay " + totalMal + " URL/XML mal.");
+            farmaciasxml = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
            
 
         }
@@ -1238,7 +1396,7 @@ namespace ExtractorDatos
                             {
                                 telefono =
                                     long.Parse(masInfo.ChildNodes[1].ChildNodes[5].ChildNodes[0].InnerText.Substring(0,
-                                        9));
+                                        9).Replace(" ", ""));
                             }
                             else
                             {
@@ -1292,7 +1450,7 @@ namespace ExtractorDatos
        
         
         //Metodo para obtener la información de los puntos para bicicletas
-       /* private void bicicletas()
+        private void bicicletas()
         {
             if (puntosBicisList.Count != 0)
             {
@@ -1337,8 +1495,15 @@ namespace ExtractorDatos
                     //Bicis averiadas
                     int bicisAveriadas = int.Parse(node.ChildNodes[9].InnerText);
 
-                    puntosBicisList.Add(new PuntoBici(id, nombre, estado, new Coordenadas(latitud, longitud), anclajesLibres, anclajesAveriados,
-                        anclajesUsados, bicisLibres, bicisAveriadas));
+                    puntos_bici p = new puntos_bici();
+                    p.id = id;
+                    p.nombre = nombre;
+                    p.estado = estado;
+                    p.latitud = latitud;
+                    p.longitud = longitud;
+                    p.capacidad = anclajesLibres + anclajesUsados + anclajesAveriados;
+
+                    puntosBicisList.Add(p);
                 }
             }
             else
@@ -1346,7 +1511,7 @@ namespace ExtractorDatos
                 Console.WriteLine("No se ha podido obtener la información de bicicletas. Compruebe su conexión a internet.");
             }
 
-        }*/
+        }
 
         /*private void parkingDeusto()
         {
@@ -2607,17 +2772,19 @@ namespace ExtractorDatos
                                 double latitud = double.Parse(coordenadas[1], CultureInfo.InvariantCulture);
                                 double longitud = double.Parse(coordenadas[0], CultureInfo.InvariantCulture);
                                 
-                                paradasTranvia.Add(new ParadaTranvia(nombre, descripcion, new Coordenadas(latitud, longitud)));
+                                paradas_tranvia p = new paradas_tranvia();
+                                p.nombre = nombre;
+                                p.latitud = latitud;
+                                p.longitud = longitud;
+                                p.descripcion = descripcion;
+
+                                paradasTranvia.Add(p);
 
                             }
                             
                         }
                     }
                     
-                }
-                foreach (ParadaTranvia temporal in paradasTranvia)
-                {
-                    Console.WriteLine(temporal.ToString());
                 }
             }
         }

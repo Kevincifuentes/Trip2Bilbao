@@ -8,6 +8,7 @@ using System.Timers;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using Almacenamiento;
 using Apache.NMS;
 using Apache.NMS.ActiveMQ;
 using Clases;
@@ -23,6 +24,7 @@ namespace ReceptorBus
         private ISession _session;
         private const String QUEUE_DESTINATION = "PruebaEMISOR";
         private IMessageConsumer _consumer;
+        private ModeloContainer contexto;
 
 
         public void inicializar()
@@ -59,11 +61,15 @@ namespace ReceptorBus
 
 
             //Obtengo estático
-            ObtenerEstatico oe = new ObtenerEstatico();
+            contexto = new ModeloContainer();
+            ObtenerEstatico oe = new ObtenerEstatico(contexto);
             //obtenerParkings(oe);
             //obtenerCentros(oe);
             //obtenerHospitales(oe);
-            obtenerFarmacias(oe);
+            //obtenerFarmacias(oe);
+            //obtenerBicis(oe);
+            //obtenerTranvia(oe);
+
         }
 
         public void obtenerParkings(ObtenerEstatico oe)
@@ -88,6 +94,16 @@ namespace ReceptorBus
         {
             oe.obtenerFarmacias();
 
+        }
+
+        public void obtenerBicis(ObtenerEstatico oe)
+        {
+            oe.obtenerBicis();
+        }
+
+        public void obtenerTranvia(ObtenerEstatico oe)
+        {
+            oe.obtenerTranvia();
         }
 
         private void _consumer_Listener(IMessage message)
@@ -142,6 +158,7 @@ namespace ReceptorBus
                     if (deustoP != null)
                     {
                         //Console.WriteLine(bici.InnerXml);
+                        parkingDeusto p = new parkingDeusto();
                         Console.WriteLine(deustoP.ToString());
                     }
                     break;

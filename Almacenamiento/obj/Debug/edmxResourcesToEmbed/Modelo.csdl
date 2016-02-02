@@ -190,10 +190,11 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="nombre" Type="String" Nullable="false" />
     <Property Name="latitud" Type="Double" Nullable="false" />
     <Property Name="longitud" Type="Double" Nullable="false" />
+    <Property Name="descripcion" Type="String" Nullable="false" />
   </EntityType>
   <EntityType Name="hospitales">
     <Key>
