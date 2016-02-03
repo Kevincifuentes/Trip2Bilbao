@@ -176,6 +176,9 @@
     <Compile Include="viajes_metro.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="viajes_parada_tiempos.cs">
+      <DependentUpon>Modelo.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

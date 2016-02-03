@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/02/2016 12:40:27
+-- Date Created: 02/03/2016 12:18:58
 -- Generated from EDMX file: C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\Modelo.edmx
 -- --------------------------------------------------
 
@@ -67,12 +67,6 @@ IF OBJECT_ID(N'[dbo].[FK_lineas_bilbobusviajes_bilbobus]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_lineas_euskotrenviajes_euskotren]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[viajes_euskotrenSet] DROP CONSTRAINT [FK_lineas_euskotrenviajes_euskotren];
-GO
-IF OBJECT_ID(N'[dbo].[FK_viajes_euskotrenparadas_euskotren_viajes_euskotren]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[viajes_euskotrenparadas_euskotren] DROP CONSTRAINT [FK_viajes_euskotrenparadas_euskotren_viajes_euskotren];
-GO
-IF OBJECT_ID(N'[dbo].[FK_viajes_euskotrenparadas_euskotren_paradas_euskotren]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[viajes_euskotrenparadas_euskotren] DROP CONSTRAINT [FK_viajes_euskotrenparadas_euskotren_paradas_euskotren];
 GO
 IF OBJECT_ID(N'[dbo].[FK_lineas_metroviajes_metro]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[viajes_metroSet] DROP CONSTRAINT [FK_lineas_metroviajes_metro];
@@ -189,9 +183,6 @@ IF OBJECT_ID(N'[dbo].[viajes_bizkaibusparadas_bizkaibus]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[paradas_bilbobusviajes_bilbobus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[paradas_bilbobusviajes_bilbobus];
-GO
-IF OBJECT_ID(N'[dbo].[viajes_euskotrenparadas_euskotren]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[viajes_euskotrenparadas_euskotren];
 GO
 
 -- --------------------------------------------------
@@ -490,14 +481,17 @@ CREATE TABLE [dbo].[lineas_euskotrenSet] (
     [id] int  NOT NULL,
     [abreviatura] nvarchar(max)  NOT NULL,
     [nombre] nvarchar(max)  NOT NULL,
-    [tipo] nvarchar(max)  NOT NULL
+    [tipo] int  NOT NULL
 );
 GO
 
 -- Creating table 'viajes_euskotrenSet'
 CREATE TABLE [dbo].[viajes_euskotrenSet] (
-    [id] int  NOT NULL,
-    [lineas_euskotrenId] int  NOT NULL
+    [id] int IDENTITY(1,1) NOT NULL,
+    [lineas_euskotrenId] int  NOT NULL,
+    [idViaje] nvarchar(max)  NOT NULL,
+    [tiempoInicio] nvarchar(max)  NOT NULL,
+    [tiempoFin] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -506,10 +500,11 @@ CREATE TABLE [dbo].[paradas_euskotrenSet] (
     [id] int  NOT NULL,
     [nombre] nvarchar(max)  NOT NULL,
     [descripcion] nvarchar(max)  NOT NULL,
-    [latitud] nvarchar(max)  NOT NULL,
-    [longitud] nvarchar(max)  NOT NULL,
+    [latitud] float  NOT NULL,
+    [longitud] float  NOT NULL,
     [url] nvarchar(max)  NOT NULL,
-    [tipoLocalizacion] nvarchar(max)  NOT NULL
+    [tipoLocalizacion] int  NOT NULL,
+    [codigoParada] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -540,6 +535,16 @@ CREATE TABLE [dbo].[parkingDeustoSet] (
 );
 GO
 
+-- Creating table 'viajes_parada_tiemposSet'
+CREATE TABLE [dbo].[viajes_parada_tiemposSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [viajes_euskotren_id] int  NOT NULL,
+    [paradas_euskotren_id] int  NOT NULL,
+    [tiempoLlegada] nvarchar(max)  NOT NULL,
+    [tiempoSalida] nvarchar(max)  NOT NULL
+);
+GO
+
 -- Creating table 'paradas_metroviajes_metro'
 CREATE TABLE [dbo].[paradas_metroviajes_metro] (
     [paradas_metro_id] int  NOT NULL,
@@ -558,13 +563,6 @@ GO
 CREATE TABLE [dbo].[paradas_bilbobusviajes_bilbobus] (
     [paradas_bilbobus_id] int  NOT NULL,
     [viajes_bilbobus_id] int  NOT NULL
-);
-GO
-
--- Creating table 'viajes_euskotrenparadas_euskotren'
-CREATE TABLE [dbo].[viajes_euskotrenparadas_euskotren] (
-    [viajes_euskotren_id] int  NOT NULL,
-    [paradas_euskotren_id] int  NOT NULL
 );
 GO
 
@@ -758,6 +756,12 @@ ADD CONSTRAINT [PK_parkingDeustoSet]
     PRIMARY KEY CLUSTERED ([fecha] ASC);
 GO
 
+-- Creating primary key on [Id] in table 'viajes_parada_tiemposSet'
+ALTER TABLE [dbo].[viajes_parada_tiemposSet]
+ADD CONSTRAINT [PK_viajes_parada_tiemposSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
 -- Creating primary key on [paradas_metro_id], [viajes_metro_id] in table 'paradas_metroviajes_metro'
 ALTER TABLE [dbo].[paradas_metroviajes_metro]
 ADD CONSTRAINT [PK_paradas_metroviajes_metro]
@@ -774,12 +778,6 @@ GO
 ALTER TABLE [dbo].[paradas_bilbobusviajes_bilbobus]
 ADD CONSTRAINT [PK_paradas_bilbobusviajes_bilbobus]
     PRIMARY KEY CLUSTERED ([paradas_bilbobus_id], [viajes_bilbobus_id] ASC);
-GO
-
--- Creating primary key on [viajes_euskotren_id], [paradas_euskotren_id] in table 'viajes_euskotrenparadas_euskotren'
-ALTER TABLE [dbo].[viajes_euskotrenparadas_euskotren]
-ADD CONSTRAINT [PK_viajes_euskotrenparadas_euskotren]
-    PRIMARY KEY CLUSTERED ([viajes_euskotren_id], [paradas_euskotren_id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -1014,37 +1012,13 @@ ADD CONSTRAINT [FK_lineas_euskotrenviajes_euskotren]
     FOREIGN KEY ([lineas_euskotrenId])
     REFERENCES [dbo].[lineas_euskotrenSet]
         ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_lineas_euskotrenviajes_euskotren'
 CREATE INDEX [IX_FK_lineas_euskotrenviajes_euskotren]
 ON [dbo].[viajes_euskotrenSet]
     ([lineas_euskotrenId]);
-GO
-
--- Creating foreign key on [viajes_euskotren_id] in table 'viajes_euskotrenparadas_euskotren'
-ALTER TABLE [dbo].[viajes_euskotrenparadas_euskotren]
-ADD CONSTRAINT [FK_viajes_euskotrenparadas_euskotren_viajes_euskotren]
-    FOREIGN KEY ([viajes_euskotren_id])
-    REFERENCES [dbo].[viajes_euskotrenSet]
-        ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [paradas_euskotren_id] in table 'viajes_euskotrenparadas_euskotren'
-ALTER TABLE [dbo].[viajes_euskotrenparadas_euskotren]
-ADD CONSTRAINT [FK_viajes_euskotrenparadas_euskotren_paradas_euskotren]
-    FOREIGN KEY ([paradas_euskotren_id])
-    REFERENCES [dbo].[paradas_euskotrenSet]
-        ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_viajes_euskotrenparadas_euskotren_paradas_euskotren'
-CREATE INDEX [IX_FK_viajes_euskotrenparadas_euskotren_paradas_euskotren]
-ON [dbo].[viajes_euskotrenparadas_euskotren]
-    ([paradas_euskotren_id]);
 GO
 
 -- Creating foreign key on [lineas_metro_id] in table 'viajes_metroSet'
@@ -1090,6 +1064,36 @@ GO
 CREATE INDEX [IX_FK_puntos_biciestados_puntobici]
 ON [dbo].[estados_puntobiciSet]
     ([puntos_bici_id]);
+GO
+
+-- Creating foreign key on [viajes_euskotren_id] in table 'viajes_parada_tiemposSet'
+ALTER TABLE [dbo].[viajes_parada_tiemposSet]
+ADD CONSTRAINT [FK_viajes_euskotrenviajes_parada_tiempos]
+    FOREIGN KEY ([viajes_euskotren_id])
+    REFERENCES [dbo].[viajes_euskotrenSet]
+        ([id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_viajes_euskotrenviajes_parada_tiempos'
+CREATE INDEX [IX_FK_viajes_euskotrenviajes_parada_tiempos]
+ON [dbo].[viajes_parada_tiemposSet]
+    ([viajes_euskotren_id]);
+GO
+
+-- Creating foreign key on [paradas_euskotren_id] in table 'viajes_parada_tiemposSet'
+ALTER TABLE [dbo].[viajes_parada_tiemposSet]
+ADD CONSTRAINT [FK_paradas_euskotrenviajes_parada_tiempos]
+    FOREIGN KEY ([paradas_euskotren_id])
+    REFERENCES [dbo].[paradas_euskotrenSet]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_paradas_euskotrenviajes_parada_tiempos'
+CREATE INDEX [IX_FK_paradas_euskotrenviajes_parada_tiempos]
+ON [dbo].[viajes_parada_tiemposSet]
+    ([paradas_euskotren_id]);
 GO
 
 -- --------------------------------------------------

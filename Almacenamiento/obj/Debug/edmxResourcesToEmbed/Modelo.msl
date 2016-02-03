@@ -328,6 +328,9 @@
         <MappingFragment StoreEntitySet="viajes_euskotrenSet">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="lineas_euskotrenId" ColumnName="lineas_euskotrenId" />
+          <ScalarProperty Name="idViaje" ColumnName="idViaje" />
+          <ScalarProperty Name="tiempoInicio" ColumnName="tiempoInicio" />
+          <ScalarProperty Name="tiempoFin" ColumnName="tiempoFin" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -341,6 +344,7 @@
           <ScalarProperty Name="longitud" ColumnName="longitud" />
           <ScalarProperty Name="url" ColumnName="url" />
           <ScalarProperty Name="tipoLocalizacion" ColumnName="tipoLocalizacion" />
+          <ScalarProperty Name="codigoParada" ColumnName="codigoParada" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -374,6 +378,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="viajes_parada_tiemposSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.viajes_parada_tiempos)">
+        <MappingFragment StoreEntitySet="viajes_parada_tiemposSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="viajes_euskotren_id" ColumnName="viajes_euskotren_id" />
+          <ScalarProperty Name="paradas_euskotren_id" ColumnName="paradas_euskotren_id" />
+          <ScalarProperty Name="tiempoLlegada" ColumnName="tiempoLlegada" />
+          <ScalarProperty Name="tiempoSalida" ColumnName="tiempoSalida" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="paradas_metroviajes_metro" TypeName="Modelo.paradas_metroviajes_metro" StoreEntitySet="paradas_metroviajes_metro">
       <EndProperty Name="paradas_metro">
         <ScalarProperty Name="id" ColumnName="paradas_metro_id" />
@@ -396,14 +411,6 @@
       </EndProperty>
       <EndProperty Name="viajes_bilbobus">
         <ScalarProperty Name="id" ColumnName="viajes_bilbobus_id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="viajes_euskotrenparadas_euskotren" TypeName="Modelo.viajes_euskotrenparadas_euskotren" StoreEntitySet="viajes_euskotrenparadas_euskotren">
-      <EndProperty Name="viajes_euskotren">
-        <ScalarProperty Name="id" ColumnName="viajes_euskotren_id" />
-      </EndProperty>
-      <EndProperty Name="paradas_euskotren">
-        <ScalarProperty Name="id" ColumnName="paradas_euskotren_id" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

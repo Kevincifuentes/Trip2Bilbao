@@ -56,5 +56,6 @@ namespace Almacenamiento
         public virtual DbSet<estados_parking> estados_parkingSet { get; set; }
         public virtual DbSet<estados_puntobici> estados_puntobiciSet { get; set; }
         public virtual DbSet<parkingDeusto> parkingDeustoSet { get; set; }
+        public virtual DbSet<viajes_parada_tiempos> viajes_parada_tiemposSet { get; set; }
     }
 }

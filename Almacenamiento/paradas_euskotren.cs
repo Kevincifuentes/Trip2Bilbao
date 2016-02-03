@@ -16,17 +16,18 @@ namespace Almacenamiento
     {
         public paradas_euskotren()
         {
-            this.viajes_euskotren = new HashSet<viajes_euskotren>();
+            this.viajes_parada_tiempos = new HashSet<viajes_parada_tiempos>();
         }
     
         public int id { get; set; }
         public string nombre { get; set; }
         public string descripcion { get; set; }
-        public string latitud { get; set; }
-        public string longitud { get; set; }
+        public double latitud { get; set; }
+        public double longitud { get; set; }
         public string url { get; set; }
-        public string tipoLocalizacion { get; set; }
+        public int tipoLocalizacion { get; set; }
+        public string codigoParada { get; set; }
     
-        public virtual ICollection<viajes_euskotren> viajes_euskotren { get; set; }
+        public virtual ICollection<viajes_parada_tiempos> viajes_parada_tiempos { get; set; }
     }
 }

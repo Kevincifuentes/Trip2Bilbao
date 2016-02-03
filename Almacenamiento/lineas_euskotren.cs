@@ -22,7 +22,7 @@ namespace Almacenamiento
         public int id { get; set; }
         public string abreviatura { get; set; }
         public string nombre { get; set; }
-        public string tipo { get; set; }
+        public int tipo { get; set; }
     
         public virtual ICollection<viajes_euskotren> viajes_euskotren { get; set; }
     }

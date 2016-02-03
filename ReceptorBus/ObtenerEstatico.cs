@@ -39,9 +39,9 @@ namespace ExtractorDatos
         private List<paradas_tranvia> paradasTranvia = new List<paradas_tranvia>(); 
         private Dictionary<int, ParadaBizkaibus> paradasBizkaibus= new Dictionary<int, ParadaBizkaibus>();
         private Dictionary<string , ParadaMetro> paradasMetro = new Dictionary<string, ParadaMetro>(); 
-        private Dictionary<int, ParadaEuskotren> paradasEuskotren = new Dictionary<int, ParadaEuskotren>();
+        private Dictionary<int, paradas_euskotren> paradasEuskotren = new Dictionary<int, paradas_euskotren>();
         public Dictionary<string, LineaBilbobus> lineasBilbo = new Dictionary<string, LineaBilbobus>();
-        private Dictionary<int, LineaEuskotren> lineasEusko = new Dictionary<int, LineaEuskotren>();
+        private Dictionary<int, lineas_euskotren> lineasEusko = new Dictionary<int, lineas_euskotren>();
         private Dictionary<int, LineaBizkaibus> lineasBizkaia = new Dictionary<int, LineaBizkaibus>();
         private Dictionary<string, LineaMetro> lineasMetroBilbao = new Dictionary<string, LineaMetro>();  
         private List<farmacias> farmaciasList = new List<farmacias>(); 
@@ -250,6 +250,46 @@ namespace ExtractorDatos
             }
         }
 
+        public void obtenerEuskotren()
+        {
+            contexto.lineas_euskotrenSet.RemoveRange(contexto.lineas_euskotrenSet);
+            contexto.paradas_euskotrenSet.RemoveRange(contexto.paradas_euskotrenSet);
+            contexto.SaveChanges();
+            euskotren();
+            lineasEuskotren();
+            contexto.lineas_euskotrenSet.AddRange(lineasEusko.Values);
+            try
+            {
+                contexto.SaveChanges();
+                Console.WriteLine(">>>>>Insercción de EUSKOTREN realizada<<<<<");
+            }
+            catch (DbEntityValidationException e)
+            {
+                
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
+        }
+
+        public void obtenerBilbao()
+        {
+            
+        }
+
+        public void obtenerBizkaibus()
+        {
+
+        }
+
         public void obtenerTranvia()
         {
             contexto.paradas_tranviaSet.RemoveRange(contexto.paradas_tranviaSet);
@@ -263,7 +303,7 @@ namespace ExtractorDatos
             }
             catch (DbEntityValidationException e)
             {
-                
+
                 foreach (var eve in e.EntityValidationErrors)
                 {
                     Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
@@ -1783,7 +1823,16 @@ namespace ExtractorDatos
                     tipoLocalizacion = valoresLinea[8];
 
                     //Añadimos a la lista de paradas de autobus de Euskotren
-                    paradasEuskotren.Add(id, new ParadaEuskotren(id, codigo, nombreParada, descripcion, c, idZona, urlParada, tipoLocalizacion));
+                    paradas_euskotren p = new paradas_euskotren();
+                    p.id = id;
+                    p.codigoParada = codigo;
+                    p.nombre = nombreParada;
+                    p.descripcion = descripcion;
+                    p.latitud = c.latitud;
+                    p.longitud = c.longitud;
+                    p.url = urlParada;
+                    p.tipoLocalizacion = int.Parse(tipoLocalizacion.Trim());
+                    paradasEuskotren.Add(id, p);
 
 
                 }
@@ -2139,7 +2188,12 @@ namespace ExtractorDatos
                     int tipo = int.Parse(valoresLinea[5]);
 
                     //Añado a la lista
-                    lineasEusko.Add(id, new LineaEuskotren(id, idAgencia, abreviatura, nombre, tipo));
+                    lineas_euskotren l = new lineas_euskotren();
+                    l.id = id;
+                    l.abreviatura = abreviatura;
+                    l.nombre = nombre;
+                    l.tipo = tipo;
+                    lineasEusko.Add(id, l);
 
                 }
 
@@ -2149,7 +2203,7 @@ namespace ExtractorDatos
                 Console.WriteLine("Leyendo viajes...");
 
                 // Leemos el fichero linea por linea para sacar los viajes
-                List<Clases.KeyValuePair<string, ViajeEuskotren>> viajes = new List<Clases.KeyValuePair<string, ViajeEuskotren>>();
+                Dictionary<string, viajes_euskotren> viajes = new Dictionary<string, viajes_euskotren>();
                 file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\EuskotrenFTP\stop_times.txt");
                 primeraLinea = file.ReadLine();
                 while ((line = file.ReadLine()) != null)
@@ -2161,36 +2215,40 @@ namespace ExtractorDatos
                     //ID de viaje
                     string id = valoresLinea[0];
 
+                    //TiempoLlegada
+                    string tiempoLlegada = valoresLinea[1];
+
+                    //TiempoSalida
+                    string tiempoSalida = valoresLinea[2];
+
                     //ID de la parada
                     int idParada = int.Parse(valoresLinea[3]);
 
                     //Comprobamos si contiene la clave
                     bool encontrado = false;
                     int index = 0;
-                    foreach (Clases.KeyValuePair<string, ViajeEuskotren> temporal in viajes)
-                    {
-                        if (temporal.Key.Equals(id))
-                        {
-                            encontrado = true;
-                            break;
-                        }
-                        else
-                        {
-                            index++;
-                        }
-                    }
 
-                    if (encontrado)
+                    viajes_parada_tiempos vpt = new viajes_parada_tiempos();
+                    vpt.tiempoLlegada = tiempoLlegada;
+                    vpt.tiempoSalida = tiempoSalida;
+                    vpt.paradas_euskotren = paradasEuskotren[idParada];
+
+                    if (viajes.ContainsKey(id))
                     {
-                        //Se añade solo la parada al viaje
-                        viajes[index].Value.paradas.Add(new Clases.KeyValuePair<int, ParadaEuskotren>(idParada, paradasEuskotren[idParada]));
-                        viajes[index].Value.clavesParada.Add(idParada);
+                        //Se añade solo los tiempos por esa parada al viaje
+                        viajes[id].viajes_parada_tiempos.Add(vpt);
+                        viajes[id].tiempoFin = tiempoLlegada;
 
                     }
                     else
                     {
                         //Se añade el viaje completo
-                        viajes.Add(new Clases.KeyValuePair<string, ViajeEuskotren>(id, new ViajeEuskotren(id, paradasEuskotren[idParada])));
+                        viajes_euskotren v = new viajes_euskotren();
+                        v.idViaje = id;
+                        v.tiempoInicio = tiempoLlegada;
+                        v.tiempoFin = tiempoSalida;
+                        v.viajes_parada_tiempos.Add(vpt);
+                        viajes.Add(id, v);
                     }
 
                 /*    if (viajes.ContainsKey(id))
@@ -2236,23 +2294,9 @@ namespace ExtractorDatos
 
                     try
                     {
-                        int contador = 0;
-                        bool encontrado = false;
-                        foreach (Clases.KeyValuePair<string, ViajeEuskotren> temporal in viajes)
+                        if (viajes.ContainsKey(idViaje))
                         {
-                            if (temporal.Key.Equals(idViaje))
-                            {
-                                encontrado = true;
-                                break;
-                            }
-                            else
-                            {
-                                contador++;
-                            }
-                        }
-                        if (encontrado)
-                        {
-                            lineasEusko[idRuta].viajes.Add(viajes[contador]);
+                            lineasEusko[idRuta].viajes_euskotren.Add(viajes[idViaje]);
                         }
                         else
                         {
@@ -2264,7 +2308,7 @@ namespace ExtractorDatos
                         Console.WriteLine("No se encuentra el viaje de id: " + idViaje + " perteneciente a la ruta " + idRuta + "\n");
                     }
                 }
-
+                Console.WriteLine("¡FIN de Juntando resultados!");
                 file.Close();
 
 

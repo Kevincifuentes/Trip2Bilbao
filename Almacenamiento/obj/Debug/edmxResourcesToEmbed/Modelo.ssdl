@@ -32,10 +32,10 @@
     <EntitySet Name="estados_parkingSet" EntityType="Modelo.Store.estados_parkingSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="estados_puntobiciSet" EntityType="Modelo.Store.estados_puntobiciSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="parkingDeustoSet" EntityType="Modelo.Store.parkingDeustoSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="viajes_parada_tiemposSet" EntityType="Modelo.Store.viajes_parada_tiemposSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="paradas_metroviajes_metro" EntityType="Modelo.Store.paradas_metroviajes_metro" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="viajes_bizkaibusparadas_bizkaibus" EntityType="Modelo.Store.viajes_bizkaibusparadas_bizkaibus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="paradas_bilbobusviajes_bilbobus" EntityType="Modelo.Store.paradas_bilbobusviajes_bilbobus" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="viajes_euskotrenparadas_euskotren" EntityType="Modelo.Store.viajes_euskotrenparadas_euskotren" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="parkingsentradas" Association="Modelo.Store.parkingsentradas">
       <End Role="parkings" EntitySet="parkingsSet" />
       <End Role="entradas" EntitySet="entradasSet" />
@@ -104,14 +104,6 @@
       <End Role="lineas_euskotren" EntitySet="lineas_euskotrenSet" />
       <End Role="viajes_euskotren" EntitySet="viajes_euskotrenSet" />
     </AssociationSet>
-    <AssociationSet Name="FK_viajes_euskotrenparadas_euskotren_viajes_euskotren" Association="Modelo.Store.FK_viajes_euskotrenparadas_euskotren_viajes_euskotren">
-      <End Role="viajes_euskotren" EntitySet="viajes_euskotrenSet" />
-      <End Role="viajes_euskotrenparadas_euskotren" EntitySet="viajes_euskotrenparadas_euskotren" />
-    </AssociationSet>
-    <AssociationSet Name="FK_viajes_euskotrenparadas_euskotren_paradas_euskotren" Association="Modelo.Store.FK_viajes_euskotrenparadas_euskotren_paradas_euskotren">
-      <End Role="paradas_euskotren" EntitySet="paradas_euskotrenSet" />
-      <End Role="viajes_euskotrenparadas_euskotren" EntitySet="viajes_euskotrenparadas_euskotren" />
-    </AssociationSet>
     <AssociationSet Name="lineas_metroviajes_metro" Association="Modelo.Store.lineas_metroviajes_metro">
       <End Role="lineas_metro" EntitySet="lineas_metroSet" />
       <End Role="viajes_metro" EntitySet="viajes_metroSet" />
@@ -123,6 +115,14 @@
     <AssociationSet Name="puntos_biciestados_puntobici" Association="Modelo.Store.puntos_biciestados_puntobici">
       <End Role="puntos_bici" EntitySet="puntos_biciSet" />
       <End Role="estados_puntobici" EntitySet="estados_puntobiciSet" />
+    </AssociationSet>
+    <AssociationSet Name="viajes_euskotrenviajes_parada_tiempos" Association="Modelo.Store.viajes_euskotrenviajes_parada_tiempos">
+      <End Role="viajes_euskotren" EntitySet="viajes_euskotrenSet" />
+      <End Role="viajes_parada_tiempos" EntitySet="viajes_parada_tiemposSet" />
+    </AssociationSet>
+    <AssociationSet Name="paradas_euskotrenviajes_parada_tiempos" Association="Modelo.Store.paradas_euskotrenviajes_parada_tiempos">
+      <End Role="paradas_euskotren" EntitySet="paradas_euskotrenSet" />
+      <End Role="viajes_parada_tiempos" EntitySet="viajes_parada_tiemposSet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="entradasSet">
@@ -422,14 +422,17 @@
     <Property Name="id" Type="int" Nullable="false" />
     <Property Name="abreviatura" Type="nvarchar(max)" Nullable="false" />
     <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="tipo" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tipo" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="viajes_euskotrenSet">
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="lineas_euskotrenId" Type="int" Nullable="false" />
+    <Property Name="idViaje" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoInicio" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoFin" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="paradas_euskotrenSet">
     <Key>
@@ -438,10 +441,11 @@
     <Property Name="id" Type="int" Nullable="false" />
     <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
     <Property Name="descripcion" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="latitud" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="longitud" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="latitud" Type="float" Nullable="false" />
+    <Property Name="longitud" Type="float" Nullable="false" />
     <Property Name="url" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="tipoLocalizacion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tipoLocalizacion" Type="int" Nullable="false" />
+    <Property Name="codigoParada" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="estados_parkingSet">
     <Key>
@@ -470,6 +474,16 @@
     <Property Name="dbs" Type="int" Nullable="false" />
     <Property Name="general" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="viajes_parada_tiemposSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="viajes_euskotren_id" Type="int" Nullable="false" />
+    <Property Name="paradas_euskotren_id" Type="int" Nullable="false" />
+    <Property Name="tiempoLlegada" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoSalida" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
   <EntityType Name="paradas_metroviajes_metro">
     <Key>
       <PropertyRef Name="paradas_metro_id" />
@@ -493,14 +507,6 @@
     </Key>
     <Property Name="paradas_bilbobus_id" Type="int" Nullable="false" />
     <Property Name="viajes_bilbobus_id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="viajes_euskotrenparadas_euskotren">
-    <Key>
-      <PropertyRef Name="viajes_euskotren_id" />
-      <PropertyRef Name="paradas_euskotren_id" />
-    </Key>
-    <Property Name="viajes_euskotren_id" Type="int" Nullable="false" />
-    <Property Name="paradas_euskotren_id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="parkingsentradas">
     <End Role="parkings" Type="Modelo.Store.parkingsSet" Multiplicity="1">
@@ -627,7 +633,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="lineas_euskotrenviajes_euskotren">
-    <End Role="lineas_euskotren" Type="Modelo.Store.lineas_euskotrenSet" Multiplicity="1" />
+    <End Role="lineas_euskotren" Type="Modelo.Store.lineas_euskotrenSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="viajes_euskotren" Type="Modelo.Store.viajes_euskotrenSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="lineas_euskotren">
@@ -673,6 +681,32 @@
       </Principal>
       <Dependent Role="estados_puntobici">
         <PropertyRef Name="puntos_bici_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="viajes_euskotrenviajes_parada_tiempos">
+    <End Role="viajes_euskotren" Type="Modelo.Store.viajes_euskotrenSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="viajes_parada_tiempos" Type="Modelo.Store.viajes_parada_tiemposSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="viajes_euskotren">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos">
+        <PropertyRef Name="viajes_euskotren_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="paradas_euskotrenviajes_parada_tiempos">
+    <End Role="paradas_euskotren" Type="Modelo.Store.paradas_euskotrenSet" Multiplicity="1" />
+    <End Role="viajes_parada_tiempos" Type="Modelo.Store.viajes_parada_tiemposSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="paradas_euskotren">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos">
+        <PropertyRef Name="paradas_euskotren_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -745,30 +779,6 @@
       </Principal>
       <Dependent Role="paradas_bilbobusviajes_bilbobus">
         <PropertyRef Name="viajes_bilbobus_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_viajes_euskotrenparadas_euskotren_viajes_euskotren">
-    <End Role="viajes_euskotren" Type="Modelo.Store.viajes_euskotrenSet" Multiplicity="1" />
-    <End Role="viajes_euskotrenparadas_euskotren" Type="Modelo.Store.viajes_euskotrenparadas_euskotren" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="viajes_euskotren">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="viajes_euskotrenparadas_euskotren">
-        <PropertyRef Name="viajes_euskotren_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_viajes_euskotrenparadas_euskotren_paradas_euskotren">
-    <End Role="viajes_euskotrenparadas_euskotren" Type="Modelo.Store.viajes_euskotrenparadas_euskotren" Multiplicity="*" />
-    <End Role="paradas_euskotren" Type="Modelo.Store.paradas_euskotrenSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="paradas_euskotren">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="viajes_euskotrenparadas_euskotren">
-        <PropertyRef Name="paradas_euskotren_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
