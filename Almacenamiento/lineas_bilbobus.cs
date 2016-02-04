@@ -24,6 +24,7 @@ namespace Almacenamiento
         public string abreviatura { get; set; }
         public string nombre { get; set; }
         public int tipoTransporte { get; set; }
+        public string idLinea { get; set; }
     
         public virtual ICollection<tiempos_linea_parada> tiempos_linea_parada { get; set; }
         public virtual ICollection<viajes_bilbobus> viajes_bilbobus { get; set; }

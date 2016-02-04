@@ -37,10 +37,10 @@
     <EntitySet Name="estados_parkingSet" EntityType="Modelo.Store.estados_parkingSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="estados_puntobiciSet" EntityType="Modelo.Store.estados_puntobiciSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="parkingDeustoSet" EntityType="Modelo.Store.parkingDeustoSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="viajes_parada_tiemposSet" EntityType="Modelo.Store.viajes_parada_tiemposSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="paradas_metroviajes_metro" EntityType="Modelo.Store.paradas_metroviajes_metro" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="viajes_bizkaibusparadas_bizkaibus" EntityType="Modelo.Store.viajes_bizkaibusparadas_bizkaibus" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="paradas_bilbobusviajes_bilbobus" EntityType="Modelo.Store.paradas_bilbobusviajes_bilbobus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="viajes_parada_tiempos_euskotrenSet" EntityType="Modelo.Store.viajes_parada_tiempos_euskotrenSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="viajes_parada_tiempos_metroSet" EntityType="Modelo.Store.viajes_parada_tiempos_metroSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="viajes_parada_tiempos_bizkaibusSet" EntityType="Modelo.Store.viajes_parada_tiempos_bizkaibusSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="viajes_parada_tiempos_bilbobusSet" EntityType="Modelo.Store.viajes_parada_tiempos_bilbobusSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="parkingsentradas" Association="Modelo.Store.parkingsentradas">
       <End Role="parkings" EntitySet="parkingsSet" />
       <End Role="entradas" EntitySet="entradasSet" />
@@ -61,29 +61,9 @@
       <End Role="tiempos_prediccion" EntitySet="tiempos_prediccionSet" />
       <End Role="tiempos_dia" EntitySet="tiempos_diaSet" />
     </AssociationSet>
-    <AssociationSet Name="paradas_metroparadas_metro" Association="Modelo.Store.paradas_metroparadas_metro">
-      <End Role="paradas_metro" EntitySet="paradas_metroSet" />
-      <End Role="paradas_metro1" EntitySet="paradas_metroSet" />
-    </AssociationSet>
-    <AssociationSet Name="FK_paradas_metroviajes_metro_paradas_metro" Association="Modelo.Store.FK_paradas_metroviajes_metro_paradas_metro">
-      <End Role="paradas_metro" EntitySet="paradas_metroSet" />
-      <End Role="paradas_metroviajes_metro" EntitySet="paradas_metroviajes_metro" />
-    </AssociationSet>
-    <AssociationSet Name="FK_paradas_metroviajes_metro_viajes_metro" Association="Modelo.Store.FK_paradas_metroviajes_metro_viajes_metro">
-      <End Role="viajes_metro" EntitySet="viajes_metroSet" />
-      <End Role="paradas_metroviajes_metro" EntitySet="paradas_metroviajes_metro" />
-    </AssociationSet>
     <AssociationSet Name="lineas_bizkaibusviajes_bizkaibus" Association="Modelo.Store.lineas_bizkaibusviajes_bizkaibus">
       <End Role="lineas_bizkaibus" EntitySet="lineas_bizkaibusSet" />
       <End Role="viajes_bizkaibus" EntitySet="viajes_bizkaibusSet" />
-    </AssociationSet>
-    <AssociationSet Name="FK_viajes_bizkaibusparadas_bizkaibus_viajes_bizkaibus" Association="Modelo.Store.FK_viajes_bizkaibusparadas_bizkaibus_viajes_bizkaibus">
-      <End Role="viajes_bizkaibus" EntitySet="viajes_bizkaibusSet" />
-      <End Role="viajes_bizkaibusparadas_bizkaibus" EntitySet="viajes_bizkaibusparadas_bizkaibus" />
-    </AssociationSet>
-    <AssociationSet Name="FK_viajes_bizkaibusparadas_bizkaibus_paradas_bizkaibus" Association="Modelo.Store.FK_viajes_bizkaibusparadas_bizkaibus_paradas_bizkaibus">
-      <End Role="paradas_bizkaibus" EntitySet="paradas_bizkaibusSet" />
-      <End Role="viajes_bizkaibusparadas_bizkaibus" EntitySet="viajes_bizkaibusparadas_bizkaibus" />
     </AssociationSet>
     <AssociationSet Name="lineas_bilbobustiempos_linea_parada" Association="Modelo.Store.lineas_bilbobustiempos_linea_parada">
       <End Role="lineas_bilbobus" EntitySet="lineas_bilbobusSet" />
@@ -92,14 +72,6 @@
     <AssociationSet Name="paradas_bilbobustiempos_linea_parada" Association="Modelo.Store.paradas_bilbobustiempos_linea_parada">
       <End Role="paradas_bilbobus" EntitySet="paradas_bilbobusSet" />
       <End Role="tiempos_linea_parada" EntitySet="tiempos_linea_paradaSet" />
-    </AssociationSet>
-    <AssociationSet Name="FK_paradas_bilbobusviajes_bilbobus_paradas_bilbobus" Association="Modelo.Store.FK_paradas_bilbobusviajes_bilbobus_paradas_bilbobus">
-      <End Role="paradas_bilbobus" EntitySet="paradas_bilbobusSet" />
-      <End Role="paradas_bilbobusviajes_bilbobus" EntitySet="paradas_bilbobusviajes_bilbobus" />
-    </AssociationSet>
-    <AssociationSet Name="FK_paradas_bilbobusviajes_bilbobus_viajes_bilbobus" Association="Modelo.Store.FK_paradas_bilbobusviajes_bilbobus_viajes_bilbobus">
-      <End Role="viajes_bilbobus" EntitySet="viajes_bilbobusSet" />
-      <End Role="paradas_bilbobusviajes_bilbobus" EntitySet="paradas_bilbobusviajes_bilbobus" />
     </AssociationSet>
     <AssociationSet Name="lineas_bilbobusviajes_bilbobus" Association="Modelo.Store.lineas_bilbobusviajes_bilbobus">
       <End Role="lineas_bilbobus" EntitySet="lineas_bilbobusSet" />
@@ -123,11 +95,35 @@
     </AssociationSet>
     <AssociationSet Name="viajes_euskotrenviajes_parada_tiempos" Association="Modelo.Store.viajes_euskotrenviajes_parada_tiempos">
       <End Role="viajes_euskotren" EntitySet="viajes_euskotrenSet" />
-      <End Role="viajes_parada_tiempos" EntitySet="viajes_parada_tiemposSet" />
+      <End Role="viajes_parada_tiempos" EntitySet="viajes_parada_tiempos_euskotrenSet" />
     </AssociationSet>
     <AssociationSet Name="paradas_euskotrenviajes_parada_tiempos" Association="Modelo.Store.paradas_euskotrenviajes_parada_tiempos">
       <End Role="paradas_euskotren" EntitySet="paradas_euskotrenSet" />
-      <End Role="viajes_parada_tiempos" EntitySet="viajes_parada_tiemposSet" />
+      <End Role="viajes_parada_tiempos" EntitySet="viajes_parada_tiempos_euskotrenSet" />
+    </AssociationSet>
+    <AssociationSet Name="paradas_metroviajes_parada_tiempos_metro" Association="Modelo.Store.paradas_metroviajes_parada_tiempos_metro">
+      <End Role="paradas_metro" EntitySet="paradas_metroSet" />
+      <End Role="viajes_parada_tiempos_metro" EntitySet="viajes_parada_tiempos_metroSet" />
+    </AssociationSet>
+    <AssociationSet Name="viajes_metroviajes_parada_tiempos_metro" Association="Modelo.Store.viajes_metroviajes_parada_tiempos_metro">
+      <End Role="viajes_metro" EntitySet="viajes_metroSet" />
+      <End Role="viajes_parada_tiempos_metro" EntitySet="viajes_parada_tiempos_metroSet" />
+    </AssociationSet>
+    <AssociationSet Name="paradas_bizkaibusviajes_parada_tiempos_bizkaibus" Association="Modelo.Store.paradas_bizkaibusviajes_parada_tiempos_bizkaibus">
+      <End Role="paradas_bizkaibus" EntitySet="paradas_bizkaibusSet" />
+      <End Role="viajes_parada_tiempos_bizkaibus" EntitySet="viajes_parada_tiempos_bizkaibusSet" />
+    </AssociationSet>
+    <AssociationSet Name="viajes_bizkaibusviajes_parada_tiempos_bizkaibus" Association="Modelo.Store.viajes_bizkaibusviajes_parada_tiempos_bizkaibus">
+      <End Role="viajes_bizkaibus" EntitySet="viajes_bizkaibusSet" />
+      <End Role="viajes_parada_tiempos_bizkaibus" EntitySet="viajes_parada_tiempos_bizkaibusSet" />
+    </AssociationSet>
+    <AssociationSet Name="viajes_bilbobusviajes_parada_tiempos_bilbobus" Association="Modelo.Store.viajes_bilbobusviajes_parada_tiempos_bilbobus">
+      <End Role="viajes_bilbobus" EntitySet="viajes_bilbobusSet" />
+      <End Role="viajes_parada_tiempos_bilbobus" EntitySet="viajes_parada_tiempos_bilbobusSet" />
+    </AssociationSet>
+    <AssociationSet Name="paradas_bilbobusviajes_parada_tiempos_bilbobus" Association="Modelo.Store.paradas_bilbobusviajes_parada_tiempos_bilbobus">
+      <End Role="paradas_bilbobus" EntitySet="paradas_bilbobusSet" />
+      <End Role="viajes_parada_tiempos_bilbobus" EntitySet="viajes_parada_tiempos_bilbobusSet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="entradasSet">
@@ -331,7 +327,7 @@
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="abreviatura" Type="nvarchar(max)" Nullable="false" />
     <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
     <Property Name="tipo" Type="int" Nullable="false" />
@@ -343,17 +339,21 @@
     </Key>
     <Property Name="id" Type="int" Nullable="false" />
     <Property Name="lineas_metro_id" Type="int" Nullable="false" />
+    <Property Name="tiempoInicio" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoFin" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="paradas_metroSet">
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="latitud" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="longitud" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="tipoLocalizacion" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="paradas_metroId" Type="int" Nullable="false" />
+    <Property Name="latitud" Type="float" Nullable="false" />
+    <Property Name="longitud" Type="float" Nullable="false" />
+    <Property Name="tipoLocalizacion" Type="int" Nullable="false" />
+    <Property Name="idParadaPadre" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="codigoParada" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="idParada" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="lineas_bizkaibusSet">
     <Key>
@@ -370,6 +370,8 @@
     </Key>
     <Property Name="id" Type="int" Nullable="false" />
     <Property Name="lineas_bizkaibusId" Type="int" Nullable="false" />
+    <Property Name="tiempoInicio" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoFin" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="paradas_bizkaibusSet">
     <Key>
@@ -382,6 +384,8 @@
     <Property Name="longitud" Type="float" Nullable="false" />
     <Property Name="url" Type="nvarchar(max)" Nullable="false" />
     <Property Name="tipoLocalizacion" Type="int" Nullable="false" />
+    <Property Name="codigoParada" Type="int" Nullable="false" />
+    <Property Name="idParadaPadre" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="paradas_bilbobusSet">
     <Key>
@@ -391,6 +395,7 @@
     <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
     <Property Name="latitud" Type="float" Nullable="false" />
     <Property Name="longitud" Type="float" Nullable="false" />
+    <Property Name="abreviatura" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="tiempos_linea_paradaSet">
     <Key>
@@ -399,7 +404,7 @@
     </Key>
     <Property Name="id" Type="int" Nullable="false" />
     <Property Name="descripcionLinea" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="tiempoEspera" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoEspera" Type="int" Nullable="false" />
     <Property Name="lineas_bilbobusId" Type="int" Nullable="false" />
     <Property Name="paradas_bilbobusId" Type="int" Nullable="false" />
     <Property Name="fecha" Type="datetime" Nullable="false" />
@@ -408,10 +413,11 @@
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="abreviatura" Type="nvarchar(max)" Nullable="false" />
     <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
     <Property Name="tipoTransporte" Type="int" Nullable="false" />
+    <Property Name="idLinea" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="viajes_bilbobusSet">
     <Key>
@@ -419,6 +425,8 @@
     </Key>
     <Property Name="id" Type="int" Nullable="false" />
     <Property Name="lineas_bilbobusId" Type="int" Nullable="false" />
+    <Property Name="tiempoInicio" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoFin" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="lineas_euskotrenSet">
     <Key>
@@ -479,7 +487,7 @@
     <Property Name="dbs" Type="int" Nullable="false" />
     <Property Name="general" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="viajes_parada_tiemposSet">
+  <EntityType Name="viajes_parada_tiempos_euskotrenSet">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -489,29 +497,35 @@
     <Property Name="tiempoLlegada" Type="nvarchar(max)" Nullable="false" />
     <Property Name="tiempoSalida" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="paradas_metroviajes_metro">
+  <EntityType Name="viajes_parada_tiempos_metroSet">
     <Key>
-      <PropertyRef Name="paradas_metro_id" />
-      <PropertyRef Name="viajes_metro_id" />
+      <PropertyRef Name="id" />
     </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="paradas_metro_id" Type="int" Nullable="false" />
     <Property Name="viajes_metro_id" Type="int" Nullable="false" />
+    <Property Name="tiempoLlegada" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoSalida" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="viajes_bizkaibusparadas_bizkaibus">
+  <EntityType Name="viajes_parada_tiempos_bizkaibusSet">
     <Key>
-      <PropertyRef Name="viajes_bizkaibus_id" />
-      <PropertyRef Name="paradas_bizkaibus_id" />
+      <PropertyRef Name="id" />
     </Key>
-    <Property Name="viajes_bizkaibus_id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="paradas_bizkaibus_id" Type="int" Nullable="false" />
+    <Property Name="viajes_bizkaibus_id" Type="int" Nullable="false" />
+    <Property Name="tiempoLlegada" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoSalida" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="paradas_bilbobusviajes_bilbobus">
+  <EntityType Name="viajes_parada_tiempos_bilbobusSet">
     <Key>
-      <PropertyRef Name="paradas_bilbobus_id" />
-      <PropertyRef Name="viajes_bilbobus_id" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="paradas_bilbobus_id" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="viajes_bilbobus_id" Type="int" Nullable="false" />
+    <Property Name="paradas_bilbobus_id" Type="int" Nullable="false" />
+    <Property Name="tiempoLlegada" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoSalida" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="parkingsentradas">
     <End Role="parkings" Type="Modelo.Store.parkingsSet" Multiplicity="1">
@@ -577,20 +591,10 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="paradas_metroparadas_metro">
-    <End Role="paradas_metro" Type="Modelo.Store.paradas_metroSet" Multiplicity="1" />
-    <End Role="paradas_metro1" Type="Modelo.Store.paradas_metroSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="paradas_metro">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="paradas_metro1">
-        <PropertyRef Name="paradas_metroId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="lineas_bizkaibusviajes_bizkaibus">
-    <End Role="lineas_bizkaibus" Type="Modelo.Store.lineas_bizkaibusSet" Multiplicity="1" />
+    <End Role="lineas_bizkaibus" Type="Modelo.Store.lineas_bizkaibusSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="viajes_bizkaibus" Type="Modelo.Store.viajes_bizkaibusSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="lineas_bizkaibus">
@@ -602,7 +606,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="lineas_bilbobustiempos_linea_parada">
-    <End Role="lineas_bilbobus" Type="Modelo.Store.lineas_bilbobusSet" Multiplicity="1" />
+    <End Role="lineas_bilbobus" Type="Modelo.Store.lineas_bilbobusSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="tiempos_linea_parada" Type="Modelo.Store.tiempos_linea_paradaSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="lineas_bilbobus">
@@ -614,7 +620,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="paradas_bilbobustiempos_linea_parada">
-    <End Role="paradas_bilbobus" Type="Modelo.Store.paradas_bilbobusSet" Multiplicity="1" />
+    <End Role="paradas_bilbobus" Type="Modelo.Store.paradas_bilbobusSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="tiempos_linea_parada" Type="Modelo.Store.tiempos_linea_paradaSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="paradas_bilbobus">
@@ -626,7 +634,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="lineas_bilbobusviajes_bilbobus">
-    <End Role="lineas_bilbobus" Type="Modelo.Store.lineas_bilbobusSet" Multiplicity="1" />
+    <End Role="lineas_bilbobus" Type="Modelo.Store.lineas_bilbobusSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="viajes_bilbobus" Type="Modelo.Store.viajes_bilbobusSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="lineas_bilbobus">
@@ -652,7 +662,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="lineas_metroviajes_metro">
-    <End Role="lineas_metro" Type="Modelo.Store.lineas_metroSet" Multiplicity="1" />
+    <End Role="lineas_metro" Type="Modelo.Store.lineas_metroSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="viajes_metro" Type="Modelo.Store.viajes_metroSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="lineas_metro">
@@ -693,7 +705,7 @@
     <End Role="viajes_euskotren" Type="Modelo.Store.viajes_euskotrenSet" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
-    <End Role="viajes_parada_tiempos" Type="Modelo.Store.viajes_parada_tiemposSet" Multiplicity="*" />
+    <End Role="viajes_parada_tiempos" Type="Modelo.Store.viajes_parada_tiempos_euskotrenSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="viajes_euskotren">
         <PropertyRef Name="id" />
@@ -705,7 +717,7 @@
   </Association>
   <Association Name="paradas_euskotrenviajes_parada_tiempos">
     <End Role="paradas_euskotren" Type="Modelo.Store.paradas_euskotrenSet" Multiplicity="1" />
-    <End Role="viajes_parada_tiempos" Type="Modelo.Store.viajes_parada_tiemposSet" Multiplicity="*" />
+    <End Role="viajes_parada_tiempos" Type="Modelo.Store.viajes_parada_tiempos_euskotrenSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="paradas_euskotren">
         <PropertyRef Name="id" />
@@ -715,75 +727,85 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_paradas_metroviajes_metro_paradas_metro">
-    <End Role="paradas_metro" Type="Modelo.Store.paradas_metroSet" Multiplicity="1" />
-    <End Role="paradas_metroviajes_metro" Type="Modelo.Store.paradas_metroviajes_metro" Multiplicity="*" />
+  <Association Name="paradas_metroviajes_parada_tiempos_metro">
+    <End Role="paradas_metro" Type="Modelo.Store.paradas_metroSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="viajes_parada_tiempos_metro" Type="Modelo.Store.viajes_parada_tiempos_metroSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="paradas_metro">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="paradas_metroviajes_metro">
+      <Dependent Role="viajes_parada_tiempos_metro">
         <PropertyRef Name="paradas_metro_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_paradas_metroviajes_metro_viajes_metro">
-    <End Role="paradas_metroviajes_metro" Type="Modelo.Store.paradas_metroviajes_metro" Multiplicity="*" />
-    <End Role="viajes_metro" Type="Modelo.Store.viajes_metroSet" Multiplicity="1" />
+  <Association Name="viajes_metroviajes_parada_tiempos_metro">
+    <End Role="viajes_metro" Type="Modelo.Store.viajes_metroSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="viajes_parada_tiempos_metro" Type="Modelo.Store.viajes_parada_tiempos_metroSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="viajes_metro">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="paradas_metroviajes_metro">
+      <Dependent Role="viajes_parada_tiempos_metro">
         <PropertyRef Name="viajes_metro_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_viajes_bizkaibusparadas_bizkaibus_viajes_bizkaibus">
-    <End Role="viajes_bizkaibus" Type="Modelo.Store.viajes_bizkaibusSet" Multiplicity="1" />
-    <End Role="viajes_bizkaibusparadas_bizkaibus" Type="Modelo.Store.viajes_bizkaibusparadas_bizkaibus" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="viajes_bizkaibus">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="viajes_bizkaibusparadas_bizkaibus">
-        <PropertyRef Name="viajes_bizkaibus_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_viajes_bizkaibusparadas_bizkaibus_paradas_bizkaibus">
-    <End Role="viajes_bizkaibusparadas_bizkaibus" Type="Modelo.Store.viajes_bizkaibusparadas_bizkaibus" Multiplicity="*" />
-    <End Role="paradas_bizkaibus" Type="Modelo.Store.paradas_bizkaibusSet" Multiplicity="1" />
+  <Association Name="paradas_bizkaibusviajes_parada_tiempos_bizkaibus">
+    <End Role="paradas_bizkaibus" Type="Modelo.Store.paradas_bizkaibusSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="viajes_parada_tiempos_bizkaibus" Type="Modelo.Store.viajes_parada_tiempos_bizkaibusSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="paradas_bizkaibus">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="viajes_bizkaibusparadas_bizkaibus">
+      <Dependent Role="viajes_parada_tiempos_bizkaibus">
         <PropertyRef Name="paradas_bizkaibus_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_paradas_bilbobusviajes_bilbobus_paradas_bilbobus">
-    <End Role="paradas_bilbobus" Type="Modelo.Store.paradas_bilbobusSet" Multiplicity="1" />
-    <End Role="paradas_bilbobusviajes_bilbobus" Type="Modelo.Store.paradas_bilbobusviajes_bilbobus" Multiplicity="*" />
+  <Association Name="viajes_bizkaibusviajes_parada_tiempos_bizkaibus">
+    <End Role="viajes_bizkaibus" Type="Modelo.Store.viajes_bizkaibusSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="viajes_parada_tiempos_bizkaibus" Type="Modelo.Store.viajes_parada_tiempos_bizkaibusSet" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="paradas_bilbobus">
+      <Principal Role="viajes_bizkaibus">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="paradas_bilbobusviajes_bilbobus">
-        <PropertyRef Name="paradas_bilbobus_id" />
+      <Dependent Role="viajes_parada_tiempos_bizkaibus">
+        <PropertyRef Name="viajes_bizkaibus_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_paradas_bilbobusviajes_bilbobus_viajes_bilbobus">
-    <End Role="paradas_bilbobusviajes_bilbobus" Type="Modelo.Store.paradas_bilbobusviajes_bilbobus" Multiplicity="*" />
-    <End Role="viajes_bilbobus" Type="Modelo.Store.viajes_bilbobusSet" Multiplicity="1" />
+  <Association Name="viajes_bilbobusviajes_parada_tiempos_bilbobus">
+    <End Role="viajes_bilbobus" Type="Modelo.Store.viajes_bilbobusSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="viajes_parada_tiempos_bilbobus" Type="Modelo.Store.viajes_parada_tiempos_bilbobusSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="viajes_bilbobus">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="paradas_bilbobusviajes_bilbobus">
+      <Dependent Role="viajes_parada_tiempos_bilbobus">
         <PropertyRef Name="viajes_bilbobus_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="paradas_bilbobusviajes_parada_tiempos_bilbobus">
+    <End Role="paradas_bilbobus" Type="Modelo.Store.paradas_bilbobusSet" Multiplicity="1" />
+    <End Role="viajes_parada_tiempos_bilbobus" Type="Modelo.Store.viajes_parada_tiempos_bilbobusSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="paradas_bilbobus">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos_bilbobus">
+        <PropertyRef Name="paradas_bilbobus_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -830,14 +852,6 @@
           <EntitySet Name="lineas_metroSet" EntityType="Modelo.lineas_metro" />
           <EntitySet Name="viajes_metroSet" EntityType="Modelo.viajes_metro" />
           <EntitySet Name="paradas_metroSet" EntityType="Modelo.paradas_metro" />
-          <AssociationSet Name="paradas_metroparadas_metro" Association="Modelo.paradas_metroparadas_metro">
-            <End Role="paradas_metro" EntitySet="paradas_metroSet" />
-            <End Role="paradas_metro1" EntitySet="paradas_metroSet" />
-          </AssociationSet>
-          <AssociationSet Name="paradas_metroviajes_metro" Association="Modelo.paradas_metroviajes_metro">
-            <End Role="paradas_metro" EntitySet="paradas_metroSet" />
-            <End Role="viajes_metro" EntitySet="viajes_metroSet" />
-          </AssociationSet>
           <EntitySet Name="lineas_bizkaibusSet" EntityType="Modelo.lineas_bizkaibus" />
           <EntitySet Name="viajes_bizkaibusSet" EntityType="Modelo.viajes_bizkaibus" />
           <AssociationSet Name="lineas_bizkaibusviajes_bizkaibus" Association="Modelo.lineas_bizkaibusviajes_bizkaibus">
@@ -845,10 +859,6 @@
             <End Role="viajes_bizkaibus" EntitySet="viajes_bizkaibusSet" />
           </AssociationSet>
           <EntitySet Name="paradas_bizkaibusSet" EntityType="Modelo.paradas_bizkaibus" />
-          <AssociationSet Name="viajes_bizkaibusparadas_bizkaibus" Association="Modelo.viajes_bizkaibusparadas_bizkaibus">
-            <End Role="viajes_bizkaibus" EntitySet="viajes_bizkaibusSet" />
-            <End Role="paradas_bizkaibus" EntitySet="paradas_bizkaibusSet" />
-          </AssociationSet>
           <EntitySet Name="paradas_bilbobusSet" EntityType="Modelo.paradas_bilbobus" />
           <EntitySet Name="tiempos_linea_paradaSet" EntityType="Modelo.tiempos_linea_parada" />
           <EntitySet Name="lineas_bilbobusSet" EntityType="Modelo.lineas_bilbobus" />
@@ -861,10 +871,6 @@
             <End Role="tiempos_linea_parada" EntitySet="tiempos_linea_paradaSet" />
           </AssociationSet>
           <EntitySet Name="viajes_bilbobusSet" EntityType="Modelo.viajes_bilbobus" />
-          <AssociationSet Name="paradas_bilbobusviajes_bilbobus" Association="Modelo.paradas_bilbobusviajes_bilbobus">
-            <End Role="paradas_bilbobus" EntitySet="paradas_bilbobusSet" />
-            <End Role="viajes_bilbobus" EntitySet="viajes_bilbobusSet" />
-          </AssociationSet>
           <AssociationSet Name="lineas_bilbobusviajes_bilbobus" Association="Modelo.lineas_bilbobusviajes_bilbobus">
             <End Role="lineas_bilbobus" EntitySet="lineas_bilbobusSet" />
             <End Role="viajes_bilbobus" EntitySet="viajes_bilbobusSet" />
@@ -891,14 +897,41 @@
             <End Role="estados_puntobici" EntitySet="estados_puntobiciSet" />
           </AssociationSet>
           <EntitySet Name="parkingDeustoSet" EntityType="Modelo.parkingDeusto" />
-          <EntitySet Name="viajes_parada_tiemposSet" EntityType="Modelo.viajes_parada_tiempos" />
+          <EntitySet Name="viajes_parada_tiempos_euskotrenSet" EntityType="Modelo.viajes_parada_tiempos_euskotren" />
           <AssociationSet Name="viajes_euskotrenviajes_parada_tiempos" Association="Modelo.viajes_euskotrenviajes_parada_tiempos">
             <End Role="viajes_euskotren" EntitySet="viajes_euskotrenSet" />
-            <End Role="viajes_parada_tiempos" EntitySet="viajes_parada_tiemposSet" />
+            <End Role="viajes_parada_tiempos" EntitySet="viajes_parada_tiempos_euskotrenSet" />
           </AssociationSet>
           <AssociationSet Name="paradas_euskotrenviajes_parada_tiempos" Association="Modelo.paradas_euskotrenviajes_parada_tiempos">
             <End Role="paradas_euskotren" EntitySet="paradas_euskotrenSet" />
-            <End Role="viajes_parada_tiempos" EntitySet="viajes_parada_tiemposSet" />
+            <End Role="viajes_parada_tiempos" EntitySet="viajes_parada_tiempos_euskotrenSet" />
+          </AssociationSet>
+          <EntitySet Name="viajes_parada_tiempos_metroSet" EntityType="Modelo.viajes_parada_tiempos_metro" />
+          <AssociationSet Name="paradas_metroviajes_parada_tiempos_metro" Association="Modelo.paradas_metroviajes_parada_tiempos_metro">
+            <End Role="paradas_metro" EntitySet="paradas_metroSet" />
+            <End Role="viajes_parada_tiempos_metro" EntitySet="viajes_parada_tiempos_metroSet" />
+          </AssociationSet>
+          <AssociationSet Name="viajes_metroviajes_parada_tiempos_metro" Association="Modelo.viajes_metroviajes_parada_tiempos_metro">
+            <End Role="viajes_metro" EntitySet="viajes_metroSet" />
+            <End Role="viajes_parada_tiempos_metro" EntitySet="viajes_parada_tiempos_metroSet" />
+          </AssociationSet>
+          <EntitySet Name="viajes_parada_tiempos_bizkaibusSet" EntityType="Modelo.viajes_parada_tiempos_bizkaibus" />
+          <AssociationSet Name="paradas_bizkaibusviajes_parada_tiempos_bizkaibus" Association="Modelo.paradas_bizkaibusviajes_parada_tiempos_bizkaibus">
+            <End Role="paradas_bizkaibus" EntitySet="paradas_bizkaibusSet" />
+            <End Role="viajes_parada_tiempos_bizkaibus" EntitySet="viajes_parada_tiempos_bizkaibusSet" />
+          </AssociationSet>
+          <AssociationSet Name="viajes_bizkaibusviajes_parada_tiempos_bizkaibus" Association="Modelo.viajes_bizkaibusviajes_parada_tiempos_bizkaibus">
+            <End Role="viajes_bizkaibus" EntitySet="viajes_bizkaibusSet" />
+            <End Role="viajes_parada_tiempos_bizkaibus" EntitySet="viajes_parada_tiempos_bizkaibusSet" />
+          </AssociationSet>
+          <EntitySet Name="viajes_parada_tiempos_bilbobusSet" EntityType="Modelo.viajes_parada_tiempos_bilbobus" />
+          <AssociationSet Name="viajes_bilbobusviajes_parada_tiempos_bilbobus" Association="Modelo.viajes_bilbobusviajes_parada_tiempos_bilbobus">
+            <End Role="viajes_bilbobus" EntitySet="viajes_bilbobusSet" />
+            <End Role="viajes_parada_tiempos_bilbobus" EntitySet="viajes_parada_tiempos_bilbobusSet" />
+          </AssociationSet>
+          <AssociationSet Name="paradas_bilbobusviajes_parada_tiempos_bilbobus" Association="Modelo.paradas_bilbobusviajes_parada_tiempos_bilbobus">
+            <End Role="paradas_bilbobus" EntitySet="paradas_bilbobusSet" />
+            <End Role="viajes_parada_tiempos_bilbobus" EntitySet="viajes_parada_tiempos_bilbobusSet" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="entradas">
@@ -1180,7 +1213,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="abreviatura" Type="String" Nullable="false" />
           <Property Name="nombre" Type="String" Nullable="false" />
           <Property Name="tipo" Type="Int32" Nullable="false" />
@@ -1192,40 +1225,26 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <NavigationProperty Name="paradas_metro" Relationship="Modelo.paradas_metroviajes_metro" FromRole="viajes_metro" ToRole="paradas_metro" />
           <NavigationProperty Name="lineas_metro" Relationship="Modelo.lineas_metroviajes_metro" FromRole="viajes_metro" ToRole="lineas_metro" />
           <Property Name="lineas_metro_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="viajes_parada_tiempos_metro" Relationship="Modelo.viajes_metroviajes_parada_tiempos_metro" FromRole="viajes_metro" ToRole="viajes_parada_tiempos_metro" />
+          <Property Name="tiempoInicio" Type="String" Nullable="false" />
+          <Property Name="tiempoFin" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="paradas_metro">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre" Type="String" Nullable="false" />
-          <Property Name="latitud" Type="String" Nullable="false" />
-          <Property Name="longitud" Type="String" Nullable="false" />
-          <Property Name="tipoLocalizacion" Type="String" Nullable="false" />
-          <NavigationProperty Name="paradas_metro1" ToRole="paradas_metro1" FromRole="paradas_metro" Relationship="Modelo.paradas_metroparadas_metro" />
-          <NavigationProperty Name="paradas_metro2" Relationship="Modelo.paradas_metroparadas_metro" FromRole="paradas_metro1" ToRole="paradas_metro" />
-          <Property Name="paradas_metroId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="viajes_metro" Relationship="Modelo.paradas_metroviajes_metro" FromRole="paradas_metro" ToRole="viajes_metro" />
+          <Property Name="latitud" Type="Double" Nullable="false" />
+          <Property Name="longitud" Type="Double" Nullable="false" />
+          <Property Name="tipoLocalizacion" Type="Int32" Nullable="false" />
+          <Property Name="idParadaPadre" Type="String" Nullable="true" />
+          <NavigationProperty Name="viajes_parada_tiempos_metro" Relationship="Modelo.paradas_metroviajes_parada_tiempos_metro" FromRole="paradas_metro" ToRole="viajes_parada_tiempos_metro" />
+          <Property Name="codigoParada" Type="String" Nullable="false" />
+          <Property Name="idParada" Type="String" Nullable="false" />
         </EntityType>
-        <Association Name="paradas_metroparadas_metro">
-          <End Type="Modelo.paradas_metro" Role="paradas_metro" Multiplicity="1" />
-          <End Type="Modelo.paradas_metro" Role="paradas_metro1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="paradas_metro">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="paradas_metro1">
-              <PropertyRef Name="paradas_metroId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="paradas_metroviajes_metro">
-          <End Type="Modelo.paradas_metro" Role="paradas_metro" Multiplicity="*" />
-          <End Type="Modelo.viajes_metro" Role="viajes_metro" Multiplicity="*" />
-        </Association>
         <EntityType Name="lineas_bizkaibus">
           <Key>
             <PropertyRef Name="id" />
@@ -1243,10 +1262,14 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <NavigationProperty Name="lineas_bizkaibus" Relationship="Modelo.lineas_bizkaibusviajes_bizkaibus" FromRole="viajes_bizkaibus" ToRole="lineas_bizkaibus" />
           <Property Name="lineas_bizkaibusId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="paradas_bizkaibus" Relationship="Modelo.viajes_bizkaibusparadas_bizkaibus" FromRole="viajes_bizkaibus" ToRole="paradas_bizkaibus" />
+          <NavigationProperty Name="viajes_parada_tiempos_bizkaibus" Relationship="Modelo.viajes_bizkaibusviajes_parada_tiempos_bizkaibus" FromRole="viajes_bizkaibus" ToRole="viajes_parada_tiempos_bizkaibus" />
+          <Property Name="tiempoInicio" Type="String" Nullable="false" />
+          <Property Name="tiempoFin" Type="String" Nullable="false" />
         </EntityType>
         <Association Name="lineas_bizkaibusviajes_bizkaibus">
-          <End Type="Modelo.lineas_bizkaibus" Role="lineas_bizkaibus" Multiplicity="1" />
+          <End Type="Modelo.lineas_bizkaibus" Role="lineas_bizkaibus" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="Modelo.viajes_bizkaibus" Role="viajes_bizkaibus" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="lineas_bizkaibus">
@@ -1268,12 +1291,10 @@
           <Property Name="longitud" Type="Double" Nullable="false" />
           <Property Name="url" Type="String" Nullable="false" />
           <Property Name="tipoLocalizacion" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="viajes_bizkaibus" Relationship="Modelo.viajes_bizkaibusparadas_bizkaibus" FromRole="paradas_bizkaibus" ToRole="viajes_bizkaibus" />
+          <NavigationProperty Name="viajes_parada_tiempos_bizkaibus" Relationship="Modelo.paradas_bizkaibusviajes_parada_tiempos_bizkaibus" FromRole="paradas_bizkaibus" ToRole="viajes_parada_tiempos_bizkaibus" />
+          <Property Name="codigoParada" Type="Int32" Nullable="false" />
+          <Property Name="idParadaPadre" Type="Int32" Nullable="false" />
         </EntityType>
-        <Association Name="viajes_bizkaibusparadas_bizkaibus">
-          <End Type="Modelo.viajes_bizkaibus" Role="viajes_bizkaibus" Multiplicity="*" />
-          <End Type="Modelo.paradas_bizkaibus" Role="paradas_bizkaibus" Multiplicity="*" />
-        </Association>
         <EntityType Name="paradas_bilbobus">
           <Key>
             <PropertyRef Name="id" />
@@ -1283,7 +1304,8 @@
           <Property Name="latitud" Type="Double" Nullable="false" />
           <Property Name="longitud" Type="Double" Nullable="false" />
           <NavigationProperty Name="tiempos_linea_parada" Relationship="Modelo.paradas_bilbobustiempos_linea_parada" FromRole="paradas_bilbobus" ToRole="tiempos_linea_parada" />
-          <NavigationProperty Name="viajes_bilbobus" Relationship="Modelo.paradas_bilbobusviajes_bilbobus" FromRole="paradas_bilbobus" ToRole="viajes_bilbobus" />
+          <NavigationProperty Name="viajes_parada_tiempos_bilbobus" Relationship="Modelo.paradas_bilbobusviajes_parada_tiempos_bilbobus" FromRole="paradas_bilbobus" ToRole="viajes_parada_tiempos_bilbobus" />
+          <Property Name="abreviatura" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="tiempos_linea_parada">
           <Key>
@@ -1292,7 +1314,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="descripcionLinea" Type="String" Nullable="false" />
-          <Property Name="tiempoEspera" Type="String" Nullable="false" />
+          <Property Name="tiempoEspera" Type="Int32" Nullable="false" />
           <NavigationProperty Name="lineas_bilbobus" Relationship="Modelo.lineas_bilbobustiempos_linea_parada" FromRole="tiempos_linea_parada" ToRole="lineas_bilbobus" />
           <Property Name="lineas_bilbobusId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="paradas_bilbobus" Relationship="Modelo.paradas_bilbobustiempos_linea_parada" FromRole="tiempos_linea_parada" ToRole="paradas_bilbobus" />
@@ -1303,15 +1325,18 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="abreviatura" Type="String" Nullable="false" />
           <Property Name="nombre" Type="String" Nullable="false" />
           <Property Name="tipoTransporte" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tiempos_linea_parada" Relationship="Modelo.lineas_bilbobustiempos_linea_parada" FromRole="lineas_bilbobus" ToRole="tiempos_linea_parada" />
           <NavigationProperty Name="viajes_bilbobus" Relationship="Modelo.lineas_bilbobusviajes_bilbobus" FromRole="lineas_bilbobus" ToRole="viajes_bilbobus" />
+          <Property Name="idLinea" Type="String" Nullable="false" />
         </EntityType>
         <Association Name="lineas_bilbobustiempos_linea_parada">
-          <End Type="Modelo.lineas_bilbobus" Role="lineas_bilbobus" Multiplicity="1" />
+          <End Type="Modelo.lineas_bilbobus" Role="lineas_bilbobus" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="Modelo.tiempos_linea_parada" Role="tiempos_linea_parada" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="lineas_bilbobus">
@@ -1323,7 +1348,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="paradas_bilbobustiempos_linea_parada">
-          <End Type="Modelo.paradas_bilbobus" Role="paradas_bilbobus" Multiplicity="1" />
+          <End Type="Modelo.paradas_bilbobus" Role="paradas_bilbobus" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="Modelo.tiempos_linea_parada" Role="tiempos_linea_parada" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="paradas_bilbobus">
@@ -1339,16 +1366,16 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <NavigationProperty Name="paradas_bilbobus" Relationship="Modelo.paradas_bilbobusviajes_bilbobus" FromRole="viajes_bilbobus" ToRole="paradas_bilbobus" />
           <NavigationProperty Name="lineas_bilbobus" Relationship="Modelo.lineas_bilbobusviajes_bilbobus" FromRole="viajes_bilbobus" ToRole="lineas_bilbobus" />
           <Property Name="lineas_bilbobusId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="viajes_parada_tiempos_bilbobus" Relationship="Modelo.viajes_bilbobusviajes_parada_tiempos_bilbobus" FromRole="viajes_bilbobus" ToRole="viajes_parada_tiempos_bilbobus" />
+          <Property Name="tiempoInicio" Type="String" Nullable="false" />
+          <Property Name="tiempoFin" Type="String" Nullable="false" />
         </EntityType>
-        <Association Name="paradas_bilbobusviajes_bilbobus">
-          <End Type="Modelo.paradas_bilbobus" Role="paradas_bilbobus" Multiplicity="*" />
-          <End Type="Modelo.viajes_bilbobus" Role="viajes_bilbobus" Multiplicity="*" />
-        </Association>
         <Association Name="lineas_bilbobusviajes_bilbobus">
-          <End Type="Modelo.lineas_bilbobus" Role="lineas_bilbobus" Multiplicity="1" />
+          <End Type="Modelo.lineas_bilbobus" Role="lineas_bilbobus" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="Modelo.viajes_bilbobus" Role="viajes_bilbobus" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="lineas_bilbobus">
@@ -1410,7 +1437,9 @@
           <NavigationProperty Name="viajes_parada_tiempos" Relationship="Modelo.paradas_euskotrenviajes_parada_tiempos" FromRole="paradas_euskotren" ToRole="viajes_parada_tiempos" />
         </EntityType>
         <Association Name="lineas_metroviajes_metro">
-          <End Type="Modelo.lineas_metro" Role="lineas_metro" Multiplicity="1" />
+          <End Type="Modelo.lineas_metro" Role="lineas_metro" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="Modelo.viajes_metro" Role="viajes_metro" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="lineas_metro">
@@ -1477,7 +1506,7 @@
           <Property Name="dbs" Type="Int32" Nullable="false" />
           <Property Name="general" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="viajes_parada_tiempos">
+        <EntityType Name="viajes_parada_tiempos_euskotren">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -1493,7 +1522,7 @@
           <End Type="Modelo.viajes_euskotren" Role="viajes_euskotren" Multiplicity="1" >
             <OnDelete Action="Cascade" />
           </End>
-          <End Type="Modelo.viajes_parada_tiempos" Role="viajes_parada_tiempos" Multiplicity="*" />
+          <End Type="Modelo.viajes_parada_tiempos_euskotren" Role="viajes_parada_tiempos" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="viajes_euskotren">
               <PropertyRef Name="id" />
@@ -1505,13 +1534,131 @@
         </Association>
         <Association Name="paradas_euskotrenviajes_parada_tiempos">
           <End Type="Modelo.paradas_euskotren" Role="paradas_euskotren" Multiplicity="1" />
-          <End Type="Modelo.viajes_parada_tiempos" Role="viajes_parada_tiempos" Multiplicity="*" />
+          <End Type="Modelo.viajes_parada_tiempos_euskotren" Role="viajes_parada_tiempos" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="paradas_euskotren">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="viajes_parada_tiempos">
               <PropertyRef Name="paradas_euskotren_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="viajes_parada_tiempos_metro">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="paradas_metro" Relationship="Modelo.paradas_metroviajes_parada_tiempos_metro" FromRole="viajes_parada_tiempos_metro" ToRole="paradas_metro" />
+          <Property Name="paradas_metro_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="viajes_metro" Relationship="Modelo.viajes_metroviajes_parada_tiempos_metro" FromRole="viajes_parada_tiempos_metro" ToRole="viajes_metro" />
+          <Property Name="viajes_metro_id" Type="Int32" Nullable="false" />
+          <Property Name="tiempoLlegada" Type="String" Nullable="false" />
+          <Property Name="tiempoSalida" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="paradas_metroviajes_parada_tiempos_metro">
+          <End Type="Modelo.paradas_metro" Role="paradas_metro" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Modelo.viajes_parada_tiempos_metro" Role="viajes_parada_tiempos_metro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paradas_metro">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="viajes_parada_tiempos_metro">
+              <PropertyRef Name="paradas_metro_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="viajes_metroviajes_parada_tiempos_metro">
+          <End Type="Modelo.viajes_metro" Role="viajes_metro" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Modelo.viajes_parada_tiempos_metro" Role="viajes_parada_tiempos_metro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="viajes_metro">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="viajes_parada_tiempos_metro">
+              <PropertyRef Name="viajes_metro_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="viajes_parada_tiempos_bizkaibus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="paradas_bizkaibus" Relationship="Modelo.paradas_bizkaibusviajes_parada_tiempos_bizkaibus" FromRole="viajes_parada_tiempos_bizkaibus" ToRole="paradas_bizkaibus" />
+          <Property Name="paradas_bizkaibus_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="viajes_bizkaibus" Relationship="Modelo.viajes_bizkaibusviajes_parada_tiempos_bizkaibus" FromRole="viajes_parada_tiempos_bizkaibus" ToRole="viajes_bizkaibus" />
+          <Property Name="viajes_bizkaibus_id" Type="Int32" Nullable="false" />
+          <Property Name="tiempoLlegada" Type="String" Nullable="false" />
+          <Property Name="tiempoSalida" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="paradas_bizkaibusviajes_parada_tiempos_bizkaibus">
+          <End Type="Modelo.paradas_bizkaibus" Role="paradas_bizkaibus" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Modelo.viajes_parada_tiempos_bizkaibus" Role="viajes_parada_tiempos_bizkaibus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paradas_bizkaibus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="viajes_parada_tiempos_bizkaibus">
+              <PropertyRef Name="paradas_bizkaibus_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="viajes_bizkaibusviajes_parada_tiempos_bizkaibus">
+          <End Type="Modelo.viajes_bizkaibus" Role="viajes_bizkaibus" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Modelo.viajes_parada_tiempos_bizkaibus" Role="viajes_parada_tiempos_bizkaibus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="viajes_bizkaibus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="viajes_parada_tiempos_bizkaibus">
+              <PropertyRef Name="viajes_bizkaibus_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="viajes_parada_tiempos_bilbobus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="viajes_bilbobus" Relationship="Modelo.viajes_bilbobusviajes_parada_tiempos_bilbobus" FromRole="viajes_parada_tiempos_bilbobus" ToRole="viajes_bilbobus" />
+          <Property Name="viajes_bilbobus_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="paradas_bilbobus" Relationship="Modelo.paradas_bilbobusviajes_parada_tiempos_bilbobus" FromRole="viajes_parada_tiempos_bilbobus" ToRole="paradas_bilbobus" />
+          <Property Name="paradas_bilbobus_id" Type="Int32" Nullable="false" />
+          <Property Name="tiempoLlegada" Type="String" Nullable="false" />
+          <Property Name="tiempoSalida" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="viajes_bilbobusviajes_parada_tiempos_bilbobus">
+          <End Type="Modelo.viajes_bilbobus" Role="viajes_bilbobus" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Modelo.viajes_parada_tiempos_bilbobus" Role="viajes_parada_tiempos_bilbobus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="viajes_bilbobus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="viajes_parada_tiempos_bilbobus">
+              <PropertyRef Name="viajes_bilbobus_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="paradas_bilbobusviajes_parada_tiempos_bilbobus">
+          <End Type="Modelo.paradas_bilbobus" Role="paradas_bilbobus" Multiplicity="1" />
+          <End Type="Modelo.viajes_parada_tiempos_bilbobus" Role="viajes_parada_tiempos_bilbobus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paradas_bilbobus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="viajes_parada_tiempos_bilbobus">
+              <PropertyRef Name="paradas_bilbobus_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1747,6 +1894,8 @@
         <MappingFragment StoreEntitySet="viajes_metroSet">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="lineas_metro_id" ColumnName="lineas_metro_id" />
+          <ScalarProperty Name="tiempoInicio" ColumnName="tiempoInicio" />
+          <ScalarProperty Name="tiempoFin" ColumnName="tiempoFin" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1758,7 +1907,9 @@
           <ScalarProperty Name="latitud" ColumnName="latitud" />
           <ScalarProperty Name="longitud" ColumnName="longitud" />
           <ScalarProperty Name="tipoLocalizacion" ColumnName="tipoLocalizacion" />
-          <ScalarProperty Name="paradas_metroId" ColumnName="paradas_metroId" />
+          <ScalarProperty Name="idParadaPadre" ColumnName="idParadaPadre" />
+          <ScalarProperty Name="codigoParada" ColumnName="codigoParada" />
+          <ScalarProperty Name="idParada" ColumnName="idParada" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1777,6 +1928,8 @@
         <MappingFragment StoreEntitySet="viajes_bizkaibusSet">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="lineas_bizkaibusId" ColumnName="lineas_bizkaibusId" />
+          <ScalarProperty Name="tiempoInicio" ColumnName="tiempoInicio" />
+          <ScalarProperty Name="tiempoFin" ColumnName="tiempoFin" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1790,6 +1943,8 @@
           <ScalarProperty Name="longitud" ColumnName="longitud" />
           <ScalarProperty Name="url" ColumnName="url" />
           <ScalarProperty Name="tipoLocalizacion" ColumnName="tipoLocalizacion" />
+          <ScalarProperty Name="codigoParada" ColumnName="codigoParada" />
+          <ScalarProperty Name="idParadaPadre" ColumnName="idParadaPadre" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1800,6 +1955,7 @@
           <ScalarProperty Name="nombre" ColumnName="nombre" />
           <ScalarProperty Name="latitud" ColumnName="latitud" />
           <ScalarProperty Name="longitud" ColumnName="longitud" />
+          <ScalarProperty Name="abreviatura" ColumnName="abreviatura" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1822,6 +1978,7 @@
           <ScalarProperty Name="abreviatura" ColumnName="abreviatura" />
           <ScalarProperty Name="nombre" ColumnName="nombre" />
           <ScalarProperty Name="tipoTransporte" ColumnName="tipoTransporte" />
+          <ScalarProperty Name="idLinea" ColumnName="idLinea" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1830,6 +1987,8 @@
         <MappingFragment StoreEntitySet="viajes_bilbobusSet">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="lineas_bilbobusId" ColumnName="lineas_bilbobusId" />
+          <ScalarProperty Name="tiempoInicio" ColumnName="tiempoInicio" />
+          <ScalarProperty Name="tiempoFin" ColumnName="tiempoFin" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1898,9 +2057,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="viajes_parada_tiemposSet">
-      <EntityTypeMapping TypeName="IsTypeOf(Modelo.viajes_parada_tiempos)">
-        <MappingFragment StoreEntitySet="viajes_parada_tiemposSet">
+    <EntitySetMapping Name="viajes_parada_tiempos_euskotrenSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.viajes_parada_tiempos_euskotren)">
+        <MappingFragment StoreEntitySet="viajes_parada_tiempos_euskotrenSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="viajes_euskotren_id" ColumnName="viajes_euskotren_id" />
           <ScalarProperty Name="paradas_euskotren_id" ColumnName="paradas_euskotren_id" />
@@ -1909,30 +2068,39 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="paradas_metroviajes_metro" TypeName="Modelo.paradas_metroviajes_metro" StoreEntitySet="paradas_metroviajes_metro">
-      <EndProperty Name="paradas_metro">
-        <ScalarProperty Name="id" ColumnName="paradas_metro_id" />
-      </EndProperty>
-      <EndProperty Name="viajes_metro">
-        <ScalarProperty Name="id" ColumnName="viajes_metro_id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="viajes_bizkaibusparadas_bizkaibus" TypeName="Modelo.viajes_bizkaibusparadas_bizkaibus" StoreEntitySet="viajes_bizkaibusparadas_bizkaibus">
-      <EndProperty Name="viajes_bizkaibus">
-        <ScalarProperty Name="id" ColumnName="viajes_bizkaibus_id" />
-      </EndProperty>
-      <EndProperty Name="paradas_bizkaibus">
-        <ScalarProperty Name="id" ColumnName="paradas_bizkaibus_id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="paradas_bilbobusviajes_bilbobus" TypeName="Modelo.paradas_bilbobusviajes_bilbobus" StoreEntitySet="paradas_bilbobusviajes_bilbobus">
-      <EndProperty Name="paradas_bilbobus">
-        <ScalarProperty Name="id" ColumnName="paradas_bilbobus_id" />
-      </EndProperty>
-      <EndProperty Name="viajes_bilbobus">
-        <ScalarProperty Name="id" ColumnName="viajes_bilbobus_id" />
-      </EndProperty>
-    </AssociationSetMapping>
+    <EntitySetMapping Name="viajes_parada_tiempos_metroSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.viajes_parada_tiempos_metro)">
+        <MappingFragment StoreEntitySet="viajes_parada_tiempos_metroSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="paradas_metro_id" ColumnName="paradas_metro_id" />
+          <ScalarProperty Name="viajes_metro_id" ColumnName="viajes_metro_id" />
+          <ScalarProperty Name="tiempoLlegada" ColumnName="tiempoLlegada" />
+          <ScalarProperty Name="tiempoSalida" ColumnName="tiempoSalida" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="viajes_parada_tiempos_bizkaibusSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.viajes_parada_tiempos_bizkaibus)">
+        <MappingFragment StoreEntitySet="viajes_parada_tiempos_bizkaibusSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="paradas_bizkaibus_id" ColumnName="paradas_bizkaibus_id" />
+          <ScalarProperty Name="viajes_bizkaibus_id" ColumnName="viajes_bizkaibus_id" />
+          <ScalarProperty Name="tiempoLlegada" ColumnName="tiempoLlegada" />
+          <ScalarProperty Name="tiempoSalida" ColumnName="tiempoSalida" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="viajes_parada_tiempos_bilbobusSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.viajes_parada_tiempos_bilbobus)">
+        <MappingFragment StoreEntitySet="viajes_parada_tiempos_bilbobusSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="viajes_bilbobus_id" ColumnName="viajes_bilbobus_id" />
+          <ScalarProperty Name="paradas_bilbobus_id" ColumnName="paradas_bilbobus_id" />
+          <ScalarProperty Name="tiempoLlegada" ColumnName="tiempoLlegada" />
+          <ScalarProperty Name="tiempoSalida" ColumnName="tiempoSalida" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

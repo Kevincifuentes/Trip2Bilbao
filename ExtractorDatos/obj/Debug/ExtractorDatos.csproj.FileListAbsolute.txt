@@ -21,3 +21,6 @@ C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDat
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\EntityFramework.xml
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\HtmlAgilityPack.dll
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\HtmlAgilityPack.xml

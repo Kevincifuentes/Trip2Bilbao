@@ -176,7 +176,16 @@
     <Compile Include="viajes_metro.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
-    <Compile Include="viajes_parada_tiempos.cs">
+    <Compile Include="viajes_parada_tiempos_bilbobus.cs">
+      <DependentUpon>Modelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="viajes_parada_tiempos_bizkaibus.cs">
+      <DependentUpon>Modelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="viajes_parada_tiempos_euskotren.cs">
+      <DependentUpon>Modelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="viajes_parada_tiempos_metro.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
   </ItemGroup>

@@ -70,7 +70,10 @@ namespace ReceptorBus
             //obtenerBicis(oe);
             //obtenerTranvia(oe);
             //obtenerBilbo(oe);
-            obtenerEuskotren(oe);
+            //obtenerEuskotren(oe);
+            //obtenerMetro(oe);
+            //obtenerBizkaibus(oe);
+            obtenerBilbobus(oe);
 
         }
 
@@ -108,7 +111,7 @@ namespace ReceptorBus
             oe.obtenerTranvia();
         }
 
-        public void obtenerBilbo(ObtenerEstatico oe)
+        public void obtenerBilbobus(ObtenerEstatico oe)
         {
             oe.obtenerBilbao();
         }
@@ -116,6 +119,16 @@ namespace ReceptorBus
         public void obtenerEuskotren(ObtenerEstatico oe)
         {
             oe.obtenerEuskotren();
+        }
+
+        public void obtenerMetro(ObtenerEstatico oe)
+        {
+            oe.obtenerMetro();
+        }
+
+        public void obtenerBizkaibus(ObtenerEstatico oe)
+        {
+            oe.obtenerBizkaibus();
         }
 
         private void _consumer_Listener(IMessage message)

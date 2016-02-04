@@ -16,13 +16,15 @@ namespace Almacenamiento
     {
         public viajes_bizkaibus()
         {
-            this.paradas_bizkaibus = new HashSet<paradas_bizkaibus>();
+            this.viajes_parada_tiempos_bizkaibus = new HashSet<viajes_parada_tiempos_bizkaibus>();
         }
     
         public int id { get; set; }
         public int lineas_bizkaibusId { get; set; }
+        public string tiempoInicio { get; set; }
+        public string tiempoFin { get; set; }
     
         public virtual lineas_bizkaibus lineas_bizkaibus { get; set; }
-        public virtual ICollection<paradas_bizkaibus> paradas_bizkaibus { get; set; }
+        public virtual ICollection<viajes_parada_tiempos_bizkaibus> viajes_parada_tiempos_bizkaibus { get; set; }
     }
 }

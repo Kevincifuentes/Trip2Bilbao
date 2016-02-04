@@ -16,13 +16,15 @@ namespace Almacenamiento
     {
         public viajes_bilbobus()
         {
-            this.paradas_bilbobus = new HashSet<paradas_bilbobus>();
+            this.viajes_parada_tiempos_bilbobus = new HashSet<viajes_parada_tiempos_bilbobus>();
         }
     
         public int id { get; set; }
         public int lineas_bilbobusId { get; set; }
+        public string tiempoInicio { get; set; }
+        public string tiempoFin { get; set; }
     
-        public virtual ICollection<paradas_bilbobus> paradas_bilbobus { get; set; }
         public virtual lineas_bilbobus lineas_bilbobus { get; set; }
+        public virtual ICollection<viajes_parada_tiempos_bilbobus> viajes_parada_tiempos_bilbobus { get; set; }
     }
 }

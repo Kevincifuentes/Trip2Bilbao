@@ -16,7 +16,7 @@ namespace Almacenamiento
     {
         public int id { get; set; }
         public string descripcionLinea { get; set; }
-        public string tiempoEspera { get; set; }
+        public int tiempoEspera { get; set; }
         public int lineas_bilbobusId { get; set; }
         public int paradas_bilbobusId { get; set; }
         public System.DateTime fecha { get; set; }

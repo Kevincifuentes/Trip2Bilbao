@@ -16,7 +16,7 @@ namespace Almacenamiento
     {
         public paradas_euskotren()
         {
-            this.viajes_parada_tiempos = new HashSet<viajes_parada_tiempos>();
+            this.viajes_parada_tiempos = new HashSet<viajes_parada_tiempos_euskotren>();
         }
     
         public int id { get; set; }
@@ -28,6 +28,6 @@ namespace Almacenamiento
         public int tipoLocalizacion { get; set; }
         public string codigoParada { get; set; }
     
-        public virtual ICollection<viajes_parada_tiempos> viajes_parada_tiempos { get; set; }
+        public virtual ICollection<viajes_parada_tiempos_euskotren> viajes_parada_tiempos { get; set; }
     }
 }

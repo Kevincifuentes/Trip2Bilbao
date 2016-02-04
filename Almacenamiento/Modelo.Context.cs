@@ -56,6 +56,9 @@ namespace Almacenamiento
         public virtual DbSet<estados_parking> estados_parkingSet { get; set; }
         public virtual DbSet<estados_puntobici> estados_puntobiciSet { get; set; }
         public virtual DbSet<parkingDeusto> parkingDeustoSet { get; set; }
-        public virtual DbSet<viajes_parada_tiempos> viajes_parada_tiemposSet { get; set; }
+        public virtual DbSet<viajes_parada_tiempos_euskotren> viajes_parada_tiempos_euskotrenSet { get; set; }
+        public virtual DbSet<viajes_parada_tiempos_metro> viajes_parada_tiempos_metroSet { get; set; }
+        public virtual DbSet<viajes_parada_tiempos_bizkaibus> viajes_parada_tiempos_bizkaibusSet { get; set; }
+        public virtual DbSet<viajes_parada_tiempos_bilbobus> viajes_parada_tiempos_bilbobusSet { get; set; }
     }
 }

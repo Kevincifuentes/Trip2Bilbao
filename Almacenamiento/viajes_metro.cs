@@ -16,13 +16,15 @@ namespace Almacenamiento
     {
         public viajes_metro()
         {
-            this.paradas_metro = new HashSet<paradas_metro>();
+            this.viajes_parada_tiempos_metro = new HashSet<viajes_parada_tiempos_metro>();
         }
     
         public int id { get; set; }
         public int lineas_metro_id { get; set; }
+        public string tiempoInicio { get; set; }
+        public string tiempoFin { get; set; }
     
-        public virtual ICollection<paradas_metro> paradas_metro { get; set; }
         public virtual lineas_metro lineas_metro { get; set; }
+        public virtual ICollection<viajes_parada_tiempos_metro> viajes_parada_tiempos_metro { get; set; }
     }
 }

@@ -35,15 +35,15 @@ namespace ExtractorDatos
 
         public ModeloContainer contexto;
         public Dictionary<int, parkings> parkingslist = new Dictionary<int, parkings>();
-        public Dictionary<int, ParadaBilbo> paradasBilbobus = new Dictionary<int, ParadaBilbo>();
+        public Dictionary<int, paradas_bilbobus> paradasBilbobus = new Dictionary<int, paradas_bilbobus>();
         private List<paradas_tranvia> paradasTranvia = new List<paradas_tranvia>(); 
-        private Dictionary<int, ParadaBizkaibus> paradasBizkaibus= new Dictionary<int, ParadaBizkaibus>();
-        private Dictionary<string , ParadaMetro> paradasMetro = new Dictionary<string, ParadaMetro>(); 
+        private Dictionary<int, paradas_bizkaibus> paradasBizkaibus= new Dictionary<int, paradas_bizkaibus>();
+        private Dictionary<string , paradas_metro> paradasMetro = new Dictionary<string, paradas_metro>(); 
         private Dictionary<int, paradas_euskotren> paradasEuskotren = new Dictionary<int, paradas_euskotren>();
-        public Dictionary<string, LineaBilbobus> lineasBilbo = new Dictionary<string, LineaBilbobus>();
+        public Dictionary<string, lineas_bilbobus> lineasBilbo = new Dictionary<string, lineas_bilbobus>();
         private Dictionary<int, lineas_euskotren> lineasEusko = new Dictionary<int, lineas_euskotren>();
-        private Dictionary<int, LineaBizkaibus> lineasBizkaia = new Dictionary<int, LineaBizkaibus>();
-        private Dictionary<string, LineaMetro> lineasMetroBilbao = new Dictionary<string, LineaMetro>();  
+        private Dictionary<int, lineas_bizkaibus> lineasBizkaia = new Dictionary<int, lineas_bizkaibus>();
+        private Dictionary<string, lineas_metro> lineasMetroBilbao = new Dictionary<string, lineas_metro>();  
         private List<farmacias> farmaciasList = new List<farmacias>(); 
         private List<hospitales> hospitalList = new List<hospitales>();
         private List<centros_de_salud> centroSaludList = new List<centros_de_salud>();
@@ -151,6 +151,7 @@ namespace ExtractorDatos
             try
             {
                 contexto.SaveChanges();
+                
                 Console.WriteLine(">>>>>Insercción de CENTROS DE SALUD realizada<<<<<");
             }
             catch (DbEntityValidationException e)
@@ -282,12 +283,62 @@ namespace ExtractorDatos
 
         public void obtenerBilbao()
         {
-            
+            contexto.lineas_bilbobusSet.RemoveRange(contexto.lineas_bilbobusSet);
+            contexto.paradas_bilbobusSet.RemoveRange(contexto.paradas_bilbobusSet);
+            contexto.SaveChanges();
+            paradasAutobusesBilbo();
+            lineasBilbobus();
+            contexto.lineas_bilbobusSet.AddRange(lineasBilbo.Values);
+            try
+            {
+                contexto.SaveChanges();
+                Console.WriteLine(">>>>>Insercción de BILBOBUS realizada<<<<<");
+            }
+            catch (DbEntityValidationException e)
+            {
+
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
         }
 
         public void obtenerBizkaibus()
         {
+            contexto.lineas_bizkaibusSet.RemoveRange(contexto.lineas_bizkaibusSet);
+            contexto.paradas_bizkaibusSet.RemoveRange(contexto.paradas_bizkaibusSet);
+            contexto.SaveChanges();
+            paradasAutobusesBizkaia();
+            lineasBizkaibus();
+            contexto.lineas_bizkaibusSet.AddRange(lineasBizkaia.Values);
+            try
+            {
+                contexto.SaveChanges();
+                Console.WriteLine(">>>>>Insercción de BIZKAIBUS realizada<<<<<");
+            }
+            catch (DbEntityValidationException e)
+            {
 
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
         }
 
         public void obtenerTranvia()
@@ -300,6 +351,36 @@ namespace ExtractorDatos
             {
                 contexto.SaveChanges();
                 Console.WriteLine(">>>>>Insercción de TRANVIA realizada<<<<<");
+            }
+            catch (DbEntityValidationException e)
+            {
+
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
+        }
+
+        public void obtenerMetro()
+        {
+            contexto.lineas_metroSet.RemoveRange(contexto.lineas_metroSet);
+            contexto.paradas_metroSet.RemoveRange(contexto.paradas_metroSet);
+            contexto.SaveChanges();
+            metroBilbao();
+            lineasMetro();
+            contexto.lineas_metroSet.AddRange(lineasMetroBilbao.Values);
+            try
+            {
+                contexto.SaveChanges();
+                Console.WriteLine(">>>>>Insercción de METRO realizada<<<<<");
             }
             catch (DbEntityValidationException e)
             {
@@ -630,8 +711,13 @@ namespace ExtractorDatos
                     //Obtener nombre Abreviado
                     string nombreAbreviado = node.ChildNodes[3].ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
 
-                    ParadaBilbo temporal = new ParadaBilbo(id, idParada, new Coordenadas(latitud, longitud), nombreCompleto, nombreAbreviado);
-                    paradasBilbobus.Add(idParada, temporal);
+                    paradas_bilbobus p = new paradas_bilbobus();
+                    p.id = idParada;
+                    p.latitud = latitud;
+                    p.longitud = longitud;
+                    p.nombre = nombreCompleto;
+                    p.abreviatura = nombreAbreviado;
+                    paradasBilbobus.Add(idParada, p);
 
                 }
             }
@@ -648,7 +734,7 @@ namespace ExtractorDatos
 
             Console.WriteLine("Empiezo Bizkaibus");
             FTP cliente = new FTP("ftp://ftp.geo.euskadi.net/cartografia/Transporte/Moveuskadi/", "", "");
-            cliente.download("Bizkaibus/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BizkaibusFTP\google_transit.zip");
+            cliente.download("Bizkaibus/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BizkaibusFTP\google_transit.zip");
 
             Console.WriteLine("¡Completado!");
 
@@ -659,7 +745,7 @@ namespace ExtractorDatos
             try
             {
                 //Establezco el fichero a descomprimir
-                FileStream fs = File.OpenRead(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BizkaibusFTP\google_transit.zip");
+                FileStream fs = File.OpenRead(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BizkaibusFTP\google_transit.zip");
                 try
                 {
                     zf = new ZipFile(fs);
@@ -692,7 +778,7 @@ namespace ExtractorDatos
                         Stream zipStream = zf.GetInputStream(zipEntry);
 
                         // Manipulate the output filename here as desired.
-                        String fullZipToPath = Path.Combine(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BizkaibusFTP\", entryFileName);
+                        String fullZipToPath = Path.Combine(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BizkaibusFTP\", entryFileName);
                         string directoryName = Path.GetDirectoryName(fullZipToPath);
                         if (directoryName.Length > 0)
                             Directory.CreateDirectory(directoryName);
@@ -725,7 +811,7 @@ namespace ExtractorDatos
 
                 // Leemos el fichero linea por linea
                 System.IO.StreamReader file =
-                   new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BizkaibusFTP\stops.txt");
+                   new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BizkaibusFTP\stops.txt");
                 string primeraLinea = file.ReadLine();
                 while ((line = file.ReadLine()) != null)
                 {
@@ -741,41 +827,70 @@ namespace ExtractorDatos
                     string[] valoresLinea = line.Split(',');
 
                     //Obtener el id de la parada
-                    id = int.Parse(valoresLinea[0]);
-
-                    //Obtener codigo de la parada
-                    codigo = int.Parse(valoresLinea[1]);
-
-
-                    //Obtener nombre
-                    nombreParada = valoresLinea[2];
-
-                    //descripcion
-                    descripcion = valoresLinea[3];
-
-                    //latitud y longitud
-                    if (valoresLinea[4].Equals(""))
+                    if (!valoresLinea[0].Equals(""))
                     {
-                        c = new Coordenadas(double.Parse(valoresLinea[5], CultureInfo.InvariantCulture), double.Parse(valoresLinea[6], CultureInfo.InvariantCulture));
-                        descripcion = valoresLinea[2] + valoresLinea[3];
+                        id = int.Parse(valoresLinea[0]);
+
+                        //Obtener codigo de la parada
+                        codigo = int.Parse(valoresLinea[1]);
+
+
+                        //Obtener nombre
+                        nombreParada = valoresLinea[2];
+
+                        //descripcion
+                        descripcion = valoresLinea[3];
+
+                        //latitud y longitud
+                        if (valoresLinea[4].Equals(""))
+                        {
+                            c = new Coordenadas(double.Parse(valoresLinea[5], CultureInfo.InvariantCulture), double.Parse(valoresLinea[6], CultureInfo.InvariantCulture));
+                            descripcion = valoresLinea[2] + valoresLinea[3];
+                        }
+                        else
+                        {
+                            c = new Coordenadas(double.Parse(valoresLinea[4], CultureInfo.InvariantCulture), double.Parse(valoresLinea[5], CultureInfo.InvariantCulture));
+                        }
+
+
+                        //Url de parada
+                        urlParada = valoresLinea[7];
+
+                        //tipoLocalizacion
+                        tipoLocalizacion = valoresLinea[8];
+
+                        //ID de la parada padre
+                        idParadaPadre = valoresLinea[9];
+
+                        //Añadimos a la lista de paradas de autobus de Bizkaibus
+                        paradas_bizkaibus p = new paradas_bizkaibus();
+                        p.id = id;
+                        p.codigoParada = codigo;
+                        p.nombre = nombreParada;
+                        p.descripcion = descripcion;
+                        p.latitud = c.latitud;
+                        p.longitud = c.longitud;
+                        p.url = urlParada;
+                        try
+                        {
+                            p.tipoLocalizacion = int.Parse(tipoLocalizacion);
+                        }
+                        catch (FormatException ex)
+                        {
+                            p.tipoLocalizacion = 0;
+                        }
+
+                        try
+                        {
+                            p.idParadaPadre = int.Parse(idParadaPadre);
+                        }
+                        catch (FormatException ex)
+                        {
+                            p.idParadaPadre = 0;
+                        }
+                        paradasBizkaibus.Add(id, p);
                     }
-                    else
-                    {
-                        c = new Coordenadas(double.Parse(valoresLinea[4], CultureInfo.InvariantCulture), double.Parse(valoresLinea[5], CultureInfo.InvariantCulture));
-                    }
-
-
-                    //Url de parada
-                    urlParada = valoresLinea[7];
-
-                    //tipoLocalizacion
-                    tipoLocalizacion = valoresLinea[8];
-
-                    //ID de la parada padre
-                    idParadaPadre = valoresLinea[9];
-
-                    //Añadimos a la lista de paradas de autobus de Bizkaibus
-                    paradasBizkaibus.Add(id, new ParadaBizkaibus(id, codigo, nombreParada, descripcion, c, urlParada, tipoLocalizacion, idParadaPadre));
+                    
                 }
 
                 file.Close();
@@ -1572,7 +1687,7 @@ namespace ExtractorDatos
 
             Console.WriteLine("Empiezo Metro");
             FTP cliente = new FTP("ftp://ftp.geo.euskadi.net/cartografia/Transporte/Moveuskadi/", "", "");
-            cliente.download("MetroBilbao/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\MetroFTP\google_transit.zip");
+            cliente.download("MetroBilbao/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\MetroFTP\google_transit.zip");
 
             Console.WriteLine("¡Completado!");
 
@@ -1583,7 +1698,7 @@ namespace ExtractorDatos
             try
             {
                 //Establezco el fichero a descomprimir
-                FileStream fs = File.OpenRead(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\MetroFTP\google_transit.zip");
+                FileStream fs = File.OpenRead(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\MetroFTP\google_transit.zip");
                 try
                 {
                     zf = new ZipFile(fs);
@@ -1612,7 +1727,7 @@ namespace ExtractorDatos
                         Stream zipStream = zf.GetInputStream(zipEntry);
 
                         // Manipulate the output filename here as desired.
-                        String fullZipToPath = Path.Combine(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\MetroFTP\", entryFileName);
+                        String fullZipToPath = Path.Combine(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\MetroFTP\", entryFileName);
                         string directoryName = Path.GetDirectoryName(fullZipToPath);
                         if (directoryName.Length > 0)
                             Directory.CreateDirectory(directoryName);
@@ -1649,7 +1764,7 @@ namespace ExtractorDatos
 
                 // Leemos el fichero linea por linea
                 System.IO.StreamReader file =
-                   new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\MetroFTP\stops.txt");
+                   new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\MetroFTP\stops.txt");
                 string primeraLinea = file.ReadLine();
                 while ((line = file.ReadLine()) != null)
                 {
@@ -1682,11 +1797,22 @@ namespace ExtractorDatos
                     idParadaPadre = valoresLinea[6];
 
                     //Añadimos a la lista de paradas de autobus de Metro
-                    paradasMetro.Add(id, new ParadaMetro(id, codigo, nombreParada, c, tipoLocalizacion, idParadaPadre));
+                    paradas_metro p = new paradas_metro();
+                    p.idParada = id;
+                    p.codigoParada = codigo;
+                    p.nombre = nombreParada;
+                    p.latitud = c.latitud;
+                    p.longitud = p.longitud;
+                    p.tipoLocalizacion = int.Parse(tipoLocalizacion);
+                    p.idParadaPadre = idParadaPadre;
+                    paradasMetro.Add(id, p);
 
                 }
 
                 file.Close();
+
+                //Asignar paradas padre
+
 
                 Console.WriteLine("¡Completado datos!");
 
@@ -1705,7 +1831,7 @@ namespace ExtractorDatos
 
             Console.WriteLine("Empiezo Euskotren");
             FTP cliente = new FTP("ftp://ftp.geo.euskadi.net/cartografia/Transporte/Moveuskadi/", "", "");
-            cliente.download("Euskotren/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\EuskotrenFTP\google_transit.zip");
+            cliente.download("Euskotren/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\EuskotrenFTP\google_transit.zip");
 
             Console.WriteLine("¡Completado!");
 
@@ -1716,7 +1842,7 @@ namespace ExtractorDatos
             try
             {
                 //Establezco el fichero a descomprimir
-                FileStream fs = File.OpenRead(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\EuskotrenFTP\google_transit.zip");
+                FileStream fs = File.OpenRead(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\EuskotrenFTP\google_transit.zip");
                 try
                 {
                     zf = new ZipFile(fs);
@@ -1745,7 +1871,7 @@ namespace ExtractorDatos
                         Stream zipStream = zf.GetInputStream(zipEntry);
 
                         // Manipulate the output filename here as desired.
-                        String fullZipToPath = Path.Combine(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\EuskotrenFTP\", entryFileName);
+                        String fullZipToPath = Path.Combine(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\EuskotrenFTP\", entryFileName);
                         string directoryName = Path.GetDirectoryName(fullZipToPath);
                         if (directoryName.Length > 0)
                             Directory.CreateDirectory(directoryName);
@@ -1782,7 +1908,7 @@ namespace ExtractorDatos
 
                 // Leemos el fichero linea por linea
                 System.IO.StreamReader file =
-                   new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\EuskotrenFTP\stops.txt");
+                   new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\EuskotrenFTP\stops.txt");
                 string primeraLinea = file.ReadLine();
                 while ((line = file.ReadLine()) != null)
                 {
@@ -1854,11 +1980,11 @@ namespace ExtractorDatos
 
             if (
                 !File.Exists(
-                    @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\google_transit.zip"))
+                    @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BilbobusFTP\google_transit.zip"))
             {
                 FTP cliente = new FTP("ftp://ftp.geo.euskadi.net/cartografia/Transporte/Moveuskadi/", "", "");
                 cliente.download("Bilbobus/google_transit.zip",
-                    @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\google_transit.zip");
+                    @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BilbobusFTP\google_transit.zip");
             }
 
             Console.WriteLine("¡Completado!");
@@ -1870,7 +1996,7 @@ namespace ExtractorDatos
             try
             {
                 //Establezco el fichero a descomprimir
-                FileStream fs = File.OpenRead(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\google_transit.zip");
+                FileStream fs = File.OpenRead(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BilbobusFTP\google_transit.zip");
                 try
                 {
                     zf = new ZipFile(fs);
@@ -1899,7 +2025,7 @@ namespace ExtractorDatos
                         Stream zipStream = zf.GetInputStream(zipEntry);
 
                         // Manipulate the output filename here as desired.
-                        String fullZipToPath = Path.Combine(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\", entryFileName);
+                        String fullZipToPath = Path.Combine(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BilbobusFTP\", entryFileName);
                         string directoryName = Path.GetDirectoryName(fullZipToPath);
                         if (directoryName.Length > 0)
                             Directory.CreateDirectory(directoryName);
@@ -1935,7 +2061,7 @@ namespace ExtractorDatos
 
                 // Leemos el fichero linea por linea para sacar las rutas
                 System.IO.StreamReader file =
-                   new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\routes.txt");
+                   new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BilbobusFTP\routes.txt");
                 string primeraLinea = file.ReadLine();
                 while ((line = file.ReadLine()) != null)
                 {
@@ -1959,7 +2085,13 @@ namespace ExtractorDatos
                     int tipo = int.Parse(valoresLinea[5]);
 
                     //Añado a la lista
-                    lineasBilbo.Add(id, new LineaBilbobus(id, idAgencia, abreviatura, nombre, tipo));
+                    lineas_bilbobus l = new lineas_bilbobus();
+                    l.idLinea = id;
+                    l.abreviatura = abreviatura;
+                    l.nombre = nombre;
+                    l.tipoTransporte = tipo;
+
+                    lineasBilbo.Add(id, l);
 
                 }
 
@@ -1969,8 +2101,8 @@ namespace ExtractorDatos
                 Console.WriteLine("Leyendo viajes...");
 
                 // Leemos el fichero linea por linea para sacar los viajes
-                List<Clases.KeyValuePair<int, ViajeBilbobus>> viajes = new List<Clases.KeyValuePair<int, ViajeBilbobus>>();
-                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\stop_times.txt");
+                Dictionary<int, viajes_bilbobus> viajes = new Dictionary<int, viajes_bilbobus>();
+                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BilbobusFTP\stop_times.txt");
                 primeraLinea = file.ReadLine();
                 while ((line = file.ReadLine()) != null)
                 {
@@ -1981,36 +2113,40 @@ namespace ExtractorDatos
                     //ID de viaje
                     int id = int.Parse(valoresLinea[0]);
 
+                    //TiempoLlegada
+                    string tiempoLlegada = valoresLinea[1];
+
+                    //TiempoSalida
+                    string tiempoSalida = valoresLinea[2];
+
                     //ID de la parada
                     int idParada = int.Parse(valoresLinea[3]);
 
                     //Comprobamos si contiene la clave
                     bool encontrado = false;
                     int index = 0;
-                    foreach (Clases.KeyValuePair<int, ViajeBilbobus> temporal in viajes)
-                    {
-                        if (temporal.Key == id)
-                        {
-                            encontrado = true;
-                            break;
-                        }
-                        else
-                        {
-                            index++;
-                        }
-                    }
 
-                    if (encontrado)
+                    viajes_parada_tiempos_bilbobus vpt = new viajes_parada_tiempos_bilbobus();
+                    vpt.tiempoLlegada = tiempoLlegada;
+                    vpt.tiempoSalida = tiempoSalida;
+                    vpt.paradas_bilbobus = paradasBilbobus[idParada];
+
+                    if (viajes.ContainsKey(id))
                     {
-                        //Se añade solo la parada al viaje
-                        viajes[index].Value.paradas.Add(new Clases.KeyValuePair<int, ParadaBilbo>(idParada,paradasBilbobus[idParada] ));
-                        viajes[index].Value.clavesParada.Add(idParada);
+                        //Se añade solo los tiempos por esa parada al viaje
+                        viajes[id].viajes_parada_tiempos_bilbobus.Add(vpt);
+                        viajes[id].tiempoFin = tiempoLlegada;
 
                     }
                     else
                     {
                         //Se añade el viaje completo
-                        viajes.Add(new Clases.KeyValuePair<int, ViajeBilbobus>(id, new ViajeBilbobus(id, paradasBilbobus[idParada])));
+                        viajes_bilbobus v = new viajes_bilbobus();
+                        v.id = id;
+                        v.tiempoInicio = tiempoLlegada;
+                        v.tiempoFin = tiempoSalida;
+                        v.viajes_parada_tiempos_bilbobus.Add(vpt);
+                        viajes.Add(id, v);
                     }
                 }
 
@@ -2020,7 +2156,7 @@ namespace ExtractorDatos
                 Console.WriteLine("Juntando resultados...");
 
                 // Leemos el fichero linea por linea
-                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\trips.txt");
+                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BilbobusFTP\trips.txt");
                 primeraLinea = file.ReadLine();
                 while ((line = file.ReadLine()) != null)
                 {
@@ -2036,33 +2172,19 @@ namespace ExtractorDatos
 
                     try
                     {
-                        int contador = 0;
-                        bool encontrado = false;
-                        foreach (Clases.KeyValuePair<int, ViajeBilbobus> temporal in viajes)
+                        if (viajes.ContainsKey(idViaje))
                         {
-                            if (temporal.Key == idViaje)
-                            {
-                                encontrado = true;
-                                break;
-                            }
-                            else
-                            {
-                                contador++;
-                            }
-                        }
-                        if (encontrado)
-                        {
-                            lineasBilbo[idRuta].viajes.Add(viajes[contador]); 
+                            lineasBilbo[idRuta].viajes_bilbobus.Add(viajes[idViaje]);
                         }
                         else
                         {
                             throw new KeyNotFoundException();
                         }
-                        
                     }
                     catch (System.Collections.Generic.KeyNotFoundException e)
                     {
-                        Console.WriteLine("No se encuentra el viaje de id: " + idViaje + " perteneciente a la ruta " + idRuta + "\n");
+                        Console.WriteLine("No se encuentra el viaje de id: " + idViaje + " perteneciente a la ruta " +
+                                          idRuta + "\n");
                     }
                 }
 
@@ -2083,10 +2205,10 @@ namespace ExtractorDatos
             Console.WriteLine("Empiezo Lineas Euskotren");
             if (
                 !File.Exists(
-                    @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\EuskotrenFTP\google_transit.zip"))
+                    @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\EuskotrenFTP\google_transit.zip"))
             {
                 FTP cliente = new FTP("ftp://ftp.geo.euskadi.net/cartografia/Transporte/Moveuskadi/", "", "");
-                cliente.download("Euskotren/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\EuskotrenFTP\google_transit.zip");
+                cliente.download("Euskotren/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\EuskotrenFTP\google_transit.zip");
             }
             
 
@@ -2099,7 +2221,7 @@ namespace ExtractorDatos
             try
             {
                 //Establezco el fichero a descomprimir
-                FileStream fs = File.OpenRead(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\EuskotrenFTP\google_transit.zip");
+                FileStream fs = File.OpenRead(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\EuskotrenFTP\google_transit.zip");
                 try
                 {
                     zf = new ZipFile(fs);
@@ -2128,7 +2250,7 @@ namespace ExtractorDatos
                         Stream zipStream = zf.GetInputStream(zipEntry);
 
                         // Manipulate the output filename here as desired.
-                        String fullZipToPath = Path.Combine(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\EuskotrenFTP\", entryFileName);
+                        String fullZipToPath = Path.Combine(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\EuskotrenFTP\", entryFileName);
                         string directoryName = Path.GetDirectoryName(fullZipToPath);
                         if (directoryName.Length > 0)
                             Directory.CreateDirectory(directoryName);
@@ -2164,7 +2286,7 @@ namespace ExtractorDatos
 
                 // Leemos el fichero linea por linea para sacar las rutas
                 System.IO.StreamReader file =
-                   new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\EuskotrenFTP\routes.txt");
+                   new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\EuskotrenFTP\routes.txt");
                 string primeraLinea = file.ReadLine();
                 while ((line = file.ReadLine()) != null)
                 {
@@ -2204,7 +2326,7 @@ namespace ExtractorDatos
 
                 // Leemos el fichero linea por linea para sacar los viajes
                 Dictionary<string, viajes_euskotren> viajes = new Dictionary<string, viajes_euskotren>();
-                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\EuskotrenFTP\stop_times.txt");
+                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\EuskotrenFTP\stop_times.txt");
                 primeraLinea = file.ReadLine();
                 while ((line = file.ReadLine()) != null)
                 {
@@ -2228,7 +2350,7 @@ namespace ExtractorDatos
                     bool encontrado = false;
                     int index = 0;
 
-                    viajes_parada_tiempos vpt = new viajes_parada_tiempos();
+                    viajes_parada_tiempos_euskotren vpt = new viajes_parada_tiempos_euskotren();
                     vpt.tiempoLlegada = tiempoLlegada;
                     vpt.tiempoSalida = tiempoSalida;
                     vpt.paradas_euskotren = paradasEuskotren[idParada];
@@ -2278,7 +2400,7 @@ namespace ExtractorDatos
                 Console.WriteLine("Juntando resultados...");
 
                 // Leemos el fichero linea por linea
-                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\EuskotrenFTP\trips.txt");
+                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\EuskotrenFTP\trips.txt");
                 primeraLinea = file.ReadLine();
                 while ((line = file.ReadLine()) != null)
                 {
@@ -2319,19 +2441,19 @@ namespace ExtractorDatos
 
         private void lineasMetro()
         {
-            if (paradasBizkaibus.Count != 0)
+            if (lineasMetroBilbao.Count != 0)
             {
-                paradasBizkaibus.Clear();
+                lineasMetroBilbao.Clear();
             }
 
             Console.WriteLine("Empiezo Lineas Metro");
             if (
                 !File.Exists(
-                    @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\MetroFTP\google_transit.zip"))
+                    @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\MetroFTP\google_transit.zip"))
             {
                 FTP cliente = new FTP("ftp://ftp.geo.euskadi.net/cartografia/Transporte/Moveuskadi/", "", "");
                 cliente.download("MetroBilbao/google_transit.zip",
-                    @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\MetroFTP\google_transit.zip");
+                    @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\MetroFTP\google_transit.zip");
             }
 
             Console.WriteLine("¡Completado!");
@@ -2343,7 +2465,7 @@ namespace ExtractorDatos
             try
             {
                 //Establezco el fichero a descomprimir
-                FileStream fs = File.OpenRead(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\MetroFTP\google_transit.zip");
+                FileStream fs = File.OpenRead(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\MetroFTP\google_transit.zip");
                 try
                 {
                     zf = new ZipFile(fs);
@@ -2372,7 +2494,7 @@ namespace ExtractorDatos
                         Stream zipStream = zf.GetInputStream(zipEntry);
 
                         // Manipulate the output filename here as desired.
-                        String fullZipToPath = Path.Combine(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\MetroFTP\", entryFileName);
+                        String fullZipToPath = Path.Combine(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\MetroFTP\", entryFileName);
                         string directoryName = Path.GetDirectoryName(fullZipToPath);
                         if (directoryName.Length > 0)
                             Directory.CreateDirectory(directoryName);
@@ -2408,7 +2530,7 @@ namespace ExtractorDatos
 
                 // Leemos el fichero linea por linea para sacar las rutas
                 System.IO.StreamReader file =
-                   new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\MetroFTP\routes.txt");
+                   new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\MetroFTP\routes.txt");
                 string primeraLinea = file.ReadLine();
                 while ((line = file.ReadLine()) != null)
                 {
@@ -2428,11 +2550,13 @@ namespace ExtractorDatos
                     //Tipo de ruta
                     int tipo = int.Parse(valoresLinea[3]);
 
-                    //Color de ruta
-                    string color = valoresLinea[4];
-
                     //Añado a la lista
-                    lineasMetroBilbao.Add(id, new LineaMetro(id, abreviatura, nombre, tipo, color));
+                    lineas_metro l = new lineas_metro();
+                    l.idMetro = id;
+                    l.abreviatura = abreviatura;
+                    l.nombre = nombre;
+                    l.tipo = tipo;
+                    lineasMetroBilbao.Add(id, l);
                 }
 
                 file.Close();
@@ -2441,8 +2565,8 @@ namespace ExtractorDatos
                 Console.WriteLine("Leyendo viajes...");
 
                 // Leemos el fichero linea por linea para sacar los viajes
-                SortedDictionary<int, ViajeMetro> viajes = new SortedDictionary<int, ViajeMetro>();
-                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\MetroFTP\stop_times.txt");
+                SortedDictionary<int, viajes_metro> viajes = new SortedDictionary<int, viajes_metro>();
+                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\MetroFTP\stop_times.txt");
                 primeraLinea = file.ReadLine();
                 while ((line = file.ReadLine()) != null)
                 {
@@ -2456,51 +2580,46 @@ namespace ExtractorDatos
                     //Secuencia de parada
                     int secuencia = int.Parse(valoresLinea[1]);
 
+                    //tiempoLlegada
+                    string tiempoLlegada = valoresLinea[2];
+
+                    //tiempoSalida
+                    string tiempoSalida = valoresLinea[3];
+
                     //ID de la parada
                     string idParada = valoresLinea[4];
 
+                    //****
+                    viajes_parada_tiempos_metro vpt = new viajes_parada_tiempos_metro();
+                    vpt.tiempoLlegada = tiempoLlegada;
+                    vpt.tiempoSalida = tiempoSalida;
+                    vpt.paradas_metro = paradasMetro[idParada];
+
                     if (viajes.ContainsKey(id))
                     {
-                        //Se añade solo al viaje la parada
-                        viajes[id].paradasList.Add(new Clases.KeyValuePair<int, ParadaMetro>(secuencia, paradasMetro[idParada]));
+                        //Se añade solo los tiempos por esa parada al viaje
+                        viajes[id].viajes_parada_tiempos_metro.Add(vpt);
+                        viajes[id].tiempoFin = tiempoLlegada;
 
                     }
                     else
                     {
                         //Se añade el viaje completo
-                        viajes.Add(id, new ViajeMetro(id, paradasMetro[idParada], secuencia));
+                        viajes_metro v = new viajes_metro();
+                        v.id= id;
+                        v.tiempoInicio = tiempoLlegada;
+                        v.tiempoFin = tiempoSalida;
+                        v.viajes_parada_tiempos_metro.Add(vpt);
+                        viajes.Add(id, v);
                     }
                 }
                 file.Close();
-
-
-
-                foreach (System.Collections.Generic.KeyValuePair<int, ViajeMetro> temporal in viajes.ToList())
-                {
-                    temporal.Value.paradasList = temporal.Value.paradasList.OrderBy(v => v.Key).ToList();
-                }
-
-                //Los pongo bien los viajes
-               /* foreach (ViajeMetro v in viajes.Values)
-                {
-                   Dictionary<string, ParadaMetro> temporal = new Dictionary<string, ParadaMetro>();
-                    var list = from pair in v.paradas
-                        orderby pair.Key ascending
-                        select pair;
-                   foreach (KeyValuePair<string, ParadaMetro> pair in list)
-                   {
-                       
-                       temporal.Add(v.paradas[pair.Key].id, v.paradas[pair.Key]);
-                   }
-                    v.paradas = temporal;
-
-                }*/
 
                 Console.WriteLine("¡Completado viajes!");
                 Console.WriteLine("Juntando resultados...");
 
                 // Leemos el fichero linea por linea
-                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\MetroFTP\trips.txt");
+                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\MetroFTP\trips.txt");
                 primeraLinea = file.ReadLine();
                 while ((line = file.ReadLine()) != null)
                 {
@@ -2516,13 +2635,21 @@ namespace ExtractorDatos
 
                     try
                     {
-                        lineasMetroBilbao[idRuta].viajes.Add(new Clases.KeyValuePair<int, ViajeMetro>(idViaje, viajes[idViaje]));
+                        if (viajes.ContainsKey(idViaje))
+                        {
+                            lineasMetroBilbao[idRuta].viajes_metro.Add(viajes[idViaje]);
+                        }
+                        else
+                        {
+                            throw new KeyNotFoundException();
+                        }
                     }
                     catch (System.Collections.Generic.KeyNotFoundException e)
                     {
                         Console.WriteLine("No se encuentra el viaje de id: " + idViaje + " perteneciente a la ruta " + idRuta + "\n");
                     }
                 }
+                Console.WriteLine("¡FIN de Juntando resultados!");
 
                 file.Close();
 
@@ -2540,10 +2667,10 @@ namespace ExtractorDatos
             Console.WriteLine("Empiezo Lineas Euskotren");
             if (
                 !File.Exists(
-                    @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BizkaibusFTP\google_transit.zip"))
+                    @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BizkaibusFTP\google_transit.zip"))
             {
                 FTP cliente = new FTP("ftp://ftp.geo.euskadi.net/cartografia/Transporte/Moveuskadi/", "", "");
-                cliente.download("Bizkaibus/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BizkaibusFTP\google_transit.zip");
+                cliente.download("Bizkaibus/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BizkaibusFTP\google_transit.zip");
             }
 
 
@@ -2556,7 +2683,7 @@ namespace ExtractorDatos
             try
             {
                 //Establezco el fichero a descomprimir
-                FileStream fs = File.OpenRead(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BizkaibusFTP\google_transit.zip");
+                FileStream fs = File.OpenRead(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BizkaibusFTP\google_transit.zip");
                 try
                 {
                     zf = new ZipFile(fs);
@@ -2585,7 +2712,7 @@ namespace ExtractorDatos
                         Stream zipStream = zf.GetInputStream(zipEntry);
 
                         // Manipulate the output filename here as desired.
-                        String fullZipToPath = Path.Combine(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BizkaibusFTP\", entryFileName);
+                        String fullZipToPath = Path.Combine(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BizkaibusFTP\", entryFileName);
                         string directoryName = Path.GetDirectoryName(fullZipToPath);
                         if (directoryName.Length > 0)
                             Directory.CreateDirectory(directoryName);
@@ -2621,7 +2748,7 @@ namespace ExtractorDatos
 
                 // Leemos el fichero linea por linea para sacar las rutas
                 System.IO.StreamReader file =
-                   new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BizkaibusFTP\routes.txt");
+                   new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BizkaibusFTP\routes.txt");
                 string primeraLinea = file.ReadLine();
                 while ((line = file.ReadLine()) != null)
                 {
@@ -2645,7 +2772,12 @@ namespace ExtractorDatos
                     int tipo = int.Parse(valoresLinea[5]);
 
                     //Añado a la lista
-                    lineasBizkaia.Add(id, new LineaBizkaibus(id, idAgencia, abreviatura, nombre, tipo));
+                    lineas_bizkaibus lb = new lineas_bizkaibus();
+                    lb.id = id;
+                    lb.abreviatura = abreviatura;
+                    lb.nombre = nombre;
+                    lb.tipoTransporte = tipo;
+                    lineasBizkaia.Add(id, lb);
 
                 }
 
@@ -2655,8 +2787,8 @@ namespace ExtractorDatos
                 Console.WriteLine("Leyendo viajes...");
 
                 // Leemos el fichero linea por linea para sacar los viajes
-                List<Clases.KeyValuePair<int, ViajeBizkaibus>> viajes = new List<Clases.KeyValuePair<int, ViajeBizkaibus>>();
-                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BizkaibusFTP\stop_times.txt");
+                Dictionary<int, viajes_bizkaibus> viajes = new Dictionary<int, viajes_bizkaibus>();
+                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BizkaibusFTP\stop_times.txt");
                 primeraLinea = file.ReadLine();
                 while ((line = file.ReadLine()) != null)
                 {
@@ -2667,37 +2799,39 @@ namespace ExtractorDatos
                     //ID de viaje
                     int id = int.Parse(valoresLinea[0]);
 
+                    //TiempoLlegada
+                    string tiempoLlegada = valoresLinea[1];
+
+                    //TiempoSalida
+                    string tiempoSalida = valoresLinea[2];
+
                     //ID de la parada
                     int idParada = int.Parse(valoresLinea[3]);
 
                     //Se añade solo al viaje la parada
                     try
                     {
-                        int contador = 0;
-                        bool encontrado = false;
-                        foreach (Clases.KeyValuePair<int, ViajeBizkaibus> temporal in viajes)
+                        viajes_parada_tiempos_bizkaibus vpt = new viajes_parada_tiempos_bizkaibus();
+                        vpt.tiempoLlegada = tiempoLlegada;
+                        vpt.tiempoSalida = tiempoSalida;
+                        vpt.paradas_bizkaibus = paradasBizkaibus[idParada];
+
+                        if (viajes.ContainsKey(id))
                         {
-                            if (temporal.Key.Equals(id))
-                            {
-                                encontrado = true;
-                                break;
-                            }
-                            else
-                            {
-                                contador++;
-                            }
-                        }
-                        if (encontrado)
-                        {
-                            //lineasEusko[idRuta].viajes.Add(viajes[contador]);
-                            viajes[contador].Value.paradas.Add(new Clases.KeyValuePair<int, ParadaBizkaibus>(idParada,
-                                paradasBizkaibus[idParada]));
-                            viajes[contador].Value.clavesParada.Add(idParada);
+                            //Se añade solo los tiempos por esa parada al viaje
+                            viajes[id].viajes_parada_tiempos_bizkaibus.Add(vpt);
+                            viajes[id].tiempoFin = tiempoLlegada;
+
                         }
                         else
                         {
                             //Se añade el viaje completo
-                            viajes.Add(new Clases.KeyValuePair<int, ViajeBizkaibus>(id, new ViajeBizkaibus(id, paradasBizkaibus[idParada])));
+                            viajes_bizkaibus v = new viajes_bizkaibus();
+                            v.id = id;
+                            v.tiempoInicio = tiempoLlegada;
+                            v.tiempoFin = tiempoSalida;
+                            v.viajes_parada_tiempos_bizkaibus.Add(vpt);
+                            viajes.Add(id, v);
                         }
 
 
@@ -2714,7 +2848,7 @@ namespace ExtractorDatos
                 Console.WriteLine("Juntando resultados...");
 
                 // Leemos el fichero linea por linea
-                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BizkaibusFTP\trips.txt");
+                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BizkaibusFTP\trips.txt");
                 primeraLinea = file.ReadLine();
                 while ((line = file.ReadLine()) != null)
                 {
@@ -2730,29 +2864,14 @@ namespace ExtractorDatos
 
                     try
                     {
-                        int contador = 0;
-                        bool encontrado = false;
-                        foreach (Clases.KeyValuePair<int, ViajeBizkaibus> temporal in viajes)
-                        {
-                            if (temporal.Key.Equals(idViaje))
+                            if (viajes.ContainsKey(idViaje))
                             {
-                                encontrado = true;
-                                break;
+                                lineasBizkaia[idRuta].viajes_bizkaibus.Add(viajes[idViaje]);
                             }
                             else
                             {
-                                contador++;
+                                throw new KeyNotFoundException();
                             }
-                        }
-                        if (encontrado)
-                        {
-                            //lineasEusko[idRuta].viajes.Add(viajes[contador]);
-                            lineasBizkaia[idRuta].viajes.Add(viajes[contador]);
-                        }
-                        else
-                        {
-                            throw new KeyNotFoundException();
-                        }
                         
                     }
                     catch (System.Collections.Generic.KeyNotFoundException e)

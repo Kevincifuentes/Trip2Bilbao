@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/03/2016 12:18:58
+-- Date Created: 02/04/2016 12:43:22
 -- Generated from EDMX file: C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\Modelo.edmx
 -- --------------------------------------------------
 
@@ -32,35 +32,14 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_tiempos_predicciontiempos_dia]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[tiempos_diaSet] DROP CONSTRAINT [FK_tiempos_predicciontiempos_dia];
 GO
-IF OBJECT_ID(N'[dbo].[FK_paradas_metroparadas_metro]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[paradas_metroSet] DROP CONSTRAINT [FK_paradas_metroparadas_metro];
-GO
-IF OBJECT_ID(N'[dbo].[FK_paradas_metroviajes_metro_paradas_metro]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[paradas_metroviajes_metro] DROP CONSTRAINT [FK_paradas_metroviajes_metro_paradas_metro];
-GO
-IF OBJECT_ID(N'[dbo].[FK_paradas_metroviajes_metro_viajes_metro]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[paradas_metroviajes_metro] DROP CONSTRAINT [FK_paradas_metroviajes_metro_viajes_metro];
-GO
 IF OBJECT_ID(N'[dbo].[FK_lineas_bizkaibusviajes_bizkaibus]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[viajes_bizkaibusSet] DROP CONSTRAINT [FK_lineas_bizkaibusviajes_bizkaibus];
-GO
-IF OBJECT_ID(N'[dbo].[FK_viajes_bizkaibusparadas_bizkaibus_viajes_bizkaibus]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[viajes_bizkaibusparadas_bizkaibus] DROP CONSTRAINT [FK_viajes_bizkaibusparadas_bizkaibus_viajes_bizkaibus];
-GO
-IF OBJECT_ID(N'[dbo].[FK_viajes_bizkaibusparadas_bizkaibus_paradas_bizkaibus]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[viajes_bizkaibusparadas_bizkaibus] DROP CONSTRAINT [FK_viajes_bizkaibusparadas_bizkaibus_paradas_bizkaibus];
 GO
 IF OBJECT_ID(N'[dbo].[FK_lineas_bilbobustiempos_linea_parada]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[tiempos_linea_paradaSet] DROP CONSTRAINT [FK_lineas_bilbobustiempos_linea_parada];
 GO
 IF OBJECT_ID(N'[dbo].[FK_paradas_bilbobustiempos_linea_parada]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[tiempos_linea_paradaSet] DROP CONSTRAINT [FK_paradas_bilbobustiempos_linea_parada];
-GO
-IF OBJECT_ID(N'[dbo].[FK_paradas_bilbobusviajes_bilbobus_paradas_bilbobus]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[paradas_bilbobusviajes_bilbobus] DROP CONSTRAINT [FK_paradas_bilbobusviajes_bilbobus_paradas_bilbobus];
-GO
-IF OBJECT_ID(N'[dbo].[FK_paradas_bilbobusviajes_bilbobus_viajes_bilbobus]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[paradas_bilbobusviajes_bilbobus] DROP CONSTRAINT [FK_paradas_bilbobusviajes_bilbobus_viajes_bilbobus];
 GO
 IF OBJECT_ID(N'[dbo].[FK_lineas_bilbobusviajes_bilbobus]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[viajes_bilbobusSet] DROP CONSTRAINT [FK_lineas_bilbobusviajes_bilbobus];
@@ -76,6 +55,30 @@ IF OBJECT_ID(N'[dbo].[FK_parkingsestados_parking]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_puntos_biciestados_puntobici]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[estados_puntobiciSet] DROP CONSTRAINT [FK_puntos_biciestados_puntobici];
+GO
+IF OBJECT_ID(N'[dbo].[FK_viajes_euskotrenviajes_parada_tiempos]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[viajes_parada_tiempos_euskotrenSet] DROP CONSTRAINT [FK_viajes_euskotrenviajes_parada_tiempos];
+GO
+IF OBJECT_ID(N'[dbo].[FK_paradas_euskotrenviajes_parada_tiempos]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[viajes_parada_tiempos_euskotrenSet] DROP CONSTRAINT [FK_paradas_euskotrenviajes_parada_tiempos];
+GO
+IF OBJECT_ID(N'[dbo].[FK_paradas_metroviajes_parada_tiempos_metro]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[viajes_parada_tiempos_metroSet] DROP CONSTRAINT [FK_paradas_metroviajes_parada_tiempos_metro];
+GO
+IF OBJECT_ID(N'[dbo].[FK_viajes_metroviajes_parada_tiempos_metro]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[viajes_parada_tiempos_metroSet] DROP CONSTRAINT [FK_viajes_metroviajes_parada_tiempos_metro];
+GO
+IF OBJECT_ID(N'[dbo].[FK_paradas_bizkaibusviajes_parada_tiempos_bizkaibus]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[viajes_parada_tiempos_bizkaibusSet] DROP CONSTRAINT [FK_paradas_bizkaibusviajes_parada_tiempos_bizkaibus];
+GO
+IF OBJECT_ID(N'[dbo].[FK_viajes_bizkaibusviajes_parada_tiempos_bizkaibus]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[viajes_parada_tiempos_bizkaibusSet] DROP CONSTRAINT [FK_viajes_bizkaibusviajes_parada_tiempos_bizkaibus];
+GO
+IF OBJECT_ID(N'[dbo].[FK_viajes_bilbobusviajes_parada_tiempos_bilbobus]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[viajes_parada_tiempos_bilbobusSet] DROP CONSTRAINT [FK_viajes_bilbobusviajes_parada_tiempos_bilbobus];
+GO
+IF OBJECT_ID(N'[dbo].[FK_paradas_bilbobusviajes_parada_tiempos_bilbobus]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[viajes_parada_tiempos_bilbobusSet] DROP CONSTRAINT [FK_paradas_bilbobusviajes_parada_tiempos_bilbobus];
 GO
 
 -- --------------------------------------------------
@@ -175,14 +178,17 @@ GO
 IF OBJECT_ID(N'[dbo].[parkingDeustoSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[parkingDeustoSet];
 GO
-IF OBJECT_ID(N'[dbo].[paradas_metroviajes_metro]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[paradas_metroviajes_metro];
+IF OBJECT_ID(N'[dbo].[viajes_parada_tiempos_euskotrenSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[viajes_parada_tiempos_euskotrenSet];
 GO
-IF OBJECT_ID(N'[dbo].[viajes_bizkaibusparadas_bizkaibus]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[viajes_bizkaibusparadas_bizkaibus];
+IF OBJECT_ID(N'[dbo].[viajes_parada_tiempos_metroSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[viajes_parada_tiempos_metroSet];
 GO
-IF OBJECT_ID(N'[dbo].[paradas_bilbobusviajes_bilbobus]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[paradas_bilbobusviajes_bilbobus];
+IF OBJECT_ID(N'[dbo].[viajes_parada_tiempos_bizkaibusSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[viajes_parada_tiempos_bizkaibusSet];
+GO
+IF OBJECT_ID(N'[dbo].[viajes_parada_tiempos_bilbobusSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[viajes_parada_tiempos_bilbobusSet];
 GO
 
 -- --------------------------------------------------
@@ -386,7 +392,7 @@ GO
 
 -- Creating table 'lineas_metroSet'
 CREATE TABLE [dbo].[lineas_metroSet] (
-    [id] int  NOT NULL,
+    [id] int IDENTITY(1,1) NOT NULL,
     [abreviatura] nvarchar(max)  NOT NULL,
     [nombre] nvarchar(max)  NOT NULL,
     [tipo] int  NOT NULL,
@@ -397,18 +403,22 @@ GO
 -- Creating table 'viajes_metroSet'
 CREATE TABLE [dbo].[viajes_metroSet] (
     [id] int  NOT NULL,
-    [lineas_metro_id] int  NOT NULL
+    [lineas_metro_id] int  NOT NULL,
+    [tiempoInicio] nvarchar(max)  NOT NULL,
+    [tiempoFin] nvarchar(max)  NOT NULL
 );
 GO
 
 -- Creating table 'paradas_metroSet'
 CREATE TABLE [dbo].[paradas_metroSet] (
-    [id] int  NOT NULL,
+    [id] int IDENTITY(1,1) NOT NULL,
     [nombre] nvarchar(max)  NOT NULL,
-    [latitud] nvarchar(max)  NOT NULL,
-    [longitud] nvarchar(max)  NOT NULL,
-    [tipoLocalizacion] nvarchar(max)  NOT NULL,
-    [paradas_metroId] int  NOT NULL
+    [latitud] float  NOT NULL,
+    [longitud] float  NOT NULL,
+    [tipoLocalizacion] int  NOT NULL,
+    [idParadaPadre] nvarchar(max)  NULL,
+    [codigoParada] nvarchar(max)  NOT NULL,
+    [idParada] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -424,7 +434,9 @@ GO
 -- Creating table 'viajes_bizkaibusSet'
 CREATE TABLE [dbo].[viajes_bizkaibusSet] (
     [id] int  NOT NULL,
-    [lineas_bizkaibusId] int  NOT NULL
+    [lineas_bizkaibusId] int  NOT NULL,
+    [tiempoInicio] nvarchar(max)  NOT NULL,
+    [tiempoFin] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -436,7 +448,9 @@ CREATE TABLE [dbo].[paradas_bizkaibusSet] (
     [latitud] float  NOT NULL,
     [longitud] float  NOT NULL,
     [url] nvarchar(max)  NOT NULL,
-    [tipoLocalizacion] int  NOT NULL
+    [tipoLocalizacion] int  NOT NULL,
+    [codigoParada] int  NOT NULL,
+    [idParadaPadre] int  NOT NULL
 );
 GO
 
@@ -445,7 +459,8 @@ CREATE TABLE [dbo].[paradas_bilbobusSet] (
     [id] int  NOT NULL,
     [nombre] nvarchar(max)  NOT NULL,
     [latitud] float  NOT NULL,
-    [longitud] float  NOT NULL
+    [longitud] float  NOT NULL,
+    [abreviatura] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -453,7 +468,7 @@ GO
 CREATE TABLE [dbo].[tiempos_linea_paradaSet] (
     [id] int  NOT NULL,
     [descripcionLinea] nvarchar(max)  NOT NULL,
-    [tiempoEspera] nvarchar(max)  NOT NULL,
+    [tiempoEspera] int  NOT NULL,
     [lineas_bilbobusId] int  NOT NULL,
     [paradas_bilbobusId] int  NOT NULL,
     [fecha] datetime  NOT NULL
@@ -462,17 +477,20 @@ GO
 
 -- Creating table 'lineas_bilbobusSet'
 CREATE TABLE [dbo].[lineas_bilbobusSet] (
-    [id] int  NOT NULL,
+    [id] int IDENTITY(1,1) NOT NULL,
     [abreviatura] nvarchar(max)  NOT NULL,
     [nombre] nvarchar(max)  NOT NULL,
-    [tipoTransporte] int  NOT NULL
+    [tipoTransporte] int  NOT NULL,
+    [idLinea] nvarchar(max)  NOT NULL
 );
 GO
 
 -- Creating table 'viajes_bilbobusSet'
 CREATE TABLE [dbo].[viajes_bilbobusSet] (
     [id] int  NOT NULL,
-    [lineas_bilbobusId] int  NOT NULL
+    [lineas_bilbobusId] int  NOT NULL,
+    [tiempoInicio] nvarchar(max)  NOT NULL,
+    [tiempoFin] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -535,8 +553,8 @@ CREATE TABLE [dbo].[parkingDeustoSet] (
 );
 GO
 
--- Creating table 'viajes_parada_tiemposSet'
-CREATE TABLE [dbo].[viajes_parada_tiemposSet] (
+-- Creating table 'viajes_parada_tiempos_euskotrenSet'
+CREATE TABLE [dbo].[viajes_parada_tiempos_euskotrenSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [viajes_euskotren_id] int  NOT NULL,
     [paradas_euskotren_id] int  NOT NULL,
@@ -545,24 +563,33 @@ CREATE TABLE [dbo].[viajes_parada_tiemposSet] (
 );
 GO
 
--- Creating table 'paradas_metroviajes_metro'
-CREATE TABLE [dbo].[paradas_metroviajes_metro] (
+-- Creating table 'viajes_parada_tiempos_metroSet'
+CREATE TABLE [dbo].[viajes_parada_tiempos_metroSet] (
+    [id] int IDENTITY(1,1) NOT NULL,
     [paradas_metro_id] int  NOT NULL,
-    [viajes_metro_id] int  NOT NULL
+    [viajes_metro_id] int  NOT NULL,
+    [tiempoLlegada] nvarchar(max)  NOT NULL,
+    [tiempoSalida] nvarchar(max)  NOT NULL
 );
 GO
 
--- Creating table 'viajes_bizkaibusparadas_bizkaibus'
-CREATE TABLE [dbo].[viajes_bizkaibusparadas_bizkaibus] (
+-- Creating table 'viajes_parada_tiempos_bizkaibusSet'
+CREATE TABLE [dbo].[viajes_parada_tiempos_bizkaibusSet] (
+    [id] int IDENTITY(1,1) NOT NULL,
+    [paradas_bizkaibus_id] int  NOT NULL,
     [viajes_bizkaibus_id] int  NOT NULL,
-    [paradas_bizkaibus_id] int  NOT NULL
+    [tiempoLlegada] nvarchar(max)  NOT NULL,
+    [tiempoSalida] nvarchar(max)  NOT NULL
 );
 GO
 
--- Creating table 'paradas_bilbobusviajes_bilbobus'
-CREATE TABLE [dbo].[paradas_bilbobusviajes_bilbobus] (
+-- Creating table 'viajes_parada_tiempos_bilbobusSet'
+CREATE TABLE [dbo].[viajes_parada_tiempos_bilbobusSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [viajes_bilbobus_id] int  NOT NULL,
     [paradas_bilbobus_id] int  NOT NULL,
-    [viajes_bilbobus_id] int  NOT NULL
+    [tiempoLlegada] nvarchar(max)  NOT NULL,
+    [tiempoSalida] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -756,28 +783,28 @@ ADD CONSTRAINT [PK_parkingDeustoSet]
     PRIMARY KEY CLUSTERED ([fecha] ASC);
 GO
 
--- Creating primary key on [Id] in table 'viajes_parada_tiemposSet'
-ALTER TABLE [dbo].[viajes_parada_tiemposSet]
-ADD CONSTRAINT [PK_viajes_parada_tiemposSet]
+-- Creating primary key on [Id] in table 'viajes_parada_tiempos_euskotrenSet'
+ALTER TABLE [dbo].[viajes_parada_tiempos_euskotrenSet]
+ADD CONSTRAINT [PK_viajes_parada_tiempos_euskotrenSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [paradas_metro_id], [viajes_metro_id] in table 'paradas_metroviajes_metro'
-ALTER TABLE [dbo].[paradas_metroviajes_metro]
-ADD CONSTRAINT [PK_paradas_metroviajes_metro]
-    PRIMARY KEY CLUSTERED ([paradas_metro_id], [viajes_metro_id] ASC);
+-- Creating primary key on [id] in table 'viajes_parada_tiempos_metroSet'
+ALTER TABLE [dbo].[viajes_parada_tiempos_metroSet]
+ADD CONSTRAINT [PK_viajes_parada_tiempos_metroSet]
+    PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
--- Creating primary key on [viajes_bizkaibus_id], [paradas_bizkaibus_id] in table 'viajes_bizkaibusparadas_bizkaibus'
-ALTER TABLE [dbo].[viajes_bizkaibusparadas_bizkaibus]
-ADD CONSTRAINT [PK_viajes_bizkaibusparadas_bizkaibus]
-    PRIMARY KEY CLUSTERED ([viajes_bizkaibus_id], [paradas_bizkaibus_id] ASC);
+-- Creating primary key on [id] in table 'viajes_parada_tiempos_bizkaibusSet'
+ALTER TABLE [dbo].[viajes_parada_tiempos_bizkaibusSet]
+ADD CONSTRAINT [PK_viajes_parada_tiempos_bizkaibusSet]
+    PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
--- Creating primary key on [paradas_bilbobus_id], [viajes_bilbobus_id] in table 'paradas_bilbobusviajes_bilbobus'
-ALTER TABLE [dbo].[paradas_bilbobusviajes_bilbobus]
-ADD CONSTRAINT [PK_paradas_bilbobusviajes_bilbobus]
-    PRIMARY KEY CLUSTERED ([paradas_bilbobus_id], [viajes_bilbobus_id] ASC);
+-- Creating primary key on [Id] in table 'viajes_parada_tiempos_bilbobusSet'
+ALTER TABLE [dbo].[viajes_parada_tiempos_bilbobusSet]
+ADD CONSTRAINT [PK_viajes_parada_tiempos_bilbobusSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -859,52 +886,13 @@ ON [dbo].[tiempos_diaSet]
     ([tiempos_prediccionId]);
 GO
 
--- Creating foreign key on [paradas_metroId] in table 'paradas_metroSet'
-ALTER TABLE [dbo].[paradas_metroSet]
-ADD CONSTRAINT [FK_paradas_metroparadas_metro]
-    FOREIGN KEY ([paradas_metroId])
-    REFERENCES [dbo].[paradas_metroSet]
-        ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_paradas_metroparadas_metro'
-CREATE INDEX [IX_FK_paradas_metroparadas_metro]
-ON [dbo].[paradas_metroSet]
-    ([paradas_metroId]);
-GO
-
--- Creating foreign key on [paradas_metro_id] in table 'paradas_metroviajes_metro'
-ALTER TABLE [dbo].[paradas_metroviajes_metro]
-ADD CONSTRAINT [FK_paradas_metroviajes_metro_paradas_metro]
-    FOREIGN KEY ([paradas_metro_id])
-    REFERENCES [dbo].[paradas_metroSet]
-        ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [viajes_metro_id] in table 'paradas_metroviajes_metro'
-ALTER TABLE [dbo].[paradas_metroviajes_metro]
-ADD CONSTRAINT [FK_paradas_metroviajes_metro_viajes_metro]
-    FOREIGN KEY ([viajes_metro_id])
-    REFERENCES [dbo].[viajes_metroSet]
-        ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_paradas_metroviajes_metro_viajes_metro'
-CREATE INDEX [IX_FK_paradas_metroviajes_metro_viajes_metro]
-ON [dbo].[paradas_metroviajes_metro]
-    ([viajes_metro_id]);
-GO
-
 -- Creating foreign key on [lineas_bizkaibusId] in table 'viajes_bizkaibusSet'
 ALTER TABLE [dbo].[viajes_bizkaibusSet]
 ADD CONSTRAINT [FK_lineas_bizkaibusviajes_bizkaibus]
     FOREIGN KEY ([lineas_bizkaibusId])
     REFERENCES [dbo].[lineas_bizkaibusSet]
         ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_lineas_bizkaibusviajes_bizkaibus'
@@ -913,37 +901,13 @@ ON [dbo].[viajes_bizkaibusSet]
     ([lineas_bizkaibusId]);
 GO
 
--- Creating foreign key on [viajes_bizkaibus_id] in table 'viajes_bizkaibusparadas_bizkaibus'
-ALTER TABLE [dbo].[viajes_bizkaibusparadas_bizkaibus]
-ADD CONSTRAINT [FK_viajes_bizkaibusparadas_bizkaibus_viajes_bizkaibus]
-    FOREIGN KEY ([viajes_bizkaibus_id])
-    REFERENCES [dbo].[viajes_bizkaibusSet]
-        ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [paradas_bizkaibus_id] in table 'viajes_bizkaibusparadas_bizkaibus'
-ALTER TABLE [dbo].[viajes_bizkaibusparadas_bizkaibus]
-ADD CONSTRAINT [FK_viajes_bizkaibusparadas_bizkaibus_paradas_bizkaibus]
-    FOREIGN KEY ([paradas_bizkaibus_id])
-    REFERENCES [dbo].[paradas_bizkaibusSet]
-        ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_viajes_bizkaibusparadas_bizkaibus_paradas_bizkaibus'
-CREATE INDEX [IX_FK_viajes_bizkaibusparadas_bizkaibus_paradas_bizkaibus]
-ON [dbo].[viajes_bizkaibusparadas_bizkaibus]
-    ([paradas_bizkaibus_id]);
-GO
-
 -- Creating foreign key on [lineas_bilbobusId] in table 'tiempos_linea_paradaSet'
 ALTER TABLE [dbo].[tiempos_linea_paradaSet]
 ADD CONSTRAINT [FK_lineas_bilbobustiempos_linea_parada]
     FOREIGN KEY ([lineas_bilbobusId])
     REFERENCES [dbo].[lineas_bilbobusSet]
         ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_lineas_bilbobustiempos_linea_parada'
@@ -958,7 +922,7 @@ ADD CONSTRAINT [FK_paradas_bilbobustiempos_linea_parada]
     FOREIGN KEY ([paradas_bilbobusId])
     REFERENCES [dbo].[paradas_bilbobusSet]
         ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_paradas_bilbobustiempos_linea_parada'
@@ -967,37 +931,13 @@ ON [dbo].[tiempos_linea_paradaSet]
     ([paradas_bilbobusId]);
 GO
 
--- Creating foreign key on [paradas_bilbobus_id] in table 'paradas_bilbobusviajes_bilbobus'
-ALTER TABLE [dbo].[paradas_bilbobusviajes_bilbobus]
-ADD CONSTRAINT [FK_paradas_bilbobusviajes_bilbobus_paradas_bilbobus]
-    FOREIGN KEY ([paradas_bilbobus_id])
-    REFERENCES [dbo].[paradas_bilbobusSet]
-        ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [viajes_bilbobus_id] in table 'paradas_bilbobusviajes_bilbobus'
-ALTER TABLE [dbo].[paradas_bilbobusviajes_bilbobus]
-ADD CONSTRAINT [FK_paradas_bilbobusviajes_bilbobus_viajes_bilbobus]
-    FOREIGN KEY ([viajes_bilbobus_id])
-    REFERENCES [dbo].[viajes_bilbobusSet]
-        ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_paradas_bilbobusviajes_bilbobus_viajes_bilbobus'
-CREATE INDEX [IX_FK_paradas_bilbobusviajes_bilbobus_viajes_bilbobus]
-ON [dbo].[paradas_bilbobusviajes_bilbobus]
-    ([viajes_bilbobus_id]);
-GO
-
 -- Creating foreign key on [lineas_bilbobusId] in table 'viajes_bilbobusSet'
 ALTER TABLE [dbo].[viajes_bilbobusSet]
 ADD CONSTRAINT [FK_lineas_bilbobusviajes_bilbobus]
     FOREIGN KEY ([lineas_bilbobusId])
     REFERENCES [dbo].[lineas_bilbobusSet]
         ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_lineas_bilbobusviajes_bilbobus'
@@ -1027,7 +967,7 @@ ADD CONSTRAINT [FK_lineas_metroviajes_metro]
     FOREIGN KEY ([lineas_metro_id])
     REFERENCES [dbo].[lineas_metroSet]
         ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_lineas_metroviajes_metro'
@@ -1066,8 +1006,8 @@ ON [dbo].[estados_puntobiciSet]
     ([puntos_bici_id]);
 GO
 
--- Creating foreign key on [viajes_euskotren_id] in table 'viajes_parada_tiemposSet'
-ALTER TABLE [dbo].[viajes_parada_tiemposSet]
+-- Creating foreign key on [viajes_euskotren_id] in table 'viajes_parada_tiempos_euskotrenSet'
+ALTER TABLE [dbo].[viajes_parada_tiempos_euskotrenSet]
 ADD CONSTRAINT [FK_viajes_euskotrenviajes_parada_tiempos]
     FOREIGN KEY ([viajes_euskotren_id])
     REFERENCES [dbo].[viajes_euskotrenSet]
@@ -1077,12 +1017,12 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_viajes_euskotrenviajes_parada_tiempos'
 CREATE INDEX [IX_FK_viajes_euskotrenviajes_parada_tiempos]
-ON [dbo].[viajes_parada_tiemposSet]
+ON [dbo].[viajes_parada_tiempos_euskotrenSet]
     ([viajes_euskotren_id]);
 GO
 
--- Creating foreign key on [paradas_euskotren_id] in table 'viajes_parada_tiemposSet'
-ALTER TABLE [dbo].[viajes_parada_tiemposSet]
+-- Creating foreign key on [paradas_euskotren_id] in table 'viajes_parada_tiempos_euskotrenSet'
+ALTER TABLE [dbo].[viajes_parada_tiempos_euskotrenSet]
 ADD CONSTRAINT [FK_paradas_euskotrenviajes_parada_tiempos]
     FOREIGN KEY ([paradas_euskotren_id])
     REFERENCES [dbo].[paradas_euskotrenSet]
@@ -1092,8 +1032,98 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_paradas_euskotrenviajes_parada_tiempos'
 CREATE INDEX [IX_FK_paradas_euskotrenviajes_parada_tiempos]
-ON [dbo].[viajes_parada_tiemposSet]
+ON [dbo].[viajes_parada_tiempos_euskotrenSet]
     ([paradas_euskotren_id]);
+GO
+
+-- Creating foreign key on [paradas_metro_id] in table 'viajes_parada_tiempos_metroSet'
+ALTER TABLE [dbo].[viajes_parada_tiempos_metroSet]
+ADD CONSTRAINT [FK_paradas_metroviajes_parada_tiempos_metro]
+    FOREIGN KEY ([paradas_metro_id])
+    REFERENCES [dbo].[paradas_metroSet]
+        ([id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_paradas_metroviajes_parada_tiempos_metro'
+CREATE INDEX [IX_FK_paradas_metroviajes_parada_tiempos_metro]
+ON [dbo].[viajes_parada_tiempos_metroSet]
+    ([paradas_metro_id]);
+GO
+
+-- Creating foreign key on [viajes_metro_id] in table 'viajes_parada_tiempos_metroSet'
+ALTER TABLE [dbo].[viajes_parada_tiempos_metroSet]
+ADD CONSTRAINT [FK_viajes_metroviajes_parada_tiempos_metro]
+    FOREIGN KEY ([viajes_metro_id])
+    REFERENCES [dbo].[viajes_metroSet]
+        ([id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_viajes_metroviajes_parada_tiempos_metro'
+CREATE INDEX [IX_FK_viajes_metroviajes_parada_tiempos_metro]
+ON [dbo].[viajes_parada_tiempos_metroSet]
+    ([viajes_metro_id]);
+GO
+
+-- Creating foreign key on [paradas_bizkaibus_id] in table 'viajes_parada_tiempos_bizkaibusSet'
+ALTER TABLE [dbo].[viajes_parada_tiempos_bizkaibusSet]
+ADD CONSTRAINT [FK_paradas_bizkaibusviajes_parada_tiempos_bizkaibus]
+    FOREIGN KEY ([paradas_bizkaibus_id])
+    REFERENCES [dbo].[paradas_bizkaibusSet]
+        ([id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_paradas_bizkaibusviajes_parada_tiempos_bizkaibus'
+CREATE INDEX [IX_FK_paradas_bizkaibusviajes_parada_tiempos_bizkaibus]
+ON [dbo].[viajes_parada_tiempos_bizkaibusSet]
+    ([paradas_bizkaibus_id]);
+GO
+
+-- Creating foreign key on [viajes_bizkaibus_id] in table 'viajes_parada_tiempos_bizkaibusSet'
+ALTER TABLE [dbo].[viajes_parada_tiempos_bizkaibusSet]
+ADD CONSTRAINT [FK_viajes_bizkaibusviajes_parada_tiempos_bizkaibus]
+    FOREIGN KEY ([viajes_bizkaibus_id])
+    REFERENCES [dbo].[viajes_bizkaibusSet]
+        ([id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_viajes_bizkaibusviajes_parada_tiempos_bizkaibus'
+CREATE INDEX [IX_FK_viajes_bizkaibusviajes_parada_tiempos_bizkaibus]
+ON [dbo].[viajes_parada_tiempos_bizkaibusSet]
+    ([viajes_bizkaibus_id]);
+GO
+
+-- Creating foreign key on [viajes_bilbobus_id] in table 'viajes_parada_tiempos_bilbobusSet'
+ALTER TABLE [dbo].[viajes_parada_tiempos_bilbobusSet]
+ADD CONSTRAINT [FK_viajes_bilbobusviajes_parada_tiempos_bilbobus]
+    FOREIGN KEY ([viajes_bilbobus_id])
+    REFERENCES [dbo].[viajes_bilbobusSet]
+        ([id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_viajes_bilbobusviajes_parada_tiempos_bilbobus'
+CREATE INDEX [IX_FK_viajes_bilbobusviajes_parada_tiempos_bilbobus]
+ON [dbo].[viajes_parada_tiempos_bilbobusSet]
+    ([viajes_bilbobus_id]);
+GO
+
+-- Creating foreign key on [paradas_bilbobus_id] in table 'viajes_parada_tiempos_bilbobusSet'
+ALTER TABLE [dbo].[viajes_parada_tiempos_bilbobusSet]
+ADD CONSTRAINT [FK_paradas_bilbobusviajes_parada_tiempos_bilbobus]
+    FOREIGN KEY ([paradas_bilbobus_id])
+    REFERENCES [dbo].[paradas_bilbobusSet]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_paradas_bilbobusviajes_parada_tiempos_bilbobus'
+CREATE INDEX [IX_FK_paradas_bilbobusviajes_parada_tiempos_bilbobus]
+ON [dbo].[viajes_parada_tiempos_bilbobusSet]
+    ([paradas_bilbobus_id]);
 GO
 
 -- --------------------------------------------------

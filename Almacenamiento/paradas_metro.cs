@@ -16,19 +16,18 @@ namespace Almacenamiento
     {
         public paradas_metro()
         {
-            this.paradas_metro1 = new HashSet<paradas_metro>();
-            this.viajes_metro = new HashSet<viajes_metro>();
+            this.viajes_parada_tiempos_metro = new HashSet<viajes_parada_tiempos_metro>();
         }
     
         public int id { get; set; }
         public string nombre { get; set; }
-        public string latitud { get; set; }
-        public string longitud { get; set; }
-        public string tipoLocalizacion { get; set; }
-        public int paradas_metroId { get; set; }
+        public double latitud { get; set; }
+        public double longitud { get; set; }
+        public int tipoLocalizacion { get; set; }
+        public string idParadaPadre { get; set; }
+        public string codigoParada { get; set; }
+        public string idParada { get; set; }
     
-        public virtual ICollection<paradas_metro> paradas_metro1 { get; set; }
-        public virtual paradas_metro paradas_metro2 { get; set; }
-        public virtual ICollection<viajes_metro> viajes_metro { get; set; }
+        public virtual ICollection<viajes_parada_tiempos_metro> viajes_parada_tiempos_metro { get; set; }
     }
 }

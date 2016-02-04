@@ -16,7 +16,7 @@ namespace Almacenamiento
     {
         public paradas_bizkaibus()
         {
-            this.viajes_bizkaibus = new HashSet<viajes_bizkaibus>();
+            this.viajes_parada_tiempos_bizkaibus = new HashSet<viajes_parada_tiempos_bizkaibus>();
         }
     
         public int id { get; set; }
@@ -26,7 +26,9 @@ namespace Almacenamiento
         public double longitud { get; set; }
         public string url { get; set; }
         public int tipoLocalizacion { get; set; }
+        public int codigoParada { get; set; }
+        public int idParadaPadre { get; set; }
     
-        public virtual ICollection<viajes_bizkaibus> viajes_bizkaibus { get; set; }
+        public virtual ICollection<viajes_parada_tiempos_bizkaibus> viajes_parada_tiempos_bizkaibus { get; set; }
     }
 }
