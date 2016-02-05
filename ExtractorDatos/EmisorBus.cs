@@ -41,7 +41,7 @@ namespace ExtractorDatos
                 _session = _connection.CreateSession();
 
                 // Create the destination (Topic or Queue)
-                IDestination destination = _session.GetQueue(QUEUE_DESTINATION);
+                IDestination destination = _session.GetTopic(QUEUE_DESTINATION);
 
                 // Create a MessageProducer from the Session to the Topic or Queue
                 _producer = _session.CreateProducer(destination);
@@ -135,6 +135,15 @@ namespace ExtractorDatos
                 temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(86400000);
                 _producer.Send(temporal);
             }
+        }
+
+        public void enviarTiempoBilbao(Dictionary<string, TiempoDiaCiudad> tiempos, Dictionary<string, string> es, Dictionary<string, string> eu, string ciudad)
+        {
+            XElement xml = convertirTiempoCiudad(tiempos, ciudad, es, eu);
+            ITextMessage temporal = _producer.CreateXmlMessage(xml);
+            temporal.NMSType = "TiempoCiudad";
+            temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(86400000);
+            _producer.Send(temporal);
         }
 
 /// <summary>
@@ -1163,6 +1172,106 @@ namespace ExtractorDatos
 
             Console.WriteLine(incidencia.ToString());
             return incidencia;
+        }
+
+        public XElement convertirTiempoCiudad(Dictionary<string, TiempoDiaCiudad> dt, string ciudad, Dictionary<string, string> es, Dictionary<string, string> eu)
+        {
+            XElement meteo = new XElement("TiempoCiudad");
+            //Cabecera
+
+            XElement cabecera = new XElement("Cabecera");
+            XElement tipo = new XElement("Tipo", "tiempoCiudad");
+            XElement zona = new XElement("Zona", "ZonaX");
+            XElement fecha = new XElement("FechaDescarga", DateTime.Now);
+
+            XElement influencia = new XElement("Influencia");
+            XElement codigoPostal = new XElement("CP", 48001);
+            XElement barrio = new XElement("Barrio", "Desconocido");
+            XElement distrito = new XElement("Distrito", "Desconocido");
+            influencia.Add(codigoPostal);
+            influencia.Add(barrio);
+            influencia.Add(distrito);
+
+            cabecera.Add(tipo);
+            cabecera.Add(zona);
+            cabecera.Add(influencia);
+            cabecera.Add(fecha);
+
+            meteo.Add(cabecera);
+
+            //Contenido
+
+            XElement cuerpo = new XElement("Cuerpo");
+            XElement xmlCiudad = new XElement("Ciudad");
+
+            XElement nombre = new XElement("Nombre", ciudad);
+            
+
+            XElement hoy = new XElement("Hoy");
+            XElement descripcionGeneral = new XElement("DescripcionGeneral");
+            XElement descES = new XElement("ES", es["Hoy"]);
+            XElement descEU = new XElement("EU", eu["Hoy"]);
+            descripcionGeneral.Add(descES);
+            descripcionGeneral.Add(descEU);
+
+            XElement ciudadES = new XElement("DescripcionES", dt["Hoy"].descripcionES);
+            XElement ciudadEU = new XElement("DescripcionEU", dt["Hoy"].descripcionEU);
+            XElement max = new XElement("TempMax", dt["Hoy"].maxima);
+            XElement min = new XElement("TempMin", dt["Hoy"].minima);
+
+            hoy.Add(descripcionGeneral);
+            hoy.Add(ciudadES);
+            hoy.Add(ciudadEU);
+            hoy.Add(max);
+            hoy.Add(min);
+
+            XElement manana = new XElement("Mañana");
+            descripcionGeneral = new XElement("DescripcionGeneral");
+            descES = new XElement("ES", es["Mañana"]);
+            descEU = new XElement("EU", eu["Mañana"]);
+            descripcionGeneral.Add(descES);
+            descripcionGeneral.Add(descEU);
+
+            ciudadES = new XElement("DescripcionES", dt["Mañana"].descripcionES);
+            ciudadEU = new XElement("DescripcionEU", dt["Mañana"].descripcionEU);
+            max = new XElement("TempMax", dt["Mañana"].maxima);
+            min = new XElement("TempMin", dt["Mañana"].minima);
+
+            manana.Add(descripcionGeneral);
+            manana.Add(ciudadES);
+            manana.Add(ciudadEU);
+            manana.Add(max);
+            manana.Add(min);
+
+            XElement pasado = new XElement("Pasado");
+            descripcionGeneral = new XElement("DescripcionGeneral");
+            descES = new XElement("ES", es["Pasado"]);
+            descEU = new XElement("EU", eu["Pasado"]);
+            descripcionGeneral.Add(descES);
+            descripcionGeneral.Add(descEU);
+
+            ciudadES = new XElement("DescripcionES", dt["Pasado"].descripcionES);
+            ciudadEU = new XElement("DescripcionEU", dt["Pasado"].descripcionEU);
+            max = new XElement("TempMax", dt["Pasado"].maxima);
+            min = new XElement("TempMin", dt["Pasado"].minima);
+
+            pasado.Add(descripcionGeneral);
+            pasado.Add(ciudadES);
+            pasado.Add(ciudadEU);
+            pasado.Add(max);
+            pasado.Add(min);
+
+            xmlCiudad.Add(nombre);
+            xmlCiudad.Add(hoy);
+            xmlCiudad.Add(manana);
+            xmlCiudad.Add(pasado);
+
+            cuerpo.Add(xmlCiudad);
+
+            meteo.Add(cuerpo);
+
+            Console.WriteLine(meteo.ToString());
+            return meteo;
         }
     }
 }

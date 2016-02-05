@@ -15,7 +15,7 @@ namespace Clases
         }
 
         public TiempoCiudad(DateTime horaDeActualizacion, DateTime dia, string descripcionEs, string descripcionEu,
-            string fechaEscrita, List<Clases.KeyValuePair<string, TiempoDiaCiudad>> tiempoCiudades)
+            string fechaEscrita, Dictionary<string, TiempoDiaCiudad> tiempoCiudades)
         {
             this.horaDeActualizacion = horaDeActualizacion;
             this.dia = dia;
@@ -30,7 +30,7 @@ namespace Clases
         public string descripcionES { get; set; }
         public string descripcionEU { get; set; }
         public string fechaEscrita { get; set; }
-        public List<Clases.KeyValuePair<string, TiempoDiaCiudad>> tiempoCiudades { get; set; }
+        public Dictionary<string, TiempoDiaCiudad> tiempoCiudades { get; set; }
         public override string ToString()
         {
             string respuesta = "Hora de Actualización: " + horaDeActualizacion + " Día: " + dia + "\n";
@@ -38,10 +38,6 @@ namespace Clases
             respuesta = respuesta + "DescripcionEU: " + descripcionEU + "\n";
             respuesta = respuesta + "Fecha escrita: " + fechaEscrita + "\n";
 
-            foreach (Clases.KeyValuePair<string, TiempoDiaCiudad> tc in tiempoCiudades)
-            {
-                respuesta = respuesta + tc.Value.ToString();
-            }
             return respuesta;
         }
     }

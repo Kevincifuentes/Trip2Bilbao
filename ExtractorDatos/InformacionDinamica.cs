@@ -167,7 +167,7 @@ namespace ExtractorDatos
                     //Obtenemos la fecha escrita
                     string fechaEscrita = x.ChildNodes[2].InnerText;
 
-                    List<Clases.KeyValuePair<string, TiempoDiaCiudad>> tiempoList = new List<Clases.KeyValuePair<string, TiempoDiaCiudad>>();
+                    Dictionary<string, TiempoDiaCiudad> tiempoList = new Dictionary<string, TiempoDiaCiudad>();
                     //Información simple sobre unas pocas ciudades
                     foreach (XmlNode nodo in x.ChildNodes[4].ChildNodes)
                     {
@@ -186,7 +186,7 @@ namespace ExtractorDatos
                         int min = int.Parse(nodo.ChildNodes[2].InnerText);
 
                         //Añadimos a la lista
-                        tiempoList.Add(new Clases.KeyValuePair<string, TiempoDiaCiudad>(nombreCiudad, new TiempoDiaCiudad(nombreCiudad, id, descCiudadES, descCiudadEU, max, min)));
+                        tiempoList.Add(nombreCiudad, new TiempoDiaCiudad(nombreCiudad, id, descCiudadES, descCiudadEU, max, min));
 
                     }
 
@@ -202,13 +202,14 @@ namespace ExtractorDatos
                     }
                     else
                     {
-                        idetificativoDia = "Pasado mañana";
+                        idetificativoDia = "Pasado";
                     }
                     contador++;
 
                     //Añado a la lista del tiempo
                     tiempoPorCiudades.Add(idetificativoDia,
                         new TiempoCiudad(diaActualizacion, dia, descripcionES, descripcionEU, fechaEscrita, tiempoList));
+
                 }
             }
             else

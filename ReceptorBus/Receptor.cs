@@ -73,7 +73,7 @@ namespace ReceptorBus
             //obtenerEuskotren(oe);
             //obtenerMetro(oe);
             //obtenerBizkaibus(oe);
-            obtenerBilbobus(oe);
+            //obtenerBilbobus(oe);
 
         }
 
@@ -178,13 +178,14 @@ namespace ReceptorBus
                     break;
                 case "Deusto":
                     XElement deustoP = XElement.Parse(temp.Text);
-                    //XmlDocument deusto = new XmlDocument();
-                    //bici.LoadXml(temp.Text);
+                    XmlDocument deusto = new XmlDocument();
+                    deusto.LoadXml(temp.Text);
                     if (deustoP != null)
                     {
-                        //Console.WriteLine(bici.InnerXml);
+                        Console.WriteLine(deusto.ChildNodes[1].Name);
                         parkingDeusto p = new parkingDeusto();
-                        Console.WriteLine(deustoP.ToString());
+                        //Console.WriteLine(deustoP.ToString());
+                        Console.WriteLine("FIN");
                     }
                     break;
                 case "Incidencia":
@@ -195,6 +196,13 @@ namespace ReceptorBus
                     {
                         //Console.WriteLine(bici.InnerXml);
                         Console.WriteLine(incidencia.ToString());
+                    }
+                    break;
+                case "TiempoCiudad":
+                    XElement tiempo = XElement.Parse(temp.Text);
+                    if (tiempo != null)
+                    {
+                        Console.WriteLine(tiempo.ToString());
                     }
                     break;
             }

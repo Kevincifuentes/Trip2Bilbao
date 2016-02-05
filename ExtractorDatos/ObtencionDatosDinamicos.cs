@@ -23,12 +23,14 @@ namespace ExtractorDatos
             Thread obtenerParkings = new Thread(new ThreadStart(this.obtenerParkings));
             Thread deusto = new Thread(new ThreadStart(this.obtenerDeusto));
             Thread obtenerBilbo = new Thread(new ThreadStart(this.obtenerBilbobus));
+            Thread tiempo = new Thread(new ThreadStart(this.obtenerTiempoBilbao));
 
             incidencias.Start();
             obtenerBicis.Start();
             obtenerParkings.Start();
             deusto.Start();
             obtenerBilbo.Start();
+            tiempo.Start();
         }
 
         public void obtenerIncidencias()
@@ -99,6 +101,30 @@ namespace ExtractorDatos
 
                 //Espera un Minuto
                 Thread.Sleep(60000);
+            }
+        }
+
+        public void obtenerTiempoBilbao()
+        {
+            while (true)
+            {
+                dinamico.meteorologiaCiudad();
+                Dictionary<string, TiempoDiaCiudad> temporal = new Dictionary<string, TiempoDiaCiudad>();
+                Dictionary<string, string> descripcionesES = new Dictionary<string, string>();
+                Dictionary<string, string> descripcionesEU = new Dictionary<string, string>();
+                temporal.Add("Hoy",dinamico.tiempoPorCiudades["Hoy"].tiempoCiudades["Bilbao"]);
+                descripcionesES.Add("Hoy", dinamico.tiempoPorCiudades["Hoy"].descripcionES);
+                descripcionesEU.Add("Hoy", dinamico.tiempoPorCiudades["Hoy"].descripcionEU);
+                temporal.Add("Mañana", dinamico.tiempoPorCiudades["Mañana"].tiempoCiudades["Bilbao"]);
+                descripcionesES.Add("Mañana", dinamico.tiempoPorCiudades["Mañana"].descripcionES);
+                descripcionesEU.Add("Mañana", dinamico.tiempoPorCiudades["Mañana"].descripcionEU);
+                temporal.Add("Pasado", dinamico.tiempoPorCiudades["Pasado"].tiempoCiudades["Bilbao"]);
+                descripcionesES.Add("Pasado", dinamico.tiempoPorCiudades["Pasado"].descripcionES);
+                descripcionesEU.Add("Pasado", dinamico.tiempoPorCiudades["Pasado"].descripcionEU);
+                InformacionEstatica.emisor.enviarTiempoBilbao(temporal, descripcionesES, descripcionesEU, "Bilbao");
+
+                //Espera un Minuto
+                Thread.Sleep(86400000);
             }
         }
 
