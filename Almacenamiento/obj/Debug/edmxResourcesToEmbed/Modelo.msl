@@ -44,6 +44,7 @@
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
           <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
+          <ScalarProperty Name="fechaInsercion" ColumnName="fechaInsercion" />
           <ScalarProperty Name="tipo" ColumnName="tipo" />
           <ScalarProperty Name="descripcion" ColumnName="descripcion" />
           <ScalarProperty Name="latitud" ColumnName="latitud" />
@@ -118,11 +119,7 @@
         <MappingFragment StoreEntitySet="tiempos_dia_ciudadSet">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="nombreCiudad" ColumnName="nombreCiudad" />
-          <ScalarProperty Name="descripcionES" ColumnName="descripcionES" />
-          <ScalarProperty Name="descripcionEU" ColumnName="descripcionEU" />
-          <ScalarProperty Name="maxima" ColumnName="maxima" />
-          <ScalarProperty Name="minima" ColumnName="minima" />
-          <ScalarProperty Name="tiempos_ciudadId" ColumnName="tiempos_ciudadId" />
+          <ScalarProperty Name="fechaDescarga" ColumnName="fechaDescarga" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -130,11 +127,15 @@
       <EntityTypeMapping TypeName="IsTypeOf(Modelo.tiempos_ciudad)">
         <MappingFragment StoreEntitySet="tiempos_ciudadSet">
           <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="horaDeActualizacion" ColumnName="horaDeActualizacion" />
-          <ScalarProperty Name="dia" ColumnName="dia" />
+          <ScalarProperty Name="diaPrediccion" ColumnName="diaPrediccion" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
           <ScalarProperty Name="descripcionES" ColumnName="descripcionES" />
           <ScalarProperty Name="descripcionEU" ColumnName="descripcionEU" />
-          <ScalarProperty Name="tiempos_dia_ciudadId" ColumnName="tiempos_dia_ciudadId" />
+          <ScalarProperty Name="descripcionGeneralES" ColumnName="descripcionGeneralES" />
+          <ScalarProperty Name="descripcionGeneralEU" ColumnName="descripcionGeneralEU" />
+          <ScalarProperty Name="tiempos_dia_ciudad_id" ColumnName="tiempos_dia_ciudad_id" />
+          <ScalarProperty Name="maxima" ColumnName="maxima" />
+          <ScalarProperty Name="minima" ColumnName="minima" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -10,14 +10,13 @@
         <EntityTypeShape EntityType="Modelo.parkings" Width="1.5" PointX="4.875" PointY="1.125" IsExpanded="true" />
         <AssociationConnector Association="Modelo.parkingsentradas" />
         <AssociationConnector Association="Modelo.parkingstarifas" />
-        <EntityTypeShape EntityType="Modelo.incidencias" Width="1.5" PointX="9.75" PointY="3.5" />
+        <EntityTypeShape EntityType="Modelo.incidencias" Width="1.5" PointX="9.75" PointY="3.25" />
         <EntityTypeShape EntityType="Modelo.paradas_tranvia" Width="1.5" PointX="3" PointY="5.875" />
         <EntityTypeShape EntityType="Modelo.hospitales" Width="1.5" PointX="0.5" PointY="6.25" />
         <EntityTypeShape EntityType="Modelo.puntos_bici" Width="1.5" PointX="0.5" PointY="3.625" />
         <EntityTypeShape EntityType="Modelo.centros_de_salud" Width="1.75" PointX="0.5" PointY="10" />
         <EntityTypeShape EntityType="Modelo.tiempos_dia_ciudad" Width="1.75" PointX="3.125" PointY="8" />
-        <EntityTypeShape EntityType="Modelo.tiempos_ciudad" Width="1.875" PointX="5.375" PointY="6.75" />
-        <AssociationConnector Association="Modelo.tiempos_ciudadtiempos_dia_ciudad" />
+        <EntityTypeShape EntityType="Modelo.tiempos_ciudad" Width="1.875" PointX="5.5" PointY="6.75" />
         <EntityTypeShape EntityType="Modelo.tiempos_comarca" Width="2.25" PointX="4.25" PointY="12.5" />
         <EntityTypeShape EntityType="Modelo.tiempos_dia_comarca" Width="1.5" PointX="2.5" PointY="12.5" />
         <AssociationConnector Association="Modelo.tiempos_comarcatiempos_dia_comarca" />
@@ -61,6 +60,7 @@
         <EntityTypeShape EntityType="Modelo.viajes_parada_tiempos_bilbobus" Width="1.5" PointX="12" PointY="16.75" />
         <AssociationConnector Association="Modelo.viajes_bilbobusviajes_parada_tiempos_bilbobus" />
         <AssociationConnector Association="Modelo.paradas_bilbobusviajes_parada_tiempos_bilbobus" />
+        <AssociationConnector Association="Modelo.tiempos_dia_ciudadtiempos_ciudad" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

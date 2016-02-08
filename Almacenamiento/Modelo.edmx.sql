@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/04/2016 12:43:22
+-- Date Created: 02/08/2016 13:08:30
 -- Generated from EDMX file: C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\Modelo.edmx
 -- --------------------------------------------------
 
@@ -22,9 +22,6 @@ IF OBJECT_ID(N'[dbo].[FK_parkingsentradas]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_parkingstarifas]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[tarifasSet] DROP CONSTRAINT [FK_parkingstarifas];
-GO
-IF OBJECT_ID(N'[dbo].[FK_tiempos_ciudadtiempos_dia_ciudad]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[tiempos_dia_ciudadSet] DROP CONSTRAINT [FK_tiempos_ciudadtiempos_dia_ciudad];
 GO
 IF OBJECT_ID(N'[dbo].[FK_tiempos_comarcatiempos_dia_comarca]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[tiempos_dia_comarcaSet] DROP CONSTRAINT [FK_tiempos_comarcatiempos_dia_comarca];
@@ -79,6 +76,9 @@ IF OBJECT_ID(N'[dbo].[FK_viajes_bilbobusviajes_parada_tiempos_bilbobus]', 'F') I
 GO
 IF OBJECT_ID(N'[dbo].[FK_paradas_bilbobusviajes_parada_tiempos_bilbobus]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[viajes_parada_tiempos_bilbobusSet] DROP CONSTRAINT [FK_paradas_bilbobusviajes_parada_tiempos_bilbobus];
+GO
+IF OBJECT_ID(N'[dbo].[FK_tiempos_dia_ciudadtiempos_ciudad]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[tiempos_ciudadSet] DROP CONSTRAINT [FK_tiempos_dia_ciudadtiempos_ciudad];
 GO
 
 -- --------------------------------------------------
@@ -211,7 +211,7 @@ CREATE TABLE [dbo].[tarifasSet] (
     [tipo] nvarchar(max)  NOT NULL,
     [descripcion] nvarchar(max)  NOT NULL,
     [zona] nvarchar(max)  NOT NULL,
-    [actualizacion] datetime  NOT NULL,
+    [actualizacion] datetime2(7)  NOT NULL,
     [parkingsId] int  NOT NULL
 );
 GO
@@ -221,7 +221,7 @@ CREATE TABLE [dbo].[parkingsSet] (
     [id] int  NOT NULL,
     [nombre] nvarchar(max)  NOT NULL,
     [tipo] nvarchar(max)  NOT NULL,
-    [fecha] datetime  NOT NULL,
+    [fecha] datetime2(7)  NOT NULL,
     [estado] nvarchar(max)  NOT NULL,
     [capacidad] int  NOT NULL,
     [latitud] float  NOT NULL,
@@ -236,8 +236,9 @@ CREATE TABLE [dbo].[incidenciasSet] (
     [descripcion] nvarchar(max)  NOT NULL,
     [latitud] float  NOT NULL,
     [longitud] float  NOT NULL,
-    [fechaInicio] datetime  NOT NULL,
-    [fechaFin] datetime  NOT NULL
+    [fechaInicio] datetime2(7)  NOT NULL,
+    [fechaFin] datetime2(7)  NOT NULL,
+    [fechaInsercion] datetime2(7)  NOT NULL
 );
 GO
 
@@ -270,7 +271,7 @@ GO
 
 -- Creating table 'puntos_biciSet'
 CREATE TABLE [dbo].[puntos_biciSet] (
-    [id] int IDENTITY(1,1) NOT NULL,
+    [id] int  NOT NULL,
     [nombre] nvarchar(max)  NOT NULL,
     [estado] nvarchar(max)  NOT NULL,
     [latitud] float  NOT NULL,
@@ -301,31 +302,31 @@ GO
 
 -- Creating table 'tiempos_dia_ciudadSet'
 CREATE TABLE [dbo].[tiempos_dia_ciudadSet] (
-    [id] int  NOT NULL,
+    [id] int IDENTITY(1,1) NOT NULL,
     [nombreCiudad] nvarchar(max)  NOT NULL,
-    [descripcionES] nvarchar(max)  NOT NULL,
-    [descripcionEU] nvarchar(max)  NOT NULL,
-    [maxima] int  NOT NULL,
-    [minima] int  NOT NULL,
-    [tiempos_ciudadId] int  NOT NULL
+    [fechaDescarga] datetime2(7)  NOT NULL
 );
 GO
 
 -- Creating table 'tiempos_ciudadSet'
 CREATE TABLE [dbo].[tiempos_ciudadSet] (
-    [id] int  NOT NULL,
-    [horaDeActualizacion] datetime  NOT NULL,
-    [dia] datetime  NOT NULL,
+    [id] int IDENTITY(1,1) NOT NULL,
+    [diaPrediccion] nvarchar(max)  NOT NULL,
+    [fecha] datetime2(7)  NOT NULL,
     [descripcionES] nvarchar(max)  NOT NULL,
     [descripcionEU] nvarchar(max)  NOT NULL,
-    [tiempos_dia_ciudadId] int  NOT NULL
+    [descripcionGeneralES] nvarchar(max)  NOT NULL,
+    [descripcionGeneralEU] nvarchar(max)  NOT NULL,
+    [tiempos_dia_ciudad_id] int  NOT NULL,
+    [maxima] int  NOT NULL,
+    [minima] int  NOT NULL
 );
 GO
 
 -- Creating table 'tiempos_comarcaSet'
 CREATE TABLE [dbo].[tiempos_comarcaSet] (
     [id] int  NOT NULL,
-    [diaActualizacion] datetime  NOT NULL,
+    [diaActualizacion] datetime2(7)  NOT NULL,
     [nombreComarcaES] nvarchar(max)  NOT NULL,
     [nombreComarcaEU] nvarchar(max)  NOT NULL
 );
@@ -334,7 +335,7 @@ GO
 -- Creating table 'tiempos_dia_comarcaSet'
 CREATE TABLE [dbo].[tiempos_dia_comarcaSet] (
     [id] int  NOT NULL,
-    [fechaPrediccion] datetime  NOT NULL,
+    [fechaPrediccion] datetime2(7)  NOT NULL,
     [vientoES] nvarchar(max)  NOT NULL,
     [vientoEU] nvarchar(max)  NOT NULL,
     [tiempoES] nvarchar(max)  NOT NULL,
@@ -369,7 +370,7 @@ GO
 -- Creating table 'tiempos_diaSet'
 CREATE TABLE [dbo].[tiempos_diaSet] (
     [id] int  NOT NULL,
-    [fechaPrediccion] datetime  NOT NULL,
+    [fechaPrediccion] datetime2(7)  NOT NULL,
     [vientoES] nvarchar(max)  NOT NULL,
     [vientoEU] nvarchar(max)  NOT NULL,
     [tiempoES] nvarchar(max)  NOT NULL,
@@ -471,7 +472,7 @@ CREATE TABLE [dbo].[tiempos_linea_paradaSet] (
     [tiempoEspera] int  NOT NULL,
     [lineas_bilbobusId] int  NOT NULL,
     [paradas_bilbobusId] int  NOT NULL,
-    [fecha] datetime  NOT NULL
+    [fecha] datetime2(7)  NOT NULL
 );
 GO
 
@@ -530,7 +531,7 @@ GO
 CREATE TABLE [dbo].[estados_parkingSet] (
     [id] int IDENTITY(1,1) NOT NULL,
     [disponible] int  NOT NULL,
-    [fecha] datetime  NOT NULL,
+    [fecha] datetime2(7)  NOT NULL,
     [parkings_id] int  NOT NULL
 );
 GO
@@ -540,14 +541,14 @@ CREATE TABLE [dbo].[estados_puntobiciSet] (
     [id] int IDENTITY(1,1) NOT NULL,
     [anclajeslibres] int  NOT NULL,
     [bicisLibres] int  NOT NULL,
-    [fecha] datetime  NOT NULL,
+    [fecha] datetime2(7)  NOT NULL,
     [puntos_bici_id] int  NOT NULL
 );
 GO
 
 -- Creating table 'parkingDeustoSet'
 CREATE TABLE [dbo].[parkingDeustoSet] (
-    [fecha] datetime  NOT NULL,
+    [fecha] datetime2(7)  NOT NULL,
     [dbs] int  NOT NULL,
     [general] int  NOT NULL
 );
@@ -615,10 +616,10 @@ ADD CONSTRAINT [PK_parkingsSet]
     PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
--- Creating primary key on [id], [fechaInicio], [fechaFin] in table 'incidenciasSet'
+-- Creating primary key on [id], [fechaInicio], [fechaFin], [fechaInsercion] in table 'incidenciasSet'
 ALTER TABLE [dbo].[incidenciasSet]
 ADD CONSTRAINT [PK_incidenciasSet]
-    PRIMARY KEY CLUSTERED ([id], [fechaInicio], [fechaFin] ASC);
+    PRIMARY KEY CLUSTERED ([id], [fechaInicio], [fechaFin], [fechaInsercion] ASC);
 GO
 
 -- Creating primary key on [Id] in table 'paradas_tranviaSet'
@@ -839,21 +840,6 @@ GO
 CREATE INDEX [IX_FK_parkingstarifas]
 ON [dbo].[tarifasSet]
     ([parkingsId]);
-GO
-
--- Creating foreign key on [tiempos_ciudadId] in table 'tiempos_dia_ciudadSet'
-ALTER TABLE [dbo].[tiempos_dia_ciudadSet]
-ADD CONSTRAINT [FK_tiempos_ciudadtiempos_dia_ciudad]
-    FOREIGN KEY ([tiempos_ciudadId])
-    REFERENCES [dbo].[tiempos_ciudadSet]
-        ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_tiempos_ciudadtiempos_dia_ciudad'
-CREATE INDEX [IX_FK_tiempos_ciudadtiempos_dia_ciudad]
-ON [dbo].[tiempos_dia_ciudadSet]
-    ([tiempos_ciudadId]);
 GO
 
 -- Creating foreign key on [tiempos_comarcaId] in table 'tiempos_dia_comarcaSet'
@@ -1124,6 +1110,21 @@ GO
 CREATE INDEX [IX_FK_paradas_bilbobusviajes_parada_tiempos_bilbobus]
 ON [dbo].[viajes_parada_tiempos_bilbobusSet]
     ([paradas_bilbobus_id]);
+GO
+
+-- Creating foreign key on [tiempos_dia_ciudad_id] in table 'tiempos_ciudadSet'
+ALTER TABLE [dbo].[tiempos_ciudadSet]
+ADD CONSTRAINT [FK_tiempos_dia_ciudadtiempos_ciudad]
+    FOREIGN KEY ([tiempos_dia_ciudad_id])
+    REFERENCES [dbo].[tiempos_dia_ciudadSet]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_tiempos_dia_ciudadtiempos_ciudad'
+CREATE INDEX [IX_FK_tiempos_dia_ciudadtiempos_ciudad]
+ON [dbo].[tiempos_ciudadSet]
+    ([tiempos_dia_ciudad_id]);
 GO
 
 -- --------------------------------------------------

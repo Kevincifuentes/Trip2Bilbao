@@ -21,5 +21,6 @@ namespace Almacenamiento
         public double longitud { get; set; }
         public System.DateTime fechaInicio { get; set; }
         public System.DateTime fechaFin { get; set; }
+        public System.DateTime fechaInsercion { get; set; }
     }
 }

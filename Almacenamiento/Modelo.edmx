@@ -49,10 +49,6 @@
       <End Role="parkings" EntitySet="parkingsSet" />
       <End Role="tarifas" EntitySet="tarifasSet" />
     </AssociationSet>
-    <AssociationSet Name="tiempos_ciudadtiempos_dia_ciudad" Association="Modelo.Store.tiempos_ciudadtiempos_dia_ciudad">
-      <End Role="tiempos_ciudad" EntitySet="tiempos_ciudadSet" />
-      <End Role="tiempos_dia_ciudad" EntitySet="tiempos_dia_ciudadSet" />
-    </AssociationSet>
     <AssociationSet Name="tiempos_comarcatiempos_dia_comarca" Association="Modelo.Store.tiempos_comarcatiempos_dia_comarca">
       <End Role="tiempos_comarca" EntitySet="tiempos_comarcaSet" />
       <End Role="tiempos_dia_comarca" EntitySet="tiempos_dia_comarcaSet" />
@@ -125,6 +121,10 @@
       <End Role="paradas_bilbobus" EntitySet="paradas_bilbobusSet" />
       <End Role="viajes_parada_tiempos_bilbobus" EntitySet="viajes_parada_tiempos_bilbobusSet" />
     </AssociationSet>
+    <AssociationSet Name="tiempos_dia_ciudadtiempos_ciudad" Association="Modelo.Store.tiempos_dia_ciudadtiempos_ciudad">
+      <End Role="tiempos_dia_ciudad" EntitySet="tiempos_dia_ciudadSet" />
+      <End Role="tiempos_ciudad" EntitySet="tiempos_ciudadSet" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="entradasSet">
     <Key>
@@ -165,6 +165,7 @@
       <PropertyRef Name="id" />
       <PropertyRef Name="fechaInicio" />
       <PropertyRef Name="fechaFin" />
+      <PropertyRef Name="fechaInsercion" />
     </Key>
     <Property Name="id" Type="int" Nullable="false" />
     <Property Name="tipo" Type="nvarchar(max)" Nullable="false" />
@@ -173,6 +174,7 @@
     <Property Name="longitud" Type="float" Nullable="false" />
     <Property Name="fechaInicio" Type="datetime" Nullable="false" />
     <Property Name="fechaFin" Type="datetime" Nullable="false" />
+    <Property Name="fechaInsercion" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="paradas_tranviaSet">
     <Key>
@@ -205,7 +207,7 @@
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
     <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
     <Property Name="estado" Type="nvarchar(max)" Nullable="false" />
     <Property Name="latitud" Type="float" Nullable="false" />
@@ -236,24 +238,24 @@
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="nombreCiudad" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="descripcionES" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="descripcionEU" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="maxima" Type="int" Nullable="false" />
-    <Property Name="minima" Type="int" Nullable="false" />
-    <Property Name="tiempos_ciudadId" Type="int" Nullable="false" />
+    <Property Name="fechaDescarga" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="tiempos_ciudadSet">
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
-    <Property Name="horaDeActualizacion" Type="datetime" Nullable="false" />
-    <Property Name="dia" Type="datetime" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="diaPrediccion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="fecha" Type="datetime" Nullable="false" />
     <Property Name="descripcionES" Type="nvarchar(max)" Nullable="false" />
     <Property Name="descripcionEU" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="tiempos_dia_ciudadId" Type="int" Nullable="false" />
+    <Property Name="descripcionGeneralES" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="descripcionGeneralEU" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempos_dia_ciudad_id" Type="int" Nullable="false" />
+    <Property Name="maxima" Type="int" Nullable="false" />
+    <Property Name="minima" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="tiempos_comarcaSet">
     <Key>
@@ -483,7 +485,7 @@
     <Key>
       <PropertyRef Name="fecha" />
     </Key>
-    <Property Name="fecha" Type="datetime" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fecha" Type="datetime" Nullable="false" />
     <Property Name="dbs" Type="int" Nullable="false" />
     <Property Name="general" Type="int" Nullable="false" />
   </EntityType>
@@ -552,18 +554,6 @@
       </Principal>
       <Dependent Role="tarifas">
         <PropertyRef Name="parkingsId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="tiempos_ciudadtiempos_dia_ciudad">
-    <End Role="tiempos_ciudad" Type="Modelo.Store.tiempos_ciudadSet" Multiplicity="1" />
-    <End Role="tiempos_dia_ciudad" Type="Modelo.Store.tiempos_dia_ciudadSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tiempos_ciudad">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="tiempos_dia_ciudad">
-        <PropertyRef Name="tiempos_ciudadId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -809,6 +799,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="tiempos_dia_ciudadtiempos_ciudad">
+    <End Role="tiempos_dia_ciudad" Type="Modelo.Store.tiempos_dia_ciudadSet" Multiplicity="1" />
+    <End Role="tiempos_ciudad" Type="Modelo.Store.tiempos_ciudadSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tiempos_dia_ciudad">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tiempos_ciudad">
+        <PropertyRef Name="tiempos_dia_ciudad_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -832,10 +834,6 @@
           <EntitySet Name="centros_de_saludSet" EntityType="Modelo.centros_de_salud" />
           <EntitySet Name="tiempos_dia_ciudadSet" EntityType="Modelo.tiempos_dia_ciudad" />
           <EntitySet Name="tiempos_ciudadSet" EntityType="Modelo.tiempos_ciudad" />
-          <AssociationSet Name="tiempos_ciudadtiempos_dia_ciudad" Association="Modelo.tiempos_ciudadtiempos_dia_ciudad">
-            <End Role="tiempos_ciudad" EntitySet="tiempos_ciudadSet" />
-            <End Role="tiempos_dia_ciudad" EntitySet="tiempos_dia_ciudadSet" />
-          </AssociationSet>
           <EntitySet Name="tiempos_comarcaSet" EntityType="Modelo.tiempos_comarca" />
           <EntitySet Name="tiempos_dia_comarcaSet" EntityType="Modelo.tiempos_dia_comarca" />
           <AssociationSet Name="tiempos_comarcatiempos_dia_comarca" Association="Modelo.tiempos_comarcatiempos_dia_comarca">
@@ -933,6 +931,10 @@
             <End Role="paradas_bilbobus" EntitySet="paradas_bilbobusSet" />
             <End Role="viajes_parada_tiempos_bilbobus" EntitySet="viajes_parada_tiempos_bilbobusSet" />
           </AssociationSet>
+          <AssociationSet Name="tiempos_dia_ciudadtiempos_ciudad" Association="Modelo.tiempos_dia_ciudadtiempos_ciudad">
+            <End Role="tiempos_dia_ciudad" EntitySet="tiempos_dia_ciudadSet" />
+            <End Role="tiempos_ciudad" EntitySet="tiempos_ciudadSet" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="entradas">
           <Key>
@@ -1008,6 +1010,7 @@
             <PropertyRef Name="id" />
             <PropertyRef Name="fechaInicio" />
             <PropertyRef Name="fechaFin" />
+            <PropertyRef Name="fechaInsercion" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="tipo" Type="String" Nullable="false" />
@@ -1016,6 +1019,7 @@
           <Property Name="longitud" Type="Double" Nullable="false" />
           <Property Name="fechaInicio" Type="DateTime" Nullable="false" />
           <Property Name="fechaFin" Type="DateTime" Nullable="false" />
+          <Property Name="fechaInsercion" Type="DateTime" Nullable="false" />
         </EntityType>
         <EntityType Name="paradas_tranvia">
           <Key>
@@ -1048,7 +1052,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="nombre" Type="String" Nullable="false" />
           <Property Name="estado" Type="String" Nullable="false" />
           <Property Name="latitud" Type="Double" Nullable="false" />
@@ -1080,39 +1084,27 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombreCiudad" Type="String" Nullable="false" />
-          <Property Name="descripcionES" Type="String" Nullable="false" />
-          <Property Name="descripcionEU" Type="String" Nullable="false" />
-          <Property Name="maxima" Type="Int32" Nullable="false" />
-          <Property Name="minima" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tiempos_ciudad" Relationship="Modelo.tiempos_ciudadtiempos_dia_ciudad" FromRole="tiempos_dia_ciudad" ToRole="tiempos_ciudad" />
-          <Property Name="tiempos_ciudadId" Type="Int32" Nullable="false" />
+          <Property Name="fechaDescarga" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="tiempos_ciudad" Relationship="Modelo.tiempos_dia_ciudadtiempos_ciudad" FromRole="tiempos_dia_ciudad" ToRole="tiempos_ciudad" />
         </EntityType>
         <EntityType Name="tiempos_ciudad">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Name="horaDeActualizacion" Type="DateTime" Nullable="false" />
-          <Property Name="dia" Type="DateTime" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="diaPrediccion" Type="String" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" />
           <Property Name="descripcionES" Type="String" Nullable="false" />
           <Property Name="descripcionEU" Type="String" Nullable="false" />
-          <Property Name="tiempos_dia_ciudadId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tiempos_dia_ciudad" Relationship="Modelo.tiempos_ciudadtiempos_dia_ciudad" FromRole="tiempos_ciudad" ToRole="tiempos_dia_ciudad" />
+          <Property Name="descripcionGeneralES" Type="String" Nullable="false" />
+          <Property Name="descripcionGeneralEU" Type="String" Nullable="false" />
+          <NavigationProperty Name="tiempos_dia_ciudad" Relationship="Modelo.tiempos_dia_ciudadtiempos_ciudad" FromRole="tiempos_ciudad" ToRole="tiempos_dia_ciudad" />
+          <Property Name="tiempos_dia_ciudad_id" Type="Int32" Nullable="false" />
+          <Property Name="maxima" Type="Int32" Nullable="false" />
+          <Property Name="minima" Type="Int32" Nullable="false" />
         </EntityType>
-        <Association Name="tiempos_ciudadtiempos_dia_ciudad">
-          <End Type="Modelo.tiempos_ciudad" Role="tiempos_ciudad" Multiplicity="1" />
-          <End Type="Modelo.tiempos_dia_ciudad" Role="tiempos_dia_ciudad" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tiempos_ciudad">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="tiempos_dia_ciudad">
-              <PropertyRef Name="tiempos_ciudadId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="tiempos_comarca">
           <Key>
             <PropertyRef Name="id" />
@@ -1502,7 +1494,7 @@
           <Key>
             <PropertyRef Name="fecha" />
           </Key>
-          <Property Name="fecha" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fecha" Type="DateTime" annotation:StoreGeneratedPattern="None" Nullable="false" />
           <Property Name="dbs" Type="Int32" Nullable="false" />
           <Property Name="general" Type="Int32" Nullable="false" />
         </EntityType>
@@ -1662,6 +1654,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="tiempos_dia_ciudadtiempos_ciudad">
+          <End Type="Modelo.tiempos_dia_ciudad" Role="tiempos_dia_ciudad" Multiplicity="1" />
+          <End Type="Modelo.tiempos_ciudad" Role="tiempos_ciudad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tiempos_dia_ciudad">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tiempos_ciudad">
+              <PropertyRef Name="tiempos_dia_ciudad_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1711,6 +1715,7 @@
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
           <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
+          <ScalarProperty Name="fechaInsercion" ColumnName="fechaInsercion" />
           <ScalarProperty Name="tipo" ColumnName="tipo" />
           <ScalarProperty Name="descripcion" ColumnName="descripcion" />
           <ScalarProperty Name="latitud" ColumnName="latitud" />
@@ -1785,11 +1790,7 @@
         <MappingFragment StoreEntitySet="tiempos_dia_ciudadSet">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="nombreCiudad" ColumnName="nombreCiudad" />
-          <ScalarProperty Name="descripcionES" ColumnName="descripcionES" />
-          <ScalarProperty Name="descripcionEU" ColumnName="descripcionEU" />
-          <ScalarProperty Name="maxima" ColumnName="maxima" />
-          <ScalarProperty Name="minima" ColumnName="minima" />
-          <ScalarProperty Name="tiempos_ciudadId" ColumnName="tiempos_ciudadId" />
+          <ScalarProperty Name="fechaDescarga" ColumnName="fechaDescarga" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1797,11 +1798,15 @@
       <EntityTypeMapping TypeName="IsTypeOf(Modelo.tiempos_ciudad)">
         <MappingFragment StoreEntitySet="tiempos_ciudadSet">
           <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="horaDeActualizacion" ColumnName="horaDeActualizacion" />
-          <ScalarProperty Name="dia" ColumnName="dia" />
+          <ScalarProperty Name="diaPrediccion" ColumnName="diaPrediccion" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
           <ScalarProperty Name="descripcionES" ColumnName="descripcionES" />
           <ScalarProperty Name="descripcionEU" ColumnName="descripcionEU" />
-          <ScalarProperty Name="tiempos_dia_ciudadId" ColumnName="tiempos_dia_ciudadId" />
+          <ScalarProperty Name="descripcionGeneralES" ColumnName="descripcionGeneralES" />
+          <ScalarProperty Name="descripcionGeneralEU" ColumnName="descripcionGeneralEU" />
+          <ScalarProperty Name="tiempos_dia_ciudad_id" ColumnName="tiempos_dia_ciudad_id" />
+          <ScalarProperty Name="maxima" ColumnName="maxima" />
+          <ScalarProperty Name="minima" ColumnName="minima" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

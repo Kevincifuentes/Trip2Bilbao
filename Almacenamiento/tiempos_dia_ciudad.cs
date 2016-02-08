@@ -14,14 +14,15 @@ namespace Almacenamiento
     
     public partial class tiempos_dia_ciudad
     {
+        public tiempos_dia_ciudad()
+        {
+            this.tiempos_ciudad = new HashSet<tiempos_ciudad>();
+        }
+    
         public int id { get; set; }
         public string nombreCiudad { get; set; }
-        public string descripcionES { get; set; }
-        public string descripcionEU { get; set; }
-        public int maxima { get; set; }
-        public int minima { get; set; }
-        public int tiempos_ciudadId { get; set; }
+        public System.DateTime fechaDescarga { get; set; }
     
-        public virtual tiempos_ciudad tiempos_ciudad { get; set; }
+        public virtual ICollection<tiempos_ciudad> tiempos_ciudad { get; set; }
     }
 }

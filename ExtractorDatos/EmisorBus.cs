@@ -31,7 +31,7 @@ namespace ExtractorDatos
             {
                 // Create a ConnectionFactory
                 IConnectionFactory connectionFactory = new ConnectionFactory(
-                    "tcp://localhost:61616");
+                    "tcp://localhost:61616?jms.prefetchPolicy.all=1");
 
                 // Create a Connection
                 _connection = connectionFactory.CreateConnection();
@@ -1262,9 +1262,11 @@ namespace ExtractorDatos
             pasado.Add(min);
 
             xmlCiudad.Add(nombre);
-            xmlCiudad.Add(hoy);
-            xmlCiudad.Add(manana);
-            xmlCiudad.Add(pasado);
+            XElement predicciones = new XElement("Predicciones");
+            predicciones.Add(hoy);
+            predicciones.Add(manana);
+            predicciones.Add(pasado);
+            xmlCiudad.Add(predicciones);
 
             cuerpo.Add(xmlCiudad);
 

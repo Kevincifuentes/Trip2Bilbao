@@ -44,10 +44,6 @@
       <End Role="parkings" EntitySet="parkingsSet" />
       <End Role="tarifas" EntitySet="tarifasSet" />
     </AssociationSet>
-    <AssociationSet Name="tiempos_ciudadtiempos_dia_ciudad" Association="Modelo.Store.tiempos_ciudadtiempos_dia_ciudad">
-      <End Role="tiempos_ciudad" EntitySet="tiempos_ciudadSet" />
-      <End Role="tiempos_dia_ciudad" EntitySet="tiempos_dia_ciudadSet" />
-    </AssociationSet>
     <AssociationSet Name="tiempos_comarcatiempos_dia_comarca" Association="Modelo.Store.tiempos_comarcatiempos_dia_comarca">
       <End Role="tiempos_comarca" EntitySet="tiempos_comarcaSet" />
       <End Role="tiempos_dia_comarca" EntitySet="tiempos_dia_comarcaSet" />
@@ -120,6 +116,10 @@
       <End Role="paradas_bilbobus" EntitySet="paradas_bilbobusSet" />
       <End Role="viajes_parada_tiempos_bilbobus" EntitySet="viajes_parada_tiempos_bilbobusSet" />
     </AssociationSet>
+    <AssociationSet Name="tiempos_dia_ciudadtiempos_ciudad" Association="Modelo.Store.tiempos_dia_ciudadtiempos_ciudad">
+      <End Role="tiempos_dia_ciudad" EntitySet="tiempos_dia_ciudadSet" />
+      <End Role="tiempos_ciudad" EntitySet="tiempos_ciudadSet" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="entradasSet">
     <Key>
@@ -160,6 +160,7 @@
       <PropertyRef Name="id" />
       <PropertyRef Name="fechaInicio" />
       <PropertyRef Name="fechaFin" />
+      <PropertyRef Name="fechaInsercion" />
     </Key>
     <Property Name="id" Type="int" Nullable="false" />
     <Property Name="tipo" Type="nvarchar(max)" Nullable="false" />
@@ -168,6 +169,7 @@
     <Property Name="longitud" Type="float" Nullable="false" />
     <Property Name="fechaInicio" Type="datetime" Nullable="false" />
     <Property Name="fechaFin" Type="datetime" Nullable="false" />
+    <Property Name="fechaInsercion" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="paradas_tranviaSet">
     <Key>
@@ -200,7 +202,7 @@
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
     <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
     <Property Name="estado" Type="nvarchar(max)" Nullable="false" />
     <Property Name="latitud" Type="float" Nullable="false" />
@@ -231,24 +233,24 @@
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="nombreCiudad" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="descripcionES" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="descripcionEU" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="maxima" Type="int" Nullable="false" />
-    <Property Name="minima" Type="int" Nullable="false" />
-    <Property Name="tiempos_ciudadId" Type="int" Nullable="false" />
+    <Property Name="fechaDescarga" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="tiempos_ciudadSet">
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
-    <Property Name="horaDeActualizacion" Type="datetime" Nullable="false" />
-    <Property Name="dia" Type="datetime" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="diaPrediccion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="fecha" Type="datetime" Nullable="false" />
     <Property Name="descripcionES" Type="nvarchar(max)" Nullable="false" />
     <Property Name="descripcionEU" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="tiempos_dia_ciudadId" Type="int" Nullable="false" />
+    <Property Name="descripcionGeneralES" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="descripcionGeneralEU" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempos_dia_ciudad_id" Type="int" Nullable="false" />
+    <Property Name="maxima" Type="int" Nullable="false" />
+    <Property Name="minima" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="tiempos_comarcaSet">
     <Key>
@@ -478,7 +480,7 @@
     <Key>
       <PropertyRef Name="fecha" />
     </Key>
-    <Property Name="fecha" Type="datetime" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fecha" Type="datetime" Nullable="false" />
     <Property Name="dbs" Type="int" Nullable="false" />
     <Property Name="general" Type="int" Nullable="false" />
   </EntityType>
@@ -547,18 +549,6 @@
       </Principal>
       <Dependent Role="tarifas">
         <PropertyRef Name="parkingsId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="tiempos_ciudadtiempos_dia_ciudad">
-    <End Role="tiempos_ciudad" Type="Modelo.Store.tiempos_ciudadSet" Multiplicity="1" />
-    <End Role="tiempos_dia_ciudad" Type="Modelo.Store.tiempos_dia_ciudadSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tiempos_ciudad">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="tiempos_dia_ciudad">
-        <PropertyRef Name="tiempos_ciudadId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -801,6 +791,18 @@
       </Principal>
       <Dependent Role="viajes_parada_tiempos_bilbobus">
         <PropertyRef Name="paradas_bilbobus_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="tiempos_dia_ciudadtiempos_ciudad">
+    <End Role="tiempos_dia_ciudad" Type="Modelo.Store.tiempos_dia_ciudadSet" Multiplicity="1" />
+    <End Role="tiempos_ciudad" Type="Modelo.Store.tiempos_ciudadSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tiempos_dia_ciudad">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tiempos_ciudad">
+        <PropertyRef Name="tiempos_dia_ciudad_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
