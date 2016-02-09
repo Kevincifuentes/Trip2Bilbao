@@ -20,7 +20,7 @@ namespace Clases
             this.lugar = lugar;
             this.nombre = nombre;
             this.nombreCorto = nombreCorto;
-            this.lineasYTiempo = new List<KeyValuePair<string, LineaBusTiempo>>();
+            this.lineasYTiempo = new Dictionary<string, LineaBusTiempo>();
         }
 
 
@@ -29,7 +29,7 @@ namespace Clases
         public Coordenadas lugar { get; set; }
         public string nombre { get; set; }
         public string nombreCorto { get; set; }
-        public List<KeyValuePair<string, LineaBusTiempo>> lineasYTiempo { get; set; }  
+        public Dictionary<string, LineaBusTiempo> lineasYTiempo { get; set; }  
 
         public override string ToString()
         {

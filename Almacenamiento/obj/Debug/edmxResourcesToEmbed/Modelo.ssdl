@@ -399,8 +399,7 @@
       <PropertyRef Name="id" />
       <PropertyRef Name="fecha" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
-    <Property Name="descripcionLinea" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="tiempoEspera" Type="int" Nullable="false" />
     <Property Name="lineas_bilbobusId" Type="int" Nullable="false" />
     <Property Name="paradas_bilbobusId" Type="int" Nullable="false" />

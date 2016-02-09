@@ -72,11 +72,14 @@ namespace ExtractorDatos
         {
             foreach (Parking parking in m.Values)
             {
-                XElement xml = convertirUnParking(parking, descarga);
-                ITextMessage temporal = _producer.CreateXmlMessage(xml);
-                temporal.NMSType = "Parkings";
-                temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
-                _producer.Send(temporal); 
+                if (parking.entradas.Count > 0)
+                {
+                    XElement xml = convertirUnParking(parking, descarga);
+                    ITextMessage temporal = _producer.CreateXmlMessage(xml);
+                    temporal.NMSType = "Parkings";
+                    temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
+                    _producer.Send(temporal);
+                }
             }
         }
 
@@ -604,9 +607,8 @@ namespace ExtractorDatos
                 localizacion.Add(longitud);
 
                 XElement lineas = new XElement("Lineas");
-                foreach (Clases.KeyValuePair<string, LineaBusTiempo> temporal in temp.lineasYTiempo)
+                foreach (LineaBusTiempo var in temp.lineasYTiempo.Values)
                 {
-                    LineaBusTiempo var = temporal.Value;
                     XElement linea = new XElement("Linea", new XAttribute("id", var.codigoLinea));
                     XElement idLinea = new XElement("Id", var.codigoLinea);
                     XElement nombreLinea = new XElement("NombreLinea", var.descripcionLinea);
@@ -692,21 +694,16 @@ namespace ExtractorDatos
                         localizacionParada.Add(latitudP);
                         localizacionParada.Add(longitudP);
 
-                        List<Clases.KeyValuePair<string, LineaBusTiempo>> temporal = objParada.lineasYTiempo;
-                        int index = 0;
-                        while (index < temporal.Count && !(temporal[0].Key.Equals(temp.id)))
-                        {
-                            index++;
-                        }
+                        
                         XElement tiempoRestante = null;
-                        if (index == temporal.Count)
+                        if (!objParada.lineasYTiempo.ContainsKey(temp.id))
                         {
                             tiempoRestante = new XElement("TiempoRestante", -1);
                         }
                         else
                         {
-                            Console.WriteLine(temporal[index].Value.tiempoEspera);
-                            tiempoRestante = new XElement("TiempoRestante", temporal[index].Value.tiempoEspera);
+                            Console.WriteLine(objParada.lineasYTiempo[temp.id].tiempoEspera);
+                            tiempoRestante = new XElement("TiempoRestante", objParada.lineasYTiempo[temp.id].tiempoEspera);
                         }
 
                         parada.Add(idParada);
@@ -907,9 +904,8 @@ namespace ExtractorDatos
             localizacion.Add(longitud);
 
             XElement lineas = new XElement("Lineas");
-            foreach (Clases.KeyValuePair<string, LineaBusTiempo> temporal in pbi.lineasYTiempo)
+            foreach (LineaBusTiempo var in pbi.lineasYTiempo.Values)
             {
-                LineaBusTiempo var = temporal.Value;
                 XElement linea = new XElement("Linea", new XAttribute("id", var.codigoLinea));
                 XElement idLinea = new XElement("Id", var.codigoLinea);
                 XElement nombreLinea = new XElement("NombreLinea", var.descripcionLinea);
@@ -989,21 +985,15 @@ namespace ExtractorDatos
                     localizacionParada.Add(latitudP);
                     localizacionParada.Add(longitudP);
 
-                    List<Clases.KeyValuePair<string, LineaBusTiempo>> temporal = objParada.lineasYTiempo;
-                    int index = 0;
-                    while (index < temporal.Count && !(temporal[0].Key.Equals(lb.id)))
-                    {
-                        index++;
-                    }
                     XElement tiempoRestante = null;
-                    if (index == temporal.Count)
+                    if (!objParada.lineasYTiempo.ContainsKey(lb.id))
                     {
                         tiempoRestante = new XElement("TiempoRestante", -1);
                     }
                     else
                     {
-                        Console.WriteLine(temporal[index].Value.tiempoEspera);
-                        tiempoRestante = new XElement("TiempoRestante", temporal[index].Value.tiempoEspera);
+                        Console.WriteLine(objParada.lineasYTiempo[lb.id].tiempoEspera);
+                        tiempoRestante = new XElement("TiempoRestante", objParada.lineasYTiempo[lb.id].tiempoEspera);
                     }
 
                     parada.Add(idParada);

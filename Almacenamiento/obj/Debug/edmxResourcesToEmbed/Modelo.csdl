@@ -487,8 +487,7 @@
       <PropertyRef Name="id" />
       <PropertyRef Name="fecha" />
     </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
-    <Property Name="descripcionLinea" Type="String" Nullable="false" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="tiempoEspera" Type="Int32" Nullable="false" />
     <NavigationProperty Name="lineas_bilbobus" Relationship="Modelo.lineas_bilbobustiempos_linea_parada" FromRole="tiempos_linea_parada" ToRole="lineas_bilbobus" />
     <Property Name="lineas_bilbobusId" Type="Int32" Nullable="false" />

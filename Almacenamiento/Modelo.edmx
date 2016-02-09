@@ -404,8 +404,7 @@
       <PropertyRef Name="id" />
       <PropertyRef Name="fecha" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
-    <Property Name="descripcionLinea" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="tiempoEspera" Type="int" Nullable="false" />
     <Property Name="lineas_bilbobusId" Type="int" Nullable="false" />
     <Property Name="paradas_bilbobusId" Type="int" Nullable="false" />
@@ -1304,8 +1303,7 @@
             <PropertyRef Name="id" />
             <PropertyRef Name="fecha" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Name="descripcionLinea" Type="String" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="tiempoEspera" Type="Int32" Nullable="false" />
           <NavigationProperty Name="lineas_bilbobus" Relationship="Modelo.lineas_bilbobustiempos_linea_parada" FromRole="tiempos_linea_parada" ToRole="lineas_bilbobus" />
           <Property Name="lineas_bilbobusId" Type="Int32" Nullable="false" />
@@ -1969,7 +1967,6 @@
         <MappingFragment StoreEntitySet="tiempos_linea_paradaSet">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="fecha" ColumnName="fecha" />
-          <ScalarProperty Name="descripcionLinea" ColumnName="descripcionLinea" />
           <ScalarProperty Name="tiempoEspera" ColumnName="tiempoEspera" />
           <ScalarProperty Name="lineas_bilbobusId" ColumnName="lineas_bilbobusId" />
           <ScalarProperty Name="paradas_bilbobusId" ColumnName="paradas_bilbobusId" />

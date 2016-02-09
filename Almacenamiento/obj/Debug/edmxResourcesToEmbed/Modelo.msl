@@ -298,7 +298,6 @@
         <MappingFragment StoreEntitySet="tiempos_linea_paradaSet">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="fecha" ColumnName="fecha" />
-          <ScalarProperty Name="descripcionLinea" ColumnName="descripcionLinea" />
           <ScalarProperty Name="tiempoEspera" ColumnName="tiempoEspera" />
           <ScalarProperty Name="lineas_bilbobusId" ColumnName="lineas_bilbobusId" />
           <ScalarProperty Name="paradas_bilbobusId" ColumnName="paradas_bilbobusId" />

@@ -630,6 +630,7 @@ namespace ExtractorDatos
                         {
                             StreamUtils.Copy(zipStream, streamWriter, buffer);
                         }
+                        zipStream.Close();
                     }
                 }
                 
@@ -1331,6 +1332,7 @@ namespace ExtractorDatos
                         {
                             StreamUtils.Copy(zipStream, streamWriter, buffer);
                         }
+                        zipStream.Close();
                     }
                 }
                 else
@@ -1464,6 +1466,7 @@ namespace ExtractorDatos
                         {
                             StreamUtils.Copy(zipStream, streamWriter, buffer);
                         }
+                        zipStream.Close();
                     }
                 }
                 else
@@ -1609,6 +1612,7 @@ namespace ExtractorDatos
                         {
                             StreamUtils.Copy(zipStream, streamWriter, buffer);
                         }
+                        zipStream.Close();
                     }
                 }
                 else
@@ -1838,6 +1842,7 @@ namespace ExtractorDatos
                         {
                             StreamUtils.Copy(zipStream, streamWriter, buffer);
                         }
+                        zipStream.Close();
                     }
                 }
                 else
@@ -2087,6 +2092,7 @@ namespace ExtractorDatos
                         {
                             StreamUtils.Copy(zipStream, streamWriter, buffer);
                         }
+                        zipStream.Close();
                     }
                 }
                 else
@@ -2300,6 +2306,7 @@ namespace ExtractorDatos
                         {
                             StreamUtils.Copy(zipStream, streamWriter, buffer);
                         }
+                        zipStream.Close();
                     }
                 }
                 else

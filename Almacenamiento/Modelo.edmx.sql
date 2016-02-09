@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/08/2016 13:08:30
+-- Date Created: 02/09/2016 11:43:21
 -- Generated from EDMX file: C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\Modelo.edmx
 -- --------------------------------------------------
 
@@ -467,8 +467,7 @@ GO
 
 -- Creating table 'tiempos_linea_paradaSet'
 CREATE TABLE [dbo].[tiempos_linea_paradaSet] (
-    [id] int  NOT NULL,
-    [descripcionLinea] nvarchar(max)  NOT NULL,
+    [id] int IDENTITY(1,1) NOT NULL,
     [tiempoEspera] int  NOT NULL,
     [lineas_bilbobusId] int  NOT NULL,
     [paradas_bilbobusId] int  NOT NULL,

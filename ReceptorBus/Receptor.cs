@@ -35,7 +35,7 @@ namespace ReceptorBus
         {
             //Obtengo estático
             contexto = new ModeloContainer();
-            //ObtenerEstatico oe = new ObtenerEstatico(contexto);
+            ObtenerEstatico oe = new ObtenerEstatico(contexto);
             //obtenerBicis(oe);
 
             //obtenerParkings(oe);
@@ -44,7 +44,6 @@ namespace ReceptorBus
             //obtenerFarmacias(oe);
             
             //obtenerTranvia(oe);
-            //obtenerBilbo(oe);
             //obtenerEuskotren(oe);
             //obtenerMetro(oe);
             //obtenerBizkaibus(oe);
@@ -145,72 +144,152 @@ namespace ReceptorBus
             {
                 case "Parkings":
                    // XElement parking = XElement.Parse(temp.Text);
-                     XmlDocument parking = new XmlDocument();
+                    XmlDocument parking = new XmlDocument();
                     parking.LoadXml(temp.Text);
-                    if (parking != null)
+                    if (parking != null && !message.NMSRedelivered)
                     {
-                        Console.WriteLine(parking.InnerXml);
-                        Console.WriteLine(parking.ChildNodes[1].Name);
+                       almacenarParking(parking);
+
                     }
                     break;
                 case "TiemposParada":
-                    XElement parada = XElement.Parse(temp.Text);
-                    //XmlDocument parada = new XmlDocument();
-                    //parada.LoadXml(temp.Text);
-                    if (parada != null)
+                    XmlDocument parada = new XmlDocument();
+                    parada.LoadXml(temp.Text);
+                    if (!message.NMSRedelivered)
                     {
-                        Console.WriteLine(parada.ToString());
+                       // Console.WriteLine(parada.ToString());
                     }
                     break;
                 case "TiemposLinea":
-                    XElement linea = XElement.Parse(temp.Text);
-                    //XmlDocument linea = new XmlDocument();
-                    //linea.LoadXml(temp.Text);
-                    if (linea != null)
+                    XmlDocument linea = new XmlDocument();
+                    linea.LoadXml(temp.Text);
+                    if (!message.NMSRedelivered)
                     {
-                        Console.WriteLine(linea.ToString());
+                        almacenarTiempoBilbo(linea);
                     }
                     break;
                 case "Bicis":
-                    //XElement bici = XElement.Parse(temp.Text);
                     XmlDocument bici = new XmlDocument();
                     bici.LoadXml(temp.Text);
-                    if (bici != null && !message.NMSRedelivered)
+                    if (!message.NMSRedelivered)
                     {
-                        almacenarBicis(bici);
+                       almacenarBicis(bici);
                     }
                     break;
                 case "Deusto":
-                    XElement deustoP = XElement.Parse(temp.Text);
                     XmlDocument deusto = new XmlDocument();
                     deusto.LoadXml(temp.Text);
-                    if (deustoP != null && !message.NMSRedelivered)
+                    if (!message.NMSRedelivered)
                     {
                         almacenarDeusto(deusto);
-                        
                     }
                     break;
                 case "Incidencia":
-                    //XElement incidencia = XElement.Parse(temp.Text);
                     XmlDocument incidencia = new XmlDocument();
                     incidencia.LoadXml(temp.Text);
-                    if (incidencia != null && !message.NMSRedelivered)
+                    if (!message.NMSRedelivered)
                     {
-                        //Console.WriteLine(bici.InnerXml);
                         almacenarIncidencia(incidencia);
                     }
                     break;
                 case "TiempoCiudad":
                     XmlDocument tiempo = new XmlDocument();
                     tiempo.LoadXml(temp.Text);
-                    if (tiempo != null && !message.NMSRedelivered)
+                    if (!message.NMSRedelivered)
                     {
-                        Console.WriteLine(tiempo.ToString());
                         almacenarTiempo(tiempo);
                     }
                     break;
             }
 
+        }
+
+        private void almacenarTiemposBilbo(XmlDocument linea)
+        {
+            foreach (XmlNode variable in linea.ChildNodes[1].ChildNodes[1].ChildNodes)
+            {
+                string idLinea = variable.Attributes[0].InnerText;
+                lineas_bilbobus lineaBd = contexto.lineas_bilbobusSet.Where(h => h.idLinea == idLinea).FirstOrDefault<lineas_bilbobus>();
+                if (lineaBd != null)
+                {
+                    foreach (XmlNode variable2 in variable.ChildNodes[0].ChildNodes)
+                    {
+                        int idParada = int.Parse(variable2.ChildNodes[0].InnerText);
+                        int tiempoRestante = int.Parse(variable2.ChildNodes[3].InnerText);
+                        tiempos_linea_parada tlp = new tiempos_linea_parada();
+                        tlp.paradas_bilbobusId = idParada;
+                        tlp.tiempoEspera = tiempoRestante;
+                        tlp.fecha = DateTime.Now;
+
+                        lineaBd.tiempos_linea_parada.Add(tlp);
+
+                    }
+                }
+                contexto.Entry(lineaBd).State = System.Data.Entity.EntityState.Modified;   
+            }
+            try
+            {
+                contexto.SaveChanges();
+                Console.WriteLine(">>>>>Insercción de Tiempos de Bilbobus (T.R.) realizada<<<<<");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.InnerException);
+            }
+
+        }
+
+        private void almacenarTiempoBilbo(XmlDocument linea)
+        {
+            string idLinea = linea.ChildNodes[1].Attributes[0].InnerText;
+            DateTime descarga = DateTime.Parse(linea.ChildNodes[1].ChildNodes[0].ChildNodes[3].InnerText);
+            lineas_bilbobus lineaBd = contexto.lineas_bilbobusSet.Where(h => h.idLinea == idLinea).FirstOrDefault<lineas_bilbobus>();
+            if (lineaBd != null)
+            {
+                foreach (XmlNode variable2 in linea.ChildNodes[1].ChildNodes[1].ChildNodes[0].ChildNodes)
+                {
+                    int idParada = int.Parse(variable2.ChildNodes[0].InnerText);
+                    int tiempoRestante = int.Parse(variable2.ChildNodes[3].InnerText);
+                    tiempos_linea_parada tlp = new tiempos_linea_parada();
+                    tlp.paradas_bilbobusId = idParada;
+                    tlp.tiempoEspera = tiempoRestante;
+                    tlp.fecha = DateTime.Now;
+
+                    lineaBd.tiempos_linea_parada.Add(tlp);
+
+                }
+            }
+            contexto.Entry(lineaBd).State = System.Data.Entity.EntityState.Modified;
+            
+            try
+            {
+                contexto.SaveChanges();
+                Console.WriteLine(">>>>>Insercción de Tiempos de Bilbobus (T.R.) realizada<<<<<");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.InnerException);
+            }
+
+        }
+
+        private void almacenarParking(XmlDocument parking)
+        {
+            estados_parking ep = new estados_parking();
+            ep.disponible = int.Parse(parking.ChildNodes[1].ChildNodes[1].ChildNodes[4].InnerText);
+            ep.fecha = DateTime.Parse(parking.ChildNodes[1].ChildNodes[0].ChildNodes[3].InnerText);
+            ep.parkings_id = int.Parse(parking.ChildNodes[1].ChildNodes[1].ChildNodes[0].InnerText);
+            
+            contexto.estados_parkingSet.Add(ep);
+            try
+            {
+                contexto.SaveChanges();
+                Console.WriteLine(">>>>>Insercción de Parking (T.R.) realizada<<<<<");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.InnerException);
+            }
         }
 
         private void almacenarTiempo(XmlDocument tiempo)
@@ -256,7 +335,7 @@ namespace ReceptorBus
             i.fechaFin = DateTime.Parse(incidencia.ChildNodes[1].ChildNodes[1].ChildNodes[3].InnerText);
             i.latitud = double.Parse(incidencia.ChildNodes[1].ChildNodes[1].ChildNodes[4].ChildNodes[0].InnerText);
             i.longitud = double.Parse(incidencia.ChildNodes[1].ChildNodes[1].ChildNodes[4].ChildNodes[1].InnerText);
-
+            i.fechaInsercion = DateTime.Now;
             contexto.incidenciasSet.Add(i);
             try
             {

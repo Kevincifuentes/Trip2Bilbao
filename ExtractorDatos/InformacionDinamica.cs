@@ -468,26 +468,13 @@ namespace ExtractorDatos
                             
 
                             ParadaBilbo p2 = p.paradasBilbobus[codigoParada];
-                            int index = -1;
-                            int contador = 0;
-                            foreach (Clases.KeyValuePair<string, LineaBusTiempo> temporal in p2.lineasYTiempo)
+                            if (p2.lineasYTiempo.ContainsKey(codigoLinea))
                             {
-                                if (temporal.comprobarKey(codigoLinea) == 1)
-                                {
-                                    index = contador;
-                                }
-                                else
-                                {
-                                    contador++;
-                                }
-                            }
-                            if (index != -1)
-                            {
-                                p2.lineasYTiempo[index].Value.tiempoEspera = tiempoEspera;
+                                p2.lineasYTiempo[codigoLinea].tiempoEspera = tiempoEspera;
                             }
                             else
                             {
-                                p2.lineasYTiempo.Add(new Clases.KeyValuePair<string, LineaBusTiempo>(codigoLinea,new LineaBusTiempo(codigoLinea, descripcionLinea, tiempoEspera) ));
+                                p2.lineasYTiempo.Add(codigoLinea,new LineaBusTiempo(codigoLinea, descripcionLinea, tiempoEspera));
                             }
                         }
                         else

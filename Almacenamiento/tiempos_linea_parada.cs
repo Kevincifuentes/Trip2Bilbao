@@ -15,7 +15,6 @@ namespace Almacenamiento
     public partial class tiempos_linea_parada
     {
         public int id { get; set; }
-        public string descripcionLinea { get; set; }
         public int tiempoEspera { get; set; }
         public int lineas_bilbobusId { get; set; }
         public int paradas_bilbobusId { get; set; }

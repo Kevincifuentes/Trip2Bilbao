@@ -2034,6 +2034,7 @@ namespace ExtractorDatos
                         {
                             StreamUtils.Copy(zipStream, streamWriter, buffer);
                         }
+                        zipStream.Close();
                     }
                 }
                 else
