@@ -1,1 +1,7 @@
 service_id,date,exception_type
+invdo-15.pex,20160207,2
+carnavaldo-16.pex,20160207,1
+invdo-15.pex,20160214,2
+carnav-alg-do-16.pex,20160214,1
+invsa-15.pex,20160213,2
+carnav-alg-sa-16.pex,20160213,1

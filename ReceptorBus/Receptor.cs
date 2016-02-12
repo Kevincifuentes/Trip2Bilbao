@@ -36,18 +36,19 @@ namespace ReceptorBus
             //Obtengo estático
             contexto = new ModeloContainer();
             ObtenerEstatico oe = new ObtenerEstatico(contexto);
-            //obtenerBicis(oe);
+            /*obtenerBicis(oe);
 
-            //obtenerParkings(oe);
-            //obtenerCentros(oe);
-            //obtenerHospitales(oe);
-            //obtenerFarmacias(oe);
+            obtenerParkings(oe);*/
+            obtenerCentros(oe);
             
-            //obtenerTranvia(oe);
-            //obtenerEuskotren(oe);
-            //obtenerMetro(oe);
-            //obtenerBizkaibus(oe);
-            //obtenerBilbobus(oe);
+            /*obtenerHospitales(oe);
+            obtenerFarmacias(oe);
+            
+            obtenerTranvia(oe);
+            obtenerEuskotren(oe);
+            obtenerMetro(oe);
+            obtenerBizkaibus(oe);
+            obtenerBilbobus(oe);*/
 
             // configure the broker
             try
@@ -68,6 +69,11 @@ namespace ReceptorBus
                 IDestination destination = _session.GetTopic(QUEUE_DESTINATION);
 
                 // Create a MessageProducer from the Session to the Topic or Queue
+
+                /*************************************************************IMPORTANTE************************************/
+                                        //_consumer = _session.CreateConsumer(destination, "CP = 48013");
+                /*                    Para filtrar por un barrio pondremos el consumidor de arriba                        */
+                
                 _consumer = _session.CreateConsumer(destination);
                 //producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
                 _consumer.Listener += _consumer_Listener;

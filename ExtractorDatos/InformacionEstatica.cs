@@ -369,151 +369,159 @@ namespace ExtractorDatos
                 //Con esto obtengo los PARKINGS unicamente
                 foreach (XmlNode node in temp[0].ChildNodes[0].ChildNodes)
                 {
-                    //Variables a dar valor
-                    string nombreParking = "Desconocido";
-                    Coordenadas c = new Coordenadas();
-                    List<Entrada> entradas = new List<Entrada>();
-                    int capacidad = 0;
-                    string tipo = "Desconocido";
-                    List<Tarifa> tarifas = new List<Tarifa>();
-
-                    //Empieza
-                    Console.WriteLine(node.Name);
-                    XmlNode temporal = node.ChildNodes[0];
-                    Console.WriteLine(temporal.Name);
-
-                    //Obtener el nombre del parking
-                    if (temporal.ChildNodes[0] != null)
+                    if(node.Name.Equals("ows:ExceptionText"))
                     {
-                        nombreParking =
-                            temporal.ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0]
-                                .InnerText;
-                        Console.WriteLine("Nombre: " + nombreParking);
-                    }
-
-                    //Obtener la Longitud/Latitud del parking
-                    temporal = node.ChildNodes[1];
-                    if (temporal.ChildNodes[0] != null)
-                    {
-                        string latlong = temporal.ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
-                        string[] aLatLong = latlong.Split(' ');
-
-                        double longitud = double.Parse(aLatLong[0], CultureInfo.InvariantCulture);
-                        double latitud = double.Parse(aLatLong[1], CultureInfo.InvariantCulture);
-
-                        Console.WriteLine("Longitud " + longitud);
-                        Console.WriteLine("Latitud " + latitud);
-
-                        c.longitud = longitud;
-                        c.latitud = latitud;
-                    }
-
-
-                    //Obtener las entradas al parking
-                    int index = 2;
-                    int numeroEntrada = 1;
-                    while (node.ChildNodes[index].Name.Equals("edi:entrances"))
-                    {
-                        string latlongentr =
-                            node.ChildNodes[index].ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0]
-                                .ChildNodes[0].InnerText;
-                        string[] aLatLongentr = latlongentr.Split(' ');
-
-                        double longitud = double.Parse(aLatLongentr[0], CultureInfo.InvariantCulture);
-                        double latitud = double.Parse(aLatLongentr[1], CultureInfo.InvariantCulture);
-
-                        Entrada entrada = new Entrada();
-
-                        entrada.nombre = "Entrada " + numeroEntrada;
-                        Console.WriteLine(entrada.nombre);
-                        entrada.puntoEntrada = new Coordenadas(latitud, longitud);
-                        entradas.Add(entrada);
-
-                        index++;
-                        numeroEntrada++;
-                    }
-
-                    //Obtener el id de este Parking y tipo. Ademas, obtener tarifas ( en los que especifiquen ) >>> Segun lo observado, solo se especifica si es roadside (al borde de la carrertera)
-                    string idtemp = node.ChildNodes[index].InnerText;
-                    int id = int.Parse(idtemp);
-                    index++;
-
-                    //Obtener Capacidad, Tipo de parking
-                    string capacidadS = node.ChildNodes[index].ChildNodes[0].ChildNodes[0].InnerText;
-                    capacidad = int.Parse(capacidadS);
-                    tipo = node.ChildNodes[index].ChildNodes[0].ChildNodes[1].InnerText;
-                    Console.WriteLine(capacidad + " y " + tipo);
-                    if (tipo.Equals("underground"))
-                    {
-                        tipo = "Subterraneo";
+                        Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ERROR EN EL SERVIDOR DE DESCARGA DE OPENDATA<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
                     }
                     else
                     {
-                        tipo = "Al borde de la carretera";
-                    }
+                        //Variables a dar valor
+                        string nombreParking = "Desconocido";
+                        Coordenadas c = new Coordenadas();
+                        List<Entrada> entradas = new List<Entrada>();
+                        int capacidad = 0;
+                        string tipo = "Desconocido";
+                        List<Tarifa> tarifas = new List<Tarifa>();
 
-                    int indice = 2;
-                    while (node.ChildNodes[index].ChildNodes[0].ChildNodes[indice] != null)
-                    {
-                        XmlNode tempN = node.ChildNodes[index].ChildNodes[0].ChildNodes[indice];
-                        tempN = tempN.ChildNodes[0];
+                        //Empieza
+                        Console.WriteLine(node.Name);
+                        XmlNode temporal = node.ChildNodes[0];
+                        Console.WriteLine(temporal.Name);
 
-                        //Obtener los días
-                        string dias = tempN.ChildNodes[0].InnerText;
-
-                        if (dias.Equals("mondayToSaturday"))
+                        //Obtener el nombre del parking
+                        if (temporal.ChildNodes[0] != null)
                         {
-                            dias = "Tarifa válida de Lunes a Sábado / Fare is valid from Monday to Saturday";
+                            nombreParking =
+                                temporal.ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0]
+                                    .InnerText;
+                            Console.WriteLine("Nombre: " + nombreParking);
+                        }
+
+                        //Obtener la Longitud/Latitud del parking
+                        temporal = node.ChildNodes[1];
+                        if (temporal.ChildNodes[0] != null)
+                        {
+                            string latlong = temporal.ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
+                            string[] aLatLong = latlong.Split(' ');
+
+                            double longitud = double.Parse(aLatLong[0], CultureInfo.InvariantCulture);
+                            double latitud = double.Parse(aLatLong[1], CultureInfo.InvariantCulture);
+
+                            Console.WriteLine("Longitud " + longitud);
+                            Console.WriteLine("Latitud " + latitud);
+
+                            c.longitud = longitud;
+                            c.latitud = latitud;
+                        }
+
+
+                        //Obtener las entradas al parking
+                        int index = 2;
+                        int numeroEntrada = 1;
+                        while (node.ChildNodes[index].Name.Equals("edi:entrances"))
+                        {
+                            string latlongentr =
+                                node.ChildNodes[index].ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0]
+                                    .ChildNodes[0].InnerText;
+                            string[] aLatLongentr = latlongentr.Split(' ');
+
+                            double longitud = double.Parse(aLatLongentr[0], CultureInfo.InvariantCulture);
+                            double latitud = double.Parse(aLatLongentr[1], CultureInfo.InvariantCulture);
+
+                            Entrada entrada = new Entrada();
+
+                            entrada.nombre = "Entrada " + numeroEntrada;
+                            Console.WriteLine(entrada.nombre);
+                            entrada.puntoEntrada = new Coordenadas(latitud, longitud);
+                            entradas.Add(entrada);
+
+                            index++;
+                            numeroEntrada++;
+                        }
+
+                        //Obtener el id de este Parking y tipo. Ademas, obtener tarifas ( en los que especifiquen ) >>> Segun lo observado, solo se especifica si es roadside (al borde de la carrertera)
+                        string idtemp = node.ChildNodes[index].InnerText;
+                        int id = int.Parse(idtemp);
+                        index++;
+
+                        //Obtener Capacidad, Tipo de parking
+                        string capacidadS = node.ChildNodes[index].ChildNodes[0].ChildNodes[0].InnerText;
+                        capacidad = int.Parse(capacidadS);
+                        tipo = node.ChildNodes[index].ChildNodes[0].ChildNodes[1].InnerText;
+                        Console.WriteLine(capacidad + " y " + tipo);
+                        if (tipo.Equals("underground"))
+                        {
+                            tipo = "Subterraneo";
                         }
                         else
                         {
-                            dias = "No hay datos disponibles / Data unavailable";
+                            tipo = "Al borde de la carretera";
                         }
 
-                        //Obtener descripción de la tarifa
-                        string descripción = tempN.ChildNodes[1].ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
-                        if (descripción.Equals("Street parking tariff group"))
+                        int indice = 2;
+                        while (node.ChildNodes[index].ChildNodes[0].ChildNodes[indice] != null)
                         {
-                            descripción =
-                                "La tarifa que se aplica es la del aparcamiento en la calle / The tariff that applies is the one of parking spaces in the street";
+                            XmlNode tempN = node.ChildNodes[index].ChildNodes[0].ChildNodes[indice];
+                            tempN = tempN.ChildNodes[0];
+
+                            //Obtener los días
+                            string dias = tempN.ChildNodes[0].InnerText;
+
+                            if (dias.Equals("mondayToSaturday"))
+                            {
+                                dias = "Tarifa válida de Lunes a Sábado / Fare is valid from Monday to Saturday";
+                            }
+                            else
+                            {
+                                dias = "No hay datos disponibles / Data unavailable";
+                            }
+
+                            //Obtener descripción de la tarifa
+                            string descripción = tempN.ChildNodes[1].ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
+                            if (descripción.Equals("Street parking tariff group"))
+                            {
+                                descripción =
+                                    "La tarifa que se aplica es la del aparcamiento en la calle / The tariff that applies is the one of parking spaces in the street";
+                            }
+                            else
+                            {
+                                descripción = "No hay datos disponibles / Data unavailable";
+                            }
+
+                            //Ultima actualizacion
+                            string fecha = tempN.ChildNodes[2].InnerText;
+                            int ano = int.Parse(fecha.Substring(0, 4));
+                            int mes = int.Parse(fecha.Substring(5, 2));
+                            int dia = int.Parse(fecha.Substring(8, 2));
+                            int hora = int.Parse(fecha.Substring(11, 2));
+                            int minutos = int.Parse(fecha.Substring(14, 2));
+                            int segundos = int.Parse(fecha.Substring(17, 2));
+                            DateTime ne = new DateTime(ano, mes, dia, hora, minutos, segundos);
+
+                            Tarifa t = new Tarifa(dias, descripción, ne);
+                            tarifas.Add(t);
+                            indice++;
                         }
-                        else
+
+                        // Añadimos al parking en cuestion
+                        /*string nombreParking = "Desconocido";
+                        Coordenadas c = new Coordenadas();
+                        LinkedList<Entrada> entradas = new LinkedList<Entrada>();
+                        int capacidad = 0;
+                        string tipo = "Desconocido";*/
+                        Parking p = parkings[id];
+                        if (p != null)
                         {
-                            descripción = "No hay datos disponibles / Data unavailable";
+                            Console.WriteLine("Se ha encontrado. ID= " + p.id);
+                            p.latlong = c;
+                            p.nombre = nombreParking;
+                            p.entradas = entradas;
+                            p.capacidad = capacidad;
+                            p.tipo = tipo;
+                            p.tarifas = tarifas;
                         }
-
-                        //Ultima actualizacion
-                        string fecha = tempN.ChildNodes[2].InnerText;
-                        int ano = int.Parse(fecha.Substring(0, 4));
-                        int mes = int.Parse(fecha.Substring(5, 2));
-                        int dia = int.Parse(fecha.Substring(8, 2));
-                        int hora = int.Parse(fecha.Substring(11, 2));
-                        int minutos = int.Parse(fecha.Substring(14, 2));
-                        int segundos = int.Parse(fecha.Substring(17, 2));
-                        DateTime ne = new DateTime(ano, mes, dia, hora, minutos, segundos);
-
-                        Tarifa t = new Tarifa(dias, descripción, ne);
-                        tarifas.Add(t);
-                        indice++;
                     }
-
-                    // Añadimos al parking en cuestion
-                    /*string nombreParking = "Desconocido";
-                    Coordenadas c = new Coordenadas();
-                    LinkedList<Entrada> entradas = new LinkedList<Entrada>();
-                    int capacidad = 0;
-                    string tipo = "Desconocido";*/
-                    Parking p = parkings[id];
-                    if (p != null)
-                    {
-                        Console.WriteLine("Se ha encontrado. ID= " + p.id);
-                        p.latlong = c;
-                        p.nombre = nombreParking;
-                        p.entradas = entradas;
-                        p.capacidad = capacidad;
-                        p.tipo = tipo;
-                        p.tarifas = tarifas;
-                    }
+                    
                 }
                 Console.WriteLine("Acabo Foreach Estatico");
             }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using Apache.NMS;
 using Apache.NMS.ActiveMQ;
 using Apache.NMS.ActiveMQ.Commands;
 using Clases;
+using Newtonsoft.Json.Linq;
 using WrappersActiveMQ;
 
 namespace ExtractorDatos
@@ -23,6 +25,7 @@ namespace ExtractorDatos
 
         private DateTime inicio;
         private DateTime fin;
+        private int cpIncidencia;
 
         public void inicializar()
         {
@@ -72,10 +75,28 @@ namespace ExtractorDatos
         {
             foreach (Parking parking in m.Values)
             {
-                if (parking.entradas.Count > 0)
+                if (parking.entradas != null && parking.entradas.Count > 0)
                 {
-                    XElement xml = convertirUnParking(parking, descarga);
+                    int cp = 00000;
+                    if (parking.latlong.latitud > 0 && parking.latlong.longitud < 0)
+                    {
+                        string longitudS = ("" + parking.latlong.longitud).Replace(',', '.');
+                        string latitudS = ("" + parking.latlong.latitud).Replace(',', '.');
+
+                        string url = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=" + longitudS + "%2C" + latitudS + "&distance=200&outSR=&f=pjson";
+                        string json = "";
+                        using (WebClient wc = new WebClient())
+                        {
+                            json = wc.DownloadString(url);
+                        }
+
+                        JToken obj = JObject.Parse(json);
+                        JToken direccion = obj.SelectToken("address");
+                        cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+                    }
+                    XElement xml = convertirUnParking(parking, descarga, cp);
                     ITextMessage temporal = _producer.CreateXmlMessage(xml);
+                    temporal.Properties.SetInt("CP", cp);
                     temporal.NMSType = "Parkings";
                     temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
                     _producer.Send(temporal);
@@ -87,8 +108,31 @@ namespace ExtractorDatos
         {
             foreach (ParadaBilbo paradaBilbo in m.Values)
             {
-                XElement xml = convertirTiempoDeUnaParada(paradaBilbo, descarga);
+                string longitudS = ("" + paradaBilbo.lugar.longitud).Replace(',', '.');
+                string latitudS = ("" + paradaBilbo.lugar.latitud).Replace(',', '.');
+
+                string url = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=" + longitudS + "%2C" + latitudS + "&distance=200&outSR=&f=pjson";
+                string json = "";
+                using (WebClient wc = new WebClient())
+                {
+                    json = wc.DownloadString(url);
+                }
+
+                JToken obj = JObject.Parse(json);
+                JToken direccion = obj.SelectToken("address");
+                int cp = 0;
+                try
+                {
+                    cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+                }
+                catch (NullReferenceException ex)
+                {
+                    Console.WriteLine("Se desconoce el código postal de " + longitudS + "/" + latitudS);
+                }
+
+                XElement xml = convertirTiempoDeUnaParada(paradaBilbo, descarga, cp);
                 ITextMessage temporal = _producer.CreateXmlMessage(xml);
+                temporal.Properties.SetInt("CP", cp);
                 temporal.NMSType = "TiemposParada";
                 temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
                 _producer.Send(temporal);
@@ -111,8 +155,23 @@ namespace ExtractorDatos
         {
             foreach (PuntoBici puntoBici in bicis)
             {
-                XElement xml = convertirUnPuntoBici(puntoBici, descarga);
+                string longitudS = ("" + puntoBici.localizacion.longitud).Replace(',', '.');
+                string latitudS = ("" + puntoBici.localizacion.latitud).Replace(',', '.');
+
+                string url = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=" + longitudS + "%2C" + latitudS + "&distance=200&outSR=&f=pjson";
+                string json = "";
+                using (WebClient wc = new WebClient())
+                {
+                    json = wc.DownloadString(url);
+                }
+
+                JToken obj = JObject.Parse(json);
+                JToken direccion = obj.SelectToken("address");
+                int cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+
+                XElement xml = convertirUnPuntoBici(puntoBici, descarga, cp);
                 ITextMessage temporal = _producer.CreateXmlMessage(xml);
+                temporal.Properties.SetInt("CP", cp);
                 temporal.NMSType = "Bicis";
                 temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
                 _producer.Send(temporal);
@@ -121,8 +180,9 @@ namespace ExtractorDatos
 
         public void enviarParkingDeusto(int dbs, int general, DateTime descarga)
         {
-            XElement xml = convertirParkingDeusto(dbs, general, descarga);
+            XElement xml = convertirParkingDeusto(dbs, general, descarga, 48014);
             ITextMessage temporal = _producer.CreateXmlMessage(xml);
+            temporal.Properties.SetInt("CP", 48014);
             temporal.NMSType = "Deusto";
             temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
             _producer.Send(temporal);
@@ -134,6 +194,7 @@ namespace ExtractorDatos
             {
                 XElement xml = convertirIncidencia(variable, descarga);
                 ITextMessage temporal = _producer.CreateXmlMessage(xml);
+                temporal.Properties.SetInt("CP", cpIncidencia);
                 temporal.NMSType = "Incidencia";
                 temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(86400000);
                 _producer.Send(temporal);
@@ -445,6 +506,7 @@ namespace ExtractorDatos
         //Generadores de XML
         public XElement convertirXMLParking(Dictionary<int, Parking> parkings, DateTime descarga)
         {
+
             XElement coleccionParkings = new XElement("Parkings");
             //Cabecera
 
@@ -754,7 +816,7 @@ namespace ExtractorDatos
             return futuro;
         }
 
-        public XElement convertirUnParking(Parking p, DateTime descarga)
+        public XElement convertirUnParking(Parking p, DateTime descarga, int cp)
         {
             XElement xmlParking = new XElement("Parking", new XAttribute("id", p.id));
             //Cabecera
@@ -765,7 +827,7 @@ namespace ExtractorDatos
             XElement fecha = new XElement("FechaDescarga", descarga);
 
             XElement influencia = new XElement("Influencia");
-            XElement codigoPostal = new XElement("CP", 48001);
+            XElement codigoPostal = new XElement("CP", cp);
             XElement barrio = new XElement("Barrio", "Desconocido");
             XElement distrito = new XElement("Distrito", "Desconocido");
             influencia.Add(codigoPostal);
@@ -808,7 +870,7 @@ namespace ExtractorDatos
             return xmlParking;
         }
 
-        public XElement convertirUnPuntoBici(PuntoBici pb, DateTime descarga)
+        public XElement convertirUnPuntoBici(PuntoBici pb, DateTime descarga, int cp)
         {
             XElement puntoBici = new XElement("PuntoBici", new XAttribute("id", pb.id));
             //Cabecera
@@ -819,7 +881,7 @@ namespace ExtractorDatos
             XElement fecha = new XElement("FechaDescarga", descarga);
 
             XElement influencia = new XElement("Influencia");
-            XElement codigoPostal = new XElement("CP", 48001);
+            XElement codigoPostal = new XElement("CP", cp);
             XElement barrio = new XElement("Barrio", "Desconocido");
             XElement distrito = new XElement("Distrito", "Desconocido");
 
@@ -865,7 +927,7 @@ namespace ExtractorDatos
             return puntoBici;
         }
 
-        public XElement convertirTiempoDeUnaParada(ParadaBilbo pbi, DateTime descarga)
+        public XElement convertirTiempoDeUnaParada(ParadaBilbo pbi, DateTime descarga, int cp)
         {
             XElement parada = new XElement("TiemposParada", new XAttribute("id", pbi.id));
             //Cabecera
@@ -876,7 +938,7 @@ namespace ExtractorDatos
             XElement fecha = new XElement("FechaDescarga", descarga);
 
             XElement influencia = new XElement("Influencia");
-            XElement codigoPostal = new XElement("CP", 48001);
+            XElement codigoPostal = new XElement("CP", cp);
             XElement barrio = new XElement("Barrio", "Desconocido");
             XElement distrito = new XElement("Distrito", "Desconocido");
             influencia.Add(codigoPostal);
@@ -1014,7 +1076,7 @@ namespace ExtractorDatos
             return linea; 
         }
 
-        public XElement convertirParkingDeusto(int dbs, int general, DateTime descarga)
+        public XElement convertirParkingDeusto(int dbs, int general, DateTime descarga, int cp)
         {
             XElement deusto = new XElement("ParkingDeusto");
             //Cabecera
@@ -1025,7 +1087,7 @@ namespace ExtractorDatos
             XElement fecha = new XElement("FechaDescarga", descarga);
 
             XElement influencia = new XElement("Influencia");
-            XElement codigoPostal = new XElement("CP", 48001);
+            XElement codigoPostal = new XElement("CP", cp);
             XElement barrio = new XElement("Barrio", "Desconocido");
             XElement distrito = new XElement("Distrito", "Desconocido");
             influencia.Add(codigoPostal);
@@ -1063,19 +1125,9 @@ namespace ExtractorDatos
             XElement fecha = new XElement("FechaDescarga", descarga);
 
             XElement influencia = new XElement("Influencia");
-            XElement codigoPostal = new XElement("CP", 48001);
             XElement barrio = new XElement("Barrio", "Desconocido");
             XElement distrito = new XElement("Distrito", "Desconocido");
-            influencia.Add(codigoPostal);
-            influencia.Add(barrio);
-            influencia.Add(distrito);
-
-            cabecera.Add(tipo);
-            cabecera.Add(zona);
-            cabecera.Add(influencia);
-            cabecera.Add(fecha);
-
-            incidencia.Add(cabecera);
+           
 
             XElement id = null;
             XElement fechaInicio = null;
@@ -1086,9 +1138,15 @@ namespace ExtractorDatos
             XElement longitud = null;
             XElement ambito = null;
 
+            int cp = 0;
+            string longitudS = "";
+            string latitudS = "";
 
             if(arg is Evento)
             {
+                longitudS = ("" + (arg as Evento).localizacion.longitud).Replace(',', '.');
+                latitudS = ("" + (arg as Evento).localizacion.latitud).Replace(',', '.');
+
                 ambito = new XElement("Ambito","Evento");
                 id= new XElement("Id", (arg as Evento).id);
                 descripcion = new XElement("Descripcion", (arg as Evento).descripcion);
@@ -1105,6 +1163,9 @@ namespace ExtractorDatos
             }
             if (arg is Obra)
             {
+                longitudS = ("" + (arg as Obra).localizacion.longitud).Replace(',', '.');
+                latitudS = ("" + (arg as Obra).localizacion.latitud).Replace(',', '.');
+
                 ambito = new XElement("Ambito", "Obra");
                 id = new XElement("Id", (arg as Obra).id);
                 descripcion = new XElement("Descripcion", (arg as Obra).descripcion);
@@ -1120,6 +1181,9 @@ namespace ExtractorDatos
             }
             if (arg is Mantenimiento)
             {
+                longitudS = ("" + (arg as Mantenimiento).localizacion.longitud).Replace(',', '.');
+                latitudS = ("" + (arg as Mantenimiento).localizacion.latitud).Replace(',', '.');
+
                 ambito = new XElement("Ambito", "Mantenimiento");
                 id = new XElement("Id", (arg as Mantenimiento).id);
                 descripcion = new XElement("Descripcion", (arg as Mantenimiento).descripcion);
@@ -1135,6 +1199,9 @@ namespace ExtractorDatos
             }
             if (arg is Incidencia)
             {
+                longitudS = ("" + (arg as Incidencia).localizacion.longitud).Replace(',', '.');
+                latitudS = ("" + (arg as Incidencia).localizacion.latitud).Replace(',', '.');
+
                 ambito = new XElement("Ambito", "Incidencia");
                 id = new XElement("Id", (arg as Incidencia).id);
                 descripcion = new XElement("Descripcion", (arg as Incidencia).descripcion);
@@ -1149,7 +1216,32 @@ namespace ExtractorDatos
                 localizacion.Add(longitud);
             }
 
+            string url = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=" + longitudS + "%2C" + latitudS + "&distance=200&outSR=&f=pjson";
+            string json = "";
+            using (WebClient wc = new WebClient())
+            {
+                json = wc.DownloadString(url);
+            }
+
+            JToken obj = JObject.Parse(json);
+            JToken direccion = obj.SelectToken("address");
+            cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+            cpIncidencia = cp;
+
+            XElement codigoPostal = new XElement("CP", cp);
+
             XElement cuerpo = new XElement("Cuerpo");
+
+            influencia.Add(codigoPostal);
+            influencia.Add(barrio);
+            influencia.Add(distrito);
+
+            cabecera.Add(tipo);
+            cabecera.Add(zona);
+            cabecera.Add(influencia);
+            cabecera.Add(fecha);
+
+            incidencia.Add(cabecera);
 
             cuerpo.Add(id);
             cuerpo.Add(descripcion);
@@ -1175,7 +1267,7 @@ namespace ExtractorDatos
             XElement fecha = new XElement("FechaDescarga", DateTime.Now);
 
             XElement influencia = new XElement("Influencia");
-            XElement codigoPostal = new XElement("CP", 48001);
+            XElement codigoPostal = new XElement("CP", 48000);
             XElement barrio = new XElement("Barrio", "Desconocido");
             XElement distrito = new XElement("Distrito", "Desconocido");
             influencia.Add(codigoPostal);
@@ -1264,6 +1356,13 @@ namespace ExtractorDatos
 
             Console.WriteLine(meteo.ToString());
             return meteo;
+        }
+
+        public string[] obtenerInfoPosicion(double latitud, double longitud)
+        {
+            string[] temporal = new string[3];
+
+            return temporal;
         }
     }
 }

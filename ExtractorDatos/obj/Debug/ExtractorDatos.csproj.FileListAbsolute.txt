@@ -24,3 +24,5 @@ C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDat
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\HtmlAgilityPack.dll
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\HtmlAgilityPack.pdb
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\HtmlAgilityPack.xml
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\bin\Debug\Newtonsoft.Json.xml

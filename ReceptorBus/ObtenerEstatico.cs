@@ -84,6 +84,10 @@ namespace ExtractorDatos
                 {
                     document = null;
                 }
+                catch (WebException ex)
+                {
+                    document = null;
+                }
                 //document = null;
             }
             catch (System.Xml.XmlException ex)
@@ -735,6 +739,9 @@ namespace ExtractorDatos
             Console.WriteLine("Empiezo Bizkaibus");
             FTP cliente = new FTP("ftp://ftp.geo.euskadi.net/cartografia/Transporte/Moveuskadi/", "", "");
             cliente.download("Bizkaibus/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BizkaibusFTP\google_transit.zip");
+            cliente = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
 
             Console.WriteLine("¡Completado!");
 
@@ -1371,25 +1378,48 @@ namespace ExtractorDatos
                                 }
                                 index = 6;
                             }
+                            else
+                            {
+                                if (node.ChildNodes[4].Name.Equals("sanidadpostalcode"))
+                                {
+                                    if (!node.ChildNodes[4].InnerText.Equals("NULL"))
+                                    {
+                                        codigoPostal = int.Parse(node.ChildNodes[4].InnerText.Trim());
+                                    }
+                                    index = 5;
+                                }
+                                else
+                                {
+                                    if (node.ChildNodes[3].Name.Equals("sanidadpostalcode"))
+                                    {
+                                        if (!node.ChildNodes[3].InnerText.Equals("NULL"))
+                                        {
+                                            codigoPostal = int.Parse(node.ChildNodes[3].InnerText.Trim());
+                                        }
+                                        index = 4;
+                                    }
+                                }
+                            }
                         }
                     }
 
-
+                    string provincia = "Desconocida";
                     //Provincia
-                    string provincia = node.ChildNodes[index].InnerText;
-
-                    index++;
-
+                    if (node.ChildNodes[index].Name.Equals("sanidadprovince"))
+                    {
+                        provincia = node.ChildNodes[index].InnerText;
+                        index++;
+                    }
+                   
                     //Region
                     string region = node.ChildNodes[index].InnerText;
 
                     //Horario
                     string horario = "", calle = "", ciudad = "", url = "";
                     XmlDocument masInfo = null;
-
-                    if (node.ChildNodes[11].Name.Equals("sanidadtimetable"))
+                    if (node.ChildNodes[9].Name.Equals("sanidadtimetable"))
                     {
-                        string temporal = node.ChildNodes[11].InnerText;
+                        string temporal = node.ChildNodes[9].InnerText;
                         if (!temporal.Equals(""))
                         {
                             temporal = temporal.Substring(9);
@@ -1401,18 +1431,18 @@ namespace ExtractorDatos
                             horario = "Desconocido";
                         }
 
-                        calle = node.ChildNodes[10].InnerText;
-                        ciudad = node.ChildNodes[12].InnerText;
-                        url = node.ChildNodes[13].InnerText;
+                        calle = node.ChildNodes[8].InnerText;
+                        ciudad = node.ChildNodes[10].InnerText;
+                        url = node.ChildNodes[11].InnerText;
                         //Obtener info extra
                         //De la URL que se nos da
-                        masInfo = this.descargaDeURL(node.ChildNodes[15].InnerText);
+                        masInfo = this.descargaDeURL(node.ChildNodes[12].InnerText);
                     }
                     else
                     {
-                        if (node.ChildNodes[10].Name.Equals("sanidadtimetable"))
+                        if (node.ChildNodes[11].Name.Equals("sanidadtimetable"))
                         {
-                            string temporal = node.ChildNodes[10].InnerText;
+                            string temporal = node.ChildNodes[11].InnerText;
                             if (!temporal.Equals(""))
                             {
                                 temporal = temporal.Substring(9);
@@ -1424,18 +1454,18 @@ namespace ExtractorDatos
                                 horario = "Desconocido";
                             }
 
-                            calle = node.ChildNodes[9].InnerText;
-                            ciudad = node.ChildNodes[11].InnerText;
-                            url = node.ChildNodes[12].InnerText;
+                            calle = node.ChildNodes[10].InnerText;
+                            ciudad = node.ChildNodes[12].InnerText;
+                            url = node.ChildNodes[13].InnerText;
                             //Obtener info extra
                             //De la URL que se nos da
-                            masInfo = this.descargaDeURL(node.ChildNodes[14].InnerText);
+                            masInfo = this.descargaDeURL(node.ChildNodes[15].InnerText);
                         }
                         else
                         {
-                            if (node.ChildNodes[12].Name.Equals("sanidadtimetable"))
+                            if (node.ChildNodes[10].Name.Equals("sanidadtimetable"))
                             {
-                                string temporal = node.ChildNodes[12].InnerText;
+                                string temporal = node.ChildNodes[10].InnerText;
                                 if (!temporal.Equals(""))
                                 {
                                     temporal = temporal.Substring(9);
@@ -1447,13 +1477,44 @@ namespace ExtractorDatos
                                     horario = "Desconocido";
                                 }
 
-                                calle = node.ChildNodes[11].InnerText;
-                                ciudad = node.ChildNodes[13].InnerText;
-                                url = node.ChildNodes[14].InnerText;
-                                
+                                calle = node.ChildNodes[9].InnerText;
+                                ciudad = node.ChildNodes[11].InnerText;
+                                url = node.ChildNodes[12].InnerText;
+                                //Obtener info extra
+                                //De la URL que se nos da
+                                masInfo = this.descargaDeURL(node.ChildNodes[14].InnerText);
+                            }
+                            else
+                            {
+                                if (node.ChildNodes[12].Name.Equals("sanidadtimetable"))
+                                {
+                                    string temporal = node.ChildNodes[12].InnerText;
+                                    if (!temporal.Equals(""))
+                                    {
+                                        temporal = temporal.Substring(9);
+                                        horario = temporal.Replace("&lt;/p&gt;", "");
+                                        Console.WriteLine(horario);
+                                    }
+                                    else
+                                    {
+                                        horario = "Desconocido";
+                                    }
+
+                                    calle = node.ChildNodes[11].InnerText;
+                                    ciudad = node.ChildNodes[13].InnerText;
+                                    url = node.ChildNodes[14].InnerText;
+
+                                }
+                                else
+                                {
+                                    calle = node.ChildNodes[8].InnerText;
+                                    ciudad = node.ChildNodes[9].InnerText;
+                                    url = node.ChildNodes[11].InnerText;
+                                }
                             }
                         }
                     }
+                    
 
                     //Obtener info extra
                     //De la URL que se nos da
@@ -1536,11 +1597,11 @@ namespace ExtractorDatos
                                     CultureInfo.InvariantCulture);
                         }
 
-                        if (!masInfo.ChildNodes[1].ChildNodes[4].ChildNodes[6].ChildNodes[0].InnerText.Equals(""))
+                        if (!masInfo.ChildNodes[1].ChildNodes[4].ChildNodes[6].ChildNodes[1].InnerText.Equals(""))
                         {
                             longitud =
                                 double.Parse(
-                                    masInfo.ChildNodes[1].ChildNodes[4].ChildNodes[6].ChildNodes[0].InnerText.Trim(),
+                                    masInfo.ChildNodes[1].ChildNodes[4].ChildNodes[6].ChildNodes[1].InnerText.Trim(),
                                     CultureInfo.InvariantCulture);
                         }
 
@@ -1688,7 +1749,9 @@ namespace ExtractorDatos
             Console.WriteLine("Empiezo Metro");
             FTP cliente = new FTP("ftp://ftp.geo.euskadi.net/cartografia/Transporte/Moveuskadi/", "", "");
             cliente.download("MetroBilbao/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\MetroFTP\google_transit.zip");
-
+            cliente = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             Console.WriteLine("¡Completado!");
 
             //Procesar los archivos
@@ -1832,7 +1895,9 @@ namespace ExtractorDatos
             Console.WriteLine("Empiezo Euskotren");
             FTP cliente = new FTP("ftp://ftp.geo.euskadi.net/cartografia/Transporte/Moveuskadi/", "", "");
             cliente.download("Euskotren/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\EuskotrenFTP\google_transit.zip");
-
+            cliente = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             Console.WriteLine("¡Completado!");
 
             //Procesar los archivos
@@ -1985,6 +2050,9 @@ namespace ExtractorDatos
                 FTP cliente = new FTP("ftp://ftp.geo.euskadi.net/cartografia/Transporte/Moveuskadi/", "", "");
                 cliente.download("Bilbobus/google_transit.zip",
                     @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BilbobusFTP\google_transit.zip");
+                cliente = null;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
             }
 
             Console.WriteLine("¡Completado!");
@@ -2210,6 +2278,9 @@ namespace ExtractorDatos
             {
                 FTP cliente = new FTP("ftp://ftp.geo.euskadi.net/cartografia/Transporte/Moveuskadi/", "", "");
                 cliente.download("Euskotren/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\EuskotrenFTP\google_transit.zip");
+                cliente = null;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
             }
             
 
@@ -2455,6 +2526,9 @@ namespace ExtractorDatos
                 FTP cliente = new FTP("ftp://ftp.geo.euskadi.net/cartografia/Transporte/Moveuskadi/", "", "");
                 cliente.download("MetroBilbao/google_transit.zip",
                     @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\MetroFTP\google_transit.zip");
+                cliente = null;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
             }
 
             Console.WriteLine("¡Completado!");
@@ -2672,6 +2746,9 @@ namespace ExtractorDatos
             {
                 FTP cliente = new FTP("ftp://ftp.geo.euskadi.net/cartografia/Transporte/Moveuskadi/", "", "");
                 cliente.download("Bizkaibus/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BizkaibusFTP\google_transit.zip");
+                cliente = null;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
             }
 
 

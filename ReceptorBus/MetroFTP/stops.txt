@@ -1,4 +1,5 @@
 stop_id,stop_code,stop_name,stop_lat,stop_lon,location_type,parent_station
+16.0,AST,Astrabudua,  43.31463,  -2.98681,0,16
 22.0,AIB,Aiboa,  43.34414,  -3.00267,0,22
 34.0,BAR,Barakaldo,  43.29563,  -2.98936,0,34
 35.0,BAG,Bagatza,  43.29885,  -2.99268,0,35
@@ -183,4 +184,3 @@ stop_id,stop_code,stop_name,stop_lat,stop_lon,location_type,parent_station
 42.0,KAB,Kabiezes,  43.32238,  -3.03777,0,42
 12.0,SAR,Sarriko,  43.27495,  -2.95874,0,12
 14.0,LUT,Lutxana,  43.29098,  -2.96992,0,14
-16.0,AST,Astrabudua,  43.31463,  -2.98681,0,16
