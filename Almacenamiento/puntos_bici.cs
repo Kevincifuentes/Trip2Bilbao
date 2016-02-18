@@ -25,6 +25,7 @@ namespace Almacenamiento
         public double latitud { get; set; }
         public double longitud { get; set; }
         public int capacidad { get; set; }
+        public int codigoPostal { get; set; }
     
         public virtual ICollection<estados_puntobici> estados_puntobici { get; set; }
     }

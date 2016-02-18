@@ -27,6 +27,7 @@ namespace Almacenamiento
         public string url { get; set; }
         public int tipoLocalizacion { get; set; }
         public string codigoParada { get; set; }
+        public int codigoPostal { get; set; }
     
         public virtual ICollection<viajes_parada_tiempos_euskotren> viajes_parada_tiempos { get; set; }
     }

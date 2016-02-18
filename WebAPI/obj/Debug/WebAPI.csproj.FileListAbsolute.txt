@@ -1,4 +1,3 @@
-C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WebAPI\obj\Debug\WebAPI.csprojResolveAssemblyReference.cache
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WebAPI\bin\WebAPI.dll.config
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WebAPI\bin\WebAPI.dll
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WebAPI\bin\WebAPI.pdb
@@ -18,5 +17,6 @@ C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WebAPI\bin\S
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WebAPI\bin\System.Web.Http.xml
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WebAPI\bin\System.Web.Http.WebHost.xml
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WebAPI\bin\Clases.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WebAPI\obj\Debug\WebAPI.csprojResolveAssemblyReference.cache
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WebAPI\obj\Debug\WebAPI.dll
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WebAPI\obj\Debug\WebAPI.pdb

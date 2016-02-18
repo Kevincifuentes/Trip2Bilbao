@@ -25,6 +25,7 @@ namespace Almacenamiento
         public double latitud { get; set; }
         public double longitud { get; set; }
         public string abreviatura { get; set; }
+        public int codigoPostal { get; set; }
     
         public virtual ICollection<tiempos_linea_parada> tiempos_linea_parada { get; set; }
         public virtual ICollection<viajes_parada_tiempos_bilbobus> viajes_parada_tiempos_bilbobus { get; set; }

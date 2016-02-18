@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Centros de Salud</title>
+</head>
+<body>
+    <div>
+        <h2>Todos </h2>
+        <ul id="products" />
+    </div>
+<div>
+    <h2>Buscar por ID</h2>
+    <input type="text" id="prodId" size="5"/>
+    <input type="button" value="Search" onclick="find();"/>
+    <p id="product"/>
+</div>
+    <div>
+        <h2>Buscar por código postal</h2>
+        <input type="text" id="proId2" size="5" />
+        <input type="button" value="Search" onclick="buscarCodigo();" />
+        <p id="product2" />
+    </div>
+
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script>
+        var uri = 'api/paradasbizkaibus/paradasbizkaibus';
+        var uriUno = 'api/paradasbizkaibus/paradabizkaibus';
+        var codigo = 'api/paradasbizkaibus/codigo';
+
+    $(document).ready(function () {
+      // Send an AJAX request
+      $.getJSON(uri)
+          .done(function (data) {
+            // On success, 'data' contains a list of products.
+              $.each(data, function (key, item) {
+              // Add a list item for the product.
+              $('<li>', { text:   formatItem(item)}).appendTo($('#products'));
+            });
+          });
+    });
+
+    function formatItem(item) {
+        return item.nombreParada + " / " + item.codigoPostal;
+    }
+
+    function find() {
+      var id = $('#prodId').val();
+      $.getJSON(uriUno + '/' + id)
+          .done(function (data) {
+              $('#product').text(formatItem(data));
+          })
+          .fail(function (jqXHR, textStatus, err) {
+            $('#product').text('Error: ' + err);
+          });
+    }
+
+    function buscarCodigo() {
+        var id = $('#proId2').val();
+        $.getJSON(codigo + '/' + id)
+            .done(function (data) {
+                $('#product2').empty();
+                $.each(data, function (key, item) {
+                    // Add a list item for the product.
+                    $('<li>', { text: formatItem(item) }).appendTo($('#product2'));
+                });
+            })
+            .fail(function (jqXHR, textStatus, err) {
+                $('#product2').text('Error: ' + err);
+            });
+    }
+    </script>
+</body>
+</html>

@@ -29,6 +29,7 @@ namespace Almacenamiento
         public int capacidad { get; set; }
         public double latitud { get; set; }
         public double longitud { get; set; }
+        public int codigoPostal { get; set; }
     
         public virtual ICollection<entradas> entradas { get; set; }
         public virtual ICollection<tarifas> tarifas { get; set; }

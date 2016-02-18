@@ -38,13 +38,13 @@ namespace ReceptorBus
             ObtenerEstatico oe = new ObtenerEstatico(contexto);
             /*obtenerBicis(oe);
 
-            obtenerParkings(oe);*/
+            obtenerParkings(oe);
             obtenerCentros(oe);
             
-            /*obtenerHospitales(oe);
-            obtenerFarmacias(oe);
+            obtenerHospitales(oe);
+            obtenerFarmacias(oe);*/
             
-            obtenerTranvia(oe);
+            /*obtenerTranvia(oe);
             obtenerEuskotren(oe);
             obtenerMetro(oe);
             obtenerBizkaibus(oe);
@@ -287,6 +287,7 @@ namespace ReceptorBus
             ep.parkings_id = int.Parse(parking.ChildNodes[1].ChildNodes[1].ChildNodes[0].InnerText);
             
             contexto.estados_parkingSet.Add(ep);
+
             try
             {
                 contexto.SaveChanges();
@@ -361,7 +362,15 @@ namespace ReceptorBus
             ep.fecha = DateTime.Parse(bici.ChildNodes[1].ChildNodes[0].ChildNodes[3].InnerText);
             ep.anclajeslibres = int.Parse(bici.ChildNodes[1].ChildNodes[1].ChildNodes[5].InnerText);
             ep.bicisLibres = int.Parse(bici.ChildNodes[1].ChildNodes[1].ChildNodes[4].InnerText);
+            string estado = bici.ChildNodes[1].ChildNodes[1].ChildNodes[6].InnerText;
             contexto.estados_puntobiciSet.Add(ep);
+
+            puntos_bici temporal = contexto.puntos_biciSet.Where(h => h.id == ep.puntos_bici_id).FirstOrDefault<puntos_bici>();
+            if (temporal != null)
+            {
+                temporal.estado = estado;
+            }
+            contexto.Entry(temporal).State = System.Data.Entity.EntityState.Modified;
             try
             {
                 contexto.SaveChanges();

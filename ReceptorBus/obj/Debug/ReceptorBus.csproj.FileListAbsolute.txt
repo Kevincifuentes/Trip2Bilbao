@@ -21,3 +21,5 @@ C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\bin\Debug\ICSharpCode.SharpZipLib.dll
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\bin\Debug\Newtonsoft.Json.xml

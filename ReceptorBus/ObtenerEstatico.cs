@@ -20,6 +20,7 @@ using Apache.NMS.ActiveMQ.Transport;
 using Clases;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
+using Newtonsoft.Json.Linq;
 using WrappersActiveMQ;
 
 namespace ExtractorDatos
@@ -660,6 +661,24 @@ namespace ExtractorDatos
                         Console.WriteLine("Se ha encontrado. ID= " + p.id);
                         p.latitud = c.latitud;
                         p.longitud = c.longitud;
+                        int cp = 00000;
+                        if (c.latitud > 0 && c.longitud < 0)
+                        {
+                            string longitudS = ("" + c.longitud).Replace(',', '.');
+                            string latitudS = ("" + c.latitud).Replace(',', '.');
+
+                            string url = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=" + longitudS + "%2C" + latitudS + "&distance=200&outSR=&f=pjson";
+                            string json = "";
+                            using (WebClient wc = new WebClient())
+                            {
+                                json = wc.DownloadString(url);
+                            }
+
+                            JToken obj = JObject.Parse(json);
+                            JToken direccion = obj.SelectToken("address");
+                            cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+                        }
+                        p.codigoPostal = cp;
                         p.nombre = nombreParking;
                         p.entradas = entradas;
                         p.capacidad = capacidad;
@@ -715,7 +734,26 @@ namespace ExtractorDatos
                     //Obtener nombre Abreviado
                     string nombreAbreviado = node.ChildNodes[3].ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
 
+                    int cp = 00000;
+                    if (latitud > 0 && longitud < 0)
+                    {
+                        string longitudS = ("" + longitud).Replace(',', '.');
+                        string latitudS = ("" + latitud).Replace(',', '.');
+
+                        string url = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=" + longitudS + "%2C" + latitudS + "&distance=200&outSR=&f=pjson";
+                        string json = "";
+                        using (WebClient wc = new WebClient())
+                        {
+                            json = wc.DownloadString(url);
+                        }
+
+                        JToken obj = JObject.Parse(json);
+                        JToken direccion = obj.SelectToken("address");
+                        cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+                    }
+
                     paradas_bilbobus p = new paradas_bilbobus();
+                    p.codigoPostal = cp;
                     p.id = idParada;
                     p.latitud = latitud;
                     p.longitud = longitud;
@@ -738,10 +776,14 @@ namespace ExtractorDatos
 
             Console.WriteLine("Empiezo Bizkaibus");
             FTP cliente = new FTP("ftp://ftp.geo.euskadi.net/cartografia/Transporte/Moveuskadi/", "", "");
-            cliente.download("Bizkaibus/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BizkaibusFTP\google_transit.zip");
-            cliente = null;
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
+            try
+            {
+               cliente.download("Bizkaibus/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\BizkaibusFTP\google_transit.zip");
+            }
+            catch(Exception ex)
+            {
+
+            }
 
             Console.WriteLine("¡Completado!");
 
@@ -869,8 +911,45 @@ namespace ExtractorDatos
                         //ID de la parada padre
                         idParadaPadre = valoresLinea[9];
 
+                        int cp = 00000;
+                        if (c.latitud > 0 && c.longitud < 0)
+                        {
+                            Console.WriteLine("Aqui");
+                            string longitudS = ("" + c.longitud).Replace(',', '.');
+                            string latitudS = ("" + c.latitud).Replace(',', '.');
+
+                            string url = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=" + longitudS + "%2C" + latitudS + "&distance=500&outSR=&f=pjson";
+                            string json = "";
+                            using (WebClient wc = new WebClient())
+                            {
+                                json = wc.DownloadString(url);
+                            }
+
+                            JToken obj = JObject.Parse(json);
+                            JToken direccion = obj.SelectToken("address");
+                            try
+                            {
+                                cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+                            }
+                            catch(NullReferenceException ex)
+                            {
+                                Console.WriteLine("ERROR");
+                                url = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=" + longitudS + "%2C" + latitudS + "&distance=1000&outSR=&f=pjson";
+                                json = "";
+                                using (WebClient wc = new WebClient())
+                                {
+                                    json = wc.DownloadString(url);
+                                }
+                                obj = JObject.Parse(json);
+                                direccion = obj.SelectToken("address");
+                                cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+                            }
+                            
+                        }
+
                         //Añadimos a la lista de paradas de autobus de Bizkaibus
                         paradas_bizkaibus p = new paradas_bizkaibus();
+                        p.codigoPostal = cp;
                         p.id = id;
                         p.codigoParada = codigo;
                         p.nombre = nombreParada;
@@ -1711,7 +1790,26 @@ namespace ExtractorDatos
                     //Bicis averiadas
                     int bicisAveriadas = int.Parse(node.ChildNodes[9].InnerText);
 
+                    int cp = 00000;
+                    if (latitud > 0 && longitud < 0)
+                    {
+                        string longitudS = ("" + longitud).Replace(',', '.');
+                        string latitudS = ("" + latitud).Replace(',', '.');
+
+                        string url = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=" + longitudS + "%2C" + latitudS + "&distance=200&outSR=&f=pjson";
+                        string json = "";
+                        using (WebClient wc = new WebClient())
+                        {
+                            json = wc.DownloadString(url);
+                        }
+
+                        JToken obj = JObject.Parse(json);
+                        JToken direccion = obj.SelectToken("address");
+                        cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+                    }
+
                     puntos_bici p = new puntos_bici();
+                    p.codigoPostal = cp;
                     p.id = id;
                     p.nombre = nombre;
                     p.estado = estado;
@@ -1859,13 +1957,32 @@ namespace ExtractorDatos
                     //ID de la parada padre
                     idParadaPadre = valoresLinea[6];
 
+                    int cp = 00000;
+                    if (c.latitud > 0 && c.longitud < 0)
+                    {
+                        string longitudS = ("" + c.longitud).Replace(',', '.');
+                        string latitudS = ("" + c.latitud).Replace(',', '.');
+
+                        string url = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=" + longitudS + "%2C" + latitudS + "&distance=200&outSR=&f=pjson";
+                        string json = "";
+                        using (WebClient wc = new WebClient())
+                        {
+                            json = wc.DownloadString(url);
+                        }
+
+                        JToken obj = JObject.Parse(json);
+                        JToken direccion = obj.SelectToken("address");
+                        cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+                    }
+
                     //Añadimos a la lista de paradas de autobus de Metro
                     paradas_metro p = new paradas_metro();
                     p.idParada = id;
+                    p.codigoPostal = cp;
                     p.codigoParada = codigo;
                     p.nombre = nombreParada;
                     p.latitud = c.latitud;
-                    p.longitud = p.longitud;
+                    p.longitud = c.longitud;
                     p.tipoLocalizacion = int.Parse(tipoLocalizacion);
                     p.idParadaPadre = idParadaPadre;
                     paradasMetro.Add(id, p);
@@ -2013,8 +2130,27 @@ namespace ExtractorDatos
                     //tipoLocalizacion
                     tipoLocalizacion = valoresLinea[8];
 
+                    int cp = 00000;
+                    if (c.latitud > 0 && c.longitud < 0)
+                    {
+                        string longitudS = ("" + c.longitud).Replace(',', '.');
+                        string latitudS = ("" + c.latitud).Replace(',', '.');
+
+                        string url = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=" + longitudS + "%2C" + latitudS + "&distance=200&outSR=&f=pjson";
+                        string json = "";
+                        using (WebClient wc = new WebClient())
+                        {
+                            json = wc.DownloadString(url);
+                        }
+
+                        JToken obj = JObject.Parse(json);
+                        JToken direccion = obj.SelectToken("address");
+                        cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+                    }
+
                     //Añadimos a la lista de paradas de autobus de Euskotren
                     paradas_euskotren p = new paradas_euskotren();
+                    p.codigoPostal = cp;
                     p.id = id;
                     p.codigoParada = codigo;
                     p.nombre = nombreParada;
@@ -3000,20 +3136,39 @@ namespace ExtractorDatos
                                 string descripcion;
                                 if(parada.ChildNodes[1].Name.Equals("description"))
                                 {
-                                    coordenadastxt = parada.ChildNodes[4].InnerText;
+                                    coordenadastxt = parada.ChildNodes[3].ChildNodes[0].InnerText;
                                     descripcion = parada.ChildNodes[1].InnerText;
                                 }
                                 else
                                 {
-                                    coordenadastxt = parada.ChildNodes[3].InnerText;
+                                    coordenadastxt = parada.ChildNodes[2].ChildNodes[0].InnerText;
                                     descripcion = "Desconocida";
                                 }
                                     
                                 string[] coordenadas = coordenadastxt.Split(',');
                                 double latitud = double.Parse(coordenadas[1], CultureInfo.InvariantCulture);
                                 double longitud = double.Parse(coordenadas[0], CultureInfo.InvariantCulture);
+
+                                int cp = 00000;
+                                if (latitud > 0 && longitud < 0)
+                                {
+                                    string longitudS = ("" + longitud).Replace(',', '.');
+                                    string latitudS = ("" + latitud).Replace(',', '.');
+
+                                    string url = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=" + longitudS + "%2C" + latitudS + "&distance=200&outSR=&f=pjson";
+                                    string json = "";
+                                    using (WebClient wc = new WebClient())
+                                    {
+                                        json = wc.DownloadString(url);
+                                    }
+
+                                    JToken obj = JObject.Parse(json);
+                                    JToken direccion = obj.SelectToken("address");
+                                    cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+                                }
                                 
                                 paradas_tranvia p = new paradas_tranvia();
+                                p.codigoPostal = cp;
                                 p.nombre = nombre;
                                 p.latitud = latitud;
                                 p.longitud = longitud;

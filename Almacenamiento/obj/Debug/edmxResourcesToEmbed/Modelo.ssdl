@@ -154,6 +154,7 @@
     <Property Name="capacidad" Type="int" Nullable="false" />
     <Property Name="latitud" Type="float" Nullable="false" />
     <Property Name="longitud" Type="float" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="incidenciasSet">
     <Key>
@@ -180,6 +181,7 @@
     <Property Name="latitud" Type="float" Nullable="false" />
     <Property Name="longitud" Type="float" Nullable="false" />
     <Property Name="descripcion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="hospitalesSet">
     <Key>
@@ -208,6 +210,7 @@
     <Property Name="latitud" Type="float" Nullable="false" />
     <Property Name="longitud" Type="float" Nullable="false" />
     <Property Name="capacidad" Type="int" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="centros_de_saludSet">
     <Key>
@@ -351,6 +354,7 @@
     <Property Name="idParadaPadre" Type="nvarchar(max)" Nullable="true" />
     <Property Name="codigoParada" Type="nvarchar(max)" Nullable="false" />
     <Property Name="idParada" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="lineas_bizkaibusSet">
     <Key>
@@ -383,6 +387,7 @@
     <Property Name="tipoLocalizacion" Type="int" Nullable="false" />
     <Property Name="codigoParada" Type="int" Nullable="false" />
     <Property Name="idParadaPadre" Type="int" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="paradas_bilbobusSet">
     <Key>
@@ -393,6 +398,7 @@
     <Property Name="latitud" Type="float" Nullable="false" />
     <Property Name="longitud" Type="float" Nullable="false" />
     <Property Name="abreviatura" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="tiempos_linea_paradaSet">
     <Key>
@@ -455,6 +461,7 @@
     <Property Name="url" Type="nvarchar(max)" Nullable="false" />
     <Property Name="tipoLocalizacion" Type="int" Nullable="false" />
     <Property Name="codigoParada" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="estados_parkingSet">
     <Key>

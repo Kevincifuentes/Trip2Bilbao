@@ -159,6 +159,7 @@
     <NavigationProperty Name="entradas" Relationship="Modelo.parkingsentradas" FromRole="parkings" ToRole="entradas" />
     <NavigationProperty Name="tarifas" Relationship="Modelo.parkingstarifas" FromRole="parkings" ToRole="tarifas" />
     <NavigationProperty Name="estados_parking" Relationship="Modelo.parkingsestados_parking" FromRole="parkings" ToRole="estados_parking" />
+    <Property Name="codigoPostal" Type="Int32" Nullable="false" />
   </EntityType>
   <Association Name="parkingsentradas">
     <End Type="Modelo.parkings" Role="parkings" Multiplicity="1">
@@ -213,6 +214,7 @@
     <Property Name="latitud" Type="Double" Nullable="false" />
     <Property Name="longitud" Type="Double" Nullable="false" />
     <Property Name="descripcion" Type="String" Nullable="false" />
+    <Property Name="codigoPostal" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="hospitales">
     <Key>
@@ -242,6 +244,7 @@
     <Property Name="longitud" Type="Double" Nullable="false" />
     <Property Name="capacidad" Type="Int32" Nullable="false" />
     <NavigationProperty Name="estados_puntobici" Relationship="Modelo.puntos_biciestados_puntobici" FromRole="puntos_bici" ToRole="estados_puntobici" />
+    <Property Name="codigoPostal" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="centros_de_salud">
     <Key>
@@ -419,6 +422,7 @@
     <NavigationProperty Name="viajes_parada_tiempos_metro" Relationship="Modelo.paradas_metroviajes_parada_tiempos_metro" FromRole="paradas_metro" ToRole="viajes_parada_tiempos_metro" />
     <Property Name="codigoParada" Type="String" Nullable="false" />
     <Property Name="idParada" Type="String" Nullable="false" />
+    <Property Name="codigoPostal" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="lineas_bizkaibus">
     <Key>
@@ -469,6 +473,7 @@
     <NavigationProperty Name="viajes_parada_tiempos_bizkaibus" Relationship="Modelo.paradas_bizkaibusviajes_parada_tiempos_bizkaibus" FromRole="paradas_bizkaibus" ToRole="viajes_parada_tiempos_bizkaibus" />
     <Property Name="codigoParada" Type="Int32" Nullable="false" />
     <Property Name="idParadaPadre" Type="Int32" Nullable="false" />
+    <Property Name="codigoPostal" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="paradas_bilbobus">
     <Key>
@@ -481,6 +486,7 @@
     <NavigationProperty Name="tiempos_linea_parada" Relationship="Modelo.paradas_bilbobustiempos_linea_parada" FromRole="paradas_bilbobus" ToRole="tiempos_linea_parada" />
     <NavigationProperty Name="viajes_parada_tiempos_bilbobus" Relationship="Modelo.paradas_bilbobusviajes_parada_tiempos_bilbobus" FromRole="paradas_bilbobus" ToRole="viajes_parada_tiempos_bilbobus" />
     <Property Name="abreviatura" Type="String" Nullable="false" />
+    <Property Name="codigoPostal" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="tiempos_linea_parada">
     <Key>
@@ -609,6 +615,7 @@
     <Property Name="tipoLocalizacion" Type="Int32" Nullable="false" />
     <Property Name="codigoParada" Type="String" Nullable="false" />
     <NavigationProperty Name="viajes_parada_tiempos" Relationship="Modelo.paradas_euskotrenviajes_parada_tiempos" FromRole="paradas_euskotren" ToRole="viajes_parada_tiempos" />
+    <Property Name="codigoPostal" Type="Int32" Nullable="false" />
   </EntityType>
   <Association Name="lineas_metroviajes_metro">
     <End Type="Modelo.lineas_metro" Role="lineas_metro" Multiplicity="1">

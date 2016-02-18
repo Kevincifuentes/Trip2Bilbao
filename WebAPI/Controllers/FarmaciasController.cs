@@ -42,5 +42,24 @@ namespace WebAPI.Controllers
             }
             
         }
+
+        [HttpGet]
+        [ActionName("codigo")]
+        public IHttpActionResult farmaciasCodigoPostal(int id)
+        {
+            FarmaciaAssembler fa = new FarmaciaAssembler();
+            List<farmacias> temporal = contexto.farmaciasSet.Where(h => h.codigoPostal == id).ToList();
+            if (temporal.Count != 0)
+            {
+                return Ok(fa.assemble(temporal));
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+
     }
 }

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/09/2016 11:43:21
+-- Date Created: 02/17/2016 10:55:32
 -- Generated from EDMX file: C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\Modelo.edmx
 -- --------------------------------------------------
 
@@ -225,7 +225,8 @@ CREATE TABLE [dbo].[parkingsSet] (
     [estado] nvarchar(max)  NOT NULL,
     [capacidad] int  NOT NULL,
     [latitud] float  NOT NULL,
-    [longitud] float  NOT NULL
+    [longitud] float  NOT NULL,
+    [codigoPostal] int  NOT NULL
 );
 GO
 
@@ -248,7 +249,8 @@ CREATE TABLE [dbo].[paradas_tranviaSet] (
     [nombre] nvarchar(max)  NOT NULL,
     [latitud] float  NOT NULL,
     [longitud] float  NOT NULL,
-    [descripcion] nvarchar(max)  NOT NULL
+    [descripcion] nvarchar(max)  NOT NULL,
+    [codigoPostal] int  NOT NULL
 );
 GO
 
@@ -276,7 +278,8 @@ CREATE TABLE [dbo].[puntos_biciSet] (
     [estado] nvarchar(max)  NOT NULL,
     [latitud] float  NOT NULL,
     [longitud] float  NOT NULL,
-    [capacidad] int  NOT NULL
+    [capacidad] int  NOT NULL,
+    [codigoPostal] int  NOT NULL
 );
 GO
 
@@ -419,7 +422,8 @@ CREATE TABLE [dbo].[paradas_metroSet] (
     [tipoLocalizacion] int  NOT NULL,
     [idParadaPadre] nvarchar(max)  NULL,
     [codigoParada] nvarchar(max)  NOT NULL,
-    [idParada] nvarchar(max)  NOT NULL
+    [idParada] nvarchar(max)  NOT NULL,
+    [codigoPostal] int  NOT NULL
 );
 GO
 
@@ -451,7 +455,8 @@ CREATE TABLE [dbo].[paradas_bizkaibusSet] (
     [url] nvarchar(max)  NOT NULL,
     [tipoLocalizacion] int  NOT NULL,
     [codigoParada] int  NOT NULL,
-    [idParadaPadre] int  NOT NULL
+    [idParadaPadre] int  NOT NULL,
+    [codigoPostal] int  NOT NULL
 );
 GO
 
@@ -461,7 +466,8 @@ CREATE TABLE [dbo].[paradas_bilbobusSet] (
     [nombre] nvarchar(max)  NOT NULL,
     [latitud] float  NOT NULL,
     [longitud] float  NOT NULL,
-    [abreviatura] nvarchar(max)  NOT NULL
+    [abreviatura] nvarchar(max)  NOT NULL,
+    [codigoPostal] int  NOT NULL
 );
 GO
 
@@ -522,7 +528,8 @@ CREATE TABLE [dbo].[paradas_euskotrenSet] (
     [longitud] float  NOT NULL,
     [url] nvarchar(max)  NOT NULL,
     [tipoLocalizacion] int  NOT NULL,
-    [codigoParada] nvarchar(max)  NOT NULL
+    [codigoParada] nvarchar(max)  NOT NULL,
+    [codigoPostal] int  NOT NULL
 );
 GO
 

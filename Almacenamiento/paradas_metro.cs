@@ -27,6 +27,7 @@ namespace Almacenamiento
         public string idParadaPadre { get; set; }
         public string codigoParada { get; set; }
         public string idParada { get; set; }
+        public int codigoPostal { get; set; }
     
         public virtual ICollection<viajes_parada_tiempos_metro> viajes_parada_tiempos_metro { get; set; }
     }

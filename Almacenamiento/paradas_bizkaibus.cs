@@ -28,6 +28,7 @@ namespace Almacenamiento
         public int tipoLocalizacion { get; set; }
         public int codigoParada { get; set; }
         public int idParadaPadre { get; set; }
+        public int codigoPostal { get; set; }
     
         public virtual ICollection<viajes_parada_tiempos_bizkaibus> viajes_parada_tiempos_bizkaibus { get; set; }
     }

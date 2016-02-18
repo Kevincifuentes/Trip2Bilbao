@@ -913,6 +913,7 @@ namespace ExtractorDatos
             // Console.WriteLine(objParking.capacidad + " " + objParking.ocupacion);
             XElement bicislibres = new XElement("BicisLibres", pb.bicisLibres);
             XElement disponibilidad = new XElement("DisponibilidadAnclaje", pb.anclajesLibres);
+            XElement estado = new XElement("Estado", pb.estado);
 
             cuerpo.Add(id);
             cuerpo.Add(nombrePunto);
@@ -920,6 +921,7 @@ namespace ExtractorDatos
             cuerpo.Add(capacidad);
             cuerpo.Add(bicislibres);
             cuerpo.Add(disponibilidad);
+            cuerpo.Add(estado);
 
 
             puntoBici.Add(cuerpo);

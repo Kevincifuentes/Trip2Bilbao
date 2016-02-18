@@ -159,6 +159,7 @@
     <Property Name="capacidad" Type="int" Nullable="false" />
     <Property Name="latitud" Type="float" Nullable="false" />
     <Property Name="longitud" Type="float" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="incidenciasSet">
     <Key>
@@ -185,6 +186,7 @@
     <Property Name="latitud" Type="float" Nullable="false" />
     <Property Name="longitud" Type="float" Nullable="false" />
     <Property Name="descripcion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="hospitalesSet">
     <Key>
@@ -213,6 +215,7 @@
     <Property Name="latitud" Type="float" Nullable="false" />
     <Property Name="longitud" Type="float" Nullable="false" />
     <Property Name="capacidad" Type="int" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="centros_de_saludSet">
     <Key>
@@ -356,6 +359,7 @@
     <Property Name="idParadaPadre" Type="nvarchar(max)" Nullable="true" />
     <Property Name="codigoParada" Type="nvarchar(max)" Nullable="false" />
     <Property Name="idParada" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="lineas_bizkaibusSet">
     <Key>
@@ -388,6 +392,7 @@
     <Property Name="tipoLocalizacion" Type="int" Nullable="false" />
     <Property Name="codigoParada" Type="int" Nullable="false" />
     <Property Name="idParadaPadre" Type="int" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="paradas_bilbobusSet">
     <Key>
@@ -398,6 +403,7 @@
     <Property Name="latitud" Type="float" Nullable="false" />
     <Property Name="longitud" Type="float" Nullable="false" />
     <Property Name="abreviatura" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="tiempos_linea_paradaSet">
     <Key>
@@ -460,6 +466,7 @@
     <Property Name="url" Type="nvarchar(max)" Nullable="false" />
     <Property Name="tipoLocalizacion" Type="int" Nullable="false" />
     <Property Name="codigoParada" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="estados_parkingSet">
     <Key>
@@ -973,6 +980,7 @@
           <NavigationProperty Name="entradas" Relationship="Modelo.parkingsentradas" FromRole="parkings" ToRole="entradas" />
           <NavigationProperty Name="tarifas" Relationship="Modelo.parkingstarifas" FromRole="parkings" ToRole="tarifas" />
           <NavigationProperty Name="estados_parking" Relationship="Modelo.parkingsestados_parking" FromRole="parkings" ToRole="estados_parking" />
+          <Property Name="codigoPostal" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="parkingsentradas">
           <End Type="Modelo.parkings" Role="parkings" Multiplicity="1" >
@@ -1029,6 +1037,7 @@
           <Property Name="latitud" Type="Double" Nullable="false" />
           <Property Name="longitud" Type="Double" Nullable="false" />
           <Property Name="descripcion" Type="String" Nullable="false" />
+          <Property Name="codigoPostal" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="hospitales">
           <Key>
@@ -1058,6 +1067,7 @@
           <Property Name="longitud" Type="Double" Nullable="false" />
           <Property Name="capacidad" Type="Int32" Nullable="false" />
           <NavigationProperty Name="estados_puntobici" Relationship="Modelo.puntos_biciestados_puntobici" FromRole="puntos_bici" ToRole="estados_puntobici" />
+          <Property Name="codigoPostal" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="centros_de_salud">
           <Key>
@@ -1235,6 +1245,7 @@
           <NavigationProperty Name="viajes_parada_tiempos_metro" Relationship="Modelo.paradas_metroviajes_parada_tiempos_metro" FromRole="paradas_metro" ToRole="viajes_parada_tiempos_metro" />
           <Property Name="codigoParada" Type="String" Nullable="false" />
           <Property Name="idParada" Type="String" Nullable="false" />
+          <Property Name="codigoPostal" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="lineas_bizkaibus">
           <Key>
@@ -1285,6 +1296,7 @@
           <NavigationProperty Name="viajes_parada_tiempos_bizkaibus" Relationship="Modelo.paradas_bizkaibusviajes_parada_tiempos_bizkaibus" FromRole="paradas_bizkaibus" ToRole="viajes_parada_tiempos_bizkaibus" />
           <Property Name="codigoParada" Type="Int32" Nullable="false" />
           <Property Name="idParadaPadre" Type="Int32" Nullable="false" />
+          <Property Name="codigoPostal" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="paradas_bilbobus">
           <Key>
@@ -1297,6 +1309,7 @@
           <NavigationProperty Name="tiempos_linea_parada" Relationship="Modelo.paradas_bilbobustiempos_linea_parada" FromRole="paradas_bilbobus" ToRole="tiempos_linea_parada" />
           <NavigationProperty Name="viajes_parada_tiempos_bilbobus" Relationship="Modelo.paradas_bilbobusviajes_parada_tiempos_bilbobus" FromRole="paradas_bilbobus" ToRole="viajes_parada_tiempos_bilbobus" />
           <Property Name="abreviatura" Type="String" Nullable="false" />
+          <Property Name="codigoPostal" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="tiempos_linea_parada">
           <Key>
@@ -1425,6 +1438,7 @@
           <Property Name="tipoLocalizacion" Type="Int32" Nullable="false" />
           <Property Name="codigoParada" Type="String" Nullable="false" />
           <NavigationProperty Name="viajes_parada_tiempos" Relationship="Modelo.paradas_euskotrenviajes_parada_tiempos" FromRole="paradas_euskotren" ToRole="viajes_parada_tiempos" />
+          <Property Name="codigoPostal" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="lineas_metroviajes_metro">
           <End Type="Modelo.lineas_metro" Role="lineas_metro" Multiplicity="1" >
@@ -1704,6 +1718,7 @@
           <ScalarProperty Name="capacidad" ColumnName="capacidad" />
           <ScalarProperty Name="latitud" ColumnName="latitud" />
           <ScalarProperty Name="longitud" ColumnName="longitud" />
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1729,6 +1744,7 @@
           <ScalarProperty Name="latitud" ColumnName="latitud" />
           <ScalarProperty Name="longitud" ColumnName="longitud" />
           <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1759,6 +1775,7 @@
           <ScalarProperty Name="latitud" ColumnName="latitud" />
           <ScalarProperty Name="longitud" ColumnName="longitud" />
           <ScalarProperty Name="capacidad" ColumnName="capacidad" />
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1913,6 +1930,7 @@
           <ScalarProperty Name="idParadaPadre" ColumnName="idParadaPadre" />
           <ScalarProperty Name="codigoParada" ColumnName="codigoParada" />
           <ScalarProperty Name="idParada" ColumnName="idParada" />
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1948,6 +1966,7 @@
           <ScalarProperty Name="tipoLocalizacion" ColumnName="tipoLocalizacion" />
           <ScalarProperty Name="codigoParada" ColumnName="codigoParada" />
           <ScalarProperty Name="idParadaPadre" ColumnName="idParadaPadre" />
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1959,6 +1978,7 @@
           <ScalarProperty Name="latitud" ColumnName="latitud" />
           <ScalarProperty Name="longitud" ColumnName="longitud" />
           <ScalarProperty Name="abreviatura" ColumnName="abreviatura" />
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -2026,6 +2046,7 @@
           <ScalarProperty Name="url" ColumnName="url" />
           <ScalarProperty Name="tipoLocalizacion" ColumnName="tipoLocalizacion" />
           <ScalarProperty Name="codigoParada" ColumnName="codigoParada" />
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
