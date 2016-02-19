@@ -1582,9 +1582,10 @@ namespace ExtractorDatos
             try
             {
                 //Establezco el fichero a descomprimir
-                FileStream fs = File.OpenRead(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\google_transit.zip");
+                FileStream fs;
                 try
                 {
+                    fs = File.OpenRead(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\google_transit.zip");
                     zf = new ZipFile(fs);
                 }
                 catch (System.ArgumentException e)

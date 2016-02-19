@@ -25,12 +25,14 @@ namespace ExtractorDatos
             Thread obtenerBilbo = new Thread(new ThreadStart(this.obtenerBilbobus));
             Thread tiempo = new Thread(new ThreadStart(this.obtenerTiempoBilbao));
 
+            obtenerBilbo.Start();
             incidencias.Start();
             obtenerBicis.Start();
             obtenerParkings.Start();
             deusto.Start();
-            obtenerBilbo.Start();
             tiempo.Start();
+            
+            
         }
 
         public void obtenerIncidencias()
@@ -96,7 +98,7 @@ namespace ExtractorDatos
                 estatico.paradasAutobusesBilbo();
                 dinamico.tiemposParadaBilbo(estatico);
                 estatico.lineasBilbobus();
-                InformacionEstatica.emisor.enviarTiemposParadas(estatico.paradasBilbobus, dinamico.descargaBilbobus);
+                //InformacionEstatica.emisor.enviarTiemposParadas(estatico.paradasBilbobus, dinamico.descargaBilbobus);
                 InformacionEstatica.emisor.enviarTiemposLineas(estatico.lineasBilbo, dinamico.descargaBilbobus);
 
                 //Espera un Minuto

@@ -169,10 +169,7 @@ namespace ReceptorBus
                 case "TiemposLinea":
                     XmlDocument linea = new XmlDocument();
                     linea.LoadXml(temp.Text);
-                    if (!message.NMSRedelivered)
-                    {
                         almacenarTiempoBilbo(linea);
-                    }
                     break;
                 case "Bicis":
                     XmlDocument bici = new XmlDocument();
