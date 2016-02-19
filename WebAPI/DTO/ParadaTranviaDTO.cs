@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Clases
 {
-    public class ParadaEuskotrenDTO
+    public class ParadaTranviaDTO
     {
-        public ParadaEuskotrenDTO()
+        public ParadaTranviaDTO()
         {
             
         }
 
-        public ParadaEuskotrenDTO(string nombreParada, double latitud, double longitud, int codigoPostal, string codigoParada)
+        public ParadaTranviaDTO(string nombreParada, double latitud, double longitud, int codigoPostal, string descripcion)
         {
             this.nombreParada = nombreParada;
-            this.codigoParada = codigoParada;
+            this.descripcion = descripcion;
             this.latitud = latitud;
             this.longitud = longitud;
             this.codigoPostal = codigoPostal;
@@ -25,7 +25,7 @@ namespace Clases
         public string nombreParada { get; set; }
         public double latitud { get; set; }
         public double longitud { get; set; }
-        public string codigoParada { get; set; }
+        public string descripcion { get; set; }
         public double codigoPostal { get; set; }
 
     }

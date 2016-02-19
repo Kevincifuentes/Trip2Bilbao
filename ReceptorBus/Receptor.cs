@@ -44,8 +44,8 @@ namespace ReceptorBus
             obtenerHospitales(oe);
             obtenerFarmacias(oe);*/
             
-            /*obtenerTranvia(oe);
-            obtenerEuskotren(oe);
+            obtenerTranvia(oe);
+            /*obtenerEuskotren(oe);
             obtenerMetro(oe);
             obtenerBizkaibus(oe);
             obtenerBilbobus(oe);*/
@@ -321,7 +321,7 @@ namespace ReceptorBus
             try
             {
                 contexto.SaveChanges();
-                Console.WriteLine(">>>>>Insercción de Incidencias (T.R.) realizada<<<<<");
+                Console.WriteLine(">>>>>Insercción de Tiempo Ciudad (T.R.) realizada<<<<<");
             }
             catch (Exception e)
             {

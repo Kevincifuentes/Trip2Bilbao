@@ -19,19 +19,19 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        [ActionName("paradasbizkaibus")]
-        public IEnumerable<ParadaBizkaibusDTO> ParadaBizkaibus()
+        [ActionName("paradaseuskotren")]
+        public IEnumerable<ParadaEuskotrenDTO> ParadaBizkaibus()
         {
-            ParadaBizkaibusAssembler fa = new ParadaBizkaibusAssembler();
-            return fa.assemble(contexto.paradas_bizkaibusSet.ToList());
+            ParadaEuskotrenAssembler fa = new ParadaEuskotrenAssembler();
+            return fa.assemble(contexto.paradas_euskotrenSet.ToList());
         }
 
         [HttpGet]
-        [ActionName("paradabizkaibus")]
-        public IHttpActionResult GetParadaBizkaibus(int id)
+        [ActionName("paradaeuskotren")]
+        public IHttpActionResult GetParadaEuskotren(int id)
         {
-            ParadaBizkaibusAssembler fa = new ParadaBizkaibusAssembler();
-            paradas_bizkaibus temporal = contexto.paradas_bizkaibusSet.Where(h => h.id == id).FirstOrDefault<paradas_bizkaibus>();
+            ParadaEuskotrenAssembler fa = new ParadaEuskotrenAssembler();
+            paradas_euskotren temporal = contexto.paradas_euskotrenSet.Where(h => h.id == id).FirstOrDefault<paradas_euskotren>();
             if (temporal != null)
             {
                 return Ok(fa.assemble(temporal));
@@ -45,10 +45,10 @@ namespace WebAPI.Controllers
 
         [HttpGet]
         [ActionName("codigo")]
-        public IHttpActionResult paradasBizkaibusCodigoPostal(int id)
+        public IHttpActionResult paradasEuskotrenCodigoPostal(int id)
         {
-            ParadaBizkaibusAssembler fa = new ParadaBizkaibusAssembler();
-            List<paradas_bizkaibus> temporal = contexto.paradas_bizkaibusSet.Where(h => h.codigoPostal == id).ToList();
+            ParadaEuskotrenAssembler fa = new ParadaEuskotrenAssembler();
+            List<paradas_euskotren> temporal = contexto.paradas_euskotrenSet.Where(h => h.codigoPostal == id).ToList();
             if (temporal.Count != 0)
             {
                 return Ok(fa.assemble(temporal));

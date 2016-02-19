@@ -3144,6 +3144,8 @@ namespace ExtractorDatos
                                     coordenadastxt = parada.ChildNodes[2].ChildNodes[0].InnerText;
                                     descripcion = "Desconocida";
                                 }
+
+                                descripcion = descripcion.Replace("<br>", " ");
                                     
                                 string[] coordenadas = coordenadastxt.Split(',');
                                 double latitud = double.Parse(coordenadas[1], CultureInfo.InvariantCulture);

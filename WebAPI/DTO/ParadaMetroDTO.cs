@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Clases
 {
-    public class ParadaEuskotrenDTO
+    public class ParadaMetroDTO
     {
-        public ParadaEuskotrenDTO()
+        public ParadaMetroDTO()
         {
             
         }
 
-        public ParadaEuskotrenDTO(string nombreParada, double latitud, double longitud, int codigoPostal, string codigoParada)
+        public ParadaMetroDTO(string nombreParada, double latitud, double longitud, int codigoPostal, string codigoParada)
         {
             this.nombreParada = nombreParada;
             this.codigoParada = codigoParada;

@@ -2,6 +2,99 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            height: 50%;
+        }
+    </style>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script>
+        var map;
+        var markers = [];
+        var primera = true;
+        var visible = false;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 13,
+                center: { lat: 43.271037, lng: -2.938546 }
+            });
+
+            var trafficLayer = new google.maps.TrafficLayer();
+            trafficLayer.setMap(map);
+        }
+        function obtener(x, y) {
+            if (primera) {
+                primera = false;
+                visible = true;
+                $(document).ready(function () {
+                    // Send an AJAX request
+                    $.getJSON(y)
+                        .done(function (data) {
+                            // On success, 'data' contains a list of products.
+                            $.each(data, function (key, item) {
+                                // Add a list item for the product.
+                                var myLatlng = new google.maps.LatLng(item.latitud, item.longitud);
+
+                                var contentString = formatItem(item);
+
+                                var infowindow = new google.maps.InfoWindow({
+                                    content: contentString
+                                });
+
+                                var marker = new google.maps.Marker({
+                                    position: myLatlng,
+                                    title: formatItem(item)
+                                });
+                                markers.push(marker);
+
+                                marker.addListener('click', function () {
+                                    infowindow.open(map, marker);
+                                });
+
+                                // To add the marker to the map, call setMap();
+                                marker.setMap(map);
+                            });
+                        });
+                });
+                
+            } else {
+                if (visible) {
+                    clearMarkers();
+                    visible = false;
+                } else {
+                    showMarkers();
+                    visible = true;
+                }
+            }
+        }
+
+        function clearMarkers() {
+            setMapOnAll(null);
+        }
+
+        // Shows any markers currently in the array.
+        function showMarkers() {
+            setMapOnAll(map);
+        }
+
+        function setMapOnAll(map) {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(map);
+            }
+        }
+
+        function formatItem(item) {
+            return item.nombreFarmacia + " / " + item.telefono;
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA48R0ThGkq0f9Ys6C5JPQQqdI4kJPxy6Y&callback=initMap&signed_in=true" async defer>
+    </script>
 </head>
 <body>
     <table border="0">
@@ -40,11 +133,31 @@
                 </form>
             </td>
             <td>
-                <form method="LINK" action="paradabizkaibus.html">
+                <form method="LINK" action="paradasbizkaibus.html">
                     <input type="submit" value="Paradas Bilbobus">
                 </form>
             </td>
-
+            <td>
+                <form method="LINK" action="paradaseuskotren.html">
+                    <input type="submit" value="Paradas Euskotren">
+                </form>
+            </td>
+            <td>
+                <form method="LINK" action="paradasmetro.html">
+                    <input type="submit" value="Paradas Metro">
+                </form>
+            </td>
+            <td>
+                <form method="LINK" action="paradastranvia.html">
+                    <input type="submit" value="Paradas Tranvia">
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <div id="map"></div>
+        </tr>
+        <tr>
+            <input type="button" value="Mostrar Farmacias" onclick="obtener(1, 'api/farmacias/farmacias');" />
         </tr>
 
     </table>

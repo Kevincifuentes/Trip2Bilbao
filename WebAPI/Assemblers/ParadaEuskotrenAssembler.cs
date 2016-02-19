@@ -9,15 +9,15 @@ namespace WebAPI.Assemblers
 {
     public class ParadaEuskotrenAssembler
     {
-        public ParadaBizkaibusDTO assemble(paradas_bizkaibus h)
+        public ParadaEuskotrenDTO assemble(paradas_euskotren h)
         {
-            return new ParadaBizkaibusDTO(h.nombre, h.latitud, h.longitud, h.codigoPostal);
+            return new ParadaEuskotrenDTO(h.nombre, h.latitud, h.longitud, h.codigoPostal, h.codigoParada);
         }
 
-        public List<ParadaBizkaibusDTO> assemble(List<paradas_bizkaibus> h)
+        public List<ParadaEuskotrenDTO> assemble(List<paradas_euskotren> h)
         {
-            List<ParadaBizkaibusDTO> list = new List<ParadaBizkaibusDTO>();
-            foreach (paradas_bizkaibus var in h)
+            List<ParadaEuskotrenDTO> list = new List<ParadaEuskotrenDTO>();
+            foreach (paradas_euskotren var in h)
             {
                 list.Add(assemble(var));
             }
