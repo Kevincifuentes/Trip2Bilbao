@@ -44,7 +44,7 @@ namespace ReceptorBus
             obtenerHospitales(oe);
             obtenerFarmacias(oe);*/
             
-            obtenerTranvia(oe);
+           // obtenerTranvia(oe);
             /*obtenerEuskotren(oe);
             obtenerMetro(oe);
             obtenerBizkaibus(oe);

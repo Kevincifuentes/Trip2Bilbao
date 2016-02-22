@@ -13,12 +13,33 @@
             height: 50%;
         }
     </style>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="JS/amq_jquery_adapter.js"></script>
+    <script type="text/javascript" src="JS/amq.js"></script>
+    <!--<script type="text/javascript">
+        var amq = org.activemq.Amq;
+        amq.init({
+            uri: 'amq',
+            logging: true,
+            timeout: 20
+        });
+        var myHandler =
+        {
+            rcvMessage: function (message) {
+                alert("received " + message);
+            }
+        };
+        amq.addListener("01", "topic://PruebaEMISOR", myHandler.rcvMessage);
+    </script>-->
     <script>
         var map;
         var markers = [];
+        var colores = ['#0000FF', '#905c1b', '#000000'];
         var primera = true;
         var visible = false;
+        var anterior = 0;
+        var pos;
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 13,
@@ -29,7 +50,8 @@
             trafficLayer.setMap(map);
         }
         function obtener(x, y) {
-            if (primera) {
+            if (primera || x != anterior) {
+                anterior = x;
                 primera = false;
                 visible = true;
                 $(document).ready(function () {
@@ -41,7 +63,7 @@
                                 // Add a list item for the product.
                                 var myLatlng = new google.maps.LatLng(item.latitud, item.longitud);
 
-                                var contentString = formatItem(item);
+                                var contentString = formatItem(item, x);
 
                                 var infowindow = new google.maps.InfoWindow({
                                     content: contentString
@@ -49,7 +71,7 @@
 
                                 var marker = new google.maps.Marker({
                                     position: myLatlng,
-                                    title: formatItem(item)
+                                    title: contentString
                                 });
                                 markers.push(marker);
 
@@ -89,11 +111,120 @@
             }
         }
 
-        function formatItem(item) {
-            return item.nombreFarmacia + " / " + item.telefono;
+        function formatItem(item, x) {
+            if (x === 1) {
+                return item.nombreFarmacia + " / " + item.telefono;
+            } else if (x === 2) {
+                return item.nombreParking + " / " + item.capacidad;
+            } else if (x === 3) {
+                return item.tipo+" / "+item.descripcion + " \r " + item.inicio + " / "+ item.fin;
+            }
+
         }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA48R0ThGkq0f9Ys6C5JPQQqdI4kJPxy6Y&callback=initMap&signed_in=true" async defer>
+
+        function initialize() {
+            initMap();
+            var directionsService = new google.maps.DirectionsService();
+            var directionsDisplay = new google.maps.DirectionsRenderer({
+                map: map,
+                preserveViewport: true
+            });
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    map.setCenter(pos);
+                    directionsService.route({
+                        origin: new google.maps.LatLng(pos.lat, pos.lng),
+                        destination: new google.maps.LatLng(43.259995, -2.946041),
+                        provideRouteAlternatives: true,
+                        travelMode: google.maps.TravelMode.DRIVING,
+                        drivingOptions: {
+                            departureTime: new Date(Date.now()),
+                            trafficModel: /*"optimistic"*/ "pessimistic"
+                        }
+                    }, function (response, status) {
+                        if (status === google.maps.DirectionsStatus.OK) {
+                            directionsDisplay.setDirections(response);
+                            alert("Número de rutas: " + response.routes.length);
+                            for (z = 0; z < response.routes.length; z++) {
+
+                                var polyline = new google.maps.Polyline({
+                                    path: [],
+                                    strokeColor: colores[z],
+                                    strokeWeight: 5
+                                });
+
+                                var bounds = new google.maps.LatLngBounds();
+                                var legs = response.routes[z].legs;
+                                for (i = 0; i < legs.length; i++) {
+                                    var steps = legs[i].steps;
+                                    for (j = 0; j < steps.length; j++) {
+                                        var nextSegment = steps[j].path;
+                                        for (k = 0; k < nextSegment.length; k++) {
+                                            polyline.getPath().push(nextSegment[k]);
+                                            bounds.extend(nextSegment[k]);
+                                        }
+                                    }
+                                }
+                                polyline.setMap(map);
+                            }
+                        } else {
+                            window.alert('Directions request failed due to ' + status);
+                        }
+                    });
+                }, function () {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                directionsService.route({
+                    origin: new google.maps.LatLng(43.271142, -2.938802),
+                    destination: new google.maps.LatLng(43.259995, -2.946041),
+                    provideRouteAlternatives: true,
+                    travelMode: google.maps.TravelMode.DRIVING,
+                    drivingOptions: {
+                        departureTime: new Date(Date.now()),
+                        trafficModel: /*"optimistic"*/ "pessimistic"
+                    }
+                }, function (response, status) {
+                    if (status === google.maps.DirectionsStatus.OK) {
+                        directionsDisplay.setDirections(response);
+                        alert("Número de rutas: " + response.routes.length);
+                        for (z = 0; z < response.routes.length; z++) {
+
+                            var polyline = new google.maps.Polyline({
+                                path: [],
+                                strokeColor: colores[z],
+                                strokeWeight: 5
+                            });
+
+                            var bounds = new google.maps.LatLngBounds();
+                            var legs = response.routes[z].legs;
+                            for (i = 0; i < legs.length; i++) {
+                                var steps = legs[i].steps;
+                                for (j = 0; j < steps.length; j++) {
+                                    var nextSegment = steps[j].path;
+                                    for (k = 0; k < nextSegment.length; k++) {
+                                        polyline.getPath().push(nextSegment[k]);
+                                        bounds.extend(nextSegment[k]);
+                                    }
+                                }
+                            }
+                            polyline.setMap(map);
+                        }
+                    } else {
+                        window.alert('Directions request failed due to ' + status);
+                    }
+                });
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+        }
+        google.maps.event.addDomListener(window, "load", initialize);
     </script>
 </head>
 <body>
@@ -157,7 +288,9 @@
             <div id="map"></div>
         </tr>
         <tr>
-            <input type="button" value="Mostrar Farmacias" onclick="obtener(1, 'api/farmacias/farmacias');" />
+            <input type="button" value="Mostrar Farmacias" onclick="obtener(1, 'api/farmacias/farmacias');"/>
+            <input type="button" value="Mostrar Parkings" onclick="obtener(2, 'api/parkings/parkings');"/>
+            <input type="button" value="Mostrar Incidencias" onclick="obtener(3, 'api/incidencias/fecha');" />
         </tr>
 
     </table>

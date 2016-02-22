@@ -82,6 +82,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="JS\amq.js" />
+    <Content Include="JS\amq_jquery_adapter.js" />
     <Content Include="paradastranvia.html" />
     <Content Include="paradasmetro.html" />
     <Content Include="paradaseuskotren.html" />
@@ -107,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Assemblers\IncidenciaAssembler.cs" />
     <Compile Include="Assemblers\CentroAssembler.cs" />
     <Compile Include="Assemblers\FarmaciaAssembler.cs" />
     <Compile Include="Assemblers\ParadaTranviaAssembler.cs" />
@@ -117,6 +120,7 @@
     <Compile Include="Assemblers\PuntoBiciAssembler.cs" />
     <Compile Include="Assemblers\ParkingAssembler.cs" />
     <Compile Include="Assemblers\HospitalAssembler.cs" />
+    <Compile Include="Controllers\IncidenciasController.cs" />
     <Compile Include="Controllers\ParadasTranviaController.cs" />
     <Compile Include="Controllers\ParadasMetroController.cs" />
     <Compile Include="Controllers\ParadasEuskotrenController.cs" />
@@ -127,6 +131,7 @@
     <Compile Include="Controllers\HospitalesController.cs" />
     <Compile Include="Controllers\CentrosController.cs" />
     <Compile Include="Controllers\FarmaciasController.cs" />
+    <Compile Include="DTO\IndicendiaDTO.cs" />
     <Compile Include="DTO\CentroSaludDTO.cs" />
     <Compile Include="DTO\Coordenadas.cs" />
     <Compile Include="DTO\FarmaciaDTO.cs" />
