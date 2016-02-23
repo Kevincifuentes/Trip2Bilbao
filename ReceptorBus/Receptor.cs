@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Validation;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -337,8 +338,8 @@ namespace ReceptorBus
             i.descripcion = incidencia.ChildNodes[1].ChildNodes[1].ChildNodes[1].InnerText;
             i.fechaInicio = DateTime.Parse(incidencia.ChildNodes[1].ChildNodes[1].ChildNodes[2].InnerText);
             i.fechaFin = DateTime.Parse(incidencia.ChildNodes[1].ChildNodes[1].ChildNodes[3].InnerText);
-            i.latitud = double.Parse(incidencia.ChildNodes[1].ChildNodes[1].ChildNodes[4].ChildNodes[0].InnerText);
-            i.longitud = double.Parse(incidencia.ChildNodes[1].ChildNodes[1].ChildNodes[4].ChildNodes[1].InnerText);
+            i.latitud = double.Parse(incidencia.ChildNodes[1].ChildNodes[1].ChildNodes[4].ChildNodes[0].InnerText , CultureInfo.InvariantCulture);
+            i.longitud = double.Parse(incidencia.ChildNodes[1].ChildNodes[1].ChildNodes[4].ChildNodes[1].InnerText, CultureInfo.InvariantCulture);
             i.fechaInsercion = DateTime.Now;
             contexto.incidenciasSet.Add(i);
             try
