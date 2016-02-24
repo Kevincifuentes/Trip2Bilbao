@@ -333,6 +333,7 @@ namespace ReceptorBus
         private void almacenarIncidencia(XmlDocument incidencia)
         {
             incidencias i = new incidencias();
+            i.codigoPostal = int.Parse(incidencia.ChildNodes[1].ChildNodes[0].ChildNodes[2].ChildNodes[0].InnerText);
             i.id = int.Parse(incidencia.ChildNodes[1].ChildNodes[1].ChildNodes[0].InnerText);
             i.tipo = incidencia.ChildNodes[1].ChildNodes[1].ChildNodes[5].InnerText;
             i.descripcion = incidencia.ChildNodes[1].ChildNodes[1].ChildNodes[1].InnerText;

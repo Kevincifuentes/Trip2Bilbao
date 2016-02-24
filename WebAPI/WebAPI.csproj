@@ -82,10 +82,20 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="imagenes\bilbobus.png" />
+    <Content Include="imagenes\bizkaibus.png" />
+    <Content Include="imagenes\cargando.gif" />
+    <Content Include="imagenes\centros.png" />
     <Content Include="imagenes\defecto.png" />
+    <Content Include="imagenes\euskotren.png" />
     <Content Include="imagenes\farmacias.png" />
+    <Content Include="imagenes\hospitales.png" />
     <Content Include="imagenes\incidencias.png" />
+    <Content Include="imagenes\metro.png" />
     <Content Include="imagenes\parking.png" />
+    <Content Include="imagenes\prueba.png" />
+    <Content Include="imagenes\puntobici.png" />
+    <Content Include="imagenes\tranvia.png" />
     <Content Include="JS\amq.js" />
     <Content Include="JS\amq_jquery_adapter.js" />
     <Content Include="paradastranvia.html" />

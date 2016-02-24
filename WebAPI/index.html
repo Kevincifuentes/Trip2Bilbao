@@ -76,6 +76,37 @@
           width: auto;
         }
       }
+
+      /* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('imagenes/cargando.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;   
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+    display: block;
+}
     </style>
     <script src="https://maps.googleapis.com/maps/api/js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
@@ -100,7 +131,7 @@
         var map;
         var markers = [];
         var colores = ['#DF0174', '#905c1b', '#000000'];
-        var iconos = ["imagenes/defecto.png", "imagenes/farmacias.png", "imagenes/parking.png", "imagenes/incidencias.png"];
+        var iconos = ["imagenes/defecto.png", "imagenes/farmacias.png", "imagenes/parking.png", "imagenes/incidencias.png", "imagenes/centros.png", "imagenes/hospitales.png", "imagenes/bilbobus.png", "imagenes/bizkaibus.png", "imagenes/euskotren.png", "imagenes/metro.png", "imagenes/tranvia.png", "imagenes/puntobici.png"];
         var rutas = [];
         var primera = true;
         var visible = false;
@@ -114,6 +145,15 @@
 
             var trafficLayer = new google.maps.TrafficLayer();
             trafficLayer.setMap(map);
+
+            geocoder = new google.maps.Geocoder();
+
+            $body = $("body");
+
+            $(document).on({
+                ajaxStart: function () { $body.addClass("loading"); },
+                ajaxStop: function () { $body.removeClass("loading"); }
+            });
         }
         function obtener(x, y) {
             if (primera || x != anterior) {
@@ -185,6 +225,22 @@
                 return "<div><h3><b>Parking:</b> "+item.nombreParking + "</h3><br><b> Capacidad:</b> " + item.capacidad+"</div>";
             } else if (x === 3) {
                 return "<div><h3><b>"+item.tipo+":</b> "+item.descripcion + "</h3><br> <b>Inicio:</b> " + item.inicio + " / <b>Fin: </b>"+ item.fin+"</div>";
+            } else if (x === 4) {
+                return "<div><h3><b>Centro de Salud:</b> " + item.nombreCentro + "</h3><br><b>Dirección:</b> " + item.direccionCompleta + "</div>";
+            } else if (x === 5) {
+                return "<div><h3><b>Hospital:</b> " + item.nombreHospital + "</h3><br><b>Dirección:</b> " + item.direccionCompleta + "</div>";
+            } else if (x === 6) {
+                return "<div><h3><b>Parada de Bilbobus:</b> " + item.nombreParada + "</h3><br><b>Abreviatura:</b> " + item.abreviatura + "</div>";
+            } else if (x === 7) {
+                return "<div><h3><b>Parada de Bizkaibus:</b> " + item.nombreParada + "</h3></div>";
+            } else if (x === 8) {
+                return "<div><h3><b>Parada de Euskotren:</b> " + item.nombreParada + "</h3><br><b>Código de parada:</b> " + item.codigoParada + "</div>";
+            } else if (x === 9) {
+                return "<div><h3><b>Parada de Metro:</b> " + item.nombreParada + "</h3><br><b>Código de parada:</b> " + item.codigoParada + "</div>";
+            } else if (x === 10) {
+                return "<div><h3><b>Parada de Tranvía:</b> " + item.nombreParada + "</h3><br><b>Código de parada:</b> " + item.descripcion + "</div>";
+            } else if (x === 11) {
+                return "<div><h3><b>Punto de bicis:</b> " + item.nombrePunto + "</h3><br><b>Estado:</b> " + item.estado + "<br><b>Capacidad:</b> " + item.capacidad +"</div>";
             }
 
         }
@@ -254,6 +310,7 @@
                                 polyline.setMap(map);
                                 rutas.push(polyline);
                             }
+                            obtenerCodigo(latlng);
                         } else {
                             window.alert('Directions request failed due to ' + status);
                         }
@@ -275,7 +332,7 @@
                 }, function (response, status) {
                     if (status === google.maps.DirectionsStatus.OK) {
                         directionsDisplay.setDirections(response);
-                        alert("Número de rutas: " + response.routes.length);
+                        //alert("Número de rutas: " + response.routes.length);
                         for (z = 0; z < response.routes.length; z++) {
 
                             var polyline = new google.maps.Polyline({
@@ -339,6 +396,9 @@
             }
 
             document.getElementById("right-panel").innerHTML = "";
+
+            clearMarkers();
+            markers = [];
         }
 
         function buscarPorNombre() {
@@ -364,11 +424,11 @@
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
                     };
-
+                    var lugar = $("#busqueda").val();
                     map.setCenter(pos);
                     directionsService.route({
                         origin: new google.maps.LatLng(pos.lat, pos.lng),
-                        destination: $("#busqueda").val(),
+                        destination: lugar,
                         provideRouteAlternatives: true,
                         travelMode: google.maps.TravelMode.DRIVING,
                         drivingOptions: {
@@ -403,6 +463,16 @@
                                 polyline.setMap(map);
                                 rutas.push(polyline);
                             }
+
+                            //obtener el punto
+                            geocoder.geocode({ 'address': lugar }, function (results, status) {
+                                if (status == google.maps.GeocoderStatus.OK) {
+                                    //alert(results[0].geometry.location);
+                                    obtenerCodigo(results[0].geometry.location);
+                                } else {
+                                    alert("No se pudo obtener el punto exacto por: " + status);
+                                }
+                            });
                         } else {
                             window.alert('La petición no pudo ser realizada porque: ' + status);
                         }
@@ -413,6 +483,36 @@
             } else {
                 alert("La geolocalización no está habilitado o soportada.");
             }
+        }
+
+        function obtenerInfoCodigo(codigo) {
+            obtener(1, 'api/farmacias/codigo/'+codigo);
+            obtener(2, 'api/parkings/codigo/'+codigo);
+            obtener(3, 'api/incidencias/codigo/' + codigo);
+            obtener(4, 'api/centros/codigo/' + codigo);
+            obtener(5, 'api/hospitales/codigo/' + codigo);
+            obtener(6, 'api/paradasbilbo/codigo/' + codigo);
+            obtener(7, 'api/paradasbizkaibus/codigo/' + codigo);
+            obtener(8, 'api/paradaseuskotren/codigo/' + codigo);
+            obtener(9, 'api/paradasmetro/codigo/' + codigo);
+            obtener(10, 'api/paradastranvia/codigo/' + codigo);
+            obtener(11, 'api/puntosbici/codigo/' + codigo);
+        }
+
+        var codigoPostal;
+        var geocoder;
+        function obtenerCodigo(latlong) {
+            geocoder.geocode({ 'location': latlong }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    map.setCenter(results[0].geometry.location);
+                    codigoPostal = results[0].address_components[6].long_name;
+                    //alert(codigoPostal);
+                    obtenerInfoCodigo(codigoPostal);
+                } else {
+                    alert("No pudo obtenerse el código postal por: " + status);
+                }
+            });
+            
         }
     </script>
 </head>
@@ -486,7 +586,8 @@
 </table>
 <div>
     <input id="habilitarEnrutado" type="button" value="Habilitar encontrar ruta" onclick="habilitarEnrutado();"/>
-    <span>Buscar ruta por nombre: </span><input id="busqueda" type="text"/><input type="button" value="Buscar" onclick="buscarPorNombre();" />
+    <span>Buscar ruta por nombre: </span><input id="busqueda" type="text"/><input type="button" value="Buscar" onclick="buscarPorNombre();"/>
 </div>
+    <div class="modal"></div>
 </body>
 </html>

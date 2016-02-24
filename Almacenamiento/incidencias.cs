@@ -22,5 +22,6 @@ namespace Almacenamiento
         public System.DateTime fechaInicio { get; set; }
         public System.DateTime fechaFin { get; set; }
         public System.DateTime fechaInsercion { get; set; }
+        public Nullable<int> codigoPostal { get; set; }
     }
 }

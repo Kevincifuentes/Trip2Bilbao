@@ -42,6 +42,7 @@
     <EntitySetMapping Name="incidenciasSet">
       <EntityTypeMapping TypeName="IsTypeOf(Modelo.incidencias)">
         <MappingFragment StoreEntitySet="incidenciasSet">
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
           <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
