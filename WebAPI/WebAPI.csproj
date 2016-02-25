@@ -82,6 +82,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="favicon.ico" />
     <Content Include="imagenes\bilbobus.png" />
     <Content Include="imagenes\bizkaibus.png" />
     <Content Include="imagenes\cargando.gif" />
@@ -98,6 +99,8 @@
     <Content Include="imagenes\tranvia.png" />
     <Content Include="JS\amq.js" />
     <Content Include="JS\amq_jquery_adapter.js" />
+    <Content Include="JS\googlemaps.js" />
+    <Content Include="JS\jquery-2.0.3.min.js" />
     <Content Include="paradastranvia.html" />
     <Content Include="paradasmetro.html" />
     <Content Include="paradaseuskotren.html" />

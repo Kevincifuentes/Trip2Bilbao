@@ -45,10 +45,10 @@ namespace ReceptorBus
             obtenerHospitales(oe);
             obtenerFarmacias(oe);*/
             
-           // obtenerTranvia(oe);
-            /*obtenerEuskotren(oe);
+            //obtenerTranvia(oe);
+            //obtenerEuskotren(oe);
             obtenerMetro(oe);
-            obtenerBizkaibus(oe);
+            /*obtenerBizkaibus(oe);
             obtenerBilbobus(oe);*/
 
             // configure the broker

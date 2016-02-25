@@ -108,8 +108,8 @@ body.loading .modal {
     display: block;
 }
     </style>
-    <script src="https://maps.googleapis.com/maps/api/js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script src="JS/googlemaps.js"></script>
+    <script src="JS/jquery-2.0.3.min.js"></script>
     <script type="text/javascript" src="JS/amq_jquery_adapter.js"></script>
     <script type="text/javascript" src="JS/amq.js"></script>
     <!--<script type="text/javascript">
@@ -163,6 +163,64 @@ body.loading .modal {
                 $(document).ready(function () {
                     // Send an AJAX request
                     $.getJSON(y)
+                        .fail(function () {
+                            if (x === 1) {
+                                var node = document.createElement("LI");                 
+                                var textnode = document.createTextNode("No se han encontrado Farmacias cercanas en Destino.");         
+                                node.appendChild(textnode);                              
+                                document.getElementById("noencontrado").appendChild(node);
+                            } else if (x === 2) {
+                                var node = document.createElement("LI");
+                                var textnode = document.createTextNode("No se han encontrado Parkings cercanos en Destino.");
+                                node.appendChild(textnode);
+                                document.getElementById("noencontrado").appendChild(node);
+                            } else if (x === 3) {
+                                var node = document.createElement("LI");
+                                var textnode = document.createTextNode("No se han encontrado Incidencias de tráfico cernanas en Destino.");
+                                node.appendChild(textnode);
+                                document.getElementById("noencontrado").appendChild(node);
+                            } else if (x === 4) {
+                                var node = document.createElement("LI");
+                                var textnode = document.createTextNode("No se han encontrado Centros de salud cercanos en Destino.");
+                                node.appendChild(textnode);
+                                document.getElementById("noencontrado").appendChild(node);
+                            } else if (x === 5) {
+                                var node = document.createElement("LI");
+                                var textnode = document.createTextNode("No se han encontrado Hospitales cercanos en Destino.");
+                                node.appendChild(textnode);
+                                document.getElementById("noencontrado").appendChild(node);
+                            } else if (x === 6) {
+                                var node = document.createElement("LI");
+                                var textnode = document.createTextNode("No se han encontrado Paradas de Bilbobus cercanas en Destino.");
+                                node.appendChild(textnode);
+                                document.getElementById("noencontrado").appendChild(node);
+                            } else if (x === 7) {
+                                var node = document.createElement("LI");
+                                var textnode = document.createTextNode("No se han encontrado Paradas de Bizkaibus cercanas en Destino.");
+                                node.appendChild(textnode);
+                                document.getElementById("noencontrado").appendChild(node);
+                            } else if (x === 8) {
+                                var node = document.createElement("LI");
+                                var textnode = document.createTextNode("No se han encontrado Paradas de Euskotren cercanas en Destino.");
+                                node.appendChild(textnode);
+                                document.getElementById("noencontrado").appendChild(node);
+                            } else if (x === 9) {
+                                var node = document.createElement("LI");
+                                var textnode = document.createTextNode("No se han encontrado Paradas de Metro cercanas en Destino.");
+                                node.appendChild(textnode);
+                                document.getElementById("noencontrado").appendChild(node);
+                            } else if (x === 10) {
+                                var node = document.createElement("LI");
+                                var textnode = document.createTextNode("No se han encontrado Paradas de Tranvía cercanas en Destino.");
+                                node.appendChild(textnode);
+                                document.getElementById("noencontrado").appendChild(node);
+                            } else if (x === 11) {
+                                var node = document.createElement("LI");
+                                var textnode = document.createTextNode("No se han encontrado Puntos de Bicis cercanos en Destino.");
+                                node.appendChild(textnode);
+                                document.getElementById("noencontrado").appendChild(node);
+                            }
+                        })
                         .done(function (data) {
                             // On success, 'data' contains a list of products.
                             $.each(data, function (key, item) {
@@ -230,7 +288,7 @@ body.loading .modal {
             } else if (x === 5) {
                 return "<div><h3><b>Hospital:</b> " + item.nombreHospital + "</h3><br><b>Dirección:</b> " + item.direccionCompleta + "</div>";
             } else if (x === 6) {
-                return "<div><h3><b>Parada de Bilbobus:</b> " + item.nombreParada + "</h3><br><b>Abreviatura:</b> " + item.abreviatura + "</div>";
+                return "<div><h3><b>Parada de Bilbobus:</b> " + item.nombreParada + "</h3><br><b>Abreviatura:</b> " + item.abreviatura + "<br><table><tr><td>prueba</td><td>prueba</td><td>prueba</td></tr><tr><td>prueba</td><td>prueba</td><td>prueba</td></tr><tr><td>prueba</td><td>prueba</td><td>prueba</td></tr></table></div>";
             } else if (x === 7) {
                 return "<div><h3><b>Parada de Bizkaibus:</b> " + item.nombreParada + "</h3></div>";
             } else if (x === 8) {
@@ -278,6 +336,7 @@ body.loading .modal {
                         destination: latlng,
                         provideRouteAlternatives: true,
                         travelMode: google.maps.TravelMode.DRIVING,
+                        region: "ES",
                         drivingOptions: {
                             departureTime: new Date(Date.now()),
                             trafficModel: "optimistic" //"pessimistic"
@@ -325,6 +384,7 @@ body.loading .modal {
                     destination: new google.maps.LatLng(43.259995, -2.946041),
                     provideRouteAlternatives: true,
                     travelMode: google.maps.TravelMode.DRIVING,
+                    region: "ES",
                     drivingOptions: {
                         departureTime: new Date(Date.now()),
                         trafficModel: /*"optimistic"*/ "pessimistic"
@@ -399,6 +459,11 @@ body.loading .modal {
 
             clearMarkers();
             markers = [];
+
+            var myNode = document.getElementById("noencontrado");
+            while (myNode.firstChild) {
+                myNode.removeChild(myNode.firstChild);
+            }
         }
 
         function buscarPorNombre() {
@@ -424,13 +489,14 @@ body.loading .modal {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
                     };
-                    var lugar = $("#busqueda").val();
+                    var lugar = $("#busqueda").val() + " bilbao";
                     map.setCenter(pos);
                     directionsService.route({
                         origin: new google.maps.LatLng(pos.lat, pos.lng),
                         destination: lugar,
                         provideRouteAlternatives: true,
                         travelMode: google.maps.TravelMode.DRIVING,
+                        region: "ES",
                         drivingOptions: {
                             departureTime: new Date(Date.now()),
                             trafficModel: "optimistic" //"pessimistic"
@@ -578,10 +644,58 @@ body.loading .modal {
         <div id="map"></div>
     </tr>
     <tr>
+        <table>
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <h3>Servicios sanitarios</h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Centros de salud: <span><img src="/imagenes/centros.png" /></span></td>
+                            <td>Hospitales: <span><img src="/imagenes/hospitales.png" /></span></td>
+                            <td>Farmacias: <span><img src="/imagenes/farmacias.png" /></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h3>Transportes</h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Bilbobus: <span><img src="/imagenes/bilbobus.png" /></span></td>
+                            <td>Bizkaibus: <span><img src="/imagenes/bizkaibus.png" /></span></td>
+                            <td>Euskotren: <span><img src="/imagenes/euskotren.png" /></span></td>
+                            <td>Metro Bilbao: <span><img src="/imagenes/metro.png" /></span></td>
+                            <td>Tranvía: <span><img src="/imagenes/tranvia.png" /></span></td>
+                            <td>Puntos de bicicletas: <span><img src="/imagenes/puntobici.png" /></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h3>Otros</h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Parkings: <span><img src="/imagenes/parking.png" /></span></td>
+                            <td>Incidencias de tráfico: <span><img src="/imagenes/incidencias.png" /></span></td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <ul id="noencontrado">
+                    </ul>
+                </td>
+            </tr>
+        </table>
+        
+    </tr>
+    <!--<tr>
+        <br/>
         <input type="button" value="Mostrar Farmacias" onclick="obtener(1, 'api/farmacias/farmacias');"/>
         <input type="button" value="Mostrar Parkings" onclick="obtener(2, 'api/parkings/parkings');"/>
         <input type="button" value="Mostrar Incidencias" onclick="obtener(3, 'api/incidencias/fecha');"/>
-    </tr>
+    </tr>-->
 
 </table>
 <div>

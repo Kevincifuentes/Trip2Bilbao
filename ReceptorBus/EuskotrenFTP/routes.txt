@@ -1,8 +1,8 @@
 route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color
 1,32,BIO-SS,Línea Bilbao - Donostia,,2,,
-2,32,SS-HEN,Línea Donostia - Hendaia,,2,,
-3,32,AMO-BER,Ramal Amorebieta - Bermeo,,2,,
-4,32,LUT-LEZ,Txorierri Lutxana-Lezama,,2,,
-5,32,USA-HOS,Línea Estación (Usansolo) - Hospital (Galdakao),,2,,
+2,32,SS-HE,Línea Donostia - Hendaia,,2,,
+3,32,AM-BE,Ramal Amorebieta - Bermeo,,2,,
+4,32,LU-LE,Txorierri Lutxana-Lezama,,2,,
+5,32,US-HO,Línea Estación (Usansolo) - Hospital (Galdakao),,2,,
 6,32,ZM-PT,Línea Estación (Zamudio) - Parque Tecnológico (Zamudio),,2,,
 7,32,LANZ,Txorierri lanzadera,,2,,

@@ -381,7 +381,9 @@ namespace ExtractorDatos
             contexto.SaveChanges();
             metroBilbao();
             lineasMetro();
+            
             contexto.lineas_metroSet.AddRange(lineasMetroBilbao.Values);
+            contexto.paradas_metroSet.AddRange(paradasMetro.Values.Where(m => m.codigoParada.Equals("Desconocido") && !(m.idParadaPadre.Equals(""))).ToList());
             try
             {
                 contexto.SaveChanges();
@@ -1945,6 +1947,11 @@ namespace ExtractorDatos
                     //Obtener codigo parada
                     codigo = valoresLinea[1];
 
+                    if (codigo.Equals(""))
+                    {
+                        codigo = "Desconocido";
+                    }
+
                     //Obtener nombre
                     nombreParada = valoresLinea[2];
 
@@ -1953,6 +1960,11 @@ namespace ExtractorDatos
 
                     //tipoLocalizacion
                     tipoLocalizacion = valoresLinea[5];
+
+                    if (tipoLocalizacion.Equals(""))
+                    {
+                        tipoLocalizacion = "0";
+                    }
 
                     //ID de la parada padre
                     idParadaPadre = valoresLinea[6];
@@ -1985,6 +1997,7 @@ namespace ExtractorDatos
                     p.longitud = c.longitud;
                     p.tipoLocalizacion = int.Parse(tipoLocalizacion);
                     p.idParadaPadre = idParadaPadre;
+                    //Console.WriteLine(id+" / "+cp+" / "+codigo+" / "+nombreParada+" / "+tipoLocalizacion+" / "+idParadaPadre);
                     paradasMetro.Add(id, p);
 
                 }
@@ -2112,6 +2125,11 @@ namespace ExtractorDatos
                     //Obtener codigo parada
                     codigo = valoresLinea[1];
 
+                    if (codigo.Equals(""))
+                    {
+                        codigo = "Desconocido";
+                    }
+
                     //Obtener nombre
                     nombreParada = valoresLinea[2];
 
@@ -2129,6 +2147,10 @@ namespace ExtractorDatos
 
                     //tipoLocalizacion
                     tipoLocalizacion = valoresLinea[8];
+                    if (tipoLocalizacion.Equals(""))
+                    {
+                        tipoLocalizacion = "0";
+                    }
 
                     int cp = 00000;
                     if (c.latitud > 0 && c.longitud < 0)

@@ -189,7 +189,7 @@
     <Property Name="latitud" Type="float" Nullable="false" />
     <Property Name="longitud" Type="float" Nullable="false" />
     <Property Name="tipoLocalizacion" Type="int" Nullable="false" />
-    <Property Name="idParadaPadre" Type="nvarchar(max)" />
+    <Property Name="idParadaPadre" Type="nvarchar(max)" Nullable="false" />
     <Property Name="codigoParada" Type="nvarchar(max)" Nullable="false" />
     <Property Name="idParada" Type="nvarchar(max)" Nullable="false" />
     <Property Name="codigoPostal" Type="int" Nullable="false" />

@@ -419,9 +419,9 @@
     <Property Name="latitud" Type="Double" Nullable="false" />
     <Property Name="longitud" Type="Double" Nullable="false" />
     <Property Name="tipoLocalizacion" Type="Int32" Nullable="false" />
-    <Property Name="idParadaPadre" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="idParadaPadre" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
     <NavigationProperty Name="viajes_parada_tiempos_metro" Relationship="Modelo.paradas_metroviajes_parada_tiempos_metro" FromRole="paradas_metro" ToRole="viajes_parada_tiempos_metro" />
-    <Property Name="codigoParada" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="codigoParada" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" Nullable="false" />
     <Property Name="idParada" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
     <Property Name="codigoPostal" Type="Int32" Nullable="false" />
   </EntityType>
