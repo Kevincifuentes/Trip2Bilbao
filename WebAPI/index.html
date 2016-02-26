@@ -1,7 +1,9 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title></title>
+<title>Trip2Bilbao</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <style>
         html, body {
             height: 100%;
@@ -110,6 +112,9 @@ body.loading .modal {
     </style>
     <script src="JS/googlemaps.js"></script>
     <script src="JS/jquery-2.0.3.min.js"></script>
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">
+    <script src="JS/bootstrap.min.js"></script>
+    <!--<script src="JS/jquery.min.js"></script>-->
     <script type="text/javascript" src="JS/amq_jquery_adapter.js"></script>
     <script type="text/javascript" src="JS/amq.js"></script>
     <!--<script type="text/javascript">
@@ -127,267 +132,243 @@ body.loading .modal {
         };
         amq.addListener("01", "topic://PruebaEMISOR", myHandler.rcvMessage);
     </script>-->
-    <script>
-        var map;
-        var markers = [];
-        var colores = ['#DF0174', '#905c1b', '#000000'];
-        var iconos = ["imagenes/defecto.png", "imagenes/farmacias.png", "imagenes/parking.png", "imagenes/incidencias.png", "imagenes/centros.png", "imagenes/hospitales.png", "imagenes/bilbobus.png", "imagenes/bizkaibus.png", "imagenes/euskotren.png", "imagenes/metro.png", "imagenes/tranvia.png", "imagenes/puntobici.png"];
-        var rutas = [];
-        var primera = true;
-        var visible = false;
-        var anterior = 0;
-        var pos;
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 13,
-                center: { lat: 43.271037, lng: -2.938546 }
-            });
+<script>
+    var ultimaBusqueda = false;
+    var map;
+    var markers = [];
+    var colores = ['#DF0174', '#905c1b', '#000000'];
+    var iconos = ["imagenes/defecto.png", "imagenes/farmacias.png", "imagenes/parking.png", "imagenes/incidencias.png", "imagenes/centros.png", "imagenes/hospitales.png", "imagenes/bilbobus.png", "imagenes/bizkaibus.png", "imagenes/euskotren.png", "imagenes/metro.png", "imagenes/tranvia.png", "imagenes/puntobici.png"];
+    var rutas = [];
+    var primera = true;
+    var visible = false;
+    var anterior = 0;
+    var pos;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 13,
+            center: { lat: 43.271037, lng: -2.938546 }
+        });
 
-            var trafficLayer = new google.maps.TrafficLayer();
-            trafficLayer.setMap(map);
+        var trafficLayer = new google.maps.TrafficLayer();
+        trafficLayer.setMap(map);
 
-            geocoder = new google.maps.Geocoder();
+        geocoder = new google.maps.Geocoder();
 
-            $body = $("body");
+        $body = $("body");
 
-            $(document).on({
-                ajaxStart: function () { $body.addClass("loading"); },
-                ajaxStop: function () { $body.removeClass("loading"); }
-            });
-        }
-        function obtener(x, y) {
-            if (primera || x != anterior) {
-                anterior = x;
-                primera = false;
-                visible = true;
-                $(document).ready(function () {
-                    // Send an AJAX request
-                    $.getJSON(y)
-                        .fail(function () {
-                            if (x === 1) {
-                                var node = document.createElement("LI");                 
-                                var textnode = document.createTextNode("No se han encontrado Farmacias cercanas en Destino.");         
-                                node.appendChild(textnode);                              
-                                document.getElementById("noencontrado").appendChild(node);
-                            } else if (x === 2) {
-                                var node = document.createElement("LI");
-                                var textnode = document.createTextNode("No se han encontrado Parkings cercanos en Destino.");
-                                node.appendChild(textnode);
-                                document.getElementById("noencontrado").appendChild(node);
-                            } else if (x === 3) {
-                                var node = document.createElement("LI");
-                                var textnode = document.createTextNode("No se han encontrado Incidencias de tráfico cernanas en Destino.");
-                                node.appendChild(textnode);
-                                document.getElementById("noencontrado").appendChild(node);
-                            } else if (x === 4) {
-                                var node = document.createElement("LI");
-                                var textnode = document.createTextNode("No se han encontrado Centros de salud cercanos en Destino.");
-                                node.appendChild(textnode);
-                                document.getElementById("noencontrado").appendChild(node);
-                            } else if (x === 5) {
-                                var node = document.createElement("LI");
-                                var textnode = document.createTextNode("No se han encontrado Hospitales cercanos en Destino.");
-                                node.appendChild(textnode);
-                                document.getElementById("noencontrado").appendChild(node);
-                            } else if (x === 6) {
-                                var node = document.createElement("LI");
-                                var textnode = document.createTextNode("No se han encontrado Paradas de Bilbobus cercanas en Destino.");
-                                node.appendChild(textnode);
-                                document.getElementById("noencontrado").appendChild(node);
-                            } else if (x === 7) {
-                                var node = document.createElement("LI");
-                                var textnode = document.createTextNode("No se han encontrado Paradas de Bizkaibus cercanas en Destino.");
-                                node.appendChild(textnode);
-                                document.getElementById("noencontrado").appendChild(node);
-                            } else if (x === 8) {
-                                var node = document.createElement("LI");
-                                var textnode = document.createTextNode("No se han encontrado Paradas de Euskotren cercanas en Destino.");
-                                node.appendChild(textnode);
-                                document.getElementById("noencontrado").appendChild(node);
-                            } else if (x === 9) {
-                                var node = document.createElement("LI");
-                                var textnode = document.createTextNode("No se han encontrado Paradas de Metro cercanas en Destino.");
-                                node.appendChild(textnode);
-                                document.getElementById("noencontrado").appendChild(node);
-                            } else if (x === 10) {
-                                var node = document.createElement("LI");
-                                var textnode = document.createTextNode("No se han encontrado Paradas de Tranvía cercanas en Destino.");
-                                node.appendChild(textnode);
-                                document.getElementById("noencontrado").appendChild(node);
-                            } else if (x === 11) {
-                                var node = document.createElement("LI");
-                                var textnode = document.createTextNode("No se han encontrado Puntos de Bicis cercanos en Destino.");
-                                node.appendChild(textnode);
-                                document.getElementById("noencontrado").appendChild(node);
-                            }
-                        })
-                        .done(function (data) {
-                            // On success, 'data' contains a list of products.
-                            $.each(data, function (key, item) {
-                                // Add a list item for the product.
-                                var myLatlng = new google.maps.LatLng(item.latitud, item.longitud);
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+        });
 
-                                var contentString = formatItem(item, x);
-
-                                var infowindow = new google.maps.InfoWindow({
-                                    content: contentString
-                                });
-
-                                var marker = new google.maps.Marker({
-                                    position: myLatlng,
-                                    title: contentString,
-                                    icon: iconos[x]
-                                });
-                                markers.push(marker);
-
-                                marker.addListener('click', function () {
-                                    infowindow.open(map, marker);
-                                });
-
-                                // To add the marker to the map, call setMap();
-                                marker.setMap(map);
-                            });
-                        });
-                });
-                
-            } else {
-                if (visible) {
-                    clearMarkers();
-                    visible = false;
+        $('input:radio[name=medio]').change(function () {
+            if (this.value == 'DRIVING' && ultimaBusqueda === true) {
+                if (ultimaBusquedaPorNombre === true) {
+                    buscarPorNombre();
                 } else {
-                    showMarkers();
-                    visible = true;
+                    enrutar(latlong, 0);
                 }
             }
-        }
-
-        function clearMarkers() {
-            setMapOnAll(null);
-        }
-
-        // Shows any markers currently in the array.
-        function showMarkers() {
-            setMapOnAll(map);
-        }
-
-        function setMapOnAll(map) {
-            for (var i = 0; i < markers.length; i++) {
-                markers[i].setMap(map);
-            }
-        }
-
-        function formatItem(item, x) {
-            if (x === 1) {
-                return "<div><h3>"+item.nombreFarmacia + "</h3><br><b> Contácto:</b> " + item.telefono+"</div>";
-            } else if (x === 2) {
-                return "<div><h3><b>Parking:</b> "+item.nombreParking + "</h3><br><b> Capacidad:</b> " + item.capacidad+"</div>";
-            } else if (x === 3) {
-                return "<div><h3><b>"+item.tipo+":</b> "+item.descripcion + "</h3><br> <b>Inicio:</b> " + item.inicio + " / <b>Fin: </b>"+ item.fin+"</div>";
-            } else if (x === 4) {
-                return "<div><h3><b>Centro de Salud:</b> " + item.nombreCentro + "</h3><br><b>Dirección:</b> " + item.direccionCompleta + "</div>";
-            } else if (x === 5) {
-                return "<div><h3><b>Hospital:</b> " + item.nombreHospital + "</h3><br><b>Dirección:</b> " + item.direccionCompleta + "</div>";
-            } else if (x === 6) {
-                return "<div><h3><b>Parada de Bilbobus:</b> " + item.nombreParada + "</h3><br><b>Abreviatura:</b> " + item.abreviatura + "<br><table><tr><td>prueba</td><td>prueba</td><td>prueba</td></tr><tr><td>prueba</td><td>prueba</td><td>prueba</td></tr><tr><td>prueba</td><td>prueba</td><td>prueba</td></tr></table></div>";
-            } else if (x === 7) {
-                return "<div><h3><b>Parada de Bizkaibus:</b> " + item.nombreParada + "</h3></div>";
-            } else if (x === 8) {
-                return "<div><h3><b>Parada de Euskotren:</b> " + item.nombreParada + "</h3><br><b>Código de parada:</b> " + item.codigoParada + "</div>";
-            } else if (x === 9) {
-                return "<div><h3><b>Parada de Metro:</b> " + item.nombreParada + "</h3><br><b>Código de parada:</b> " + item.codigoParada + "</div>";
-            } else if (x === 10) {
-                return "<div><h3><b>Parada de Tranvía:</b> " + item.nombreParada + "</h3><br><b>Código de parada:</b> " + item.descripcion + "</div>";
-            } else if (x === 11) {
-                return "<div><h3><b>Punto de bicis:</b> " + item.nombrePunto + "</h3><br><b>Estado:</b> " + item.estado + "<br><b>Capacidad:</b> " + item.capacidad +"</div>";
-            }
-
-        }
-
-        var directionsService, directionsDisplay;
-        
-        function enrutar(latlng) {
-
-            limpiarRutas();
-
-            directionsService = new google.maps.DirectionsService();
-            directionsDisplay = new google.maps.DirectionsRenderer({
-                draggable: true,
-                map: map,
-                preserveViewport: false,
-                polylineOptions: {
-                    strokeColor: "black"
+            else if (this.value == 'WALKING' && ultimaBusqueda === true) {
+                if (ultimaBusquedaPorNombre === true) {
+                    buscarPorNombre();
+                } else {
+                    enrutar(latlong, 1);
                 }
-            });
-
-            //PARA EL PANEL
-            directionsDisplay.setPanel(document.getElementById('right-panel'));
-
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-
-                    map.setCenter(pos);
-                    directionsService.route({
-                        origin: new google.maps.LatLng(pos.lat, pos.lng),
-                        destination: latlng,
-                        provideRouteAlternatives: true,
-                        travelMode: google.maps.TravelMode.DRIVING,
-                        region: "ES",
-                        drivingOptions: {
-                            departureTime: new Date(Date.now()),
-                            trafficModel: "optimistic" //"pessimistic"
+            }
+        });
+    }
+    function obtener(x, y) {
+        if (primera || x != anterior) {
+            anterior = x;
+            primera = false;
+            visible = true;
+            $(document).ready(function () {
+                // Send an AJAX request
+                $.getJSON(y)
+                    .fail(function () {
+                        if (x === 1) {
+                            var node = document.createElement("LI");                 
+                            var textnode = document.createTextNode("No se han encontrado Farmacias cercanas en Destino.");         
+                            node.appendChild(textnode);                              
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 2) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Parkings cercanos en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 3) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Incidencias de tráfico cernanas en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 4) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Centros de salud cercanos en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 5) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Hospitales cercanos en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 6) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Paradas de Bilbobus cercanas en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 7) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Paradas de Bizkaibus cercanas en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 8) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Paradas de Euskotren cercanas en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 9) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Paradas de Metro cercanas en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 10) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Paradas de Tranvía cercanas en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 11) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Puntos de Bicis cercanos en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
                         }
-                    }, function (response, status) {
-                        if (status === google.maps.DirectionsStatus.OK) {
-                            directionsDisplay.setDirections(response);
-                            //alert("Número de rutas: " + response.routes.length);
-                            for (z = 0; z < response.routes.length; z++) {
+                    })
+                    .done(function (data) {
+                        // On success, 'data' contains a list of products.
+                        $.each(data, function (key, item) {
+                            // Add a list item for the product.
+                            var myLatlng = new google.maps.LatLng(item.latitud, item.longitud);
 
-                                var polyline = new google.maps.Polyline({
-                                    path: [],
-                                    strokeColor: colores[z],
-                                    strokeOpacity: 0.3,
-                                    strokeWeight: 5
-                                });
+                            var contentString = formatItem(item, x);
 
-                                var bounds = new google.maps.LatLngBounds();
-                                var legs = response.routes[z].legs;
-                                for (i = 0; i < legs.length; i++) {
-                                    var steps = legs[i].steps;
-                                    for (j = 0; j < steps.length; j++) {
-                                        var nextSegment = steps[j].path;
-                                        for (k = 0; k < nextSegment.length; k++) {
-                                            polyline.getPath().push(nextSegment[k]);
-                                            bounds.extend(nextSegment[k]);
-                                        }
-                                    }
-                                }
-                                polyline.setMap(map);
-                                rutas.push(polyline);
-                            }
-                            obtenerCodigo(latlng);
-                        } else {
-                            window.alert('Directions request failed due to ' + status);
-                        }
+                            var infowindow = new google.maps.InfoWindow({
+                                content: contentString
+                            });
+
+                            var marker = new google.maps.Marker({
+                                position: myLatlng,
+                                title: contentString,
+                                icon: iconos[x]
+                            });
+                            markers.push(marker);
+
+                            marker.addListener('click', function () {
+                                infowindow.open(map, marker);
+                            });
+
+                            // To add the marker to the map, call setMap();
+                            marker.setMap(map);
+                        });
                     });
-                }, function () {
-                    handleLocationError(true, infoWindow, map.getCenter());
-                });
+            });
+                
+        } else {
+            if (visible) {
+                clearMarkers();
+                visible = false;
             } else {
-                // Browser doesn't support Geolocation
+                showMarkers();
+                visible = true;
+            }
+        }
+    }
+
+    function clearMarkers() {
+        setMapOnAll(null);
+    }
+
+    // Shows any markers currently in the array.
+    function showMarkers() {
+        setMapOnAll(map);
+    }
+
+    function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+        }
+    }
+
+    function formatItem(item, x) {
+        if (x === 1) {
+            return "<div><h3>"+item.nombreFarmacia + "</h3><br><b> Contácto:</b> " + item.telefono+"</div>";
+        } else if (x === 2) {
+            return "<div><h3><b>Parking:</b> "+item.nombreParking + "</h3><br><b> Capacidad:</b> " + item.capacidad+"</div>";
+        } else if (x === 3) {
+            return "<div><h3><b>"+item.tipo+":</b> "+item.descripcion + "</h3><br> <b>Inicio:</b> " + item.inicio + " / <b>Fin: </b>"+ item.fin+"</div>";
+        } else if (x === 4) {
+            return "<div><h3><b>Centro de Salud:</b> " + item.nombreCentro + "</h3><br><b>Dirección:</b> " + item.direccionCompleta + "</div>";
+        } else if (x === 5) {
+            return "<div><h3><b>Hospital:</b> " + item.nombreHospital + "</h3><br><b>Dirección:</b> " + item.direccionCompleta + "</div>";
+        } else if (x === 6) {
+            return "<div><h3><b>Parada de Bilbobus:</b> " + item.nombreParada + "</h3><br><b>Abreviatura:</b> " + item.abreviatura + "<br><table><tr><td>prueba</td><td>prueba</td><td>prueba</td></tr><tr><td>prueba</td><td>prueba</td><td>prueba</td></tr><tr><td>prueba</td><td>prueba</td><td>prueba</td></tr></table></div>";
+        } else if (x === 7) {
+            return "<div><h3><b>Parada de Bizkaibus:</b> " + item.nombreParada + "</h3></div>";
+        } else if (x === 8) {
+            return "<div><h3><b>Parada de Euskotren:</b> " + item.nombreParada + "</h3><br><b>Código de parada:</b> " + item.codigoParada + "</div>";
+        } else if (x === 9) {
+            return "<div><h3><b>Parada de Metro:</b> " + item.nombreParada + "</h3><br><b>Código de parada:</b> " + item.codigoParada + "</div>";
+        } else if (x === 10) {
+            return "<div><h3><b>Parada de Tranvía:</b> " + item.nombreParada + "</h3><br><b>Código de parada:</b> " + item.descripcion + "</div>";
+        } else if (x === 11) {
+            return "<div><h3><b>Punto de bicis:</b> " + item.nombrePunto + "</h3><br><b>Estado:</b> " + item.estado + "<br><b>Capacidad:</b> " + item.capacidad +"</div>";
+        }
+
+    }
+
+    var directionsService, directionsDisplay, modoViaje;
+        
+    function enrutar(latlng, modo) {
+        ultimaBusqueda = true;
+        limpiarRutas();
+
+        if (modo === 1) {
+            modoViaje = google.maps.TravelMode.WALKING;
+        } else {
+            modoViaje = google.maps.TravelMode.DRIVING;
+        }
+
+        directionsService = new google.maps.DirectionsService();
+        directionsDisplay = new google.maps.DirectionsRenderer({
+            draggable: true,
+            map: map,
+            preserveViewport: false,
+            polylineOptions: {
+                strokeColor: "black"
+            }
+        });
+
+        //PARA EL PANEL
+        directionsDisplay.setPanel(document.getElementById('right-panel'));
+
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                map.setCenter(pos);
                 directionsService.route({
-                    origin: new google.maps.LatLng(43.271142, -2.938802),
-                    destination: new google.maps.LatLng(43.259995, -2.946041),
+                    origin: new google.maps.LatLng(pos.lat, pos.lng),
+                    destination: latlng,
                     provideRouteAlternatives: true,
-                    travelMode: google.maps.TravelMode.DRIVING,
+                    travelMode: modoViaje,
                     region: "ES",
                     drivingOptions: {
                         departureTime: new Date(Date.now()),
-                        trafficModel: /*"optimistic"*/ "pessimistic"
+                        trafficModel: "optimistic" //"pessimistic"
                     }
                 }, function (response, status) {
                     if (status === google.maps.DirectionsStatus.OK) {
@@ -415,59 +396,127 @@ body.loading .modal {
                                 }
                             }
                             polyline.setMap(map);
+                            rutas.push(polyline);
                         }
+                        obtenerCodigo(latlng);
                     } else {
                         window.alert('Directions request failed due to ' + status);
                     }
                 });
-                handleLocationError(false, infoWindow, map.getCenter());
-            }
+            }, function () {
+                handleLocationError(true, infoWindow, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            directionsService.route({
+                origin: new google.maps.LatLng(43.271142, -2.938802),
+                destination: new google.maps.LatLng(43.259995, -2.946041),
+                provideRouteAlternatives: true,
+                travelMode: google.maps.TravelMode.DRIVING,
+                region: "ES",
+                drivingOptions: {
+                    departureTime: new Date(Date.now()),
+                    trafficModel: /*"optimistic"*/ "pessimistic"
+                }
+            }, function (response, status) {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                    //alert("Número de rutas: " + response.routes.length);
+                    for (z = 0; z < response.routes.length; z++) {
+
+                        var polyline = new google.maps.Polyline({
+                            path: [],
+                            strokeColor: colores[z],
+                            strokeOpacity: 0.3,
+                            strokeWeight: 5
+                        });
+
+                        var bounds = new google.maps.LatLngBounds();
+                        var legs = response.routes[z].legs;
+                        for (i = 0; i < legs.length; i++) {
+                            var steps = legs[i].steps;
+                            for (j = 0; j < steps.length; j++) {
+                                var nextSegment = steps[j].path;
+                                for (k = 0; k < nextSegment.length; k++) {
+                                    polyline.getPath().push(nextSegment[k]);
+                                    bounds.extend(nextSegment[k]);
+                                }
+                            }
+                        }
+                        polyline.setMap(map);
+                    }
+                } else {
+                    window.alert('Directions request failed due to ' + status);
+                }
+            });
+            handleLocationError(false, infoWindow, map.getCenter());
         }
+    }
 
-        google.maps.event.addDomListener(window, "load", initMap);
+    google.maps.event.addDomListener(window, "load", initMap);
 
 
-        var habilitado = false;
-        function habilitarEnrutado()
+    var habilitado = false;
+    function habilitarEnrutado()
+    {
+        if (habilitado === true)
         {
-            if (habilitado === true)
-            {
-                $("#habilitarEnrutado").attr('value', 'Habilitar encontrar ruta');
-                habilitado = false;
-                google.maps.event.clearListeners(map, 'click');
-            } else {
-                google.maps.event.addListener(map, 'click', function (event) {
-                    //alert(event.latLng);
-                    enrutar(event.latLng);
-                });
-                habilitado = true;
-                $("#habilitarEnrutado").attr('value', 'Deshabilitar encontrar ruta');
-            }
+            $("#habilitarEnrutado").attr('value', 'Habilitar encontrar ruta');
+            habilitado = false;
+            google.maps.event.clearListeners(map, 'click');
+        } else {
+            google.maps.event.addListener(map, 'click', function (event) {
+                //alert(event.latLng);
+
+                if (document.getElementById('pie').checked) {
+                    enrutar(event.latLng, 1);
+                } else {
+                    enrutar(even.LatLng, 0);
+                }
+                    
+            });
+            habilitado = true;
+            $("#habilitarEnrutado").attr('value', 'Deshabilitar encontrar ruta');
+        }
+    }
+
+    function limpiarRutas() {
+
+        if (directionsDisplay != undefined) {
+            directionsDisplay.setMap(null);
         }
 
-        function limpiarRutas() {
-
-            if (directionsDisplay != undefined) {
-                directionsDisplay.setMap(null);
-            }
-
-            for (i = 0; i < rutas.length; i++) {
-                rutas[i].setMap(null);
-            }
-
-            document.getElementById("right-panel").innerHTML = "";
-
-            clearMarkers();
-            markers = [];
-
-            var myNode = document.getElementById("noencontrado");
-            while (myNode.firstChild) {
-                myNode.removeChild(myNode.firstChild);
-            }
+        for (i = 0; i < rutas.length; i++) {
+            rutas[i].setMap(null);
         }
 
-        function buscarPorNombre() {
+        document.getElementById("right-panel").innerHTML = "";
+
+        clearMarkers();
+        markers = [];
+
+        var myNode = document.getElementById("noencontrado");
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+        }
+    }
+
+    function buscarPorNombre() {
+        ultimaBusqueda = true;
+        var introducido = $("#busqueda").val();
+        
+        if (introducido === "" || introducido === undefined) {
+            
+            $('#errorRuta').modal('show');
+        } else {
+            ultimaBusquedaPorNombre = true;
             limpiarRutas();
+
+            if (document.getElementById('pie').checked) {
+                modoViaje = google.maps.TravelMode.WALKING;
+            } else {
+                modoViaje = google.maps.TravelMode.DRIVING;
+            }
 
             directionsService = new google.maps.DirectionsService();
             directionsDisplay = new google.maps.DirectionsRenderer({
@@ -484,24 +533,25 @@ body.loading .modal {
 
 
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
+                navigator.geolocation.getCurrentPosition(function (position) {
                     pos = {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
                     };
-                    var lugar = $("#busqueda").val() + " bilbao";
+                    var lugar = introducido + " bilbao";
+
                     map.setCenter(pos);
                     directionsService.route({
                         origin: new google.maps.LatLng(pos.lat, pos.lng),
                         destination: lugar,
                         provideRouteAlternatives: true,
-                        travelMode: google.maps.TravelMode.DRIVING,
+                        travelMode: modoViaje,
                         region: "ES",
                         drivingOptions: {
                             departureTime: new Date(Date.now()),
                             trafficModel: "optimistic" //"pessimistic"
                         }
-                    }, function(response, status) {
+                    }, function (response, status) {
                         if (status === google.maps.DirectionsStatus.OK) {
                             directionsDisplay.setDirections(response);
                             //alert("Número de rutas: " + response.routes.length);
@@ -543,17 +593,33 @@ body.loading .modal {
                             window.alert('La petición no pudo ser realizada porque: ' + status);
                         }
                     });
-                }, function() {
+                }, function () {
                     handleLocationError(true, infoWindow, map.getCenter());
                 });
             } else {
                 alert("La geolocalización no está habilitado o soportada.");
             }
         }
+        
+    }
 
-        function obtenerInfoCodigo(codigo) {
-            obtener(1, 'api/farmacias/codigo/'+codigo);
-            obtener(2, 'api/parkings/codigo/'+codigo);
+    function obtenerInfoCodigo(codigo) {
+
+        if (modoViaje === google.maps.TravelMode.WALKING) {
+            //alert("andando");
+            obtener(1, 'api/farmacias/codigo/' + codigo);
+            obtener(4, 'api/centros/codigo/' + codigo);
+            obtener(5, 'api/hospitales/codigo/' + codigo);
+            obtener(6, 'api/paradasbilbo/codigo/' + codigo);
+            obtener(7, 'api/paradasbizkaibus/codigo/' + codigo);
+            obtener(8, 'api/paradaseuskotren/codigo/' + codigo);
+            obtener(9, 'api/paradasmetro/codigo/' + codigo);
+            obtener(10, 'api/paradastranvia/codigo/' + codigo);
+            obtener(11, 'api/puntosbici/codigo/' + codigo);
+        } else {
+            //alert("en coche");
+            obtener(1, 'api/farmacias/codigo/' + codigo);
+            obtener(2, 'api/parkings/codigo/' + codigo);
             obtener(3, 'api/incidencias/codigo/' + codigo);
             obtener(4, 'api/centros/codigo/' + codigo);
             obtener(5, 'api/hospitales/codigo/' + codigo);
@@ -564,23 +630,24 @@ body.loading .modal {
             obtener(10, 'api/paradastranvia/codigo/' + codigo);
             obtener(11, 'api/puntosbici/codigo/' + codigo);
         }
+    }
 
-        var codigoPostal;
-        var geocoder;
-        function obtenerCodigo(latlong) {
-            geocoder.geocode({ 'location': latlong }, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    map.setCenter(results[0].geometry.location);
-                    codigoPostal = results[0].address_components[6].long_name;
-                    //alert(codigoPostal);
-                    obtenerInfoCodigo(codigoPostal);
-                } else {
-                    alert("No pudo obtenerse el código postal por: " + status);
-                }
-            });
+    var codigoPostal;
+    var geocoder;
+    function obtenerCodigo(latlong) {
+        geocoder.geocode({ 'location': latlong }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);
+                codigoPostal = results[0].address_components[6].long_name;
+                //alert(codigoPostal);
+                obtenerInfoCodigo(codigoPostal);
+            } else {
+                alert("No pudo obtenerse el código postal por: " + status);
+            }
+        });
             
-        }
-    </script>
+    }
+</script>
 </head>
 <body>
 <table border="0">
@@ -683,6 +750,10 @@ body.loading .modal {
                     </table>
                 </td>
                 <td>
+                    <form action="">
+                        <input id="coche" type="radio" name="medio" value="DRIVING" checked> En coche<br>
+                        <input id="pie" type="radio" name="medio" value="WALKING"> A pie<br>
+                    </form>
                     <ul id="noencontrado">
                     </ul>
                 </td>
@@ -702,6 +773,23 @@ body.loading .modal {
     <input id="habilitarEnrutado" type="button" value="Habilitar encontrar ruta" onclick="habilitarEnrutado();"/>
     <span>Buscar ruta por nombre: </span><input id="busqueda" type="text"/><input type="button" value="Buscar" onclick="buscarPorNombre();"/>
 </div>
-    <div class="modal"></div>
+<div class="modal fade" id="errorRuta" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Error al obtener la ruta</h4>
+            </div>
+            <div class="modal-body">
+                <p>Ha ocurrido un error al obtener la ruta. Debe introducir un nombre correcto para la búsqueda.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+    <div class="modal"><!-- Place at bottom of page --></div>
 </body>
 </html>
