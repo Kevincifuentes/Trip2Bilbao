@@ -3,4 +3,3 @@ C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Clases\bin\D
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Clases\bin\Debug\Clases.pdb
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Clases\obj\Debug\Clases.dll
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Clases\obj\Debug\Clases.pdb
-C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Clases\obj\Debug\Clases.csprojResolveAssemblyReference.cache

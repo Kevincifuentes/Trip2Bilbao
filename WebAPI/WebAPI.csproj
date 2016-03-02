@@ -101,6 +101,7 @@
     <Content Include="JS\amq.js" />
     <Content Include="JS\amq_jquery_adapter.js" />
     <Content Include="JS\bootstrap.min.js" />
+    <Content Include="imagenes\googlemaps.js" />
     <Content Include="JS\googlemaps.js" />
     <Content Include="JS\jquery-2.0.3.min.js" />
     <Content Include="JS\jquery.min.js" />
@@ -126,7 +127,9 @@
     <Content Include="Global.asax" />
     <Content Include="farmacias.html" />
     <Content Include="WEB-INF\web.xml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
