@@ -1,190 +1,190 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Trip2Bilbao</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-    
-     .Flexible-container {
-    position: relative;
-    padding-bottom: 56.25%;
-    padding-top: 30px;
-    height: 0;
-    overflow: hidden;
-}
+    <title>Trip2Bilbao</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .Flexible-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            padding-top: 30px;
+            height: 0;
+            overflow: hidden;
+        }
 
-.Flexible-container iframe,   
-.Flexible-container object,  
-.Flexible-container embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-</style>
-<style>
+            .Flexible-container iframe,
+            .Flexible-container object,
+            .Flexible-container embed {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+    </style>
+    <style>
         /* Remove the navbar's default margin-bottom and rounded borders */
-    .navbar {
-        margin-bottom: 0;
-        border-radius: 0;
-    }
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
 
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {
-        height: 450px;
-    }
+        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+        .row.content {
+            height: 450px;
+        }
 
-    /* Set gray background color and 100% height */
-    .sidenav {
-        padding-top: 20px;
-        background-color: #f1f1f1;
-    }
-
-    /* Set black background color, white text and some padding */
-    footer {
-        background-color: #555;
-        color: white;
-        padding: 15px;
-    }
-
-    /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
+        /* Set gray background color and 100% height */
         .sidenav {
-            height: auto;
+            padding-top: 20px;
+            background-color: #f1f1f1;
+            height: 100%;
+        }
+
+        /* Set black background color, white text and some padding */
+        footer {
+            background-color: #555;
+            color: white;
             padding: 15px;
         }
 
-        .row.content {
-            height: auto;
-        }
-    }
-</style>
-<style>
-    html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
-
-    #map {
-        height: 50%;
-    }
-    #floating-panel {
-        position: absolute;
-        top: 10px;
-        left: 25%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto', 'sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-    }
-
-    #right-panel {
-        font-family: 'Roboto', 'sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-    }
-
-    #right-panel select, #right-panel input {
-        font-size: 15px;
-    }
-
-    #right-panel select {
-        width: 100%;
-    }
-
-    #right-panel i {
-        font-size: 12px;
-    }
-
-    #right-panel {
-        float: right;
-        overflow: auto;
-    }
-
-    #floating-panel {
-        background: #fff;
-        padding: 5px;
-        font-size: 14px;
-        font-family: Arial;
-        border: 1px solid #ccc;
-        box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
-        display: none;
-    }
-
-    @media print {
-        #map {
-            height: 500px;
-            margin: 0;
-        }
-
-        #right-panel {
-            float: none;
-            width: auto;
-        }
-    }
-
-    /* Start by setting display:none to make this hidden.
-   Then we position it in relation to the viewport window
-   with position:fixed. Width, height, top and left speak
-   for themselves. Background we set to 80% white with
-   our animation centered, and no-repeating */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background: rgba(255, 255, 255, .8)
-                    url('imagenes/cargando.gif')
-                    50% 50%
-                    no-repeat;
-    }
-
-    /* When the body has the loading class, we turn
-   the scrollbar off with overflow:hidden */
-    body.loading {
-        overflow: hidden;
-    }
-
-    /* Anytime the body has the loading class, our
-   modal element will be visible */
-    body.loading .modal {
-        display: block;
-    }
-</style>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA48R0ThGkq0f9Ys6C5JPQQqdI4kJPxy6Y&libraries=places&callback=initMap"
-        async defer></script>
-<!--<script src="JS/googlemaps.js"></script>-->
-<script src="JS/jquery-2.0.3.min.js"></script>
-<link rel="stylesheet" href="CSS/bootstrap.min.css">
-<script src="JS/bootstrap.min.js"></script>
-<!--<script src="JS/jquery.min.js"></script>-->
-<script type="text/javascript" src="JS/amq_jquery_adapter.js"></script>
-<script type="text/javascript" src="JS/amq.js"></script>
-<!--<script type="text/javascript">
-        var amq = org.activemq.Amq;
-        amq.init({
-            uri: 'amq',
-            logging: true,
-            timeout: 20
-        });
-        var myHandler =
-        {
-            rcvMessage: function (message) {
-                alert("received " + message);
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 767px) {
+            .sidenav {
+                height: auto;
+                padding: 15px;
             }
-        };
-        amq.addListener("01", "topic://PruebaEMISOR", myHandler.rcvMessage);
-    </script>-->
-<script>
+
+            .row.content {
+                height: auto;
+            }
+        }
+    </style>
+    <style>
+             html, body {
+                 height: 100%;
+                 margin: 0;
+                 padding: 0;
+             }
+
+             #map {
+                 height: 50%;
+             }
+
+             #floating-panel {
+                 position: absolute;
+                 top: 10px;
+                 left: 25%;
+                 z-index: 5;
+                 background-color: #fff;
+                 padding: 5px;
+                 border: 1px solid #999;
+                 text-align: center;
+                 font-family: 'Roboto', 'sans-serif';
+                 line-height: 30px;
+                 padding-left: 10px;
+             }
+
+             #right-panel {
+                 font-family: 'Roboto', 'sans-serif';
+                 line-height: 30px;
+                 padding-left: 10px;
+             }
+
+                 #right-panel select, #right-panel input {
+                     font-size: 15px;
+                 }
+
+                 #right-panel select {
+                     width: 100%;
+                 }
+
+                 #right-panel i {
+                     font-size: 12px;
+                 }
+
+             #right-panel {
+                 height: 100%;
+                 float: right;
+                 width: 390px;
+                 overflow: auto;
+             }
+
+             #floating-panel {
+                 background: #fff;
+                 padding: 5px;
+                 font-size: 14px;
+                 font-family: Arial;
+                 border: 1px solid #ccc;
+                 box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
+                 display: none;
+             }
+
+             @media print {
+                 #map {
+                     height: 500px;
+                     margin: 0;
+                 }
+
+                 #right-panel {
+                     float: none;
+                     width: auto;
+                 }
+             }
+
+             /* Start by setting display:none to make this hidden.
+        Then we position it in relation to the viewport window
+        with position:fixed. Width, height, top and left speak
+        for themselves. Background we set to 80% white with
+        our animation centered, and no-repeating */
+             .modal {
+                 display: none;
+                 position: fixed;
+                 z-index: 1000;
+                 top: 0;
+                 left: 0;
+                 height: 100%;
+                 width: 100%;
+                 background: rgba(255, 255, 255, .8) url('imagenes/cargando.gif') 50% 50% no-repeat;
+             }
+
+             /* When the body has the loading class, we turn
+        the scrollbar off with overflow:hidden */
+             body.loading {
+                 overflow: hidden;
+             }
+
+                 /* Anytime the body has the loading class, our
+        modal element will be visible */
+                 body.loading .modal {
+                     display: block;
+                 }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA48R0ThGkq0f9Ys6C5JPQQqdI4kJPxy6Y&callback=initMap"
+            async defer></script>
+    <!--<script src="JS/googlemaps.js"></script>-->
+    <script src="JS/jquery-2.0.3.min.js"></script>
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">
+    <script src="JS/bootstrap.min.js"></script>
+    <!--<script src="JS/jquery.min.js"></script>-->
+    <script type="text/javascript" src="JS/amq_jquery_adapter.js"></script>
+    <script type="text/javascript" src="JS/amq.js"></script>
+    <!--<script type="text/javascript">
+            var amq = org.activemq.Amq;
+            amq.init({
+                uri: 'amq',
+                logging: true,
+                timeout: 20
+            });
+            var myHandler =
+            {
+                rcvMessage: function (message) {
+                    alert("received " + message);
+                }
+            };
+            amq.addListener("01", "topic://PruebaEMISOR", myHandler.rcvMessage);
+        </script>-->
+    <script>
     var ultimaBusqueda = false;
     var map;
     var markers = [];
@@ -250,22 +250,6 @@
                 //alert("en transporte publico");
                 enrutarOrigenDestino(latlngParking, destinoFinal, google.maps.TravelMode.TRANSIT);
                 obtenerCodigo(latlngParking);
-            }
-        });
-
-        //AUTOCOMPLETAR
-
-        var input = /** @type {!HTMLInputElement} */(
-            document.getElementById('busqueda'));
-
-        var autocomplete = new google.maps.places.Autocomplete(input);
-        autocomplete.bindTo('bounds', map);
-
-        autocomplete.addListener('place_changed', function() {
-            var place = autocomplete.getPlace();
-            if (!place.geometry) {
-                window.alert("Autocomplete's returned place contains no geometry");
-                return;
             }
         });
     }
@@ -432,6 +416,7 @@
             } else {
                 return "<div><h3><b>Parking:</b> " + item.nombreParking + "</h3><br><b> Capacidad:</b> " + item.capacidad + "</div>";
             }
+
         } else if (x === 3) {
             return "<div><h3><b>" + item.tipo + ":</b> " + item.descripcion + "</h3><br> <b>Inicio:</b> " + item.inicio + " / <b>Fin: </b>" + item.fin + "</div>";
         } else if (x === 4) {
@@ -597,7 +582,7 @@
 
     function habilitarEnrutado() {
         if (habilitado === true) {
-            $("#habilitarEnrutado").html('Habilitar encontrar ruta');
+            $("#habilitarEnrutado").attr('value', 'Habilitar encontrar ruta');
             habilitado = false;
             google.maps.event.clearListeners(map, 'click');
         } else {
@@ -613,7 +598,7 @@
 
             });
             habilitado = true;
-            $("#habilitarEnrutado").html('Deshabilitar encontrar ruta');
+            $("#habilitarEnrutado").attr('value', 'Deshabilitar encontrar ruta');
         }
     }
 
@@ -1028,373 +1013,131 @@
             }
         });
     }
-</script>
+    </script>
 </head>
 <body>
+<table border="0">
+<tr>
 
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a href="#/index.html"><img src="imagenes/S.png"/></a>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-            </div>
-        </div>
-    </nav>
+    <td>
+        <form method="LINK" action="farmacias.html">
+            <input type="submit" value="Farmacias">
+        </form>
+    </td>
 
-    <div class="container-fluid text-center">
-        <div class="row content">
-            <div class="col-sm-2 sidenav">
-                <h3>Servicios sanitarios</h3>
-                <ul class="media-list">
-                    <li class="media">
-                        <div class="media-left">
-                                <img class="media-object" src="imagenes/centros.png" alt="...">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Centros de salud</h4>
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-                                <img class="media-object" src="imagenes/hospitales.png" alt="...">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Hospitales</h4>
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-                                <img class="media-object" src="imagenes/farmacias.png" alt="...">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Farmacias</h4>
-                        </div>
-                    </li>
-                </ul>
-                <h3>Transporte público</h3>
-                <ul class="media-list">
-                    <li class="media">
-                        <div class="media-left">
-                                <img class="media-object" src="imagenes/bilbobus.png" alt="bilbobus">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Paradas Bilbobus</h4>
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-                                <img class="media-object" src="imagenes/bizkaibus.png" alt="bizkaibus">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Paradas Bizkaibus</h4>
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-                                <img class="media-object" src="imagenes/euskotren.png" alt="euskotren">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Paradas Euskotren</h4>
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-                                <img class="media-object" src="imagenes/metro.png" alt="metrobilbao">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Paradas Metro Bilbao</h4>
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-                                <img class="media-object" src="imagenes/tranvia.png" alt="tranvia">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Paradas Tranvía</h4>
-                        </div>
-                    </li>
-                </ul>
-                <h3>Otros</h3>
-                <ul class="media-list">
-                    <li class="media">
-                        <div class="media-left">
-                                <img class="media-object" src="imagenes/parking.png" alt="parkings">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Parkings</h4>
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-                                <img class="media-object" src="imagenes/puntobici.png" alt="puntos de bicicletas">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Puntos de bicicletas</h4>
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-                                <img class="media-object" src="imagenes/incidencias.png" alt="incidencias de tráfico">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Incidencias de Tráfico</h4>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-7 text-left">
-                <div>
-                    <h3>Habilitar enrutado mediante toque en el mapa: </h3>
-                    <button class="btn btn-default" id="habilitarEnrutado" onclick="habilitarEnrutado();">Habilitar encontrar ruta</button>
-                    <h3>Buscar ruta por nombre:</h3>
-                    <div class="input-group">
-                        <input id="busqueda" type="text" class="form-control" placeholder="Buscar ruta a...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" onclick="buscarPorNombre();">Buscar</button>
-                        </span>
-                    </div>
-                    <!--<input id="busqueda" type="text"/><input type="button" value="Buscar" onclick="buscarPorNombre();"/>-->
-                </div>
-                <table border="0">
-                    <!--<tr>
+    <td>
+        <form method="LINK" action="hospitales.html">
+            <input type="submit" value="Hospitales">
+        </form>
+    </td>
 
-                        <td>
-                            <form method="LINK" action="farmacias.html">
-                                <input type="submit" value="Farmacias">
-                            </form>
-                        </td>
-
-                        <td>
-                            <form method="LINK" action="hospitales.html">
-                                <input type="submit" value="Hospitales">
-                            </form>
-                        </td>
-
-                        <td>
-                            <form method="LINK" action="centros.html">
-                                <input type="submit" value="Centros de Salud">
-                            </form>
-                        </td>
-                        <td>
-                            <form method="LINK" action="parking.html">
-                                <input type="submit" value="Parkings">
-                            </form>
-                        </td>
-                        <td>
-                            <form method="LINK" action="puntosbici.html">
-                                <input type="submit" value="Puntos Bici">
-                            </form>
-                        </td>
-                        <td>
-                            <form method="LINK" action="paradasbilbo.html">
-                                <input type="submit" value="Paradas Bilbobus">
-                            </form>
-                        </td>
-                        <td>
-                            <form method="LINK" action="paradasbizkaibus.html">
-                                <input type="submit" value="Paradas Bilbobus">
-                            </form>
-                        </td>
-                        <td>
-                            <form method="LINK" action="paradaseuskotren.html">
-                                <input type="submit" value="Paradas Euskotren">
-                            </form>
-                        </td>
-                        <td>
-                            <form method="LINK" action="paradasmetro.html">
-                                <input type="submit" value="Paradas Metro">
-                            </form>
-                        </td>
-                        <td>
-                            <form method="LINK" action="paradastranvia.html">
-                                <input type="submit" value="Paradas Tranvia">
-                            </form>
-                        </td>
-                    </tr>-->
+    <td>
+        <form method="LINK" action="centros.html">
+            <input type="submit" value="Centros de Salud">
+        </form>
+    </td>
+    <td>
+        <form method="LINK" action="parking.html">
+            <input type="submit" value="Parkings">
+        </form>
+    </td>
+    <td>
+        <form method="LINK" action="puntosbici.html">
+            <input type="submit" value="Puntos Bici">
+        </form>
+    </td>
+    <td>
+        <form method="LINK" action="paradasbilbo.html">
+            <input type="submit" value="Paradas Bilbobus">
+        </form>
+    </td>
+    <td>
+        <form method="LINK" action="paradasbizkaibus.html">
+            <input type="submit" value="Paradas Bilbobus">
+        </form>
+    </td>
+    <td>
+        <form method="LINK" action="paradaseuskotren.html">
+            <input type="submit" value="Paradas Euskotren">
+        </form>
+    </td>
+    <td>
+        <form method="LINK" action="paradasmetro.html">
+            <input type="submit" value="Paradas Metro">
+        </form>
+    </td>
+    <td>
+        <form method="LINK" action="paradastranvia.html">
+            <input type="submit" value="Paradas Tranvia">
+        </form>
+    </td>
+</tr>
+<tr>
+    <div id="right-panel"></div>
+    <div id="map"></div>
+</tr>
+<tr>
+    <table>
+        <tr>
+            <td>
+                <table>
                     <tr>
-                        <div id="map" class="Flexible-container"></div>
-                        <br/>
+                        <td>
+                            <h3>Servicios sanitarios</h3>
+                        </td>
                     </tr>
-                    <!--<tr>
-                        <table>
-                            <tr>
-                                <td>
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                <h3>Servicios sanitarios</h3>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Centros de salud: <span><img src="/imagenes/centros.png" /></span></td>
-                                            <td>Hospitales: <span><img src="/imagenes/hospitales.png" /></span></td>
-                                            <td>Farmacias: <span><img src="/imagenes/farmacias.png" /></span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h3>Transportes</h3>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Bilbobus: <span><img src="/imagenes/bilbobus.png" /></span></td>
-                                            <td>Bizkaibus: <span><img src="/imagenes/bizkaibus.png" /></span></td>
-                                            <td>Euskotren: <span><img src="/imagenes/euskotren.png" /></span></td>
-                                            <td>Metro Bilbao: <span><img src="/imagenes/metro.png" /></span></td>
-                                            <td>Tranvía: <span><img src="/imagenes/tranvia.png" /></span></td>
-                                            <td>Puntos de bicicletas: <span><img src="/imagenes/puntobici.png" /></span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h3>Otros</h3>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Parkings: <span><img src="/imagenes/parking.png" /></span></td>
-                                            <td>Incidencias de tráfico: <span><img src="/imagenes/incidencias.png" /></span></td>
-                                        </tr>
-                                    </table>
-                                </td>
-                                <td>
-                                    <form action="">
-                                        <input id="coche" type="radio" name="medio" value="DRIVING" checked> En coche<br>
-                                        <input id="pie" type="radio" name="medio" value="WALKING"> A pie<br>
-                                    </form>
-                                    <ul id="noencontrado"></ul>
-                                </td>
-                            </tr>
-                        </table>
-
-                    </tr-->
-                    <!--<tr>
-                        <br/>
-                        <input type="button" value="Mostrar Farmacias" onclick="obtener(1, 'api/farmacias/farmacias');"/>
-                        <input type="button" value="Mostrar Parkings" onclick="obtener(2, 'api/parkings/parkings');"/>
-                        <input type="button" value="Mostrar Incidencias" onclick="obtener(3, 'api/incidencias/fecha');"/>
-                    </tr>-->
-
+                    <tr>
+                        <td>Centros de salud: <span><img src="/imagenes/centros.png" /></span></td>
+                        <td>Hospitales: <span><img src="/imagenes/hospitales.png" /></span></td>
+                        <td>Farmacias: <span><img src="/imagenes/farmacias.png" /></span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>Transportes</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Bilbobus: <span><img src="/imagenes/bilbobus.png" /></span></td>
+                        <td>Bizkaibus: <span><img src="/imagenes/bizkaibus.png" /></span></td>
+                        <td>Euskotren: <span><img src="/imagenes/euskotren.png" /></span></td>
+                        <td>Metro Bilbao: <span><img src="/imagenes/metro.png" /></span></td>
+                        <td>Tranvía: <span><img src="/imagenes/tranvia.png" /></span></td>
+                        <td>Puntos de bicicletas: <span><img src="/imagenes/puntobici.png" /></span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>Otros</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Parkings: <span><img src="/imagenes/parking.png" /></span></td>
+                        <td>Incidencias de tráfico: <span><img src="/imagenes/incidencias.png" /></span></td>
+                    </tr>
                 </table>
-            </div>
-        <div class="col-sm-3 sidenav">
-            <h3>Seleccionar modo de transporte:</h3>
-            <div>
+            </td>
+            <td>
                 <form action="">
                     <input id="coche" type="radio" name="medio" value="DRIVING" checked> En coche<br>
                     <input id="pie" type="radio" name="medio" value="WALKING"> A pie<br>
                 </form>
-                <ul id="noencontrado"></ul>
-            </div>
-            <h3>Las indicaciones de ruta aparecerán aqui</h3>
-            <div id="right-panel"></div>
-        </div>
-        </div>
-    </div>
+                <ul id="noencontrado">
+                </ul>
+            </td>
+        </tr>
+    </table>
+</tr>
+<tr>
+    <br/>
+    <input type="button" value="Mostrar Farmacias" onclick="obtener(1, 'api/farmacias/farmacias');"/>
+    <input type="button" value="Mostrar Parkings" onclick="obtener(2, 'api/parkings/parkings');"/>
+    <input type="button" value="Mostrar Incidencias" onclick="obtener(3, 'api/incidencias/fecha');"/>
+</tr>
 
-    <footer class="container-fluid text-center">
-        <p>Kevin Cifuentes Salas - Universidad de Deusto - Todos los derechos reservados</p>
-    </footer>
-
+</table>
+<div>
+    <input id="habilitarEnrutado" type="button" value="Habilitar encontrar ruta" onclick="habilitarEnrutado();"/>
+    <span>Buscar ruta por nombre: </span><input id="busqueda" type="text"/><input type="button" value="Buscar" onclick="buscarPorNombre();"/>
+</div>
 </body>
-<div class="modal fade" id="errorRuta" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Error al obtener la ruta</h4>
-            </div>
-            <div class="modal-body">
-                <p>Ha ocurrido un error al obtener la ruta. Debe introducir un nombre correcto para la búsqueda.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
 
-    </div>
-</div>
-<div class="modal fade" id="noParking" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">No hay ningún parking en destino</h4>
-            </div>
-            <div class="modal-body">
-                <p>Lamentablemente, el destino al que se quiere ir no ha generado ningún parking en sus alrededores. A continuación se le ruega que elija uno de los parkings más cercanos para generar la ruta completa.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
-            </div>
-        </div>
-
-    </div>
-</div>
-<div class="modal fade" id="variosParkings" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Existen varios parkings en destino</h4>
-            </div>
-            <div class="modal-body">
-                <p>Existen varios parkings cercanos al destino seleccionado. Le rogamos que elija uno de los que se disponen en el mapa.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
-            </div>
-        </div>
-
-    </div>
-</div>
-<div class="modal fade" id="modalTiempoEx" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Tiempo a pie excesivo</h4>
-            </div>
-            <div class="modal-body">
-                <p>El destino que se quiere alcanzar está bastante lejos del parking seleccionado (el tiempo es superior a la mitad del viaje completo desde el origen y la distancia mayor que 500 metros). Le pedimos que seleccione si quiere realizar el trayecto desde el parking <strong>a pie </strong> o <strong>en transporte público</strong>.
-                </p>
-                <p>
-                    A continuación se muestran los tiempos y distancia estimados para dicha ruta a modo de ejemplo:
-                </p>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Medio</th>
-                            <th>Tiempo</th>
-                            <th>Distancia</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>A pie</td>
-                            <td id="tpie"></td>
-                            <td id="dpie"></td>
-                        </tr>
-                    <tr>
-                        <td>En transporte público</td>
-                        <td id="ttransporte"></td>
-                        <td id="dtransporte"></td>
-                    </tr>
-                    </tbody>
-                </table>
-                <p>
-                    Se le pide que seleccione una de las dos opciones de ruta al destino:
-                </p>
-                <label class="radio-inline">
-                    <input type="radio" name="opcion" id="inlineRadio1" value="pie" checked>A pie
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="opcion" id="inlineRadio2" value="transporte">En transporte público
-                </label>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="btnAceptar" class="btn btn-primary">Aceptar</button>
-            </div>
-        </div>
-    </div>
-</div>
- <div class="modal"><!-- Place at bottom of page --></div>
-<!--</body>-->
 </html>
