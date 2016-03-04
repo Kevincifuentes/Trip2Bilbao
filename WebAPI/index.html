@@ -12,7 +12,6 @@
     height: 0;
     overflow: hidden;
 }
-
 .Flexible-container iframe,   
 .Flexible-container object,  
 .Flexible-container embed {
@@ -21,6 +20,12 @@
     left: 0;
     width: 100%;
     height: 100%;
+}
+
+.adaptarse {
+    display:block;
+    overflow:auto;
+    height: 600px;
 }
 </style>
 <style>
@@ -103,7 +108,6 @@
     }
 
     #right-panel {
-        float: right;
         overflow: auto;
     }
 
@@ -169,6 +173,7 @@
 <!--<script src="JS/jquery.min.js"></script>-->
 <script type="text/javascript" src="JS/amq_jquery_adapter.js"></script>
 <script type="text/javascript" src="JS/amq.js"></script>
+<script type="text/javascript" src="JS/funciones.js"></script>
 <!--<script type="text/javascript">
         var amq = org.activemq.Amq;
         amq.init({
@@ -184,6 +189,7 @@
         };
         amq.addListener("01", "topic://PruebaEMISOR", myHandler.rcvMessage);
     </script>-->
+    <!--
 <script>
     var ultimaBusqueda = false;
     var map;
@@ -204,6 +210,8 @@
     var ultimaBusquedaPorNombre;
     var numeroDeParkings = 0;
     var latlngParkingUnico;
+    var conClick = false;
+    var tambienDestino = false;
 
     function initMap() {
         modoViaje = google.maps.TravelMode.DRIVING;
@@ -242,11 +250,13 @@
 
         $('#btnAceptar').click(function() {
             $('#modalTiempoEx').modal('hide');
+            tambienDestino = true;
             if ($('input:radio[name=opcion]:checked').val() === "pie") {
                 //alert("a pie");
                 enrutarOrigenDestino(latlngParking, destinoFinal, google.maps.TravelMode.WALKING);
                 obtenerCodigo(latlngParking);
             } else {
+
                 //alert("en transporte publico");
                 enrutarOrigenDestino(latlngParking, destinoFinal, google.maps.TravelMode.TRANSIT);
                 obtenerCodigo(latlngParking);
@@ -268,10 +278,32 @@
                 return;
             }
         });
+
+        var input2 = /** @type {!HTMLInputElement} */(
+            document.getElementById('desde'));
+
+        var autocomplete2 = new google.maps.places.Autocomplete(input2);
+        autocomplete.bindTo('bounds', map);
+
+        autocomplete2.addListener('place_changed', function () {
+            var place = autocomplete2.getPlace();
+            if (!place.geometry) {
+                window.alert("Autocomplete's returned place contains no geometry");
+                return;
+            }
+        });
+
+        //BOTÓN ENTER
+        $("#busqueda").keyup(function (event) {
+            if (event.keyCode == 13) {
+                conClick = false;
+                $("#btnBuscar").click();
+            }
+        });
     }
 
     function obtener(x, y) {
-        if (primera || x != anterior || seleccionar === true) {
+        if (primera || x != anterior || seleccionar === true || conClick === true) {
             anterior = x;
             primera = false;
             visible = true;
@@ -385,12 +417,6 @@
 
                         });
                     }).always(function() {
-                        var bounds = new google.maps.LatLngBounds();
-                        for (var i = 0; i < markers.length; i++) {
-                            bounds.extend(markers[i].getPosition());
-                        }
-                        map.fitBounds(bounds);
-
                         if (x === 2) {
                             resultadoParking();
                         }
@@ -483,14 +509,23 @@
         directionsDisplay.setPanel(document.getElementById('right-panel'));
 
         if (navigator.geolocation) {
+            var desde = $("#desde").val();
+            var opcion;
             navigator.geolocation.getCurrentPosition(function(position) {
                 pos = {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
                 destino = latlng;
+
+                if (desde === "" || desde === undefined) {
+                    opcion = pos;
+                    map.setCenter(pos);
+                } else {
+                    opcion = desde;
+                }
                 directionsService.route({
-                    origin: new google.maps.LatLng(pos.lat, pos.lng),
+                    origin: opcion,
                     destination: latlng,
                     provideRouteAlternatives: true,
                     travelMode: modoViaje,
@@ -599,8 +634,10 @@
         if (habilitado === true) {
             $("#habilitarEnrutado").html('Habilitar encontrar ruta');
             habilitado = false;
+            conClick = false;
             google.maps.event.clearListeners(map, 'click');
         } else {
+            conClick = true;
             google.maps.event.addListener(map, 'click', function(event) {
                 limpiarRutas();
                 destinoFinal = event.latLng;
@@ -667,6 +704,7 @@
     }
 
     function buscarPorNombre() {
+        conClick = false;
         ultimaBusquedaPorNombre = true;
         ultimaBusqueda = true;
         var introducido = $("#busqueda").val();
@@ -699,16 +737,24 @@
 
 
             if (navigator.geolocation) {
+                var desde = $("#desde").val();
+                var opcion;
+                
                 navigator.geolocation.getCurrentPosition(function(position) {
                     pos = {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
                     };
-                    var lugar = introducido + " bilbao";
-
-                    map.setCenter(pos);
+                    var lugar = introducido;
+                    if (desde === "" || desde === undefined) {
+                        opcion = pos;
+                        map.setCenter(pos);
+                    } else {
+                        opcion = desde;
+                    }
+                    alert(opcion);
                     directionsService.route({
-                        origin: new google.maps.LatLng(pos.lat, pos.lng),
+                        origin: opcion,
                         destination: lugar,
                         provideRouteAlternatives: true,
                         travelMode: modoViaje,
@@ -783,6 +829,10 @@
             obtener(9, 'api/paradasmetro/codigo/' + codigo);
             obtener(10, 'api/paradastranvia/codigo/' + codigo);
             obtener(11, 'api/puntosbici/codigo/' + codigo);
+            if (tambienDestino === true) {
+                tambienDestino = false;
+                obtenerInfoDePosicion(destinoFinal);
+            }
             seleccionado = false;
         } else {
             codigoPostalParking = codigo;
@@ -822,10 +872,36 @@
 
     }
 
+    function obtenerInfoDePosicion(latilong) {
+        var cp;
+        geocoder.geocode({ 'location': latilong }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0].address_components[6] === undefined) {
+                    cp = results[0].address_components[5].long_name;
+                } else {
+                    cp = results[0].address_components[6].long_name;
+                }
+                obtener(1, 'api/farmacias/codigo/' + cp);
+                obtener(4, 'api/centros/codigo/' + cp);
+                obtener(5, 'api/hospitales/codigo/' + cp);
+                obtener(6, 'api/paradasbilbo/codigo/' + cp);
+                obtener(7, 'api/paradasbizkaibus/codigo/' + cp);
+                obtener(8, 'api/paradaseuskotren/codigo/' + cp);
+                obtener(9, 'api/paradasmetro/codigo/' + cp);
+                obtener(10, 'api/paradastranvia/codigo/' + cp);
+                obtener(11, 'api/puntosbici/codigo/' + cp);
+            } else {
+                alert("No pudo obtenerse el código postal por: " + status);
+                return null;
+            }
+        });
+
+    }
+
     var seleccionado = false;
     var seleccionar = false;
     var codigoPostalParking;
-
+    var codigoPostalDestino;
     function resultadoParking() {
         if (noParkings === false) {
             if (seleccionar === true) {
@@ -1028,7 +1104,7 @@
             }
         });
     }
-</script>
+</script>-->
 </head>
 <body>
 
@@ -1145,13 +1221,15 @@
             </div>
             <div class="col-sm-7 text-left">
                 <div>
-                    <h3>Habilitar enrutado mediante toque en el mapa: </h3>
-                    <button class="btn btn-default" id="habilitarEnrutado" onclick="habilitarEnrutado();">Habilitar encontrar ruta</button>
-                    <h3>Buscar ruta por nombre:</h3>
+                    <div class="alert alert-info alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        Se utilizará la posición real del usuario si no se inserta nada en Origen.
+                    </div>
                     <div class="input-group">
-                        <input id="busqueda" type="text" class="form-control" placeholder="Buscar ruta a...">
+                        <input id="desde" type="text" class="form-control" placeholder="Desde...">
+                        <input id="busqueda" type="text" class="form-control" placeholder="Hacia...">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" onclick="buscarPorNombre();">Buscar</button>
+                            <button id="btnBuscar" class="btn btn-default" type="button" onclick="buscarPorNombre();">Buscar</button>
                         </span>
                     </div>
                     <!--<input id="busqueda" type="text"/><input type="button" value="Buscar" onclick="buscarPorNombre();"/>-->
@@ -1276,16 +1354,20 @@
                 </table>
             </div>
         <div class="col-sm-3 sidenav">
+            <h3>Habilitar enrutado mediante toque en el mapa: </h3>
+            <button class="btn btn-default" id="habilitarEnrutado" onclick="habilitarEnrutado();">Habilitar encontrar ruta</button>
             <h3>Seleccionar modo de transporte:</h3>
             <div>
                 <form action="">
                     <input id="coche" type="radio" name="medio" value="DRIVING" checked> En coche<br>
                     <input id="pie" type="radio" name="medio" value="WALKING"> A pie<br>
                 </form>
-                <ul id="noencontrado"></ul>
+                <ul id="noencontrado" hidden></ul>
             </div>
-            <h3>Las indicaciones de ruta aparecerán aqui</h3>
-            <div id="right-panel"></div>
+            <div class="adaptarse">
+                <h3>Las indicaciones de ruta aparecerán aqui</h3>
+                <div id="right-panel"></div>
+            </div>
         </div>
         </div>
     </div>

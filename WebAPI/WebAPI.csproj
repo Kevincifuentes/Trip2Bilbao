@@ -105,6 +105,7 @@
     <Content Include="JS\amq_jquery_adapter.js" />
     <Content Include="JS\bootstrap.min.js" />
     <Content Include="imagenes\googlemaps.js" />
+    <Content Include="JS\funciones.js" />
     <Content Include="JS\googlemaps.js" />
     <Content Include="JS\jquery-2.0.3.min.js" />
     <Content Include="JS\jquery.min.js" />
