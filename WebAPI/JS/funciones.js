@@ -560,7 +560,7 @@ function buscarPorNombre() {
                 } else {
                     opcion = desde;
                 }
-                alert(opcion);
+                //alert(opcion);
                 directionsService.route({
                     origin: opcion,
                     destination: lugar,

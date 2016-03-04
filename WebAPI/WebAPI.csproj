@@ -84,6 +84,7 @@
   <ItemGroup>
     <Content Include="Antiguo.html" />
     <Content Include="CSS\bootstrap.min.css" />
+    <Content Include="CSS\estilos.css" />
     <Content Include="favicon.ico" />
     <Content Include="imagenes\bilbobus.png" />
     <Content Include="imagenes\bizkaibus.png" />
