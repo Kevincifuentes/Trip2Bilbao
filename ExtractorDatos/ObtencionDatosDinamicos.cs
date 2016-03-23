@@ -31,14 +31,13 @@ namespace ExtractorDatos
             obtenerParkings.Start();
             deusto.Start();
             tiempo.Start();
-            
-            
         }
 
         public void obtenerIncidencias()
         {
             while (true)
             {
+                Thread.Sleep(5000);
                 dinamico.eventosTrafico();
                 dinamico.incidenciasVariasTrafico();
                 dinamico.mantenimientoTrafico();
@@ -59,6 +58,7 @@ namespace ExtractorDatos
         {
             while (true)
             {
+                Thread.Sleep(5000);
                 dinamico.bicicletas();
                 InformacionEstatica.emisor.enviarBicicletas(dinamico.puntosBicisList, dinamico.descargaBicis);
 
@@ -71,6 +71,8 @@ namespace ExtractorDatos
         {
             while (true)
             {
+               
+               Thread.Sleep(5000);
                estatico.obtenerInformacionParkings();
                InformacionEstatica.emisor.enviarParkings(estatico.parkings, estatico.descargaParkings);
                 
@@ -83,6 +85,7 @@ namespace ExtractorDatos
         {
             while (true)
             {
+                Thread.Sleep(5000);
                 dinamico.parkingDeusto();
                 InformacionEstatica.emisor.enviarParkingDeusto(dinamico.contadorDBSDeusto, dinamico.contadorGeneralDeusto, dinamico.descargaDeusto);
 
@@ -95,6 +98,7 @@ namespace ExtractorDatos
         {
             while (true)
             {
+                Thread.Sleep(5000);
                 estatico.paradasAutobusesBilbo();
                 dinamico.tiemposParadaBilbo(estatico);
                 estatico.lineasBilbobus();
@@ -110,6 +114,7 @@ namespace ExtractorDatos
         {
             while (true)
             {
+                Thread.Sleep(5000);
                 dinamico.meteorologiaCiudad();
                 Dictionary<string, TiempoDiaCiudad> temporal = new Dictionary<string, TiempoDiaCiudad>();
                 Dictionary<string, string> descripcionesES = new Dictionary<string, string>();
@@ -125,7 +130,7 @@ namespace ExtractorDatos
                 descripcionesEU.Add("Pasado", dinamico.tiempoPorCiudades["Pasado"].descripcionEU);
                 InformacionEstatica.emisor.enviarTiempoBilbao(temporal, descripcionesES, descripcionesEU, "Bilbao");
 
-                //Espera un Minuto
+                //Espera un día
                 Thread.Sleep(86400000);
             }
         }

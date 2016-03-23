@@ -204,6 +204,7 @@
     <Property Name="longitud" Type="float" Nullable="false" />
     <Property Name="descripcion" Type="nvarchar(max)" Nullable="false" />
     <Property Name="codigoPostal" Type="int" Nullable="false" />
+    <Property Name="orden" Type="int" />
   </EntityType>
   <EntityType Name="parkingDeustoSet">
     <Key>

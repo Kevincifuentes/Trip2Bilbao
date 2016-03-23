@@ -54,28 +54,30 @@ namespace ReceptorBus
             // configure the broker
             try
             {
-                // Create a ConnectionFactory
+                // Creación de factoria
                 IConnectionFactory connectionFactory = new ConnectionFactory(
-                        "tcp://localhost:61616?jms.prefetchPolicy.all=1");
+                        "tcp://localhost:61616");
 
-                // Create a Connection
+                // Creación de la conexión
                 _connection = connectionFactory.CreateConnection();
                 _connection.Start();
 
 
-                // Create a Session
+                // Creación de una sesión
                 _session = _connection.CreateSession();
 
-                // Create the destination (Topic or Queue)
+                // Creación de un destino (cola o topic)
                 IDestination destination = _session.GetTopic(QUEUE_DESTINATION);
 
-                // Create a MessageProducer from the Session to the Topic or Queue
+                // Creación del consumidor de mensajes
 
                 /*************************************************************IMPORTANTE************************************/
                                         //_consumer = _session.CreateConsumer(destination, "CP = 48013");
                 /*                    Para filtrar por un barrio pondremos el consumidor de arriba                        */
                 
                 _consumer = _session.CreateConsumer(destination);
+                
+                //Establecer el evento que se ejecutará cuando llegue un mensaje
                 //producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
                 _consumer.Listener += _consumer_Listener;
 
@@ -147,12 +149,15 @@ namespace ReceptorBus
             ITextMessage temp = message as ITextMessage;
             //Console.WriteLine(temp.Text);
 
+            //comprobación del tipo de mensaje
             switch (message.NMSType)
             {
                 case "Parkings":
-                   // XElement parking = XElement.Parse(temp.Text);
+                    //conversión del mensaje a un XmlDocument
                     XmlDocument parking = new XmlDocument();
                     parking.LoadXml(temp.Text);
+
+                    //Si es correcto y no se ha descargado ya el mensaje, se almacena
                     if (parking != null && !message.NMSRedelivered)
                     {
                        almacenarParking(parking);
@@ -170,7 +175,7 @@ namespace ReceptorBus
                 case "TiemposLinea":
                     XmlDocument linea = new XmlDocument();
                     linea.LoadXml(temp.Text);
-                        almacenarTiempoBilbo(linea);
+                    almacenarTiempoBilbo(linea);
                     break;
                 case "Bicis":
                     XmlDocument bici = new XmlDocument();
@@ -279,13 +284,16 @@ namespace ReceptorBus
 
         private void almacenarParking(XmlDocument parking)
         {
+            //Extracción de los datos
             estados_parking ep = new estados_parking();
             ep.disponible = int.Parse(parking.ChildNodes[1].ChildNodes[1].ChildNodes[4].InnerText);
             ep.fecha = DateTime.Parse(parking.ChildNodes[1].ChildNodes[0].ChildNodes[3].InnerText);
             ep.parkings_id = int.Parse(parking.ChildNodes[1].ChildNodes[1].ChildNodes[0].InnerText);
             
+            //Inserción en el DbSet
             contexto.estados_parkingSet.Add(ep);
 
+            //Salvamos para que lo inserte en la BD
             try
             {
                 contexto.SaveChanges();

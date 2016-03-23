@@ -4,63 +4,125 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c2459a23a3bd4944895f46d65d572c36" Name="Diagram1" ZoomLevel="87" >
-        <EntityTypeShape EntityType="Modelo.entradas" Width="1.5" PointX="2.75" PointY="0.625" />
-        <EntityTypeShape EntityType="Modelo.tarifas" Width="1.5" PointX="2.625" PointY="3.125" />
-        <EntityTypeShape EntityType="Modelo.parkings" Width="1.5" PointX="4.875" PointY="1.125" IsExpanded="true" />
+      <Diagram DiagramId="c2459a23a3bd4944895f46d65d572c36" Name="Diagram1" ZoomLevel="65" >
+        <EntityTypeShape EntityType="Modelo.entradas" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.tarifas" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.parkings" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
         <AssociationConnector Association="Modelo.parkingsentradas" />
         <AssociationConnector Association="Modelo.parkingstarifas" />
-        <EntityTypeShape EntityType="Modelo.incidencias" Width="1.5" PointX="9.75" PointY="3.25" />
-        <EntityTypeShape EntityType="Modelo.paradas_tranvia" Width="1.5" PointX="3" PointY="5.875" />
-        <EntityTypeShape EntityType="Modelo.hospitales" Width="1.5" PointX="0.5" PointY="6.25" />
-        <EntityTypeShape EntityType="Modelo.puntos_bici" Width="1.5" PointX="0.5" PointY="3.625" />
-        <EntityTypeShape EntityType="Modelo.centros_de_salud" Width="1.75" PointX="0.5" PointY="10" />
-        <EntityTypeShape EntityType="Modelo.tiempos_dia_ciudad" Width="1.75" PointX="3.125" PointY="8" />
-        <EntityTypeShape EntityType="Modelo.tiempos_ciudad" Width="1.875" PointX="5.5" PointY="6.75" />
-        <EntityTypeShape EntityType="Modelo.tiempos_comarca" Width="2.25" PointX="4.25" PointY="12.5" />
-        <EntityTypeShape EntityType="Modelo.tiempos_dia_comarca" Width="1.5" PointX="2.5" PointY="12.5" />
+        <EntityTypeShape EntityType="Modelo.incidencias" Width="1.5" PointX="13.25" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.paradas_tranvia" Width="1.5" PointX="11" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.hospitales" Width="1.5" PointX="15.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.puntos_bici" Width="1.5" PointX="13.875" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.centros_de_salud" Width="1.75" PointX="3.625" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.tiempos_dia_ciudad" Width="1.75" PointX="5.75" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.tiempos_ciudad" Width="1.875" PointX="8.25" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.tiempos_comarca" Width="2.25" PointX="19" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.tiempos_dia_comarca" Width="2.625" PointX="19.375" PointY="17.625" IsExpanded="true" />
         <AssociationConnector Association="Modelo.tiempos_comarcatiempos_dia_comarca" />
-        <EntityTypeShape EntityType="Modelo.farmacias" Width="1.75" PointX="6.625" PointY="2.625" />
-        <EntityTypeShape EntityType="Modelo.tiempos_dia" Width="1.5" PointX="7.25" PointY="11.625" />
-        <EntityTypeShape EntityType="Modelo.tiempos_prediccion" Width="2" PointX="9.5" PointY="11.625" />
+        <EntityTypeShape EntityType="Modelo.farmacias" Width="1.75" PointX="10.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.tiempos_dia" Width="1.5" PointX="17.5" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.tiempos_prediccion" Width="2" PointX="14.375" PointY="10.375" IsExpanded="true" />
         <AssociationConnector Association="Modelo.tiempos_predicciontiempos_dia" />
-        <EntityTypeShape EntityType="Modelo.lineas_metro" Width="1.5" PointX="7.375" PointY="9.25" />
-        <EntityTypeShape EntityType="Modelo.viajes_metro" Width="1.5" PointX="12" PointY="9.375" />
-        <EntityTypeShape EntityType="Modelo.paradas_metro" Width="1.5" PointX="8.5" PointY="6.125" />
-        <EntityTypeShape EntityType="Modelo.lineas_bizkaibus" Width="1.5" PointX="14.25" PointY="9.5" />
-        <EntityTypeShape EntityType="Modelo.viajes_bizkaibus" Width="1.5" PointX="13.375" PointY="6.25" />
+        <EntityTypeShape EntityType="Modelo.lineas_metro" Width="1.5" PointX="10.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.viajes_metro" Width="1.5" PointX="13" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.paradas_metro" Width="1.5" PointX="15.625" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.lineas_bizkaibus" PointX="18.75" PointY="1.125" Width="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.viajes_bizkaibus" PointX="21" PointY="1" Width="1.5" IsExpanded="true" />
         <AssociationConnector Association="Modelo.lineas_bizkaibusviajes_bizkaibus" />
-        <EntityTypeShape EntityType="Modelo.paradas_bizkaibus" Width="1.5" PointX="17.75" PointY="6.5" />
-        <EntityTypeShape EntityType="Modelo.paradas_bilbobus" Width="1.625" PointX="14.375" PointY="16" />
-        <EntityTypeShape EntityType="Modelo.tiempos_linea_parada" Width="2" PointX="14.875" PointY="12.25" />
-        <EntityTypeShape EntityType="Modelo.lineas_bilbobus" Width="1.5" PointX="12.625" PointY="12" />
+        <EntityTypeShape EntityType="Modelo.paradas_bizkaibus" PointX="21" PointY="6" Width="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.paradas_bilbobus" Width="1.625" PointX="5.625" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.tiempos_linea_parada" Width="2" PointX="8" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.lineas_bilbobus" Width="1.5" PointX="5.75" PointY="2.625" IsExpanded="true" />
         <AssociationConnector Association="Modelo.lineas_bilbobustiempos_linea_parada" />
         <AssociationConnector Association="Modelo.paradas_bilbobustiempos_linea_parada" />
-        <EntityTypeShape EntityType="Modelo.viajes_bilbobus" Width="1.5" PointX="10.5" PointY="14.625" />
+        <EntityTypeShape EntityType="Modelo.viajes_bilbobus" Width="1.5" PointX="8" PointY="5.875" IsExpanded="true" />
         <AssociationConnector Association="Modelo.lineas_bilbobusviajes_bilbobus" />
-        <EntityTypeShape EntityType="Modelo.lineas_euskotren" Width="1.75" PointX="4" PointY="19" />
-        <EntityTypeShape EntityType="Modelo.viajes_euskotren" Width="1.625" PointX="3.625" PointY="16" />
+        <EntityTypeShape EntityType="Modelo.lineas_euskotren" PointX="0.75" PointY="12.125" Width="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.viajes_euskotren" PointX="3.25" PointY="12" Width="1.75" IsExpanded="true" />
         <AssociationConnector Association="Modelo.lineas_euskotrenviajes_euskotren" />
-        <EntityTypeShape EntityType="Modelo.paradas_euskotren" Width="1.5" PointX="8.875" PointY="16.375" />
+        <EntityTypeShape EntityType="Modelo.paradas_euskotren" PointX="8.375" PointY="10" Width="1.875" IsExpanded="true" />
         <AssociationConnector Association="Modelo.lineas_metroviajes_metro" />
-        <EntityTypeShape EntityType="Modelo.estados_parking" Width="1.5" PointX="7.125" PointY="0.5" />
+        <EntityTypeShape EntityType="Modelo.estados_parking" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
         <AssociationConnector Association="Modelo.parkingsestados_parking" />
-        <EntityTypeShape EntityType="Modelo.estados_puntobici" Width="1.5" PointX="0.625" PointY="0.625" />
+        <EntityTypeShape EntityType="Modelo.estados_puntobici" Width="1.75" PointX="16.125" PointY="14.125" IsExpanded="true" />
         <AssociationConnector Association="Modelo.puntos_biciestados_puntobici" />
-        <EntityTypeShape EntityType="Modelo.parkingDeusto" Width="1.5" PointX="1.375" PointY="16.5" />
-        <EntityTypeShape EntityType="Modelo.viajes_parada_tiempos_euskotren" Width="1.5" PointX="6.375" PointY="16.125" />
+        <EntityTypeShape EntityType="Modelo.parkingDeusto" Width="1.5" PointX="13" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.viajes_parada_tiempos_euskotren" PointX="5.625" PointY="12" Width="2.5" IsExpanded="true" />
         <AssociationConnector Association="Modelo.viajes_euskotrenviajes_parada_tiempos" />
         <AssociationConnector Association="Modelo.paradas_euskotrenviajes_parada_tiempos" />
-        <EntityTypeShape EntityType="Modelo.viajes_parada_tiempos_metro" Width="1.5" PointX="11.125" PointY="6.25" />
+        <EntityTypeShape EntityType="Modelo.viajes_parada_tiempos_metro" Width="2.25" PointX="15.25" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="Modelo.paradas_metroviajes_parada_tiempos_metro" />
         <AssociationConnector Association="Modelo.viajes_metroviajes_parada_tiempos_metro" />
-        <EntityTypeShape EntityType="Modelo.viajes_parada_tiempos_bizkaibus" Width="1.5" PointX="15.5" PointY="6.375" />
+        <EntityTypeShape EntityType="Modelo.viajes_parada_tiempos_bizkaibus" PointX="23.25" PointY="1" Width="2.5" IsExpanded="true" />
         <AssociationConnector Association="Modelo.paradas_bizkaibusviajes_parada_tiempos_bizkaibus" />
         <AssociationConnector Association="Modelo.viajes_bizkaibusviajes_parada_tiempos_bizkaibus" />
-        <EntityTypeShape EntityType="Modelo.viajes_parada_tiempos_bilbobus" Width="1.5" PointX="12" PointY="16.75" />
+        <EntityTypeShape EntityType="Modelo.viajes_parada_tiempos_bilbobus" Width="2.5" PointX="10.25" PointY="5.75" IsExpanded="true" />
         <AssociationConnector Association="Modelo.viajes_bilbobusviajes_parada_tiempos_bilbobus" />
         <AssociationConnector Association="Modelo.paradas_bilbobusviajes_parada_tiempos_bilbobus" />
         <AssociationConnector Association="Modelo.tiempos_dia_ciudadtiempos_ciudad" />
+      </Diagram>
+      <Diagram DiagramId="8383b9059d1e4c3da10e8aab16089db1" Name="Diagram2" ZoomLevel="58" >
+        <EntityTypeShape EntityType="Modelo.incidencias" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Modelo.paradas_tranvia" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Modelo.hospitales" Width="1.5" PointX="2.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Modelo.puntos_bici" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="Modelo.centros_de_salud" Width="1.5" PointX="4.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Modelo.tiempos_dia_ciudad" Width="1.5" PointX="5.75" PointY="6.625" />
+        <EntityTypeShape EntityType="Modelo.tiempos_ciudad" Width="1.5" PointX="8" PointY="6" />
+        <AssociationConnector Association="Modelo.tiempos_dia_ciudadtiempos_ciudad" />
+        <EntityTypeShape EntityType="Modelo.tiempos_comarca" Width="1.5" PointX="5.75" PointY="1.625" />
+        <EntityTypeShape EntityType="Modelo.tiempos_dia_comarca" Width="1.5" PointX="8" PointY="1" />
+        <AssociationConnector Association="Modelo.tiempos_comarcatiempos_dia_comarca" />
+        <EntityTypeShape EntityType="Modelo.farmacias" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Modelo.tiempos_dia" Width="1.5" PointX="3" PointY="5" />
+        <EntityTypeShape EntityType="Modelo.tiempos_prediccion" Width="1.5" PointX="0.75" PointY="6.375" />
+        <AssociationConnector Association="Modelo.tiempos_predicciontiempos_dia" />
+        <EntityTypeShape EntityType="Modelo.estados_puntobici" Width="1.5" PointX="3" PointY="1.25" />
+        <AssociationConnector Association="Modelo.puntos_biciestados_puntobici" />
+        <EntityTypeShape EntityType="Modelo.parkingDeusto" Width="1.5" PointX="5.625" PointY="4.125" />
+      </Diagram>
+      <Diagram DiagramId="ecf9d8a587044ad0a407f78bed36cc1d" Name="Diagram3" ZoomLevel="53" >
+        <EntityTypeShape EntityType="Modelo.entradas" Width="1.5" PointX="3" PointY="1.25" />
+        <EntityTypeShape EntityType="Modelo.tarifas" Width="1.5" PointX="3" PointY="4.125" />
+        <EntityTypeShape EntityType="Modelo.parkings" Width="1.5" PointX="0.75" PointY="3.625" />
+        <AssociationConnector Association="Modelo.parkingsentradas" />
+        <AssociationConnector Association="Modelo.parkingstarifas" />
+        <EntityTypeShape EntityType="Modelo.lineas_metro" Width="1.5" PointX="12.75" PointY="1" />
+        <EntityTypeShape EntityType="Modelo.viajes_metro" Width="1.5" PointX="15" PointY="1" />
+        <AssociationConnector Association="Modelo.lineas_metroviajes_metro" />
+        <EntityTypeShape EntityType="Modelo.paradas_metro" Width="1.5" PointX="15" PointY="14.875" />
+        <EntityTypeShape EntityType="Modelo.paradas_bilbobus" Width="1.5" PointX="10.75" PointY="10.5" />
+        <EntityTypeShape EntityType="Modelo.tiempos_linea_parada" Width="1.5" PointX="13" PointY="6.625" />
+        <AssociationConnector Association="Modelo.paradas_bilbobustiempos_linea_parada" />
+        <EntityTypeShape EntityType="Modelo.lineas_bilbobus" Width="1.5" PointX="10.75" PointY="6.625" />
+        <AssociationConnector Association="Modelo.lineas_bilbobustiempos_linea_parada" />
+        <EntityTypeShape EntityType="Modelo.viajes_bilbobus" Width="1.5" PointX="13" PointY="9.875" />
+        <AssociationConnector Association="Modelo.lineas_bilbobusviajes_bilbobus" />
+        <EntityTypeShape EntityType="Modelo.estados_parking" Width="1.5" PointX="3" PointY="7.25" />
+        <AssociationConnector Association="Modelo.parkingsestados_parking" />
+        <EntityTypeShape EntityType="Modelo.viajes_parada_tiempos_metro" Width="1.5" PointX="17.25" PointY="1" />
+        <AssociationConnector Association="Modelo.paradas_metroviajes_parada_tiempos_metro" />
+        <AssociationConnector Association="Modelo.viajes_metroviajes_parada_tiempos_metro" />
+        <EntityTypeShape EntityType="Modelo.viajes_parada_tiempos_bilbobus" Width="1.5" PointX="15.25" PointY="9.75" />
+        <AssociationConnector Association="Modelo.viajes_bilbobusviajes_parada_tiempos_bilbobus" />
+        <AssociationConnector Association="Modelo.paradas_bilbobusviajes_parada_tiempos_bilbobus" />
+      </Diagram>
+      <Diagram DiagramId="9be33915d8ac428992b46487022a2a4d" Name="Diagram4" ZoomLevel="47" >
+        <EntityTypeShape EntityType="Modelo.viajes_parada_tiempos_euskotren" Width="1.5" PointX="5.25" PointY="9.125" />
+        <EntityTypeShape EntityType="Modelo.lineas_bizkaibus" Width="1.5" PointX="0.75" PointY="5.375" />
+        <EntityTypeShape EntityType="Modelo.viajes_bizkaibus" Width="1.5" PointX="3" PointY="5.25" />
+        <AssociationConnector Association="Modelo.lineas_bizkaibusviajes_bizkaibus" />
+        <EntityTypeShape EntityType="Modelo.paradas_bizkaibus" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="Modelo.lineas_euskotren" Width="1.5" PointX="0.75" PointY="9.375" />
+        <EntityTypeShape EntityType="Modelo.viajes_euskotren" Width="1.5" PointX="3" PointY="9.125" />
+        <AssociationConnector Association="Modelo.viajes_euskotrenviajes_parada_tiempos" />
+        <AssociationConnector Association="Modelo.lineas_euskotrenviajes_euskotren" />
+        <EntityTypeShape EntityType="Modelo.paradas_euskotren" Width="1.5" PointX="3" PointY="12.875" />
+        <AssociationConnector Association="Modelo.paradas_euskotrenviajes_parada_tiempos" />
+        <EntityTypeShape EntityType="Modelo.viajes_parada_tiempos_bizkaibus" Width="1.5" PointX="5.25" PointY="5.125" />
+        <AssociationConnector Association="Modelo.paradas_bizkaibusviajes_parada_tiempos_bizkaibus" />
+        <AssociationConnector Association="Modelo.viajes_bizkaibusviajes_parada_tiempos_bizkaibus" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

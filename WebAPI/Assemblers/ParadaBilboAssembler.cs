@@ -11,7 +11,7 @@ namespace WebAPI.Assemblers
     {
         public ParadaBilboDTO assemble(paradas_bilbobus h)
         {
-            return new ParadaBilboDTO(h.nombre, h.latitud, h.longitud, h.abreviatura, h.codigoPostal);
+            return new ParadaBilboDTO(h.id, h.nombre, h.latitud, h.longitud, h.abreviatura, h.codigoPostal);
         }
 
         public List<ParadaBilboDTO> assemble(List<paradas_bilbobus> h)

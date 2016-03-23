@@ -15,13 +15,27 @@ var destino;
 var noParkings = false;
 var tiempoIrParking;
 var latlong;
+var noHayMeteo = true;
 var ultimaBusquedaPorNombre;
 var numeroDeParkings = 0;
 var latlngParkingUnico;
 var conClick = false;
 var tambienDestino = false;
+var lineasBilbobusArray = {};
 
-function initMap() {
+var paradasConTiempo = {};
+var estadoParkings = {};
+var estadosBici = {};
+
+var primeraTiemposLinea = true;
+var puntos = [];
+var informacionParadas = {};
+var ruta;
+var idRuta;
+var paradas = [];
+var mostrando;
+
+window.initMap = function() {
     modoViaje = google.maps.TravelMode.DRIVING;
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 13,
@@ -108,6 +122,8 @@ function initMap() {
             $("#btnBuscar").click();
         }
     });
+
+    inicializarActiveMQ();
 }
 
 function obtener(x, y) {
@@ -116,9 +132,60 @@ function obtener(x, y) {
         primera = false;
         visible = true;
         $(document).ready(function() {
-            // Send an AJAX request
+            //se envia una petición AJAX
             $.getJSON(y)
-                .fail(function() {
+                .done(function(data) {
+                    //si la petición ha sido correcta, tendremos una lista de objetos JSON
+                    if (x === 2) {
+                        numeroDeParkings = 0;
+                    }
+                    $.each(data, function(key, item) {
+                        if (x === 2) {
+                            numeroDeParkings++;
+                            latlngParkingUnico = new google.maps.LatLng(item.latitud, item.longitud);
+                        }
+
+                        // Si la posición es correcta, se añade un marcador al mapa
+                        if (item.latitud > 0 || item.longitud < 0) {
+                            var myLatlng = new google.maps.LatLng(item.latitud, item.longitud);
+
+                            var contentString = formatItem(item, x, y);
+
+                            var infowindow = new google.maps.InfoWindow({
+                                content: contentString
+                            });
+
+                            var marker = new google.maps.Marker({
+                                position: myLatlng,
+                                title: contentString,
+                                icon: iconos[x]
+                            });
+                            infoWindows.push(infowindow);
+                            markers.push(marker);
+
+                            //se añade un evento al marcador
+                            marker.addListener('click', function(event) {
+                                for (var i = 0; i < infoWindows.length; i++) {
+                                    infoWindows[i].close();
+                                }
+                                latlngParking = event.latLng;
+                                //alert(latlngParking);
+                                infowindow.open(map, marker);
+                            });
+
+                            marker.setMap(map);
+
+                            if (x === 2) {
+                                noParkings = false;
+                            }
+                        }
+
+                    });
+                }).always(function() {
+                    if (x === 2) {
+                        resultadoParking();
+                    }
+                }).fail(function () {
                     if (x === 1) {
                         var node = document.createElement("LI");
                         var textnode = document.createTextNode("No se han encontrado Farmacias cercanas en Destino.");
@@ -176,58 +243,6 @@ function obtener(x, y) {
                         node.appendChild(textnode);
                         document.getElementById("noencontrado").appendChild(node);
                     }
-                })
-                .done(function(data) {
-                    // On success, 'data' contains a list of products.
-                    if (x === 2) {
-                        numeroDeParkings = 0;
-                    }
-                    $.each(data, function(key, item) {
-                        if (x === 2) {
-                            numeroDeParkings++;
-                            latlngParkingUnico = new google.maps.LatLng(item.latitud, item.longitud);
-                        }
-                        // Add a list item for the product.
-                        if (item.latitud > 0 || item.longitud < 0) {
-                            var myLatlng = new google.maps.LatLng(item.latitud, item.longitud);
-
-                            var contentString = formatItem(item, x, y);
-
-                            var infowindow = new google.maps.InfoWindow({
-                                content: contentString
-                            });
-
-                            var marker = new google.maps.Marker({
-                                position: myLatlng,
-                                title: contentString,
-                                icon: iconos[x]
-                            });
-                            infoWindows.push(infowindow);
-                            markers.push(marker);
-
-
-                            marker.addListener('click', function(event) {
-                                for (var i = 0; i < infoWindows.length; i++) {
-                                    infoWindows[i].close();
-                                }
-                                latlngParking = event.latLng;
-                                //alert(latlngParking);
-                                infowindow.open(map, marker);
-                            });
-
-                            // To add the marker to the map, call setMap();
-                            marker.setMap(map);
-
-                            if (x === 2) {
-                                noParkings = false;
-                            }
-                        }
-
-                    });
-                }).always(function() {
-                    if (x === 2) {
-                        resultadoParking();
-                    }
                 });
         });
 
@@ -262,7 +277,7 @@ function formatItem(item, x, y) {
         return "<div><h3>" + item.nombreFarmacia + "</h3><br><b> Contácto:</b> " + item.telefono + "</div>";
     } else if (x === 2) {
         if (y === 'api/parkings/parkings' || seleccionar === true) {
-            return "<div><h3><b>Parking:</b> " + item.nombreParking + "</h3><br><b> Capacidad:</b> " + item.capacidad + "<br><button type='button' class='btn btn-info' onclick='seleccionParking()'>Seleccionar Parking</button></div>";
+            return "<div><h3><b>Parking:</b> " + item.nombreParking + "</h3><br><b> Capacidad: </b> " + item.capacidad + "<br><b> Disponibilidad actual: </b>"+estadoParkings[item.nombreParking]+"<br><button type='button' class='btn btn-info' onclick='seleccionParking()'>Seleccionar Parking</button></div>";
         } else {
             return "<div><h3><b>Parking:</b> " + item.nombreParking + "</h3><br><b> Capacidad:</b> " + item.capacidad + "</div>";
         }
@@ -279,11 +294,11 @@ function formatItem(item, x, y) {
     } else if (x === 8) {
         return "<div><h3><b>Parada de Euskotren:</b> " + item.nombreParada + "</h3><br><b>Código de parada:</b> " + item.codigoParada + "</div>";
     } else if (x === 9) {
-        return "<div><h3><b>Parada de Metro:</b> " + item.nombreParada + "</h3><br><b>Código de parada:</b> " + item.codigoParada + "</div>";
+        return "<div><h3><b>Parada de Metro:</b> " + item.nombreParada + "</h3><br><b>Código de parada:</b> " + item.codigoParada + "<br><button type='button' class='btn btn-info' onclick='mostrarInfoMetro()'>Más información...</button></div>";
     } else if (x === 10) {
-        return "<div><h3><b>Parada de Tranvía:</b> " + item.nombreParada + "</h3><br><b>Código de parada:</b> " + item.descripcion + "</div>";
+        return "<div><h3><b>Parada de Tranvía:</b> " + item.nombreParada + "</h3><br><b>Localización:</b> " + item.descripcion + "</div>";
     } else if (x === 11) {
-        return "<div><h3><b>Punto de bicis:</b> " + item.nombrePunto + "</h3><br><b>Estado:</b> " + item.estado + "<br><b>Capacidad:</b> " + item.capacidad + "</div>";
+        return "<div><h3><b>Punto de bicis:</b> " + item.nombrePunto + "</h3><br><b>Estado:</b> " + item.estado + "<br><b>Capacidad:</b> " + item.capacidad + "<br><h4>Disponibilidad en Tiempo Real</h4>"+estadosBici[item.nombrePunto]+"</div>";
     }
 
 }
@@ -292,6 +307,11 @@ var directionsService, directionsDisplay;
 var modoViaje;
 
 function enrutar(latlng, modo) {
+    mostrando = false;
+    puntos = [];
+    if (ruta !== undefined) {
+        ruta.setMap(null);
+    }
     ultimaBusquedaPorNombre = false;
     ultimaBusqueda = true;
     if (seleccionado === false) {
@@ -512,6 +532,7 @@ function despejarParaEnrutadoDoble() {
 }
 
 function buscarPorNombre() {
+    mostrando = false;
     conClick = false;
     ultimaBusquedaPorNombre = true;
     ultimaBusqueda = true;
@@ -540,27 +561,31 @@ function buscarPorNombre() {
             }
         });
 
-        //PARA EL PANEL
+        //para mostrar las direcciones en el panel con dicho Id
         directionsDisplay.setPanel(document.getElementById('right-panel'));
 
 
         if (navigator.geolocation) {
             var desde = $("#desde").val();
             var opcion;
-                
+            
+            //obtención de la posición del usuario
             navigator.geolocation.getCurrentPosition(function(position) {
                 pos = {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
                 var lugar = introducido;
+
+                //según el origen, se geoposiciona o será el introducido
                 if (desde === "" || desde === undefined) {
                     opcion = pos;
                     map.setCenter(pos);
                 } else {
                     opcion = desde;
                 }
-                //alert(opcion);
+
+                //peticion para búsqueda de ruta
                 directionsService.route({
                     origin: opcion,
                     destination: lugar,
@@ -573,8 +598,8 @@ function buscarPorNombre() {
                     }
                 }, function(response, status) {
                     if (status === google.maps.DirectionsStatus.OK) {
+                        //se añaden las direcciones al panel y se dibuja sobre el mapa las rutas
                         directionsDisplay.setDirections(response);
-                        //alert("Número de rutas: " + response.routes.length);
                         for (z = 0; z < response.routes.length; z++) {
 
                             var polyline = new google.maps.Polyline({
@@ -600,7 +625,7 @@ function buscarPorNombre() {
                             rutas.push(polyline);
                         }
 
-                        //obtener el punto
+                        //obtener el punto del lugar introducido
                         geocoder.geocode({ 'address': lugar }, function(results, status) {
                             if (status == google.maps.GeocoderStatus.OK) {
                                 //alert(results[0].geometry.location);
@@ -666,11 +691,36 @@ function obtenerCodigo(latilong) {
     geocoder.geocode({ 'location': latilong }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             map.setCenter(results[0].geometry.location);
-            if (results[0].address_components[6] === undefined) {
-                codigoPostal = results[0].address_components[5].long_name;
+            if (results[0].address_components[5].types[0] === "country" && results[0].address_components[6] === undefined) {
+                if (results[1].address_components[5].types[0] === "postal_code") {
+                    codigoPostal = results[1].address_components[5].long_name;
+                } else {
+                    if (results[1].address_components[6].types[0] === "postal_code") {
+                        codigoPostal = results[1].address_components[6].long_name;
+                    } else {
+                        if (results[1].address_components[7].types[0] === "postal_code") {
+                            codigoPostal = results[1].address_components[7].long_name;
+                        } else {
+                            codigoPostal = results[1].address_components[8].long_name;
+                        }
+                    }
+                }
             } else {
-                codigoPostal = results[0].address_components[6].long_name;
+                if (results[0].address_components[5].types[0] === "postal_code") {
+                    codigoPostal = results[0].address_components[5].long_name;
+                } else {
+                    if (results[0].address_components[6].types[0] === "postal_code") {
+                        codigoPostal = results[0].address_components[6].long_name;
+                    } else {
+                        if (results[0].address_components[7].types[0] === "postal_code") {
+                            codigoPostal = results[0].address_components[7].long_name;
+                        } else {
+                            codigoPostal = results[0].address_components[8].long_name;
+                        }
+                    }
+                }
             }
+            
             //alert(codigoPostal);
             obtenerInfoCodigo(codigoPostal);
         } else {
@@ -756,6 +806,11 @@ function seleccionParking() {
 var otro, otro2;
 
 function enrutarOrigenDestino(origen, destino, modo) {
+    mostrando = false;
+    puntos = [];
+    if (ruta !== undefined) {
+        ruta.setMap(null);
+    }
     ultimaBusqueda = true;
     if (seleccionado === false) {
         limpiarRutas();
@@ -911,4 +966,398 @@ function obtenerInformacionDistanciasTiempos(origin, destiny) {
             }
         }
     });
+}
+
+function inicializarActiveMQ() {
+    ws = new WebSocket('ws://localhost:61614', 'stomp');
+    ws.onopen = function (){
+        ws.send('CONNECT\n\n\0');
+ 
+    ws.send('SUBSCRIBE\ndestination:/topic/PruebaEMISOR\n\nack:auto\n\n\0');
+    };
+
+    ws.onmessage = function (e) {
+
+        if (e.data.startsWith('MESSAGE')) {
+            //console.log(e.data);
+            var lines = e.data.split('\n');
+            var tipo = lines[2].substring(lines[2].indexOf(":") + 1, lines[2].length);
+            var parser, xmlDoc;
+            switch (tipo) {
+                case "TiempoCiudad":
+                    if (window.DOMParser) {
+                         parser = new DOMParser();
+                         xmlDoc = parser.parseFromString(lines[9], "text/xml");
+
+                        var nombreCiudad = xmlDoc.getElementsByTagName("Nombre")[0].childNodes[0].nodeValue;
+                        var descripcionGeneralHES = xmlDoc.getElementsByTagName("ES")[0].childNodes[0].nodeValue;
+                        var descripcionGeneralHEU = xmlDoc.getElementsByTagName("EU")[0].childNodes[0].nodeValue;
+                        var descripcionHES = xmlDoc.getElementsByTagName("DescripcionES")[0].childNodes[0].nodeValue;
+                        var descripcionHEU = xmlDoc.getElementsByTagName("DescripcionEU")[0].childNodes[0].nodeValue;
+                        var tempMaxH = xmlDoc.getElementsByTagName("TempMax")[0].childNodes[0].nodeValue;
+                        var tempMinH = xmlDoc.getElementsByTagName("TempMin")[0].childNodes[0].nodeValue;
+
+                        var descripcionGeneralMES = xmlDoc.getElementsByTagName("ES")[1].childNodes[0].nodeValue;
+                        var descripcionGeneralMEU = xmlDoc.getElementsByTagName("EU")[1].childNodes[0].nodeValue;
+                        var descripcionMES = xmlDoc.getElementsByTagName("DescripcionES")[1].childNodes[0].nodeValue;
+                        var descripcionMEU = xmlDoc.getElementsByTagName("DescripcionEU")[1].childNodes[0].nodeValue;
+                        var tempMaxM = xmlDoc.getElementsByTagName("TempMax")[1].childNodes[0].nodeValue;
+                        var tempMinM = xmlDoc.getElementsByTagName("TempMin")[1].childNodes[0].nodeValue;
+
+                        var descripcionGeneralPES = xmlDoc.getElementsByTagName("ES")[2].childNodes[0].nodeValue;
+                        var descripcionGeneralPEU = xmlDoc.getElementsByTagName("EU")[2].childNodes[0].nodeValue;
+                        var descripcionPES = xmlDoc.getElementsByTagName("DescripcionES")[2].childNodes[0].nodeValue;
+                        var descripcionPEU = xmlDoc.getElementsByTagName("DescripcionEU")[2].childNodes[0].nodeValue;
+                        var tempMaxP = xmlDoc.getElementsByTagName("TempMax")[2].childNodes[0].nodeValue;
+                        var tempMinP = xmlDoc.getElementsByTagName("TempMin")[2].childNodes[0].nodeValue;
+
+                        if (noHayMeteo === true) {
+                            $("#hoy").html(" <table class='table table-bordered'><tbody><td><img height='50' width='50' src='imagenes/cold.png'/><span id='spanHmin'>Min.<b>" + tempMinH + "°C</b></span></td><td><img height='50' width='50' src='imagenes/hot.png'/><span id='spanHmax'>Min.<b>" + tempMaxH + "°C</b></span></td></tbody></table>");
+                            $("#manana").html(" <table class='table table-bordered'><tbody><td><img height='50' width='50' src='imagenes/cold.png'/><span id='spanMmin'>Min.<b>" + tempMinM + "°C</b></span></td><td><img height='50' width='50' src='imagenes/hot.png'/><span id='spanMmax'>Min.<b>" + tempMaxM + "°C</b></span></td></tbody></table>");
+                            $("#pasado").html(" <table class='table table-bordered'><tbody><td><img height='50' width='50' src='imagenes/cold.png'/><span id='spanPmin'>Min.<b>" + tempMinP + "°C</b></span></td><td><img height='50' width='50' src='imagenes/hot.png'/><span id='spanPmax'>Min.<b>" + tempMaxP + "°C</b></span></td></tbody></table>");
+                            $("#esHoy").html("<p>" + descripcionGeneralHES + "<br><b>" + descripcionHES + "</b></p>");
+                            $("#euHoy").html("<p>" + descripcionGeneralHEU + "<br><b>" + descripcionHEU + "</b></p>");
+                            $("#esMa").html("<p>" + descripcionGeneralMES + "<br><b>" + descripcionMES + "</b></p>");
+                            $("#euMa").html("<p>" + descripcionGeneralMEU + "<br><b>" + descripcionMEU + "</b></p>");
+                            $("#esPa").html("<p>" + descripcionGeneralPES + "<br><b>" + descripcionPES + "</b></p>");
+                            $("#euPa").html("<p>" + descripcionGeneralPEU + "<br><b>" + descripcionPEU + "</b></p>");
+                            noHayMeteo = false;
+                        } else {
+                            $("#spanHmin").html("Min.<b>" + tempMinH + "°C</b>");
+                            $("#spanHmax").html("Max.<b>" + tempMaxH + "°C</b>");
+                            $("#spanMmin").html("Min.<b>" + tempMinM + "°C</b>");
+                            $("#spanMmax").html("Max.<b>" + tempMaxM + "°C</b>");
+                            $("#spanPmin").html("Min.<b>" + tempMinP + "°C</b>");
+                            $("#spanPmax").html("Max.<b>" + tempMaxP + "°C</b>");
+                            $("#esHoy").html("<p>" + descripcionGeneralHES + "<br><b>" + descripcionHES + "</b></p>");
+                            $("#euHoy").html("<p>" + descripcionGeneralHEU + "<br><b>" + descripcionHEU + "</b></p>");
+                            $("#esMa").html("<p>" + descripcionGeneralMES + "<br><b>" + descripcionMES + "</b></p>");
+                            $("#euMa").html("<p>" + descripcionGeneralMEU + "<br><b>" + descripcionMEU + "</b></p>");
+                            $("#esPa").html("<p>" + descripcionGeneralPES + "<br><b>" + descripcionPES + "</b></p>");
+                            $("#euPa").html("<p>" + descripcionGeneralPEU + "<br><b>" + descripcionPEU + "</b></p>");
+                        }
+                    }
+                    break;
+                case "TiemposLinea":
+                     parser = new DOMParser();
+                     xmlDoc = parser.parseFromString(lines[9], "text/xml");
+                     var id = xmlDoc.getElementsByTagName("TiemposLinea")[0].getAttribute("Id");
+                     var nombre = xmlDoc.getElementsByTagName("TiemposLinea")[0].getAttribute("Nombre");
+                     if (primeraTiemposLinea === true) {
+                         primeraTiemposLinea = false;
+                         $("#columna3").empty();
+                         $("#columna2").empty();
+                         $("#columna1").empty();
+                         
+                     }
+                     if (!(id in lineasBilbobusArray)) {
+                         if (Object.keys(lineasBilbobusArray).length > 14) {
+                             if (Object.keys(lineasBilbobusArray).length > 29) {
+                                 $("#columna3").append("<li><a onclick='obtenerRuta(&quot;" + id + "&quot;);'>" + id + " : " + nombre + "</a></li>");
+                             } else {
+                                 $("#columna2").append("<li><a onclick='obtenerRuta(&quot;" + id + "&quot;);'>" + id + " : " + nombre + "</a></li>");
+                             }
+                         } else {
+                             $("#columna1").append("<li><a onclick='obtenerRuta(&quot;" + id + "&quot;);'>" + id + " - " + nombre + "</a></li>");
+                         }
+                     }
+                     lineasBilbobusArray[id] = xmlDoc;
+                     if (mostrando === true) {
+                         //actualizar
+                         if (idRuta === id) {
+                             obtenerTiemposParadas(id);
+                             for (var i = 0; i < paradas.length; i++) {
+                                 if (paradas[i].id in paradasConTiempo) {
+                                     //console.log(paradas[i].nombreParada + " Nuevo tiempo: " + paradasConTiempo[paradas[i].id]);
+                                     informacionParadas[paradas[i].id].setContent(formatearParada(paradas[i], paradas[i].id));
+                                 }
+                             }
+                         }
+                     }
+                     break;
+                case "Parkings":
+                    parser = new DOMParser();
+                    //console.log(lines[10]);
+                    xmlDoc = parser.parseFromString(lines[10], "text/xml");
+                    nombre = xmlDoc.getElementsByTagName("Nombre")[0].childNodes[0].nodeValue;
+                    var disponibilidad = xmlDoc.getElementsByTagName("Disponibilidad")[0].childNodes[0].nodeValue;
+                    estadoParkings[nombre] = disponibilidad;
+                    //console.log(nombre + " " +disponibilidad);
+                    break;
+
+                case "Deusto":
+                    parser = new DOMParser();
+                    xmlDoc = parser.parseFromString(lines[10], "text/xml");
+                    var general = xmlDoc.getElementsByTagName("General")[0].childNodes[0].nodeValue;
+                    var dbs = xmlDoc.getElementsByTagName("Dbs")[0].childNodes[0].nodeValue;
+                    estadoParkings["UD: DBS"] = dbs;
+                    estadoParkings["UD: General"] = general;
+                    break;
+
+                case "Bicis":
+                    parser = new DOMParser();
+                    xmlDoc = parser.parseFromString(lines[10], "text/xml");
+                    nombre = xmlDoc.getElementsByTagName("Nombre")[0].childNodes[0].nodeValue;
+                    var disponibilidadbicis = xmlDoc.getElementsByTagName("BicisLibres")[0].childNodes[0].nodeValue;
+                    var disponibilidadAnclajes = xmlDoc.getElementsByTagName("DisponibilidadAnclaje")[0].childNodes[0].nodeValue;
+                    estadosBici[nombre] = "<b>Bicis Libres: </b>" + disponibilidadbicis + " / <b> Anclajes Libres: </b>" + disponibilidadAnclajes;
+                    break;
+                default:
+            }
+
+        }
+
+    };
+    
+}
+
+function mostrarMasInfo() {
+    $('#meteoInfo').modal('show');
+}
+
+function obtenerRuta(id) {
+   
+    puntos = [];
+    limpiarRutas();
+    if (ruta !== undefined) {
+        ruta.setMap(null);
+    }
+    var anteriorMarcador;
+    //alert("Bien " + id);
+    if (idRuta !== id) {
+        paradasConTiempo = {};
+        obtenerTiemposParadas(id);
+        idRuta = id;
+    }
+    obtenerTiemposParadas(id);
+    $.getJSON("api/paradasbilbo/linea/"+id)
+                .done(function(data) {
+                    $.each(data, function(key, item) {
+
+                        // Si la posición es correcta, se añade un marcador al mapa
+                            var myLatlng = new google.maps.LatLng(item.latitud, item.longitud);
+
+                            var contentString = formatearParada(item, id);
+
+                            var infowindow = new google.maps.InfoWindow({
+                                content: contentString
+                            });
+
+                            var marker = new google.maps.Marker({
+                                position: myLatlng,
+                                title: contentString,
+                                icon: iconos[6]
+                            });
+                            infoWindows.push(infowindow);
+                            informacionParadas[item.id] = infowindow;
+                            paradas.push(item);
+                            markers.push(marker);
+
+                            //se añade un evento al marcador
+                            marker.addListener('click', function(event) {
+                                for (var i = 0; i < infoWindows.length; i++) {
+                                    infoWindows[i].close();
+                                }
+                                //alert(latlngParking);
+                                infowindow.open(map, marker);
+                            });
+
+                            marker.setMap(map);
+
+                            if (anteriorMarcador === undefined) {
+                                anteriorMarcador = marker;
+                                puntos.push(new google.maps.LatLng(item.latitud, item.longitud));
+                            } else {
+                                //Pintar la linea de una parada a otra
+                                puntos.push(new google.maps.LatLng(item.latitud, item.longitud));
+                            }
+
+                    });
+                }).always(function () {
+                    ruta = new google.maps.Polyline({
+                        path: puntos,
+                        geodesic: true,
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 1.0,
+                        strokeWeight: 2
+                    });
+
+                    ruta.setMap(map);
+                    mostrando = true;
+                    
+                    var bounds = new google.maps.LatLngBounds();
+                    for (var i = 0; i < puntos.length; i++) {
+                        bounds.extend(puntos[i]);
+                    }
+                    map.fitBounds(bounds);
+                    
+                }).fail(function () {
+            alert("Error al obtener la linea");
+        });
+}
+
+function obtenerTiemposParadas(id) {
+    //console.log("Aqui si " + id);
+    if (id + "".length === 1) {
+        id = "0" + id;
+    }
+    if (id in lineasBilbobusArray) {
+        //console.log("Aqui tambien "+ id);
+        var xml = lineasBilbobusArray[id];
+        var paradas = xml.getElementsByTagName("Paradas")[0].childNodes;
+        for (var i = 0; i < paradas.length; i++) {
+            var idP = paradas[i].getElementsByTagName("Id")[0].childNodes[0].nodeValue;
+            var tiempo = paradas[i].getElementsByTagName("TiempoRestante")[0].childNodes[0].nodeValue;
+            //console.log(idP + " " + tiempo);
+            paradasConTiempo[idP] = tiempo;
+        }
+    }
+}
+
+function formatearParada(item, id) {
+    var resultado = "<div><h3><b>Parada de Bilbobus:</b> " + item.nombreParada + "</h3><br><b>Abreviatura:</b> " + item.abreviatura + "<br>";
+    //console.log(item.id);
+    if (item.id in paradasConTiempo) {
+        //console.log(paradasConTiempo[item.id]);
+        resultado = resultado + "<b> Tiempo Real Restante: </b>"+paradasConTiempo[item.id]+"<br>";
+    }
+    resultado = resultado + "</div>";
+    return resultado;
+}
+
+function obtenerLineaTranvia() {
+    //alert("aqui");
+    puntos = [];
+    limpiarRutas();
+    if (ruta !== undefined) {
+        ruta.setMap(null);
+    }
+    var anteriorMarcador;
+    $.getJSON("api/paradastranvia/linea")
+                .done(function (data) {
+                    $.each(data, function (key, item) {
+
+                        // Si la posición es correcta, se añade un marcador al mapa
+                        var myLatlng = new google.maps.LatLng(item.latitud, item.longitud);
+
+                        var contentString = formatItem(item, 10, "api/paradastranvia/linea");
+
+                        var infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+
+                        var marker = new google.maps.Marker({
+                            position: myLatlng,
+                            title: contentString,
+                            icon: iconos[10]
+                        });
+                        infoWindows.push(infowindow);
+                        markers.push(marker);
+
+                        //se añade un evento al marcador
+                        marker.addListener('click', function (event) {
+                            for (var i = 0; i < infoWindows.length; i++) {
+                                infoWindows[i].close();
+                            }
+                            //alert(latlngParking);
+                            infowindow.open(map, marker);
+                        });
+
+                        marker.setMap(map);
+
+                        if (anteriorMarcador === undefined) {
+                            anteriorMarcador = marker;
+                            puntos.push(new google.maps.LatLng(item.latitud, item.longitud));
+                        } else {
+                            //Pintar la linea de una parada a otra
+                            puntos.push(new google.maps.LatLng(item.latitud, item.longitud));
+                        }
+
+                    });
+                }).always(function () {
+                    ruta = new google.maps.Polyline({
+                        path: puntos,
+                        geodesic: true,
+                        strokeColor: '#00ff00',
+                        strokeOpacity: 1.0,
+                        strokeWeight: 2
+                    });
+
+                    ruta.setMap(map);
+                    mostrando = true;
+
+                    var bounds = new google.maps.LatLngBounds();
+                    for (var i = 0; i < puntos.length; i++) {
+                        bounds.extend(puntos[i]);
+                    }
+                    map.fitBounds(bounds);
+
+                }).fail(function () {
+                    alert("Error al obtener la linea");
+                });
+}
+
+function obtenerLineaMetro() {
+    puntos = [];
+    limpiarRutas();
+    if (ruta !== undefined) {
+        ruta.setMap(null);
+    }
+    var anteriorMarcador;
+    $.getJSON("api/paradasmetro/paradasmetro")
+                .done(function (data) {
+                    $.each(data, function (key, item) {
+
+                        // Si la posición es correcta, se añade un marcador al mapa
+                        var myLatlng = new google.maps.LatLng(item.latitud, item.longitud);
+
+                        var contentString = formatItem(item, 9, "api/paradasmetro/paradasmetro");
+
+                        var infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+
+                        var marker = new google.maps.Marker({
+                            position: myLatlng,
+                            title: contentString,
+                            icon: iconos[9]
+                        });
+                        infoWindows.push(infowindow);
+                        markers.push(marker);
+
+                        //se añade un evento al marcador
+                        marker.addListener('click', function (event) {
+                            for (var i = 0; i < infoWindows.length; i++) {
+                                infoWindows[i].close();
+                            }
+                            //alert(latlngParking);
+                            infowindow.open(map, marker);
+                        });
+
+                        marker.setMap(map);
+
+                        if (anteriorMarcador === undefined) {
+                            anteriorMarcador = marker;
+                            puntos.push(new google.maps.LatLng(item.latitud, item.longitud));
+                        } else {
+                            //Pintar la linea de una parada a otra
+                            puntos.push(new google.maps.LatLng(item.latitud, item.longitud));
+                        }
+
+                    });
+                }).always(function () {
+
+                    var bounds = new google.maps.LatLngBounds();
+                    for (var i = 0; i < puntos.length; i++) {
+                        bounds.extend(puntos[i]);
+                    }
+                    map.fitBounds(bounds);
+
+                }).fail(function () {
+                    alert("Error al obtener la linea");
+                });
+}
+
+function mostrarInfoMetro() {
+    $("#modalmetro").modal('show');
 }

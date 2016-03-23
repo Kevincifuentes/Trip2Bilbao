@@ -60,6 +60,23 @@ namespace WebAPI.Controllers
 
         }
 
+        [HttpGet]
+        [ActionName("linea")]
+        public IHttpActionResult paradasLinea()
+        {
+            ParadaTranviaAssembler fa = new ParadaTranviaAssembler();
+            List<paradas_tranvia> temporal = contexto.paradas_tranviaSet.OrderBy(p => p.orden).ToList();
+            if (temporal.Count != 0)
+            {
+                return Ok(fa.assemble(temporal));
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
 
     }
 }

@@ -20,5 +20,6 @@ namespace Almacenamiento
         public double longitud { get; set; }
         public string descripcion { get; set; }
         public int codigoPostal { get; set; }
+        public Nullable<int> orden { get; set; }
     }
 }

@@ -121,11 +121,18 @@ namespace ExtractorDatos
 
         public void parkingEstatico()
         {
+            //eliminación de los recintos en la BD
             contexto.parkingsSet.RemoveRange(contexto.parkingsSet);
             contexto.SaveChanges();
+
+            //obtención de los datos
             recintosAparcamiento();
             recintosAparcamientoEstatico();
+
+            //inserción de la información
             contexto.parkingsSet.AddRange(parkingslist.Values.Where(p => p.entradas.Count != 0));
+
+            //Salvamos para que lo inserte en la BD
             try
             {
                 contexto.SaveChanges();

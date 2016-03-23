@@ -89,12 +89,16 @@
     <Content Include="imagenes\bilbobus.png" />
     <Content Include="imagenes\bizkaibus.png" />
     <Content Include="imagenes\cargando.gif" />
+    <Content Include="imagenes\cargandoMeteo.gif" />
     <Content Include="imagenes\centros.png" />
+    <Content Include="imagenes\cold.png" />
     <Content Include="imagenes\defecto.png" />
     <Content Include="imagenes\euskotren.png" />
     <Content Include="imagenes\farmacias.png" />
     <Content Include="imagenes\hospitales.png" />
+    <Content Include="imagenes\hot.png" />
     <Content Include="imagenes\incidencias.png" />
+    <Content Include="imagenes\mapametro.png" />
     <Content Include="imagenes\metro.png" />
     <Content Include="imagenes\parking.png" />
     <Content Include="imagenes\prueba.png" />

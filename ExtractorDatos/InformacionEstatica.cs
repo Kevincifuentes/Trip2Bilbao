@@ -583,10 +583,9 @@ namespace ExtractorDatos
                 paradasBizkaibus.Clear();
             }
 
-            Console.WriteLine("Empiezo Bizkaibus");
+            Console.WriteLine("Empiezo descarga Bizkaibus");
             FTP cliente = new FTP("ftp://ftp.geo.euskadi.net/cartografia/Transporte/Moveuskadi/", "", "");
             cliente.download("Bizkaibus/google_transit.zip", @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BizkaibusFTP\google_transit.zip");
-
             Console.WriteLine("¡Completado!");
 
             //Procesar los archivos
@@ -599,6 +598,7 @@ namespace ExtractorDatos
                 FileStream fs = File.OpenRead(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BizkaibusFTP\google_transit.zip");
                 try
                 {
+                    //Añado el stream a la utilidad ZipFile
                     zf = new ZipFile(fs);
                 }
                 catch (System.ArgumentException e)
@@ -607,7 +607,7 @@ namespace ExtractorDatos
                 }
                 catch(ICSharpCode.SharpZipLib.Zip.ZipException ex)
                 {
-                    Console.WriteLine("No se ha podido obtener las paradas de Bizkaibus. Compruebe su conexión a internet.");
+                    Console.WriteLine("No se ha podido obtener las paradas de Bizkaibus del zip. Compruebe su conexión a internet.");
                     zf = null;
                 }
 
@@ -621,6 +621,7 @@ namespace ExtractorDatos
                         {
                             continue;
                         }
+
                         //Obtiene el nombre del fichero que contiene el zip
                         String entryFileName = zipEntry.Name;
 
@@ -628,12 +629,15 @@ namespace ExtractorDatos
                         byte[] buffer = new byte[4096];
                         Stream zipStream = zf.GetInputStream(zipEntry);
 
-                        // Manipulate the output filename here as desired.
+                        //obtiene la ruta completa para el archivo nuevo a crear
                         String fullZipToPath = Path.Combine(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BizkaibusFTP\", entryFileName);
                         string directoryName = Path.GetDirectoryName(fullZipToPath);
+
+                        //se crea el directorio que se ha establecido
                         if (directoryName.Length > 0)
                             Directory.CreateDirectory(directoryName);
 
+                        //se copia del stream del zip al stream de un nuevo archivo en la ruta especificada
                         using (FileStream streamWriter = File.Create(fullZipToPath))
                         {
                             StreamUtils.Copy(zipStream, streamWriter, buffer);
@@ -647,14 +651,15 @@ namespace ExtractorDatos
             {
                 if (zf != null)
                 {
-                    zf.IsStreamOwner = true; // Makes close also shut the underlying stream
-                    zf.Close(); // Ensure we release resources
+                    zf.IsStreamOwner = true; // Cierra el stream
+                    zf.Close(); // Liberamos
                 }
             }
+            Console.WriteLine("¡Completado!");
 
             if (zf != null)
             {
-                Console.WriteLine("¡Completado!");
+                
 
                 Console.WriteLine("Leyendo ficheros...");
 

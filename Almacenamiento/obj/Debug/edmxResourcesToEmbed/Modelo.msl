@@ -57,6 +57,7 @@
     <EntitySetMapping Name="paradas_tranviaSet">
       <EntityTypeMapping TypeName="IsTypeOf(Modelo.paradas_tranvia)">
         <MappingFragment StoreEntitySet="paradas_tranviaSet">
+          <ScalarProperty Name="orden" ColumnName="orden" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="nombre" ColumnName="nombre" />
           <ScalarProperty Name="latitud" ColumnName="latitud" />

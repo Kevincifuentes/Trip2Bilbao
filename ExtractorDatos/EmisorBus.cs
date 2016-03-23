@@ -29,24 +29,24 @@ namespace ExtractorDatos
 
         public void inicializar()
         {
-            // configure the broker
+            
             try
             {
-                // Create a ConnectionFactory
+                // Creación de factoria
                 IConnectionFactory connectionFactory = new ConnectionFactory(
-                    "tcp://localhost:61616?jms.prefetchPolicy.all=1");
+                    "tcp://localhost:61616");
 
-                // Create a Connection
+                // Creación de la conexión
                 _connection = connectionFactory.CreateConnection();
                 _connection.Start();
 
-                // Create a Session
+                // Creación de una sesión
                 _session = _connection.CreateSession();
 
-                // Create the destination (Topic or Queue)
+                // Creación de un destino (cola o topic)
                 IDestination destination = _session.GetTopic(QUEUE_DESTINATION);
 
-                // Create a MessageProducer from the Session to the Topic or Queue
+                // Creación del productor de mensajes
                 _producer = _session.CreateProducer(destination);
 
 
@@ -155,9 +155,11 @@ namespace ExtractorDatos
         {
             foreach (PuntoBici puntoBici in bicis)
             {
+                //Obtenemos y formateamos la posición
                 string longitudS = ("" + puntoBici.localizacion.longitud).Replace(',', '.');
                 string latitudS = ("" + puntoBici.localizacion.latitud).Replace(',', '.');
 
+                //generamos la url y hacemos la consulta
                 string url = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=" + longitudS + "%2C" + latitudS + "&distance=200&outSR=&f=pjson";
                 string json = "";
                 using (WebClient wc = new WebClient())
@@ -165,11 +167,15 @@ namespace ExtractorDatos
                     json = wc.DownloadString(url);
                 }
 
+                //Convertimos la página web recibida en un objeto JSON
+                //Obtenemos el código postal
                 JToken obj = JObject.Parse(json);
                 JToken direccion = obj.SelectToken("address");
                 int cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
 
+                //Llamamos a convertir el punto de bicicletas en XML
                 XElement xml = convertirUnPuntoBici(puntoBici, descarga, cp);
+                //Creamos el mensaje y establecemos las propiedades
                 ITextMessage temporal = _producer.CreateXmlMessage(xml);
                 temporal.Properties.SetInt("CP", cp);
                 temporal.NMSType = "Bicis";
@@ -1001,7 +1007,7 @@ namespace ExtractorDatos
 
         public XElement convertirTiempoDeUnaLinea(LineaBilbobus lb, DateTime descarga)
         {
-            XElement linea = new XElement("TiemposLinea", new XAttribute("Id", lb.id));
+            XElement linea = new XElement("TiemposLinea", new XAttribute("Id", lb.id), new XAttribute("Nombre", lb.nombre));
             //Cabecera
 
             XElement cabecera = new XElement("Cabecera");
