@@ -4,13 +4,17 @@
 <title>Trip2Bilbao</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-    .modal.large {
-    width: 80%; /* respsonsive width */
-    margin-left:-40%; /* width/2) */ 
-}
-     .dropdown-menu {
-         min-width: 200px;
+    .columnas {
+    height: 300px;
+    overflow-y: scroll;
+  }
+     .modal.large {
+         width: 80%; /* respsonsive width */
+         margin-left:-40%; /* width/2) */ 
      }
+    .dropdown-menu {
+        min-width: 200px;
+    }
     .dropdown-menu.columns-2 {
         min-width: 400px;
     }
@@ -1189,6 +1193,28 @@
                     </li>
                     <li><a onclick='obtenerLineaTranvia()'>Tranvía Bilbao</a></li>
                     <li><a onclick='obtenerLineaMetro()'>Metro Bilbao</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Lineas Euskotren <b class="caret"></b></a>
+                        <ul class="dropdown-menu" >
+                            <div id="euskotren" class="col-lg-12">
+                                <ul>
+                                    <img src="imagenes/cargandoMeteo.gif" />
+                                </ul>
+                            </div>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Lineas Bizkaibus <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        <div class="row">
+                            <div id="bizkaibus" class="col-lg-12 columnas">
+                                <ul class="dropdown-menu">
+                                    <img src="imagenes/cargandoMeteo.gif" />
+                                </ul>
+                            </div>
+                            </div>
+                        </ul>
+                    </li>
                 </ul>
              </div>
             </div>

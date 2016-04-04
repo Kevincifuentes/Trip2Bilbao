@@ -446,62 +446,70 @@ namespace ExtractorDatos
 
                         //Obtener Capacidad, Tipo de parking
                         string capacidadS = node.ChildNodes[index].ChildNodes[0].ChildNodes[0].InnerText;
-                        capacidad = int.Parse(capacidadS);
-                        tipo = node.ChildNodes[index].ChildNodes[0].ChildNodes[1].InnerText;
-                        Console.WriteLine(capacidad + " y " + tipo);
-                        if (tipo.Equals("underground"))
+                        if(capacidadS.Equals("underground"))
                         {
                             tipo = "Subterraneo";
                         }
                         else
                         {
-                            tipo = "Al borde de la carretera";
-                        }
-
-                        int indice = 2;
-                        while (node.ChildNodes[index].ChildNodes[0].ChildNodes[indice] != null)
-                        {
-                            XmlNode tempN = node.ChildNodes[index].ChildNodes[0].ChildNodes[indice];
-                            tempN = tempN.ChildNodes[0];
-
-                            //Obtener los días
-                            string dias = tempN.ChildNodes[0].InnerText;
-
-                            if (dias.Equals("mondayToSaturday"))
+                            capacidad = int.Parse(capacidadS);
+                            tipo = node.ChildNodes[index].ChildNodes[0].ChildNodes[1].InnerText;
+                            Console.WriteLine(capacidad + " y " + tipo);
+                            if (tipo.Equals("underground"))
                             {
-                                dias = "Tarifa válida de Lunes a Sábado / Fare is valid from Monday to Saturday";
+                                tipo = "Subterraneo";
                             }
                             else
                             {
-                                dias = "No hay datos disponibles / Data unavailable";
+                                tipo = "Al borde de la carretera";
                             }
 
-                            //Obtener descripción de la tarifa
-                            string descripción = tempN.ChildNodes[1].ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
-                            if (descripción.Equals("Street parking tariff group"))
+                            int indice = 2;
+                            while (node.ChildNodes[index].ChildNodes[0].ChildNodes[indice] != null)
                             {
-                                descripción =
-                                    "La tarifa que se aplica es la del aparcamiento en la calle / The tariff that applies is the one of parking spaces in the street";
-                            }
-                            else
-                            {
-                                descripción = "No hay datos disponibles / Data unavailable";
-                            }
+                                XmlNode tempN = node.ChildNodes[index].ChildNodes[0].ChildNodes[indice];
+                                tempN = tempN.ChildNodes[0];
 
-                            //Ultima actualizacion
-                            string fecha = tempN.ChildNodes[2].InnerText;
-                            int ano = int.Parse(fecha.Substring(0, 4));
-                            int mes = int.Parse(fecha.Substring(5, 2));
-                            int dia = int.Parse(fecha.Substring(8, 2));
-                            int hora = int.Parse(fecha.Substring(11, 2));
-                            int minutos = int.Parse(fecha.Substring(14, 2));
-                            int segundos = int.Parse(fecha.Substring(17, 2));
-                            DateTime ne = new DateTime(ano, mes, dia, hora, minutos, segundos);
+                                //Obtener los días
+                                string dias = tempN.ChildNodes[0].InnerText;
 
-                            Tarifa t = new Tarifa(dias, descripción, ne);
-                            tarifas.Add(t);
-                            indice++;
+                                if (dias.Equals("mondayToSaturday"))
+                                {
+                                    dias = "Tarifa válida de Lunes a Sábado / Fare is valid from Monday to Saturday";
+                                }
+                                else
+                                {
+                                    dias = "No hay datos disponibles / Data unavailable";
+                                }
+
+                                //Obtener descripción de la tarifa
+                                string descripción = tempN.ChildNodes[1].ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
+                                if (descripción.Equals("Street parking tariff group"))
+                                {
+                                    descripción =
+                                        "La tarifa que se aplica es la del aparcamiento en la calle / The tariff that applies is the one of parking spaces in the street";
+                                }
+                                else
+                                {
+                                    descripción = "No hay datos disponibles / Data unavailable";
+                                }
+
+                                //Ultima actualizacion
+                                string fecha = tempN.ChildNodes[2].InnerText;
+                                int ano = int.Parse(fecha.Substring(0, 4));
+                                int mes = int.Parse(fecha.Substring(5, 2));
+                                int dia = int.Parse(fecha.Substring(8, 2));
+                                int hora = int.Parse(fecha.Substring(11, 2));
+                                int minutos = int.Parse(fecha.Substring(14, 2));
+                                int segundos = int.Parse(fecha.Substring(17, 2));
+                                DateTime ne = new DateTime(ano, mes, dia, hora, minutos, segundos);
+
+                                Tarifa t = new Tarifa(dias, descripción, ne);
+                                tarifas.Add(t);
+                                indice++;
+                            }
                         }
+                       
 
                         // Añadimos al parking en cuestion
                         /*string nombreParking = "Desconocido";

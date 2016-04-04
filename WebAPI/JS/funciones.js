@@ -124,6 +124,8 @@ window.initMap = function() {
     });
 
     inicializarActiveMQ();
+    obtenerLineasEuskotren();
+    obtenerLineasBizkaibus();
 }
 
 function obtener(x, y) {
@@ -277,7 +279,7 @@ function formatItem(item, x, y) {
         return "<div><h3>" + item.nombreFarmacia + "</h3><br><b> Contácto:</b> " + item.telefono + "</div>";
     } else if (x === 2) {
         if (y === 'api/parkings/parkings' || seleccionar === true) {
-            return "<div><h3><b>Parking:</b> " + item.nombreParking + "</h3><br><b> Capacidad: </b> " + item.capacidad + "<br><b> Disponibilidad actual: </b>"+estadoParkings[item.nombreParking]+"<br><button type='button' class='btn btn-info' onclick='seleccionParking()'>Seleccionar Parking</button></div>";
+            return "<div><h3><b>Parking:</b> " + item.nombreParking + "</h3><br><b> Capacidad: </b> " + item.capacidad + "<br><h4> Disponibilidad actual: </b>"+estadoParkings[item.nombreParking]+"<br><button type='button' class='btn btn-info' onclick='seleccionParking()'>Seleccionar Parking</button></div>";
         } else {
             return "<div><h3><b>Parking:</b> " + item.nombreParking + "</h3><br><b> Capacidad:</b> " + item.capacidad + "</div>";
         }
@@ -969,20 +971,26 @@ function obtenerInformacionDistanciasTiempos(origin, destiny) {
 }
 
 function inicializarActiveMQ() {
+    //Inicializo el WebSocket al puerto e Ip del ActiveMQ. Se utilizará un servicio STOMP.
     ws = new WebSocket('ws://localhost:61614', 'stomp');
+
+    //Notificar para la conexión
     ws.onopen = function (){
         ws.send('CONNECT\n\n\0');
  
+    //Notificar que nos suscribimos y a que nos suscribimos
     ws.send('SUBSCRIBE\ndestination:/topic/PruebaEMISOR\n\nack:auto\n\n\0');
     };
-
+    //En caso de mensaje de ejecutará la función
     ws.onmessage = function (e) {
-
+        //Se comprueba que sea un mensaje de datos
         if (e.data.startsWith('MESSAGE')) {
             //console.log(e.data);
             var lines = e.data.split('\n');
             var tipo = lines[2].substring(lines[2].indexOf(":") + 1, lines[2].length);
             var parser, xmlDoc;
+            console.log(e.data);
+            //Según el tipo se realiza un procesamiento
             switch (tipo) {
                 case "TiempoCiudad":
                     if (window.DOMParser) {
@@ -1053,12 +1061,12 @@ function inicializarActiveMQ() {
                      if (!(id in lineasBilbobusArray)) {
                          if (Object.keys(lineasBilbobusArray).length > 14) {
                              if (Object.keys(lineasBilbobusArray).length > 29) {
-                                 $("#columna3").append("<li><a onclick='obtenerRuta(&quot;" + id + "&quot;);'>" + id + " : " + nombre + "</a></li>");
+                                 $("#columna3").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRuta(&quot;" + id + "&quot;);'>" + id + " : " + nombre + "</a></li>");
                              } else {
-                                 $("#columna2").append("<li><a onclick='obtenerRuta(&quot;" + id + "&quot;);'>" + id + " : " + nombre + "</a></li>");
+                                 $("#columna2").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRuta(&quot;" + id + "&quot;);'>" + id + " : " + nombre + "</a></li>");
                              }
                          } else {
-                             $("#columna1").append("<li><a onclick='obtenerRuta(&quot;" + id + "&quot;);'>" + id + " - " + nombre + "</a></li>");
+                             $("#columna1").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRuta(&quot;" + id + "&quot;);'>" + id + " - " + nombre + "</a></li>");
                          }
                      }
                      lineasBilbobusArray[id] = xmlDoc;
@@ -1095,8 +1103,11 @@ function inicializarActiveMQ() {
                     break;
 
                 case "Bicis":
+                    //Lo convertimos mediante un parseador
                     parser = new DOMParser();
+                    //Obtenemos solo el XML
                     xmlDoc = parser.parseFromString(lines[10], "text/xml");
+                    //Se obtienen los datos que interesan
                     nombre = xmlDoc.getElementsByTagName("Nombre")[0].childNodes[0].nodeValue;
                     var disponibilidadbicis = xmlDoc.getElementsByTagName("BicisLibres")[0].childNodes[0].nodeValue;
                     var disponibilidadAnclajes = xmlDoc.getElementsByTagName("DisponibilidadAnclaje")[0].childNodes[0].nodeValue;
@@ -1219,7 +1230,7 @@ function formatearParada(item, id) {
     //console.log(item.id);
     if (item.id in paradasConTiempo) {
         //console.log(paradasConTiempo[item.id]);
-        resultado = resultado + "<b> Tiempo Real Restante: </b>"+paradasConTiempo[item.id]+"<br>";
+        resultado = resultado + "<h4><b> Tiempo Real Restante: </b>"+paradasConTiempo[item.id]+"</h4><br>";
     }
     resultado = resultado + "</div>";
     return resultado;
@@ -1354,10 +1365,196 @@ function obtenerLineaMetro() {
                     map.fitBounds(bounds);
 
                 }).fail(function () {
-                    alert("Error al obtener la linea");
+                    alert("Error al obtener la linea de metro");
                 });
 }
 
 function mostrarInfoMetro() {
     $("#modalmetro").modal('show');
+}
+
+function obtenerLineasEuskotren() {
+    $.getJSON("api/paradaseuskotren/lineas")
+               .done(function (data) {
+                   $("#euskotren").empty();
+                   $.each(data, function (key, item) {
+                       $("#euskotren").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRutaEuskotren(&quot;" + item.id + "&quot;);'>" + item.abreviatura + " - " + item.nombre + "</a></li>");
+                   });
+               }).fail(function () {
+                   alert("Error al obtener las lineas de Euskotren");
+               });
+}
+
+function obtenerRutaEuskotren(id) {
+    puntos = [];
+    limpiarRutas();
+    if (ruta !== undefined) {
+        ruta.setMap(null);
+    }
+    var anteriorMarcador;
+    $.getJSON("api/paradaseuskotren/linea/" + id)
+                .done(function (data) {
+                    $.each(data, function (key, item) {
+
+                        // Si la posición es correcta, se añade un marcador al mapa
+                        var myLatlng = new google.maps.LatLng(item.latitud, item.longitud);
+
+                        var contentString = formatItem(item, 8, "api/paradaseuskotren/paradaseuskotren");
+
+                        var infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+
+                        var marker = new google.maps.Marker({
+                            position: myLatlng,
+                            title: contentString,
+                            icon: iconos[8]
+                        });
+                        infoWindows.push(infowindow);
+                        paradas.push(item);
+                        markers.push(marker);
+
+                        //se añade un evento al marcador
+                        marker.addListener('click', function (event) {
+                            for (var i = 0; i < infoWindows.length; i++) {
+                                infoWindows[i].close();
+                            }
+                            //alert(latlngParking);
+                            infowindow.open(map, marker);
+                        });
+
+                        marker.setMap(map);
+
+                        if (anteriorMarcador === undefined) {
+                            anteriorMarcador = marker;
+                            puntos.push(new google.maps.LatLng(item.latitud, item.longitud));
+                        } else {
+                            //Pintar la linea de una parada a otra
+                            puntos.push(new google.maps.LatLng(item.latitud, item.longitud));
+                        }
+
+                    });
+                }).always(function () {
+                    ruta = new google.maps.Polyline({
+                        path: puntos,
+                        geodesic: true,
+                        strokeColor: '#0000FF',
+                        strokeOpacity: 1.0,
+                        strokeWeight: 2
+                    });
+
+                    ruta.setMap(map);
+                    mostrando = true;
+
+                    var bounds = new google.maps.LatLngBounds();
+                    for (var i = 0; i < puntos.length; i++) {
+                        bounds.extend(puntos[i]);
+                    }
+                    map.fitBounds(bounds);
+
+                }).fail(function () {
+                    alert("Error al obtener la linea de euskotren");
+                });
+
+}
+
+function obtenerLineasBizkaibus() {
+    var contador = 0;
+    $.getJSON("api/paradasbizkaibus/lineas")
+               .done(function (data) {
+                   $("#bizkaibus").empty();
+                   $("#bizkaibus").append("<li class='dropdown-header'>Ordenado por código de linea</li>");
+                   $.each(data, function (key, item) {
+                      /* contador ++;
+                       if (contador > 27) {
+                           if (contador > 54) {
+                               if (contador > 81) {
+                                   $("#bizkaibus4").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerLineaBizkaibus(&quot;" + item.id + "&quot;);'>" + item.abreviatura + " : " + item.nombre + "</a></li>");
+                               } else {
+                                   $("#bizkaibus3").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerLineaBizkaibus(&quot;" + item.id + "&quot;);'>" + item.abreviatura + " : " + item.nombre + "</a></li>");
+                               }
+                               
+                           } else {
+                               $("#bizkaibus2").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerLineaBizkaibus(&quot;" + item.id + "&quot;);'>" + item.abreviatura + " : " + item.nombre + "</a></li>");
+                           }
+                       } else {
+                           $("#bizkaibus1").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerLineaBizkaibus(&quot;" + item.id + "&quot;);'>" + item.abreviatura + " - " + item.nombre + "</a></li>");
+                       }*/
+                       $("#bizkaibus").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerLineaBizkaibus(&quot;" + item.id + "&quot;);'>" + item.abreviatura + " : " + item.nombre + "</a></li>");
+                   });
+               }).fail(function () {
+                   alert("Error al obtener las lineas de Euskotren");
+               });
+}
+
+function obtenerLineaBizkaibus(id) {
+    puntos = [];
+    limpiarRutas();
+    if (ruta !== undefined) {
+        ruta.setMap(null);
+    }
+    var anteriorMarcador;
+    $.getJSON("api/paradasbizkaibus/linea/" + id)
+                .done(function (data) {
+                    $.each(data, function (key, item) {
+
+                        // Si la posición es correcta, se añade un marcador al mapa
+                        var myLatlng = new google.maps.LatLng(item.latitud, item.longitud);
+
+                        var contentString = formatItem(item, 7, "api/paradasbizkaibus/paradasbizkaibus");
+
+                        var infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+
+                        var marker = new google.maps.Marker({
+                            position: myLatlng,
+                            title: contentString,
+                            icon: iconos[7]
+                        });
+                        infoWindows.push(infowindow);
+                        paradas.push(item);
+                        markers.push(marker);
+
+                        //se añade un evento al marcador
+                        marker.addListener('click', function (event) {
+                            for (var i = 0; i < infoWindows.length; i++) {
+                                infoWindows[i].close();
+                            }
+                            //alert(latlngParking);
+                            infowindow.open(map, marker);
+                        });
+
+                        marker.setMap(map);
+
+                        if (anteriorMarcador === undefined) {
+                            anteriorMarcador = marker;
+                            puntos.push(new google.maps.LatLng(item.latitud, item.longitud));
+                        } else {
+                            //Pintar la linea de una parada a otra
+                            puntos.push(new google.maps.LatLng(item.latitud, item.longitud));
+                        }
+
+                    });
+                }).always(function () {
+                    ruta = new google.maps.Polyline({
+                        path: puntos,
+                        geodesic: true,
+                        strokeColor: '#AEB404',
+                        strokeOpacity: 1.0,
+                        strokeWeight: 2
+                    });
+
+                    ruta.setMap(map);
+                    mostrando = true;
+
+                    var bounds = new google.maps.LatLngBounds();
+                    for (var i = 0; i < puntos.length; i++) {
+                        bounds.extend(puntos[i]);
+                    }
+                    map.fitBounds(bounds);
+
+                }).fail(function () {
+                    alert("Error al obtener la linea de bizkaibus");
+                });
 }

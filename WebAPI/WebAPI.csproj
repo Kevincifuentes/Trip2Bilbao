@@ -145,6 +145,8 @@
     <Compile Include="Assemblers\IncidenciaAssembler.cs" />
     <Compile Include="Assemblers\CentroAssembler.cs" />
     <Compile Include="Assemblers\FarmaciaAssembler.cs" />
+    <Compile Include="Assemblers\LineaBizkaibusAssembler.cs" />
+    <Compile Include="Assemblers\LineaEuskotrenAssembler.cs" />
     <Compile Include="Assemblers\ParadaTranviaAssembler.cs" />
     <Compile Include="Assemblers\ParadaMetroAssembler.cs" />
     <Compile Include="Assemblers\ParadaEuskotrenAssembler.cs" />
@@ -168,6 +170,8 @@
     <Compile Include="DTO\CentroSaludDTO.cs" />
     <Compile Include="DTO\Coordenadas.cs" />
     <Compile Include="DTO\FarmaciaDTO.cs" />
+    <Compile Include="DTO\LineaBizkaibusDTO.cs" />
+    <Compile Include="DTO\LineaEuskotrenDTO.cs" />
     <Compile Include="DTO\ParadaTranviaDTO.cs" />
     <Compile Include="DTO\ParadaMetroDTO.cs" />
     <Compile Include="DTO\ParadaEuskotrenDTO.cs" />

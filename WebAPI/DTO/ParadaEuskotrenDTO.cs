@@ -13,7 +13,7 @@ namespace Clases
             
         }
 
-        public ParadaEuskotrenDTO(string nombreParada, double latitud, double longitud, int codigoPostal, string codigoParada)
+        public ParadaEuskotrenDTO( string nombreParada, double latitud, double longitud, int codigoPostal, string codigoParada)
         {
             this.nombreParada = nombreParada;
             this.codigoParada = codigoParada;
