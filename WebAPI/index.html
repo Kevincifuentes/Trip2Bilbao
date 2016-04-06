@@ -1222,140 +1222,141 @@
 
     <div class="container-fluid text-center">
         <div class="row content">
-            <div class="col-sm-2 sidenav">
-                <h3>Servicios sanitarios</h3>
-                <ul class="media-list">
-                    <li class="media">
-                        <div class="media-left">
-                            <img class="media-object" src="imagenes/centros.png" alt="...">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Centros de salud</h4>
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-                            <img class="media-object" src="imagenes/hospitales.png" alt="...">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Hospitales</h4>
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-                            <img class="media-object" src="imagenes/farmacias.png" alt="...">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Farmacias</h4>
-                        </div>
-                    </li>
-                </ul>
-                <h3>Transporte público</h3>
-                <ul class="media-list">
-                    <li class="media">
-                        <div class="media-left">
-                            <img class="media-object" src="imagenes/bilbobus.png" alt="bilbobus">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Paradas Bilbobus</h4>
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-                            <img class="media-object" src="imagenes/bizkaibus.png" alt="bizkaibus">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Paradas Bizkaibus</h4>
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-                            <img class="media-object" src="imagenes/euskotren.png" alt="euskotren">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Paradas Euskotren</h4>
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-                            <img class="media-object" src="imagenes/metro.png" alt="metrobilbao">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Paradas Metro Bilbao</h4>
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-                            <img class="media-object" src="imagenes/tranvia.png" alt="tranvia">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Paradas Tranvía</h4>
-                        </div>
-                    </li>
-                </ul>
-                <h3>Otros</h3>
-                <ul class="media-list">
-                    <li class="media">
-                        <div class="media-left">
-                            <img class="media-object" src="imagenes/parking.png" alt="parkings">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Parkings</h4>
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-                            <img class="media-object" src="imagenes/puntobici.png" alt="puntos de bicicletas">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Puntos de bicicletas</h4>
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-                            <img class="media-object" src="imagenes/incidencias.png" alt="incidencias de tráfico">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Incidencias de Tráfico</h4>
-                        </div>
-                    </li>
-                </ul>
-                <h3>El tiempo en Bilbao</h3>
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="active">
-                            <a href="#hoy" role="tab" data-toggle="tab">
-                                Hoy
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#manana" role="tab" data-toggle="tab">
-                                Mañana
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#pasado" role="tab" data-toggle="tab">
-                                Pasado
-                            </a>
-                        </li>
-                        <li>
-                            <button id="masInfo" class="btn btn-default" type="button" onclick="mostrarMasInfo();">+</button>
-                        </li>
-                    </ul>
+        <div class="col-sm-2 sidenav">
+            <span id="lineaeleg"></span>
+            <h3>Servicios sanitarios</h3>
+            <ul class="media-list">
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/centros.png" alt="...">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Centros de salud</h4>
+                    </div>
+                </li>
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/hospitales.png" alt="...">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Hospitales</h4>
+                    </div>
+                </li>
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/farmacias.png" alt="...">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Farmacias</h4>
+                    </div>
+                </li>
+            </ul>
+            <h3>Transporte público</h3>
+            <ul class="media-list">
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/bilbobus.png" alt="bilbobus">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Paradas Bilbobus</h4>
+                    </div>
+                </li>
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/bizkaibus.png" alt="bizkaibus">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Paradas Bizkaibus</h4>
+                    </div>
+                </li>
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/euskotren.png" alt="euskotren">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Paradas Euskotren</h4>
+                    </div>
+                </li>
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/metro.png" alt="metrobilbao">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Paradas Metro Bilbao</h4>
+                    </div>
+                </li>
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/tranvia.png" alt="tranvia">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Paradas Tranvía</h4>
+                    </div>
+                </li>
+            </ul>
+            <h3>Otros</h3>
+            <ul class="media-list">
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/parking.png" alt="parkings">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Parkings</h4>
+                    </div>
+                </li>
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/puntobici.png" alt="puntos de bicicletas">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Puntos de bicicletas</h4>
+                    </div>
+                </li>
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/incidencias.png" alt="incidencias de tráfico">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Incidencias de Tráfico</h4>
+                    </div>
+                </li>
+            </ul>
+            <h3>El tiempo en Bilbao</h3>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active">
+                    <a href="#hoy" role="tab" data-toggle="tab">
+                        Hoy
+                    </a>
+                </li>
+                <li>
+                    <a href="#manana" role="tab" data-toggle="tab">
+                        Mañana
+                    </a>
+                </li>
+                <li>
+                    <a href="#pasado" role="tab" data-toggle="tab">
+                        Pasado
+                    </a>
+                </li>
+                <li>
+                    <button id="masInfo" class="btn btn-default" type="button" onclick="mostrarMasInfo();">+</button>
+                </li>
+            </ul>
 
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div class="tab-pane fade active in" id="hoy">
-                            <img src="imagenes/cargandoMeteo.gif"/>
-                        </div>
-                        <div class="tab-pane fade" id="manana">
-                            <img src="imagenes/cargandoMeteo.gif" />
-                        </div>
-                        <div class="tab-pane fade" id="pasado">
-                            <img src="imagenes/cargandoMeteo.gif" />
-                        </div>
-                    </div>
-                    </div>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane fade active in" id="hoy">
+                    <img src="imagenes/cargandoMeteo.gif"/>
+                </div>
+                <div class="tab-pane fade" id="manana">
+                    <img src="imagenes/cargandoMeteo.gif"/>
+                </div>
+                <div class="tab-pane fade" id="pasado">
+                    <img src="imagenes/cargandoMeteo.gif"/>
+                </div>
+            </div>
+        </div>
                     <div class="col-sm-7 text-left">
                         <div>
                             <div class="alert alert-info alert-dismissible" role="alert">

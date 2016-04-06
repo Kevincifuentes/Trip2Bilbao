@@ -34,6 +34,7 @@ var ruta;
 var idRuta;
 var paradas = [];
 var mostrando;
+var informacionSobreParadas = {};
 
 window.initMap = function() {
     modoViaje = google.maps.TravelMode.DRIVING;
@@ -129,6 +130,7 @@ window.initMap = function() {
 }
 
 function obtener(x, y) {
+    $('#lineaeleg').html("");
     if (primera || x != anterior || seleccionar === true || conClick === true) {
         anterior = x;
         primera = false;
@@ -290,7 +292,16 @@ function formatItem(item, x, y) {
     } else if (x === 5) {
         return "<div><h3><b>Hospital:</b> " + item.nombreHospital + "</h3><br><b>Dirección:</b> " + item.direccionCompleta + "</div>";
     } else if (x === 6) {
-        return "<div><h3><b>Parada de Bilbobus:</b> " + item.nombreParada + "</h3><br><b>Abreviatura:</b> " + item.abreviatura + "</div>";
+        var inicial = "<div><h3><b>Parada de Bilbobus:</b> " + item.nombreParada + "</h3><br><b>Abreviatura:</b><table border='1' style='width:100%' border-spacing='5px' ><tr><th>Id de Linea</th><th>Nombre de Linea</th><th>Tiempo Restante</th></tr>" + item.abreviatura;
+        if (item.id in informacionSobreParadas) {
+            //Poner tiempos
+            var tiempos = informacionSobreParadas[item.id];
+            for (var i = 0; i < tiempos.length; i++) {
+                inicial = inicial + "<tr><td>" + tiempos[i].id + "</td><td>" + tiempos[i].linea + "</td><td>" + tiempos[i].tiempo + "</td></tr>";
+            }
+        }
+        inicial = inicial +"</table></div>";
+        return inicial;
     } else if (x === 7) {
         return "<div><h3><b>Parada de Bizkaibus:</b> " + item.nombreParada + "</h3></div>";
     } else if (x === 8) {
@@ -309,6 +320,7 @@ var directionsService, directionsDisplay;
 var modoViaje;
 
 function enrutar(latlng, modo) {
+    $('#lineaeleg').html("");
     mostrando = false;
     puntos = [];
     if (ruta !== undefined) {
@@ -461,6 +473,7 @@ function enrutar(latlng, modo) {
 var habilitado = false;
 
 function habilitarEnrutado() {
+    $('#lineaeleg').html("");
     if (habilitado === true) {
         $("#habilitarEnrutado").html('Habilitar encontrar ruta');
         habilitado = false;
@@ -534,6 +547,7 @@ function despejarParaEnrutadoDoble() {
 }
 
 function buscarPorNombre() {
+    $('#lineaeleg').html("");
     mostrando = false;
     conClick = false;
     ultimaBusquedaPorNombre = true;
@@ -808,6 +822,7 @@ function seleccionParking() {
 var otro, otro2;
 
 function enrutarOrigenDestino(origen, destino, modo) {
+    $('#lineaeleg').html("");
     mostrando = false;
     puntos = [];
     if (ruta !== undefined) {
@@ -989,7 +1004,6 @@ function inicializarActiveMQ() {
             var lines = e.data.split('\n');
             var tipo = lines[2].substring(lines[2].indexOf(":") + 1, lines[2].length);
             var parser, xmlDoc;
-            console.log(e.data);
             //Según el tipo se realiza un procesamiento
             switch (tipo) {
                 case "TiempoCiudad":
@@ -1061,12 +1075,12 @@ function inicializarActiveMQ() {
                      if (!(id in lineasBilbobusArray)) {
                          if (Object.keys(lineasBilbobusArray).length > 14) {
                              if (Object.keys(lineasBilbobusArray).length > 29) {
-                                 $("#columna3").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRuta(&quot;" + id + "&quot;);'>" + id + " : " + nombre + "</a></li>");
+                                 $("#columna3").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRuta(&quot;" + id + "&quot;,&quot;" + nombre + "&quot;);'>" + id + " : " + nombre + "</a></li>");
                              } else {
-                                 $("#columna2").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRuta(&quot;" + id + "&quot;);'>" + id + " : " + nombre + "</a></li>");
+                                 $("#columna2").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRuta(&quot;" + id + "&quot;,&quot;" + nombre + "&quot;);'>" + id + " : " + nombre + "</a></li>");
                              }
                          } else {
-                             $("#columna1").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRuta(&quot;" + id + "&quot;);'>" + id + " - " + nombre + "</a></li>");
+                             $("#columna1").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRuta(&quot;" + id + "&quot;,&quot;" + nombre + "&quot;);'>" + id + " - " + nombre + "</a></li>");
                          }
                      }
                      lineasBilbobusArray[id] = xmlDoc;
@@ -1081,6 +1095,20 @@ function inicializarActiveMQ() {
                                  }
                              }
                          }
+                     }
+                     
+                     var paradas = xmlDoc.getElementsByTagName("Paradas")[0].childNodes;
+                     for (var i = 0; i < paradas.length; i++) {
+                         var idP = paradas[i].getElementsByTagName("Id")[0].childNodes[0].nodeValue;
+                         var tiempo = paradas[i].getElementsByTagName("TiempoRestante")[0].childNodes[0].nodeValue;
+                         //console.log(idP + " " + tiempo);
+                         if (idP in informacionSobreParadas) {
+                             informacionSobreParadas[idP].push({ id: id, linea: nombre, tiempo: tiempo });
+                         } else {
+                             informacionSobreParadas[idP] = [];
+                             informacionSobreParadas[idP].push({ id: id, linea: nombre, tiempo: tiempo });
+                         }
+                         
                      }
                      break;
                 case "Parkings":
@@ -1126,8 +1154,8 @@ function mostrarMasInfo() {
     $('#meteoInfo').modal('show');
 }
 
-function obtenerRuta(id) {
-   
+function obtenerRuta(id, nombre) {
+    $('#lineaeleg').html("Linea Bilbobus "+id+" : "+ nombre);
     puntos = [];
     limpiarRutas();
     if (ruta !== undefined) {
@@ -1237,6 +1265,7 @@ function formatearParada(item, id) {
 }
 
 function obtenerLineaTranvia() {
+    $('#lineaeleg').html("Tranvía");
     //alert("aqui");
     puntos = [];
     limpiarRutas();
@@ -1309,6 +1338,7 @@ function obtenerLineaTranvia() {
 }
 
 function obtenerLineaMetro() {
+    $('#lineaeleg').html("Metro");
     puntos = [];
     limpiarRutas();
     if (ruta !== undefined) {
@@ -1378,14 +1408,15 @@ function obtenerLineasEuskotren() {
                .done(function (data) {
                    $("#euskotren").empty();
                    $.each(data, function (key, item) {
-                       $("#euskotren").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRutaEuskotren(&quot;" + item.id + "&quot;);'>" + item.abreviatura + " - " + item.nombre + "</a></li>");
+                       $("#euskotren").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRutaEuskotren(&quot;" + item.id + "&quot;,&quot;" + item.abreviatura + "&quot;,&quot;" + item.nombre + "&quot;);'>" + item.abreviatura + " - " + item.nombre + "</a></li>");
                    });
                }).fail(function () {
                    alert("Error al obtener las lineas de Euskotren");
                });
 }
 
-function obtenerRutaEuskotren(id) {
+function obtenerRutaEuskotren(id, abreviatura, nombre) {
+    $('#lineaeleg').html("Linea Euskotren " + abreviatura + " : " + nombre);
     puntos = [];
     limpiarRutas();
     if (ruta !== undefined) {
@@ -1480,14 +1511,15 @@ function obtenerLineasBizkaibus() {
                        } else {
                            $("#bizkaibus1").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerLineaBizkaibus(&quot;" + item.id + "&quot;);'>" + item.abreviatura + " - " + item.nombre + "</a></li>");
                        }*/
-                       $("#bizkaibus").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerLineaBizkaibus(&quot;" + item.id + "&quot;);'>" + item.abreviatura + " : " + item.nombre + "</a></li>");
+                       $("#bizkaibus").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerLineaBizkaibus(&quot;" + item.id + "&quot;,&quot;" + item.abreviatura + "&quot;,&quot;" + item.nombre + "&quot;);'>" + item.abreviatura + " : " + item.nombre + "</a></li>");
                    });
                }).fail(function () {
                    alert("Error al obtener las lineas de Euskotren");
                });
 }
 
-function obtenerLineaBizkaibus(id) {
+function obtenerLineaBizkaibus(id, abreviatura, nombre) {
+    $('#lineaeleg').html("Linea Bizkaibus " + abreviatura + " : " + nombre);
     puntos = [];
     limpiarRutas();
     if (ruta !== undefined) {
