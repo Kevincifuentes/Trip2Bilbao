@@ -278,7 +278,7 @@ function setMapOnAll(map) {
 
 function formatItem(item, x, y) {
     if (x === 1) {
-        return "<div><h3>" + item.nombreFarmacia + "</h3><br><b> Contácto:</b> " + item.telefono + "</div>";
+        return "<div><h3>" + item.nombreFarmacia + "</h3><br><b> Dirección:</b> " + item.direccionAbreviada + "<br><b> Contácto:</b> " + item.telefono + "</div>";
     } else if (x === 2) {
         if (y === 'api/parkings/parkings' || seleccionar === true) {
             return "<div><h3><b>Parking:</b> " + item.nombreParking + "</h3><br><b> Capacidad: </b> " + item.capacidad + "<br><h4> Disponibilidad actual: </b>"+estadoParkings[item.nombreParking]+"<br><button type='button' class='btn btn-info' onclick='seleccionParking()'>Seleccionar Parking</button></div>";
@@ -290,7 +290,7 @@ function formatItem(item, x, y) {
     } else if (x === 4) {
         return "<div><h3><b>Centro de Salud:</b> " + item.nombreCentro + "</h3><br><b>Dirección:</b> " + item.direccionCompleta + "</div>";
     } else if (x === 5) {
-        return "<div><h3><b>Hospital:</b> " + item.nombreHospital + "</h3><br><b>Dirección:</b> " + item.direccionCompleta + "</div>";
+        return "<div><h3><b>Hospital:</b> " + item.nombreHospital + "</h3><br><b>Dirección:</b> " + item.direccionCompleta + "<br><b>Teléfono</b>" + item.telefono + "<br><a href='" + item.web + "' class='button' target='_blank'><b>Página web:</b></a></div>";
     } else if (x === 6) {
         var inicial = "<div><h3><b>Parada de Bilbobus:</b> " + item.nombreParada + "</h3><br><b>Abreviatura:</b><table border='1' style='width:100%' border-spacing='5px' ><tr><th>Id de Linea</th><th>Nombre de Linea</th><th>Tiempo Restante</th></tr>" + item.abreviatura;
         if (item.id in informacionSobreParadas) {
