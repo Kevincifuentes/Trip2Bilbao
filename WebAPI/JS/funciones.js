@@ -987,17 +987,18 @@ function obtenerInformacionDistanciasTiempos(origin, destiny) {
 
 function inicializarActiveMQ() {
     //Inicializo el WebSocket al puerto e Ip del ActiveMQ. Se utilizará un servicio STOMP.
-    ws = new WebSocket('ws://localhost:61614', 'stomp');
+    ws = new WebSocket('ws://dev.mobility.deustotech.eu:61614', 'stomp');
 
     //Notificar para la conexión
     ws.onopen = function (){
         ws.send('CONNECT\n\n\0');
  
     //Notificar que nos suscribimos y a que nos suscribimos
-    ws.send('SUBSCRIBE\ndestination:/topic/PruebaEMISOR\n\nack:auto\n\n\0');
+        ws.send('SUBSCRIBE\ndestination:/topic/PruebaEMISOR\nack:auto\nactivemq.retroactive:true\n\n\0');
     };
     //En caso de mensaje de ejecutará la función
     ws.onmessage = function (e) {
+        //console.log(e);
         //Se comprueba que sea un mensaje de datos
         if (e.data.startsWith('MESSAGE')) {
             //console.log(e.data);
@@ -1008,6 +1009,7 @@ function inicializarActiveMQ() {
             switch (tipo) {
                 case "TiempoCiudad":
                     if (window.DOMParser) {
+                        console.log("Tiempo!!")
                          parser = new DOMParser();
                          xmlDoc = parser.parseFromString(lines[9], "text/xml");
 

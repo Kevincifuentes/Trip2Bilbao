@@ -105,7 +105,7 @@ namespace ExtractorDatos
                 //InformacionEstatica.emisor.enviarTiemposParadas(estatico.paradasBilbobus, dinamico.descargaBilbobus);
                 InformacionEstatica.emisor.enviarTiemposLineas(estatico.lineasBilbo, dinamico.descargaBilbobus);
 
-                //Espera un Minuto
+                //Espera un Minuto y medio
                 Thread.Sleep(60000);
             }
         }

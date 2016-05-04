@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="Dev/Trip2Bilbao" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\Kevin\\documents\\visual\ studio\ 2013\\Projects\\ExtractorDatos\\WebAPI\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\Kevin\\documents\\visual\ studio\ 2013\\Projects\\ExtractorDatos\\WebAPI\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="ModeloContainer-Web.config Connection String" description="" value="metadata=res://*/Modelo.csdl|res://*/Modelo.ssdl|res://*/Modelo.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=127.0.0.1,1433;initial catalog=trip2bilbao;User Id=trip2bilbao;Password=trip2bilbao;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Kevin\\documents\\visual\ studio\ 2013\\Projects\\ExtractorDatos\\WebAPI\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ModeloContainer']/@connectionString" />
+  </parameter>
+</parameters>

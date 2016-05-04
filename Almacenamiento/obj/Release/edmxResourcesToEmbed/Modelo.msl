@@ -1,0 +1,447 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModeloStoreContainer" CdmEntityContainer="ModeloContainer">
+    <EntitySetMapping Name="entradasSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.entradas)">
+        <MappingFragment StoreEntitySet="entradasSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="latitud" ColumnName="latitud" />
+          <ScalarProperty Name="longitud" ColumnName="longitud" />
+          <ScalarProperty Name="parkingsId" ColumnName="parkingsId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tarifasSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.tarifas)">
+        <MappingFragment StoreEntitySet="tarifasSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="tipo" ColumnName="tipo" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="zona" ColumnName="zona" />
+          <ScalarProperty Name="actualizacion" ColumnName="actualizacion" />
+          <ScalarProperty Name="parkingsId" ColumnName="parkingsId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="parkingsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.parkings)">
+        <MappingFragment StoreEntitySet="parkingsSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="tipo" ColumnName="tipo" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="capacidad" ColumnName="capacidad" />
+          <ScalarProperty Name="latitud" ColumnName="latitud" />
+          <ScalarProperty Name="longitud" ColumnName="longitud" />
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="incidenciasSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.incidencias)">
+        <MappingFragment StoreEntitySet="incidenciasSet">
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
+          <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
+          <ScalarProperty Name="fechaInsercion" ColumnName="fechaInsercion" />
+          <ScalarProperty Name="tipo" ColumnName="tipo" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="latitud" ColumnName="latitud" />
+          <ScalarProperty Name="longitud" ColumnName="longitud" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="paradas_tranviaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.paradas_tranvia)">
+        <MappingFragment StoreEntitySet="paradas_tranviaSet">
+          <ScalarProperty Name="orden" ColumnName="orden" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="latitud" ColumnName="latitud" />
+          <ScalarProperty Name="longitud" ColumnName="longitud" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="hospitalesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.hospitales)">
+        <MappingFragment StoreEntitySet="hospitalesSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="direccion" ColumnName="direccion" />
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
+          <ScalarProperty Name="region" ColumnName="region" />
+          <ScalarProperty Name="calle" ColumnName="calle" />
+          <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+          <ScalarProperty Name="latitud" ColumnName="latitud" />
+          <ScalarProperty Name="longitud" ColumnName="longitud" />
+          <ScalarProperty Name="web" ColumnName="web" />
+          <ScalarProperty Name="telefono" ColumnName="telefono" />
+          <ScalarProperty Name="idHospital" ColumnName="idHospital" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="puntos_biciSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.puntos_bici)">
+        <MappingFragment StoreEntitySet="puntos_biciSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="latitud" ColumnName="latitud" />
+          <ScalarProperty Name="longitud" ColumnName="longitud" />
+          <ScalarProperty Name="capacidad" ColumnName="capacidad" />
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="centros_de_saludSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.centros_de_salud)">
+        <MappingFragment StoreEntitySet="centros_de_saludSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="codigo_centro" ColumnName="codigo_centro" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="direcionCompleta" ColumnName="direcionCompleta" />
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
+          <ScalarProperty Name="provincia" ColumnName="provincia" />
+          <ScalarProperty Name="region" ColumnName="region" />
+          <ScalarProperty Name="horario" ColumnName="horario" />
+          <ScalarProperty Name="calle" ColumnName="calle" />
+          <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+          <ScalarProperty Name="urlAdicional" ColumnName="urlAdicional" />
+          <ScalarProperty Name="latitud" ColumnName="latitud" />
+          <ScalarProperty Name="longitud" ColumnName="longitud" />
+          <ScalarProperty Name="web" ColumnName="web" />
+          <ScalarProperty Name="telefono" ColumnName="telefono" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tiempos_dia_ciudadSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.tiempos_dia_ciudad)">
+        <MappingFragment StoreEntitySet="tiempos_dia_ciudadSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="nombreCiudad" ColumnName="nombreCiudad" />
+          <ScalarProperty Name="fechaDescarga" ColumnName="fechaDescarga" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tiempos_ciudadSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.tiempos_ciudad)">
+        <MappingFragment StoreEntitySet="tiempos_ciudadSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="diaPrediccion" ColumnName="diaPrediccion" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="descripcionES" ColumnName="descripcionES" />
+          <ScalarProperty Name="descripcionEU" ColumnName="descripcionEU" />
+          <ScalarProperty Name="descripcionGeneralES" ColumnName="descripcionGeneralES" />
+          <ScalarProperty Name="descripcionGeneralEU" ColumnName="descripcionGeneralEU" />
+          <ScalarProperty Name="tiempos_dia_ciudad_id" ColumnName="tiempos_dia_ciudad_id" />
+          <ScalarProperty Name="maxima" ColumnName="maxima" />
+          <ScalarProperty Name="minima" ColumnName="minima" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tiempos_comarcaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.tiempos_comarca)">
+        <MappingFragment StoreEntitySet="tiempos_comarcaSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="diaActualizacion" ColumnName="diaActualizacion" />
+          <ScalarProperty Name="nombreComarcaES" ColumnName="nombreComarcaES" />
+          <ScalarProperty Name="nombreComarcaEU" ColumnName="nombreComarcaEU" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tiempos_dia_comarcaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.tiempos_dia_comarca)">
+        <MappingFragment StoreEntitySet="tiempos_dia_comarcaSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="fechaPrediccion" ColumnName="fechaPrediccion" />
+          <ScalarProperty Name="vientoES" ColumnName="vientoES" />
+          <ScalarProperty Name="vientoEU" ColumnName="vientoEU" />
+          <ScalarProperty Name="tiempoES" ColumnName="tiempoES" />
+          <ScalarProperty Name="tiempoEU" ColumnName="tiempoEU" />
+          <ScalarProperty Name="temperaturaES" ColumnName="temperaturaES" />
+          <ScalarProperty Name="temperaturaEU" ColumnName="temperaturaEU" />
+          <ScalarProperty Name="descripcionES" ColumnName="descripcionES" />
+          <ScalarProperty Name="descripcionEU" ColumnName="descripcionEU" />
+          <ScalarProperty Name="tiempos_comarcaId" ColumnName="tiempos_comarcaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="farmaciasSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.farmacias)">
+        <MappingFragment StoreEntitySet="farmaciasSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="latitud" ColumnName="latitud" />
+          <ScalarProperty Name="longitud" ColumnName="longitud" />
+          <ScalarProperty Name="direccion" ColumnName="direccion" />
+          <ScalarProperty Name="direccionAbreviada" ColumnName="direccionAbreviada" />
+          <ScalarProperty Name="provincia" ColumnName="provincia" />
+          <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
+          <ScalarProperty Name="url" ColumnName="url" />
+          <ScalarProperty Name="telefono" ColumnName="telefono" />
+          <ScalarProperty Name="web" ColumnName="web" />
+          <ScalarProperty Name="informacionAdcional" ColumnName="informacionAdcional" />
+          <ScalarProperty Name="nombrePropietario" ColumnName="nombrePropietario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tiempos_diaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.tiempos_dia)">
+        <MappingFragment StoreEntitySet="tiempos_diaSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="fechaPrediccion" ColumnName="fechaPrediccion" />
+          <ScalarProperty Name="vientoES" ColumnName="vientoES" />
+          <ScalarProperty Name="vientoEU" ColumnName="vientoEU" />
+          <ScalarProperty Name="tiempoES" ColumnName="tiempoES" />
+          <ScalarProperty Name="tiempoEU" ColumnName="tiempoEU" />
+          <ScalarProperty Name="temperaturaES" ColumnName="temperaturaES" />
+          <ScalarProperty Name="temperaturaEU" ColumnName="temperaturaEU" />
+          <ScalarProperty Name="tiempo_prediccionId" ColumnName="tiempo_prediccionId" />
+          <ScalarProperty Name="tiempos_prediccionId" ColumnName="tiempos_prediccionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tiempos_prediccionSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.tiempos_prediccion)">
+        <MappingFragment StoreEntitySet="tiempos_prediccionSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="fechaInicioPrediccion" ColumnName="fechaInicioPrediccion" />
+          <ScalarProperty Name="fechaFinPrediccion" ColumnName="fechaFinPrediccion" />
+          <ScalarProperty Name="fechaRealizacionPrediccion" ColumnName="fechaRealizacionPrediccion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="lineas_metroSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.lineas_metro)">
+        <MappingFragment StoreEntitySet="lineas_metroSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="abreviatura" ColumnName="abreviatura" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="tipo" ColumnName="tipo" />
+          <ScalarProperty Name="idMetro" ColumnName="idMetro" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="viajes_metroSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.viajes_metro)">
+        <MappingFragment StoreEntitySet="viajes_metroSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="lineas_metro_id" ColumnName="lineas_metro_id" />
+          <ScalarProperty Name="tiempoInicio" ColumnName="tiempoInicio" />
+          <ScalarProperty Name="tiempoFin" ColumnName="tiempoFin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="paradas_metroSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.paradas_metro)">
+        <MappingFragment StoreEntitySet="paradas_metroSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="latitud" ColumnName="latitud" />
+          <ScalarProperty Name="longitud" ColumnName="longitud" />
+          <ScalarProperty Name="tipoLocalizacion" ColumnName="tipoLocalizacion" />
+          <ScalarProperty Name="idParadaPadre" ColumnName="idParadaPadre" />
+          <ScalarProperty Name="codigoParada" ColumnName="codigoParada" />
+          <ScalarProperty Name="idParada" ColumnName="idParada" />
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="lineas_bizkaibusSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.lineas_bizkaibus)">
+        <MappingFragment StoreEntitySet="lineas_bizkaibusSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="abreviatura" ColumnName="abreviatura" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="tipoTransporte" ColumnName="tipoTransporte" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="viajes_bizkaibusSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.viajes_bizkaibus)">
+        <MappingFragment StoreEntitySet="viajes_bizkaibusSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="lineas_bizkaibusId" ColumnName="lineas_bizkaibusId" />
+          <ScalarProperty Name="tiempoInicio" ColumnName="tiempoInicio" />
+          <ScalarProperty Name="tiempoFin" ColumnName="tiempoFin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="paradas_bizkaibusSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.paradas_bizkaibus)">
+        <MappingFragment StoreEntitySet="paradas_bizkaibusSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="latitud" ColumnName="latitud" />
+          <ScalarProperty Name="longitud" ColumnName="longitud" />
+          <ScalarProperty Name="url" ColumnName="url" />
+          <ScalarProperty Name="tipoLocalizacion" ColumnName="tipoLocalizacion" />
+          <ScalarProperty Name="codigoParada" ColumnName="codigoParada" />
+          <ScalarProperty Name="idParadaPadre" ColumnName="idParadaPadre" />
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="paradas_bilbobusSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.paradas_bilbobus)">
+        <MappingFragment StoreEntitySet="paradas_bilbobusSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="latitud" ColumnName="latitud" />
+          <ScalarProperty Name="longitud" ColumnName="longitud" />
+          <ScalarProperty Name="abreviatura" ColumnName="abreviatura" />
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tiempos_linea_paradaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.tiempos_linea_parada)">
+        <MappingFragment StoreEntitySet="tiempos_linea_paradaSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="tiempoEspera" ColumnName="tiempoEspera" />
+          <ScalarProperty Name="lineas_bilbobusId" ColumnName="lineas_bilbobusId" />
+          <ScalarProperty Name="paradas_bilbobusId" ColumnName="paradas_bilbobusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="lineas_bilbobusSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.lineas_bilbobus)">
+        <MappingFragment StoreEntitySet="lineas_bilbobusSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="abreviatura" ColumnName="abreviatura" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="tipoTransporte" ColumnName="tipoTransporte" />
+          <ScalarProperty Name="idLinea" ColumnName="idLinea" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="viajes_bilbobusSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.viajes_bilbobus)">
+        <MappingFragment StoreEntitySet="viajes_bilbobusSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="lineas_bilbobusId" ColumnName="lineas_bilbobusId" />
+          <ScalarProperty Name="tiempoInicio" ColumnName="tiempoInicio" />
+          <ScalarProperty Name="tiempoFin" ColumnName="tiempoFin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="lineas_euskotrenSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.lineas_euskotren)">
+        <MappingFragment StoreEntitySet="lineas_euskotrenSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="abreviatura" ColumnName="abreviatura" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="tipo" ColumnName="tipo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="viajes_euskotrenSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.viajes_euskotren)">
+        <MappingFragment StoreEntitySet="viajes_euskotrenSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="lineas_euskotrenId" ColumnName="lineas_euskotrenId" />
+          <ScalarProperty Name="idViaje" ColumnName="idViaje" />
+          <ScalarProperty Name="tiempoInicio" ColumnName="tiempoInicio" />
+          <ScalarProperty Name="tiempoFin" ColumnName="tiempoFin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="paradas_euskotrenSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.paradas_euskotren)">
+        <MappingFragment StoreEntitySet="paradas_euskotrenSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="latitud" ColumnName="latitud" />
+          <ScalarProperty Name="longitud" ColumnName="longitud" />
+          <ScalarProperty Name="url" ColumnName="url" />
+          <ScalarProperty Name="tipoLocalizacion" ColumnName="tipoLocalizacion" />
+          <ScalarProperty Name="codigoParada" ColumnName="codigoParada" />
+          <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="estados_parkingSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.estados_parking)">
+        <MappingFragment StoreEntitySet="estados_parkingSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="disponible" ColumnName="disponible" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="parkings_id" ColumnName="parkings_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="estados_puntobiciSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.estados_puntobici)">
+        <MappingFragment StoreEntitySet="estados_puntobiciSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="anclajeslibres" ColumnName="anclajeslibres" />
+          <ScalarProperty Name="bicisLibres" ColumnName="bicisLibres" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="puntos_bici_id" ColumnName="puntos_bici_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="parkingDeustoSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.parkingDeusto)">
+        <MappingFragment StoreEntitySet="parkingDeustoSet">
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="dbs" ColumnName="dbs" />
+          <ScalarProperty Name="general" ColumnName="general" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="viajes_parada_tiempos_euskotrenSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.viajes_parada_tiempos_euskotren)">
+        <MappingFragment StoreEntitySet="viajes_parada_tiempos_euskotrenSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="viajes_euskotren_id" ColumnName="viajes_euskotren_id" />
+          <ScalarProperty Name="paradas_euskotren_id" ColumnName="paradas_euskotren_id" />
+          <ScalarProperty Name="tiempoLlegada" ColumnName="tiempoLlegada" />
+          <ScalarProperty Name="tiempoSalida" ColumnName="tiempoSalida" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="viajes_parada_tiempos_metroSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.viajes_parada_tiempos_metro)">
+        <MappingFragment StoreEntitySet="viajes_parada_tiempos_metroSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="paradas_metro_id" ColumnName="paradas_metro_id" />
+          <ScalarProperty Name="viajes_metro_id" ColumnName="viajes_metro_id" />
+          <ScalarProperty Name="tiempoLlegada" ColumnName="tiempoLlegada" />
+          <ScalarProperty Name="tiempoSalida" ColumnName="tiempoSalida" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="viajes_parada_tiempos_bizkaibusSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.viajes_parada_tiempos_bizkaibus)">
+        <MappingFragment StoreEntitySet="viajes_parada_tiempos_bizkaibusSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="paradas_bizkaibus_id" ColumnName="paradas_bizkaibus_id" />
+          <ScalarProperty Name="viajes_bizkaibus_id" ColumnName="viajes_bizkaibus_id" />
+          <ScalarProperty Name="tiempoLlegada" ColumnName="tiempoLlegada" />
+          <ScalarProperty Name="tiempoSalida" ColumnName="tiempoSalida" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="viajes_parada_tiempos_bilbobusSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.viajes_parada_tiempos_bilbobus)">
+        <MappingFragment StoreEntitySet="viajes_parada_tiempos_bilbobusSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="viajes_bilbobus_id" ColumnName="viajes_bilbobus_id" />
+          <ScalarProperty Name="paradas_bilbobus_id" ColumnName="paradas_bilbobus_id" />
+          <ScalarProperty Name="tiempoLlegada" ColumnName="tiempoLlegada" />
+          <ScalarProperty Name="tiempoSalida" ColumnName="tiempoSalida" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

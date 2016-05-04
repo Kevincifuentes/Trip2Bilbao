@@ -1661,139 +1661,156 @@ namespace ExtractorDatos
                 string line;
 
                 // Leemos el fichero linea por linea para sacar las rutas
-                System.IO.StreamReader file =
-                   new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\routes.txt");
-                string primeraLinea = file.ReadLine();
-                while ((line = file.ReadLine()) != null)
+                using (System.IO.StreamReader file =
+                    new System.IO.StreamReader(
+                        @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\routes.txt")
+                    )
                 {
+                    string primeraLinea = file.ReadLine();
+                    while ((line = file.ReadLine()) != null)
+                    {
 
-                    //Obtengo la info que me interesa
-                    string[] valoresLinea = line.Split(',');
+                        //Obtengo la info que me interesa
+                        string[] valoresLinea = line.Split(',');
 
-                    //ID de ruta
-                    string id = valoresLinea[0];
+                        //ID de ruta
+                        string id = valoresLinea[0];
 
-                    //ID de agencia
-                    string idAgencia = valoresLinea[1];
+                        //ID de agencia
+                        string idAgencia = valoresLinea[1];
 
-                    //Nombre corto ruta
-                    string abreviatura = valoresLinea[2];
+                        //Nombre corto ruta
+                        string abreviatura = valoresLinea[2];
 
-                    //Nombre completo de la ruta
-                    string nombre = valoresLinea[3];
+                        //Nombre completo de la ruta
+                        string nombre = valoresLinea[3];
 
-                    //Tipo de ruta
-                    int tipo = int.Parse(valoresLinea[5]);
+                        //Tipo de ruta
+                        int tipo = int.Parse(valoresLinea[5]);
 
-                    //Añado a la lista
-                    lineasBilbo.Add(id, new LineaBilbobus(id, idAgencia, abreviatura, nombre, tipo));
+                        //Añado a la lista
+                        lineasBilbo.Add(id, new LineaBilbobus(id, idAgencia, abreviatura, nombre, tipo));
 
+                    }
                 }
-
-                file.Close();
+                
 
                 Console.WriteLine("¡Completado rutas!");
                 Console.WriteLine("Leyendo viajes...");
 
                 // Leemos el fichero linea por linea para sacar los viajes
                 List<Clases.KeyValuePair<int, ViajeBilbobus>> viajes = new List<Clases.KeyValuePair<int, ViajeBilbobus>>();
-                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\stop_times.txt");
-                primeraLinea = file.ReadLine();
-                while ((line = file.ReadLine()) != null)
+                using (
+                    System.IO.StreamReader file =
+                        new System.IO.StreamReader(
+                            @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\stop_times.txt")
+                    )
                 {
-
-                    //Obtengo la info que me interesa
-                    string[] valoresLinea = line.Split(',');
-
-                    //ID de viaje
-                    int id = int.Parse(valoresLinea[0]);
-
-                    //ID de la parada
-                    int idParada = int.Parse(valoresLinea[3]);
-
-                    //Comprobamos si contiene la clave
-                    bool encontrado = false;
-                    int index = 0;
-                    foreach (Clases.KeyValuePair<int, ViajeBilbobus> temporal in viajes)
+                    string primeraLinea = file.ReadLine();
+                    while ((line = file.ReadLine()) != null)
                     {
-                        if (temporal.Key == id)
-                        {
-                            encontrado = true;
-                            break;
-                        }
-                        else
-                        {
-                            index++;
-                        }
-                    }
 
-                    if (encontrado)
-                    {
-                        //Se añade solo la parada al viaje
-                        viajes[index].Value.paradas.Add(new Clases.KeyValuePair<int, ParadaBilbo>(idParada,paradasBilbobus[idParada] ));
-                        viajes[index].Value.clavesParada.Add(idParada);
+                        //Obtengo la info que me interesa
+                        string[] valoresLinea = line.Split(',');
 
-                    }
-                    else
-                    {
-                        //Se añade el viaje completo
-                        viajes.Add(new Clases.KeyValuePair<int, ViajeBilbobus>(id, new ViajeBilbobus(id, paradasBilbobus[idParada])));
-                    }
-                }
+                        //ID de viaje
+                        int id = int.Parse(valoresLinea[0]);
 
-                file.Close();
+                        //ID de la parada
+                        int idParada = int.Parse(valoresLinea[3]);
 
-                Console.WriteLine("¡Completado viajes!");
-                Console.WriteLine("Juntando resultados...");
-
-                // Leemos el fichero linea por linea
-                file = new System.IO.StreamReader(@"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\trips.txt");
-                primeraLinea = file.ReadLine();
-                while ((line = file.ReadLine()) != null)
-                {
-
-                    //Obtengo la info que me interesa
-                    string[] valoresLinea = line.Split(',');
-
-                    //ID de ruta
-                    string idRuta = valoresLinea[0];
-
-                    //ID del viaje
-                    int idViaje = int.Parse(valoresLinea[2]);
-
-                    try
-                    {
-                        int contador = 0;
+                        //Comprobamos si contiene la clave
                         bool encontrado = false;
+                        int index = 0;
                         foreach (Clases.KeyValuePair<int, ViajeBilbobus> temporal in viajes)
                         {
-                            if (temporal.Key == idViaje)
+                            if (temporal.Key == id)
                             {
                                 encontrado = true;
                                 break;
                             }
                             else
                             {
-                                contador++;
+                                index++;
                             }
                         }
+
                         if (encontrado)
                         {
-                            lineasBilbo[idRuta].viajes.Add(viajes[contador]); 
+                            //Se añade solo la parada al viaje
+                            viajes[index].Value.paradas.Add(new Clases.KeyValuePair<int, ParadaBilbo>(idParada, paradasBilbobus[idParada]));
+                            viajes[index].Value.clavesParada.Add(idParada);
+
                         }
                         else
                         {
-                            throw new KeyNotFoundException();
+                            //Se añade el viaje completo
+                            viajes.Add(new Clases.KeyValuePair<int, ViajeBilbobus>(id, new ViajeBilbobus(id, paradasBilbobus[idParada])));
                         }
-                        
                     }
-                    catch (System.Collections.Generic.KeyNotFoundException e)
-                    {
-                        Console.WriteLine("No se encuentra el viaje de id: " + idViaje + " perteneciente a la ruta " + idRuta + "\n");
-                    }
-                }
 
-                file.Close();
+                    file.Close();
+                }
+                
+
+                Console.WriteLine("¡Completado viajes!");
+                Console.WriteLine("Juntando resultados...");
+
+                // Leemos el fichero linea por linea
+                using (
+                    System.IO.StreamReader file =
+                        new System.IO.StreamReader(
+                            @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\trips.txt")
+                    )
+                {
+                    string primeraLinea = file.ReadLine();
+                    while ((line = file.ReadLine()) != null)
+                    {
+
+                        //Obtengo la info que me interesa
+                        string[] valoresLinea = line.Split(',');
+
+                        //ID de ruta
+                        string idRuta = valoresLinea[0];
+
+                        //ID del viaje
+                        int idViaje = int.Parse(valoresLinea[2]);
+
+                        try
+                        {
+                            int contador = 0;
+                            bool encontrado = false;
+                            foreach (Clases.KeyValuePair<int, ViajeBilbobus> temporal in viajes)
+                            {
+                                if (temporal.Key == idViaje)
+                                {
+                                    encontrado = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    contador++;
+                                }
+                            }
+                            if (encontrado)
+                            {
+                                lineasBilbo[idRuta].viajes.Add(viajes[contador]);
+                            }
+                            else
+                            {
+                                throw new KeyNotFoundException();
+                            }
+
+                        }
+                        catch (System.Collections.Generic.KeyNotFoundException e)
+                        {
+                            Console.WriteLine("No se encuentra el viaje de id: " + idViaje + " perteneciente a la ruta " + idRuta + "\n");
+                        }
+                    }
+
+                    file.Close();
+                }
+               
                 Console.WriteLine("¡Completada la unión de resultados!");
             }
             

@@ -1,0 +1,817 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Modelo.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="centros_de_saludSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="codigo_centro" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="direcionCompleta" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
+    <Property Name="provincia" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="region" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="horario" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="calle" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ciudad" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="urlAdicional" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="latitud" Type="float" Nullable="false" />
+    <Property Name="longitud" Type="float" Nullable="false" />
+    <Property Name="web" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="telefono" Type="bigint" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="entradasSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="latitud" Type="float" Nullable="false" />
+    <Property Name="longitud" Type="float" Nullable="false" />
+    <Property Name="parkingsId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="estados_parkingSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="disponible" Type="int" Nullable="false" />
+    <Property Name="fecha" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="parkings_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="estados_puntobiciSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="anclajeslibres" Type="int" Nullable="false" />
+    <Property Name="bicisLibres" Type="int" Nullable="false" />
+    <Property Name="fecha" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="puntos_bici_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="farmaciasSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="latitud" Type="float" Nullable="false" />
+    <Property Name="longitud" Type="float" Nullable="false" />
+    <Property Name="direccion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="direccionAbreviada" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="provincia" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ciudad" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
+    <Property Name="url" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="telefono" Type="bigint" Nullable="false" />
+    <Property Name="web" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="informacionAdcional" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="nombrePropietario" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="hospitalesSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="direccion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
+    <Property Name="region" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="calle" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ciudad" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="latitud" Type="float" Nullable="false" />
+    <Property Name="longitud" Type="float" Nullable="false" />
+    <Property Name="web" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="telefono" Type="bigint" Nullable="false" />
+    <Property Name="idHospital" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="incidenciasSet">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="fechaInicio" />
+      <PropertyRef Name="fechaFin" />
+      <PropertyRef Name="fechaInsercion" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="tipo" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="descripcion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="latitud" Type="float" Nullable="false" />
+    <Property Name="longitud" Type="float" Nullable="false" />
+    <Property Name="fechaInicio" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="fechaFin" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="fechaInsercion" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" />
+  </EntityType>
+  <EntityType Name="lineas_bilbobusSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="abreviatura" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tipoTransporte" Type="int" Nullable="false" />
+    <Property Name="idLinea" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="lineas_bizkaibusSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="abreviatura" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tipoTransporte" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="lineas_euskotrenSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="abreviatura" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tipo" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="lineas_metroSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="abreviatura" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tipo" Type="int" Nullable="false" />
+    <Property Name="idMetro" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="paradas_bilbobusSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="latitud" Type="float" Nullable="false" />
+    <Property Name="longitud" Type="float" Nullable="false" />
+    <Property Name="abreviatura" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="paradas_bizkaibusSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="descripcion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="latitud" Type="float" Nullable="false" />
+    <Property Name="longitud" Type="float" Nullable="false" />
+    <Property Name="url" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tipoLocalizacion" Type="int" Nullable="false" />
+    <Property Name="codigoParada" Type="int" Nullable="false" />
+    <Property Name="idParadaPadre" Type="int" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="paradas_euskotrenSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="descripcion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="latitud" Type="float" Nullable="false" />
+    <Property Name="longitud" Type="float" Nullable="false" />
+    <Property Name="url" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tipoLocalizacion" Type="int" Nullable="false" />
+    <Property Name="codigoParada" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="paradas_metroSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="latitud" Type="float" Nullable="false" />
+    <Property Name="longitud" Type="float" Nullable="false" />
+    <Property Name="tipoLocalizacion" Type="int" Nullable="false" />
+    <Property Name="idParadaPadre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="codigoParada" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="idParada" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="paradas_tranviaSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="latitud" Type="float" Nullable="false" />
+    <Property Name="longitud" Type="float" Nullable="false" />
+    <Property Name="descripcion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
+    <Property Name="orden" Type="int" />
+  </EntityType>
+  <EntityType Name="parkingDeustoSet">
+    <Key>
+      <PropertyRef Name="fecha" />
+    </Key>
+    <Property Name="fecha" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="dbs" Type="int" Nullable="false" />
+    <Property Name="general" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="parkingsSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tipo" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="fecha" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="estado" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="capacidad" Type="int" Nullable="false" />
+    <Property Name="latitud" Type="float" Nullable="false" />
+    <Property Name="longitud" Type="float" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="puntos_biciSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="estado" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="latitud" Type="float" Nullable="false" />
+    <Property Name="longitud" Type="float" Nullable="false" />
+    <Property Name="capacidad" Type="int" Nullable="false" />
+    <Property Name="codigoPostal" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tarifasSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="tipo" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="descripcion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="zona" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="actualizacion" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="parkingsId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tiempos_ciudadSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="diaPrediccion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="fecha" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="descripcionES" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="descripcionEU" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="descripcionGeneralES" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="descripcionGeneralEU" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempos_dia_ciudad_id" Type="int" Nullable="false" />
+    <Property Name="maxima" Type="int" Nullable="false" />
+    <Property Name="minima" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tiempos_comarcaSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="diaActualizacion" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="nombreComarcaES" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="nombreComarcaEU" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tiempos_dia_ciudadSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombreCiudad" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="fechaDescarga" Type="datetime2" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tiempos_dia_comarcaSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="fechaPrediccion" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="vientoES" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="vientoEU" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoES" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoEU" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="temperaturaES" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="temperaturaEU" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="descripcionES" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="descripcionEU" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempos_comarcaId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tiempos_diaSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="fechaPrediccion" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="vientoES" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="vientoEU" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoES" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoEU" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="temperaturaES" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="temperaturaEU" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempo_prediccionId" Type="int" Nullable="false" />
+    <Property Name="tiempos_prediccionId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tiempos_linea_paradaSet">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="fecha" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="tiempoEspera" Type="int" Nullable="false" />
+    <Property Name="lineas_bilbobusId" Type="int" Nullable="false" />
+    <Property Name="paradas_bilbobusId" Type="int" Nullable="false" />
+    <Property Name="fecha" Type="datetime2" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tiempos_prediccionSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="fechaInicioPrediccion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="fechaFinPrediccion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="fechaRealizacionPrediccion" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="viajes_bilbobusSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="lineas_bilbobusId" Type="int" Nullable="false" />
+    <Property Name="tiempoInicio" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoFin" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="viajes_bizkaibusSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="lineas_bizkaibusId" Type="int" Nullable="false" />
+    <Property Name="tiempoInicio" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoFin" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="viajes_euskotrenSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="lineas_euskotrenId" Type="int" Nullable="false" />
+    <Property Name="idViaje" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoInicio" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoFin" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="viajes_metroSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="lineas_metro_id" Type="int" Nullable="false" />
+    <Property Name="tiempoInicio" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoFin" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="viajes_parada_tiempos_bilbobusSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="viajes_bilbobus_id" Type="int" Nullable="false" />
+    <Property Name="paradas_bilbobus_id" Type="int" Nullable="false" />
+    <Property Name="tiempoLlegada" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoSalida" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="viajes_parada_tiempos_bizkaibusSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="paradas_bizkaibus_id" Type="int" Nullable="false" />
+    <Property Name="viajes_bizkaibus_id" Type="int" Nullable="false" />
+    <Property Name="tiempoLlegada" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoSalida" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="viajes_parada_tiempos_euskotrenSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="viajes_euskotren_id" Type="int" Nullable="false" />
+    <Property Name="paradas_euskotren_id" Type="int" Nullable="false" />
+    <Property Name="tiempoLlegada" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoSalida" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="viajes_parada_tiempos_metroSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="paradas_metro_id" Type="int" Nullable="false" />
+    <Property Name="viajes_metro_id" Type="int" Nullable="false" />
+    <Property Name="tiempoLlegada" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tiempoSalida" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_lineas_bilbobustiempos_linea_parada">
+    <End Role="lineas_bilbobusSet" Type="Self.lineas_bilbobusSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tiempos_linea_paradaSet" Type="Self.tiempos_linea_paradaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="lineas_bilbobusSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tiempos_linea_paradaSet">
+        <PropertyRef Name="lineas_bilbobusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_lineas_bilbobusviajes_bilbobus">
+    <End Role="lineas_bilbobusSet" Type="Self.lineas_bilbobusSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="viajes_bilbobusSet" Type="Self.viajes_bilbobusSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="lineas_bilbobusSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_bilbobusSet">
+        <PropertyRef Name="lineas_bilbobusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_lineas_bizkaibusviajes_bizkaibus">
+    <End Role="lineas_bizkaibusSet" Type="Self.lineas_bizkaibusSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="viajes_bizkaibusSet" Type="Self.viajes_bizkaibusSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="lineas_bizkaibusSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_bizkaibusSet">
+        <PropertyRef Name="lineas_bizkaibusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_lineas_euskotrenviajes_euskotren">
+    <End Role="lineas_euskotrenSet" Type="Self.lineas_euskotrenSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="viajes_euskotrenSet" Type="Self.viajes_euskotrenSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="lineas_euskotrenSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_euskotrenSet">
+        <PropertyRef Name="lineas_euskotrenId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_lineas_metroviajes_metro">
+    <End Role="lineas_metroSet" Type="Self.lineas_metroSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="viajes_metroSet" Type="Self.viajes_metroSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="lineas_metroSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_metroSet">
+        <PropertyRef Name="lineas_metro_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_paradas_bilbobustiempos_linea_parada">
+    <End Role="paradas_bilbobusSet" Type="Self.paradas_bilbobusSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tiempos_linea_paradaSet" Type="Self.tiempos_linea_paradaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="paradas_bilbobusSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tiempos_linea_paradaSet">
+        <PropertyRef Name="paradas_bilbobusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_paradas_bilbobusviajes_parada_tiempos_bilbobus">
+    <End Role="paradas_bilbobusSet" Type="Self.paradas_bilbobusSet" Multiplicity="1" />
+    <End Role="viajes_parada_tiempos_bilbobusSet" Type="Self.viajes_parada_tiempos_bilbobusSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="paradas_bilbobusSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos_bilbobusSet">
+        <PropertyRef Name="paradas_bilbobus_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_paradas_bizkaibusviajes_parada_tiempos_bizkaibus">
+    <End Role="paradas_bizkaibusSet" Type="Self.paradas_bizkaibusSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="viajes_parada_tiempos_bizkaibusSet" Type="Self.viajes_parada_tiempos_bizkaibusSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="paradas_bizkaibusSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos_bizkaibusSet">
+        <PropertyRef Name="paradas_bizkaibus_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_paradas_euskotrenviajes_parada_tiempos">
+    <End Role="paradas_euskotrenSet" Type="Self.paradas_euskotrenSet" Multiplicity="1" />
+    <End Role="viajes_parada_tiempos_euskotrenSet" Type="Self.viajes_parada_tiempos_euskotrenSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="paradas_euskotrenSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos_euskotrenSet">
+        <PropertyRef Name="paradas_euskotren_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_paradas_metroviajes_parada_tiempos_metro">
+    <End Role="paradas_metroSet" Type="Self.paradas_metroSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="viajes_parada_tiempos_metroSet" Type="Self.viajes_parada_tiempos_metroSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="paradas_metroSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos_metroSet">
+        <PropertyRef Name="paradas_metro_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_parkingsentradas">
+    <End Role="parkingsSet" Type="Self.parkingsSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="entradasSet" Type="Self.entradasSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="parkingsSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="entradasSet">
+        <PropertyRef Name="parkingsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_parkingsestados_parking">
+    <End Role="parkingsSet" Type="Self.parkingsSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="estados_parkingSet" Type="Self.estados_parkingSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="parkingsSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="estados_parkingSet">
+        <PropertyRef Name="parkings_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_parkingstarifas">
+    <End Role="parkingsSet" Type="Self.parkingsSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tarifasSet" Type="Self.tarifasSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="parkingsSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tarifasSet">
+        <PropertyRef Name="parkingsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_puntos_biciestados_puntobici">
+    <End Role="puntos_biciSet" Type="Self.puntos_biciSet" Multiplicity="1" />
+    <End Role="estados_puntobiciSet" Type="Self.estados_puntobiciSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="puntos_biciSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="estados_puntobiciSet">
+        <PropertyRef Name="puntos_bici_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tiempos_comarcatiempos_dia_comarca">
+    <End Role="tiempos_comarcaSet" Type="Self.tiempos_comarcaSet" Multiplicity="1" />
+    <End Role="tiempos_dia_comarcaSet" Type="Self.tiempos_dia_comarcaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tiempos_comarcaSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tiempos_dia_comarcaSet">
+        <PropertyRef Name="tiempos_comarcaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tiempos_dia_ciudadtiempos_ciudad">
+    <End Role="tiempos_dia_ciudadSet" Type="Self.tiempos_dia_ciudadSet" Multiplicity="1" />
+    <End Role="tiempos_ciudadSet" Type="Self.tiempos_ciudadSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tiempos_dia_ciudadSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tiempos_ciudadSet">
+        <PropertyRef Name="tiempos_dia_ciudad_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tiempos_predicciontiempos_dia">
+    <End Role="tiempos_prediccionSet" Type="Self.tiempos_prediccionSet" Multiplicity="1" />
+    <End Role="tiempos_diaSet" Type="Self.tiempos_diaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tiempos_prediccionSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tiempos_diaSet">
+        <PropertyRef Name="tiempos_prediccionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_viajes_bilbobusviajes_parada_tiempos_bilbobus">
+    <End Role="viajes_bilbobusSet" Type="Self.viajes_bilbobusSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="viajes_parada_tiempos_bilbobusSet" Type="Self.viajes_parada_tiempos_bilbobusSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="viajes_bilbobusSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos_bilbobusSet">
+        <PropertyRef Name="viajes_bilbobus_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_viajes_bizkaibusviajes_parada_tiempos_bizkaibus">
+    <End Role="viajes_bizkaibusSet" Type="Self.viajes_bizkaibusSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="viajes_parada_tiempos_bizkaibusSet" Type="Self.viajes_parada_tiempos_bizkaibusSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="viajes_bizkaibusSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos_bizkaibusSet">
+        <PropertyRef Name="viajes_bizkaibus_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_viajes_euskotrenviajes_parada_tiempos">
+    <End Role="viajes_euskotrenSet" Type="Self.viajes_euskotrenSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="viajes_parada_tiempos_euskotrenSet" Type="Self.viajes_parada_tiempos_euskotrenSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="viajes_euskotrenSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos_euskotrenSet">
+        <PropertyRef Name="viajes_euskotren_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_viajes_metroviajes_parada_tiempos_metro">
+    <End Role="viajes_metroSet" Type="Self.viajes_metroSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="viajes_parada_tiempos_metroSet" Type="Self.viajes_parada_tiempos_metroSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="viajes_metroSet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos_metroSet">
+        <PropertyRef Name="viajes_metro_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ModeloStoreContainer">
+    <EntitySet Name="centros_de_saludSet" EntityType="Self.centros_de_saludSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="entradasSet" EntityType="Self.entradasSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="estados_parkingSet" EntityType="Self.estados_parkingSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="estados_puntobiciSet" EntityType="Self.estados_puntobiciSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="farmaciasSet" EntityType="Self.farmaciasSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="hospitalesSet" EntityType="Self.hospitalesSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="incidenciasSet" EntityType="Self.incidenciasSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="lineas_bilbobusSet" EntityType="Self.lineas_bilbobusSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="lineas_bizkaibusSet" EntityType="Self.lineas_bizkaibusSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="lineas_euskotrenSet" EntityType="Self.lineas_euskotrenSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="lineas_metroSet" EntityType="Self.lineas_metroSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="paradas_bilbobusSet" EntityType="Self.paradas_bilbobusSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="paradas_bizkaibusSet" EntityType="Self.paradas_bizkaibusSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="paradas_euskotrenSet" EntityType="Self.paradas_euskotrenSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="paradas_metroSet" EntityType="Self.paradas_metroSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="paradas_tranviaSet" EntityType="Self.paradas_tranviaSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="parkingDeustoSet" EntityType="Self.parkingDeustoSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="parkingsSet" EntityType="Self.parkingsSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="puntos_biciSet" EntityType="Self.puntos_biciSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tarifasSet" EntityType="Self.tarifasSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tiempos_ciudadSet" EntityType="Self.tiempos_ciudadSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tiempos_comarcaSet" EntityType="Self.tiempos_comarcaSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tiempos_dia_ciudadSet" EntityType="Self.tiempos_dia_ciudadSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tiempos_dia_comarcaSet" EntityType="Self.tiempos_dia_comarcaSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tiempos_diaSet" EntityType="Self.tiempos_diaSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tiempos_linea_paradaSet" EntityType="Self.tiempos_linea_paradaSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tiempos_prediccionSet" EntityType="Self.tiempos_prediccionSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="viajes_bilbobusSet" EntityType="Self.viajes_bilbobusSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="viajes_bizkaibusSet" EntityType="Self.viajes_bizkaibusSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="viajes_euskotrenSet" EntityType="Self.viajes_euskotrenSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="viajes_metroSet" EntityType="Self.viajes_metroSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="viajes_parada_tiempos_bilbobusSet" EntityType="Self.viajes_parada_tiempos_bilbobusSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="viajes_parada_tiempos_bizkaibusSet" EntityType="Self.viajes_parada_tiempos_bizkaibusSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="viajes_parada_tiempos_euskotrenSet" EntityType="Self.viajes_parada_tiempos_euskotrenSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="viajes_parada_tiempos_metroSet" EntityType="Self.viajes_parada_tiempos_metroSet" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_lineas_bilbobustiempos_linea_parada" Association="Self.FK_lineas_bilbobustiempos_linea_parada">
+      <End Role="lineas_bilbobusSet" EntitySet="lineas_bilbobusSet" />
+      <End Role="tiempos_linea_paradaSet" EntitySet="tiempos_linea_paradaSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_lineas_bilbobusviajes_bilbobus" Association="Self.FK_lineas_bilbobusviajes_bilbobus">
+      <End Role="lineas_bilbobusSet" EntitySet="lineas_bilbobusSet" />
+      <End Role="viajes_bilbobusSet" EntitySet="viajes_bilbobusSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_lineas_bizkaibusviajes_bizkaibus" Association="Self.FK_lineas_bizkaibusviajes_bizkaibus">
+      <End Role="lineas_bizkaibusSet" EntitySet="lineas_bizkaibusSet" />
+      <End Role="viajes_bizkaibusSet" EntitySet="viajes_bizkaibusSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_lineas_euskotrenviajes_euskotren" Association="Self.FK_lineas_euskotrenviajes_euskotren">
+      <End Role="lineas_euskotrenSet" EntitySet="lineas_euskotrenSet" />
+      <End Role="viajes_euskotrenSet" EntitySet="viajes_euskotrenSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_lineas_metroviajes_metro" Association="Self.FK_lineas_metroviajes_metro">
+      <End Role="lineas_metroSet" EntitySet="lineas_metroSet" />
+      <End Role="viajes_metroSet" EntitySet="viajes_metroSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_paradas_bilbobustiempos_linea_parada" Association="Self.FK_paradas_bilbobustiempos_linea_parada">
+      <End Role="paradas_bilbobusSet" EntitySet="paradas_bilbobusSet" />
+      <End Role="tiempos_linea_paradaSet" EntitySet="tiempos_linea_paradaSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_paradas_bilbobusviajes_parada_tiempos_bilbobus" Association="Self.FK_paradas_bilbobusviajes_parada_tiempos_bilbobus">
+      <End Role="paradas_bilbobusSet" EntitySet="paradas_bilbobusSet" />
+      <End Role="viajes_parada_tiempos_bilbobusSet" EntitySet="viajes_parada_tiempos_bilbobusSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_paradas_bizkaibusviajes_parada_tiempos_bizkaibus" Association="Self.FK_paradas_bizkaibusviajes_parada_tiempos_bizkaibus">
+      <End Role="paradas_bizkaibusSet" EntitySet="paradas_bizkaibusSet" />
+      <End Role="viajes_parada_tiempos_bizkaibusSet" EntitySet="viajes_parada_tiempos_bizkaibusSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_paradas_euskotrenviajes_parada_tiempos" Association="Self.FK_paradas_euskotrenviajes_parada_tiempos">
+      <End Role="paradas_euskotrenSet" EntitySet="paradas_euskotrenSet" />
+      <End Role="viajes_parada_tiempos_euskotrenSet" EntitySet="viajes_parada_tiempos_euskotrenSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_paradas_metroviajes_parada_tiempos_metro" Association="Self.FK_paradas_metroviajes_parada_tiempos_metro">
+      <End Role="paradas_metroSet" EntitySet="paradas_metroSet" />
+      <End Role="viajes_parada_tiempos_metroSet" EntitySet="viajes_parada_tiempos_metroSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_parkingsentradas" Association="Self.FK_parkingsentradas">
+      <End Role="parkingsSet" EntitySet="parkingsSet" />
+      <End Role="entradasSet" EntitySet="entradasSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_parkingsestados_parking" Association="Self.FK_parkingsestados_parking">
+      <End Role="parkingsSet" EntitySet="parkingsSet" />
+      <End Role="estados_parkingSet" EntitySet="estados_parkingSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_parkingstarifas" Association="Self.FK_parkingstarifas">
+      <End Role="parkingsSet" EntitySet="parkingsSet" />
+      <End Role="tarifasSet" EntitySet="tarifasSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_puntos_biciestados_puntobici" Association="Self.FK_puntos_biciestados_puntobici">
+      <End Role="puntos_biciSet" EntitySet="puntos_biciSet" />
+      <End Role="estados_puntobiciSet" EntitySet="estados_puntobiciSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tiempos_comarcatiempos_dia_comarca" Association="Self.FK_tiempos_comarcatiempos_dia_comarca">
+      <End Role="tiempos_comarcaSet" EntitySet="tiempos_comarcaSet" />
+      <End Role="tiempos_dia_comarcaSet" EntitySet="tiempos_dia_comarcaSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tiempos_dia_ciudadtiempos_ciudad" Association="Self.FK_tiempos_dia_ciudadtiempos_ciudad">
+      <End Role="tiempos_dia_ciudadSet" EntitySet="tiempos_dia_ciudadSet" />
+      <End Role="tiempos_ciudadSet" EntitySet="tiempos_ciudadSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tiempos_predicciontiempos_dia" Association="Self.FK_tiempos_predicciontiempos_dia">
+      <End Role="tiempos_prediccionSet" EntitySet="tiempos_prediccionSet" />
+      <End Role="tiempos_diaSet" EntitySet="tiempos_diaSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_viajes_bilbobusviajes_parada_tiempos_bilbobus" Association="Self.FK_viajes_bilbobusviajes_parada_tiempos_bilbobus">
+      <End Role="viajes_bilbobusSet" EntitySet="viajes_bilbobusSet" />
+      <End Role="viajes_parada_tiempos_bilbobusSet" EntitySet="viajes_parada_tiempos_bilbobusSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_viajes_bizkaibusviajes_parada_tiempos_bizkaibus" Association="Self.FK_viajes_bizkaibusviajes_parada_tiempos_bizkaibus">
+      <End Role="viajes_bizkaibusSet" EntitySet="viajes_bizkaibusSet" />
+      <End Role="viajes_parada_tiempos_bizkaibusSet" EntitySet="viajes_parada_tiempos_bizkaibusSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_viajes_euskotrenviajes_parada_tiempos" Association="Self.FK_viajes_euskotrenviajes_parada_tiempos">
+      <End Role="viajes_euskotrenSet" EntitySet="viajes_euskotrenSet" />
+      <End Role="viajes_parada_tiempos_euskotrenSet" EntitySet="viajes_parada_tiempos_euskotrenSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_viajes_metroviajes_parada_tiempos_metro" Association="Self.FK_viajes_metroviajes_parada_tiempos_metro">
+      <End Role="viajes_metroSet" EntitySet="viajes_metroSet" />
+      <End Role="viajes_parada_tiempos_metroSet" EntitySet="viajes_parada_tiempos_metroSet" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

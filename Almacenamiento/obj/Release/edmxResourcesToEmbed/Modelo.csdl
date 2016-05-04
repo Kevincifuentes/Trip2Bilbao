@@ -1,0 +1,859 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Modelo" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="ModeloContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="entradasSet" EntityType="Modelo.entradas" />
+    <EntitySet Name="tarifasSet" EntityType="Modelo.tarifas" />
+    <EntitySet Name="parkingsSet" EntityType="Modelo.parkings" />
+    <AssociationSet Name="parkingsentradas" Association="Modelo.parkingsentradas">
+      <End Role="parkings" EntitySet="parkingsSet" />
+      <End Role="entradas" EntitySet="entradasSet" />
+    </AssociationSet>
+    <AssociationSet Name="parkingstarifas" Association="Modelo.parkingstarifas">
+      <End Role="parkings" EntitySet="parkingsSet" />
+      <End Role="tarifas" EntitySet="tarifasSet" />
+    </AssociationSet>
+    <EntitySet Name="incidenciasSet" EntityType="Modelo.incidencias" />
+    <EntitySet Name="paradas_tranviaSet" EntityType="Modelo.paradas_tranvia" />
+    <EntitySet Name="hospitalesSet" EntityType="Modelo.hospitales" />
+    <EntitySet Name="puntos_biciSet" EntityType="Modelo.puntos_bici" />
+    <EntitySet Name="centros_de_saludSet" EntityType="Modelo.centros_de_salud" />
+    <EntitySet Name="tiempos_dia_ciudadSet" EntityType="Modelo.tiempos_dia_ciudad" />
+    <EntitySet Name="tiempos_ciudadSet" EntityType="Modelo.tiempos_ciudad" />
+    <EntitySet Name="tiempos_comarcaSet" EntityType="Modelo.tiempos_comarca" />
+    <EntitySet Name="tiempos_dia_comarcaSet" EntityType="Modelo.tiempos_dia_comarca" />
+    <AssociationSet Name="tiempos_comarcatiempos_dia_comarca" Association="Modelo.tiempos_comarcatiempos_dia_comarca">
+      <End Role="tiempos_comarca" EntitySet="tiempos_comarcaSet" />
+      <End Role="tiempos_dia_comarca" EntitySet="tiempos_dia_comarcaSet" />
+    </AssociationSet>
+    <EntitySet Name="farmaciasSet" EntityType="Modelo.farmacias" />
+    <EntitySet Name="tiempos_diaSet" EntityType="Modelo.tiempos_dia" />
+    <EntitySet Name="tiempos_prediccionSet" EntityType="Modelo.tiempos_prediccion" />
+    <AssociationSet Name="tiempos_predicciontiempos_dia" Association="Modelo.tiempos_predicciontiempos_dia">
+      <End Role="tiempos_prediccion" EntitySet="tiempos_prediccionSet" />
+      <End Role="tiempos_dia" EntitySet="tiempos_diaSet" />
+    </AssociationSet>
+    <EntitySet Name="lineas_metroSet" EntityType="Modelo.lineas_metro" />
+    <EntitySet Name="viajes_metroSet" EntityType="Modelo.viajes_metro" />
+    <EntitySet Name="paradas_metroSet" EntityType="Modelo.paradas_metro" />
+    <EntitySet Name="lineas_bizkaibusSet" EntityType="Modelo.lineas_bizkaibus" />
+    <EntitySet Name="viajes_bizkaibusSet" EntityType="Modelo.viajes_bizkaibus" />
+    <AssociationSet Name="lineas_bizkaibusviajes_bizkaibus" Association="Modelo.lineas_bizkaibusviajes_bizkaibus">
+      <End EntitySet="lineas_bizkaibusSet" Role="lineas_bizkaibus" />
+      <End EntitySet="viajes_bizkaibusSet" Role="viajes_bizkaibus" />
+    </AssociationSet>
+    <EntitySet Name="paradas_bizkaibusSet" EntityType="Modelo.paradas_bizkaibus" />
+    <EntitySet Name="paradas_bilbobusSet" EntityType="Modelo.paradas_bilbobus" />
+    <EntitySet Name="tiempos_linea_paradaSet" EntityType="Modelo.tiempos_linea_parada" />
+    <EntitySet Name="lineas_bilbobusSet" EntityType="Modelo.lineas_bilbobus" />
+    <AssociationSet Name="lineas_bilbobustiempos_linea_parada" Association="Modelo.lineas_bilbobustiempos_linea_parada">
+      <End Role="lineas_bilbobus" EntitySet="lineas_bilbobusSet" />
+      <End Role="tiempos_linea_parada" EntitySet="tiempos_linea_paradaSet" />
+    </AssociationSet>
+    <AssociationSet Name="paradas_bilbobustiempos_linea_parada" Association="Modelo.paradas_bilbobustiempos_linea_parada">
+      <End Role="paradas_bilbobus" EntitySet="paradas_bilbobusSet" />
+      <End Role="tiempos_linea_parada" EntitySet="tiempos_linea_paradaSet" />
+    </AssociationSet>
+    <EntitySet Name="viajes_bilbobusSet" EntityType="Modelo.viajes_bilbobus" />
+    <AssociationSet Name="lineas_bilbobusviajes_bilbobus" Association="Modelo.lineas_bilbobusviajes_bilbobus">
+      <End Role="lineas_bilbobus" EntitySet="lineas_bilbobusSet" />
+      <End Role="viajes_bilbobus" EntitySet="viajes_bilbobusSet" />
+    </AssociationSet>
+    <EntitySet Name="lineas_euskotrenSet" EntityType="Modelo.lineas_euskotren" />
+    <EntitySet Name="viajes_euskotrenSet" EntityType="Modelo.viajes_euskotren" />
+    <AssociationSet Name="lineas_euskotrenviajes_euskotren" Association="Modelo.lineas_euskotrenviajes_euskotren">
+      <End EntitySet="lineas_euskotrenSet" Role="lineas_euskotren" />
+      <End EntitySet="viajes_euskotrenSet" Role="viajes_euskotren" />
+    </AssociationSet>
+    <EntitySet Name="paradas_euskotrenSet" EntityType="Modelo.paradas_euskotren" />
+    <AssociationSet Name="lineas_metroviajes_metro" Association="Modelo.lineas_metroviajes_metro">
+      <End Role="lineas_metro" EntitySet="lineas_metroSet" />
+      <End Role="viajes_metro" EntitySet="viajes_metroSet" />
+    </AssociationSet>
+    <EntitySet Name="estados_parkingSet" EntityType="Modelo.estados_parking" />
+    <AssociationSet Name="parkingsestados_parking" Association="Modelo.parkingsestados_parking">
+      <End Role="parkings" EntitySet="parkingsSet" />
+      <End Role="estados_parking" EntitySet="estados_parkingSet" />
+    </AssociationSet>
+    <EntitySet Name="estados_puntobiciSet" EntityType="Modelo.estados_puntobici" />
+    <AssociationSet Name="puntos_biciestados_puntobici" Association="Modelo.puntos_biciestados_puntobici">
+      <End Role="puntos_bici" EntitySet="puntos_biciSet" />
+      <End Role="estados_puntobici" EntitySet="estados_puntobiciSet" />
+    </AssociationSet>
+    <EntitySet Name="parkingDeustoSet" EntityType="Modelo.parkingDeusto" />
+    <EntitySet Name="viajes_parada_tiempos_euskotrenSet" EntityType="Modelo.viajes_parada_tiempos_euskotren" />
+    <AssociationSet Name="viajes_euskotrenviajes_parada_tiempos" Association="Modelo.viajes_euskotrenviajes_parada_tiempos">
+      <End EntitySet="viajes_euskotrenSet" Role="viajes_euskotren" />
+      <End EntitySet="viajes_parada_tiempos_euskotrenSet" Role="viajes_parada_tiempos" />
+    </AssociationSet>
+    <AssociationSet Name="paradas_euskotrenviajes_parada_tiempos" Association="Modelo.paradas_euskotrenviajes_parada_tiempos">
+      <End EntitySet="paradas_euskotrenSet" Role="paradas_euskotren" />
+      <End EntitySet="viajes_parada_tiempos_euskotrenSet" Role="viajes_parada_tiempos" />
+    </AssociationSet>
+    <EntitySet Name="viajes_parada_tiempos_metroSet" EntityType="Modelo.viajes_parada_tiempos_metro" />
+    <AssociationSet Name="paradas_metroviajes_parada_tiempos_metro" Association="Modelo.paradas_metroviajes_parada_tiempos_metro">
+      <End Role="paradas_metro" EntitySet="paradas_metroSet" />
+      <End Role="viajes_parada_tiempos_metro" EntitySet="viajes_parada_tiempos_metroSet" />
+    </AssociationSet>
+    <AssociationSet Name="viajes_metroviajes_parada_tiempos_metro" Association="Modelo.viajes_metroviajes_parada_tiempos_metro">
+      <End Role="viajes_metro" EntitySet="viajes_metroSet" />
+      <End Role="viajes_parada_tiempos_metro" EntitySet="viajes_parada_tiempos_metroSet" />
+    </AssociationSet>
+    <EntitySet Name="viajes_parada_tiempos_bizkaibusSet" EntityType="Modelo.viajes_parada_tiempos_bizkaibus" />
+    <AssociationSet Name="paradas_bizkaibusviajes_parada_tiempos_bizkaibus" Association="Modelo.paradas_bizkaibusviajes_parada_tiempos_bizkaibus">
+      <End EntitySet="paradas_bizkaibusSet" Role="paradas_bizkaibus" />
+      <End EntitySet="viajes_parada_tiempos_bizkaibusSet" Role="viajes_parada_tiempos_bizkaibus" />
+    </AssociationSet>
+    <AssociationSet Name="viajes_bizkaibusviajes_parada_tiempos_bizkaibus" Association="Modelo.viajes_bizkaibusviajes_parada_tiempos_bizkaibus">
+      <End EntitySet="viajes_bizkaibusSet" Role="viajes_bizkaibus" />
+      <End EntitySet="viajes_parada_tiempos_bizkaibusSet" Role="viajes_parada_tiempos_bizkaibus" />
+    </AssociationSet>
+    <EntitySet Name="viajes_parada_tiempos_bilbobusSet" EntityType="Modelo.viajes_parada_tiempos_bilbobus" />
+    <AssociationSet Name="viajes_bilbobusviajes_parada_tiempos_bilbobus" Association="Modelo.viajes_bilbobusviajes_parada_tiempos_bilbobus">
+      <End Role="viajes_bilbobus" EntitySet="viajes_bilbobusSet" />
+      <End Role="viajes_parada_tiempos_bilbobus" EntitySet="viajes_parada_tiempos_bilbobusSet" />
+    </AssociationSet>
+    <AssociationSet Name="paradas_bilbobusviajes_parada_tiempos_bilbobus" Association="Modelo.paradas_bilbobusviajes_parada_tiempos_bilbobus">
+      <End Role="paradas_bilbobus" EntitySet="paradas_bilbobusSet" />
+      <End Role="viajes_parada_tiempos_bilbobus" EntitySet="viajes_parada_tiempos_bilbobusSet" />
+    </AssociationSet>
+    <AssociationSet Name="tiempos_dia_ciudadtiempos_ciudad" Association="Modelo.tiempos_dia_ciudadtiempos_ciudad">
+      <End Role="tiempos_dia_ciudad" EntitySet="tiempos_dia_ciudadSet" />
+      <End Role="tiempos_ciudad" EntitySet="tiempos_ciudadSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="entradas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="latitud" Type="Double" Nullable="false" />
+    <Property Name="longitud" Type="Double" Nullable="false" />
+    <NavigationProperty Name="parkings" Relationship="Modelo.parkingsentradas" FromRole="entradas" ToRole="parkings" />
+    <Property Name="parkingsId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tarifas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="tipo" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="descripcion" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="zona" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="actualizacion" Type="DateTime" Nullable="false" Precision="7" />
+    <NavigationProperty Name="parkings" Relationship="Modelo.parkingstarifas" FromRole="tarifas" ToRole="parkings" />
+    <Property Name="parkingsId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="parkings">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="tipo" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="estado" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="capacidad" Type="Int32" Nullable="false" />
+    <Property Name="latitud" Type="Double" Nullable="false" />
+    <Property Name="longitud" Type="Double" Nullable="false" />
+    <NavigationProperty Name="entradas" Relationship="Modelo.parkingsentradas" FromRole="parkings" ToRole="entradas" />
+    <NavigationProperty Name="tarifas" Relationship="Modelo.parkingstarifas" FromRole="parkings" ToRole="tarifas" />
+    <NavigationProperty Name="estados_parking" Relationship="Modelo.parkingsestados_parking" FromRole="parkings" ToRole="estados_parking" />
+    <Property Name="codigoPostal" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="parkingsentradas">
+    <End Type="Modelo.parkings" Role="parkings" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="Modelo.entradas" Role="entradas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="parkings">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="entradas">
+        <PropertyRef Name="parkingsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="parkingstarifas">
+    <End Type="Modelo.parkings" Role="parkings" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="Modelo.tarifas" Role="tarifas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="parkings">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tarifas">
+        <PropertyRef Name="parkingsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="incidencias">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="fechaInicio" />
+      <PropertyRef Name="fechaFin" />
+      <PropertyRef Name="fechaInsercion" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="tipo" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="descripcion" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="latitud" Type="Double" Nullable="false" />
+    <Property Name="longitud" Type="Double" Nullable="false" />
+    <Property Name="fechaInicio" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="fechaFin" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="fechaInsercion" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="codigoPostal" Type="Int32" />
+  </EntityType>
+  <EntityType Name="paradas_tranvia">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="latitud" Type="Double" Nullable="false" />
+    <Property Name="longitud" Type="Double" Nullable="false" />
+    <Property Name="descripcion" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="codigoPostal" Type="Int32" Nullable="false" />
+    <Property Name="orden" Type="Int32" />
+  </EntityType>
+  <EntityType Name="hospitales">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="direccion" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="codigoPostal" Type="Int32" Nullable="false" />
+    <Property Name="region" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="calle" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="ciudad" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="latitud" Type="Double" Nullable="false" />
+    <Property Name="longitud" Type="Double" Nullable="false" />
+    <Property Name="web" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="telefono" Type="Int64" Nullable="false" />
+    <Property Name="idHospital" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="puntos_bici">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="estado" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="latitud" Type="Double" Nullable="false" />
+    <Property Name="longitud" Type="Double" Nullable="false" />
+    <Property Name="capacidad" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="estados_puntobici" Relationship="Modelo.puntos_biciestados_puntobici" FromRole="puntos_bici" ToRole="estados_puntobici" />
+    <Property Name="codigoPostal" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="centros_de_salud">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="codigo_centro" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="direcionCompleta" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="codigoPostal" Type="Int32" Nullable="false" />
+    <Property Name="provincia" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="region" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="horario" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="calle" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="ciudad" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="urlAdicional" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="latitud" Type="Double" Nullable="false" />
+    <Property Name="longitud" Type="Double" Nullable="false" />
+    <Property Name="web" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="telefono" Type="Int64" Nullable="false" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <EntityType Name="tiempos_dia_ciudad">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombreCiudad" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="fechaDescarga" Type="DateTime" Nullable="false" Precision="7" />
+    <NavigationProperty Name="tiempos_ciudad" Relationship="Modelo.tiempos_dia_ciudadtiempos_ciudad" FromRole="tiempos_dia_ciudad" ToRole="tiempos_ciudad" />
+  </EntityType>
+  <EntityType Name="tiempos_ciudad">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="diaPrediccion" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="descripcionES" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="descripcionEU" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="descripcionGeneralES" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="descripcionGeneralEU" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="tiempos_dia_ciudad" Relationship="Modelo.tiempos_dia_ciudadtiempos_ciudad" FromRole="tiempos_ciudad" ToRole="tiempos_dia_ciudad" />
+    <Property Name="tiempos_dia_ciudad_id" Type="Int32" Nullable="false" />
+    <Property Name="maxima" Type="Int32" Nullable="false" />
+    <Property Name="minima" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tiempos_comarca">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="diaActualizacion" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="nombreComarcaES" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="nombreComarcaEU" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="tiempos_dia_comarca" Relationship="Modelo.tiempos_comarcatiempos_dia_comarca" FromRole="tiempos_comarca" ToRole="tiempos_dia_comarca" />
+  </EntityType>
+  <EntityType Name="tiempos_dia_comarca">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="fechaPrediccion" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="vientoES" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="vientoEU" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="tiempoES" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="tiempoEU" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="temperaturaES" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="temperaturaEU" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="descripcionES" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="descripcionEU" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="tiempos_comarca" Relationship="Modelo.tiempos_comarcatiempos_dia_comarca" FromRole="tiempos_dia_comarca" ToRole="tiempos_comarca" />
+    <Property Name="tiempos_comarcaId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="tiempos_comarcatiempos_dia_comarca">
+    <End Type="Modelo.tiempos_comarca" Role="tiempos_comarca" Multiplicity="1" />
+    <End Type="Modelo.tiempos_dia_comarca" Role="tiempos_dia_comarca" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tiempos_comarca">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tiempos_dia_comarca">
+        <PropertyRef Name="tiempos_comarcaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="farmacias">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="latitud" Type="Double" Nullable="false" />
+    <Property Name="longitud" Type="Double" Nullable="false" />
+    <Property Name="direccion" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="direccionAbreviada" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="provincia" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="ciudad" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="codigoPostal" Type="Int32" Nullable="false" />
+    <Property Name="url" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="telefono" Type="Int64" Nullable="false" />
+    <Property Name="web" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="informacionAdcional" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="nombrePropietario" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tiempos_dia">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="fechaPrediccion" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="vientoES" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="vientoEU" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="tiempoES" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="tiempoEU" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="temperaturaES" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="temperaturaEU" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="tiempo_prediccionId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tiempos_prediccion" Relationship="Modelo.tiempos_predicciontiempos_dia" FromRole="tiempos_dia" ToRole="tiempos_prediccion" />
+    <Property Name="tiempos_prediccionId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tiempos_prediccion">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="fechaInicioPrediccion" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="fechaFinPrediccion" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="fechaRealizacionPrediccion" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="tiempos_dia" Relationship="Modelo.tiempos_predicciontiempos_dia" FromRole="tiempos_prediccion" ToRole="tiempos_dia" />
+  </EntityType>
+  <Association Name="tiempos_predicciontiempos_dia">
+    <End Type="Modelo.tiempos_prediccion" Role="tiempos_prediccion" Multiplicity="1" />
+    <End Type="Modelo.tiempos_dia" Role="tiempos_dia" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tiempos_prediccion">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tiempos_dia">
+        <PropertyRef Name="tiempos_prediccionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="lineas_metro">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="abreviatura" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="tipo" Type="Int32" Nullable="false" />
+    <Property Name="idMetro" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="viajes_metro" Relationship="Modelo.lineas_metroviajes_metro" FromRole="lineas_metro" ToRole="viajes_metro" />
+  </EntityType>
+  <EntityType Name="viajes_metro">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <NavigationProperty Name="lineas_metro" Relationship="Modelo.lineas_metroviajes_metro" FromRole="viajes_metro" ToRole="lineas_metro" />
+    <Property Name="lineas_metro_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="viajes_parada_tiempos_metro" Relationship="Modelo.viajes_metroviajes_parada_tiempos_metro" FromRole="viajes_metro" ToRole="viajes_parada_tiempos_metro" />
+    <Property Name="tiempoInicio" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="tiempoFin" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="paradas_metro">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="latitud" Type="Double" Nullable="false" />
+    <Property Name="longitud" Type="Double" Nullable="false" />
+    <Property Name="tipoLocalizacion" Type="Int32" Nullable="false" />
+    <Property Name="idParadaPadre" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="viajes_parada_tiempos_metro" Relationship="Modelo.paradas_metroviajes_parada_tiempos_metro" FromRole="paradas_metro" ToRole="viajes_parada_tiempos_metro" />
+    <Property Name="codigoParada" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" Nullable="false" />
+    <Property Name="idParada" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="codigoPostal" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="lineas_bizkaibus">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Nullable="false" annotation:StoreGeneratedPattern="None" Type="Int32" />
+    <Property Name="abreviatura" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="nombre" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="tipoTransporte" Nullable="false" Type="Int32" />
+    <NavigationProperty Name="viajes_bizkaibus" Relationship="Modelo.lineas_bizkaibusviajes_bizkaibus" FromRole="lineas_bizkaibus" ToRole="viajes_bizkaibus" />
+  </EntityType>
+  <EntityType Name="viajes_bizkaibus">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Nullable="false" annotation:StoreGeneratedPattern="None" Type="Int32" />
+    <NavigationProperty Name="lineas_bizkaibus" Relationship="Modelo.lineas_bizkaibusviajes_bizkaibus" FromRole="viajes_bizkaibus" ToRole="lineas_bizkaibus" />
+    <Property Name="lineas_bizkaibusId" Nullable="false" Type="Int32" />
+    <NavigationProperty Name="viajes_parada_tiempos_bizkaibus" Relationship="Modelo.viajes_bizkaibusviajes_parada_tiempos_bizkaibus" FromRole="viajes_bizkaibus" ToRole="viajes_parada_tiempos_bizkaibus" />
+    <Property Name="tiempoInicio" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="tiempoFin" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+  </EntityType>
+  <Association Name="lineas_bizkaibusviajes_bizkaibus">
+    <End Type="Modelo.lineas_bizkaibus" Multiplicity="1" Role="lineas_bizkaibus">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="Modelo.viajes_bizkaibus" Multiplicity="*" Role="viajes_bizkaibus" />
+    <ReferentialConstraint>
+      <Principal Role="lineas_bizkaibus">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_bizkaibus">
+        <PropertyRef Name="lineas_bizkaibusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="paradas_bizkaibus">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Nullable="false" annotation:StoreGeneratedPattern="None" Type="Int32" />
+    <Property Name="nombre" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="descripcion" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="latitud" Nullable="false" Type="Double" />
+    <Property Name="longitud" Nullable="false" Type="Double" />
+    <Property Name="url" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="tipoLocalizacion" Nullable="false" Type="Int32" />
+    <NavigationProperty Name="viajes_parada_tiempos_bizkaibus" Relationship="Modelo.paradas_bizkaibusviajes_parada_tiempos_bizkaibus" FromRole="paradas_bizkaibus" ToRole="viajes_parada_tiempos_bizkaibus" />
+    <Property Name="codigoParada" Nullable="false" Type="Int32" />
+    <Property Name="idParadaPadre" Nullable="false" Type="Int32" />
+    <Property Name="codigoPostal" Nullable="false" Type="Int32" />
+  </EntityType>
+  <EntityType Name="paradas_bilbobus">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="latitud" Type="Double" Nullable="false" />
+    <Property Name="longitud" Type="Double" Nullable="false" />
+    <NavigationProperty Name="tiempos_linea_parada" Relationship="Modelo.paradas_bilbobustiempos_linea_parada" FromRole="paradas_bilbobus" ToRole="tiempos_linea_parada" />
+    <NavigationProperty Name="viajes_parada_tiempos_bilbobus" Relationship="Modelo.paradas_bilbobusviajes_parada_tiempos_bilbobus" FromRole="paradas_bilbobus" ToRole="viajes_parada_tiempos_bilbobus" />
+    <Property Name="abreviatura" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="codigoPostal" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tiempos_linea_parada">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="fecha" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="tiempoEspera" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="lineas_bilbobus" Relationship="Modelo.lineas_bilbobustiempos_linea_parada" FromRole="tiempos_linea_parada" ToRole="lineas_bilbobus" />
+    <Property Name="lineas_bilbobusId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="paradas_bilbobus" Relationship="Modelo.paradas_bilbobustiempos_linea_parada" FromRole="tiempos_linea_parada" ToRole="paradas_bilbobus" />
+    <Property Name="paradas_bilbobusId" Type="Int32" Nullable="false" />
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="7" />
+  </EntityType>
+  <EntityType Name="lineas_bilbobus">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="abreviatura" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="tipoTransporte" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tiempos_linea_parada" Relationship="Modelo.lineas_bilbobustiempos_linea_parada" FromRole="lineas_bilbobus" ToRole="tiempos_linea_parada" />
+    <NavigationProperty Name="viajes_bilbobus" Relationship="Modelo.lineas_bilbobusviajes_bilbobus" FromRole="lineas_bilbobus" ToRole="viajes_bilbobus" />
+    <Property Name="idLinea" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <Association Name="lineas_bilbobustiempos_linea_parada">
+    <End Type="Modelo.lineas_bilbobus" Role="lineas_bilbobus" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="Modelo.tiempos_linea_parada" Role="tiempos_linea_parada" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="lineas_bilbobus">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tiempos_linea_parada">
+        <PropertyRef Name="lineas_bilbobusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="paradas_bilbobustiempos_linea_parada">
+    <End Type="Modelo.paradas_bilbobus" Role="paradas_bilbobus" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="Modelo.tiempos_linea_parada" Role="tiempos_linea_parada" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="paradas_bilbobus">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tiempos_linea_parada">
+        <PropertyRef Name="paradas_bilbobusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="viajes_bilbobus">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <NavigationProperty Name="lineas_bilbobus" Relationship="Modelo.lineas_bilbobusviajes_bilbobus" FromRole="viajes_bilbobus" ToRole="lineas_bilbobus" />
+    <Property Name="lineas_bilbobusId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="viajes_parada_tiempos_bilbobus" Relationship="Modelo.viajes_bilbobusviajes_parada_tiempos_bilbobus" FromRole="viajes_bilbobus" ToRole="viajes_parada_tiempos_bilbobus" />
+    <Property Name="tiempoInicio" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="tiempoFin" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <Association Name="lineas_bilbobusviajes_bilbobus">
+    <End Type="Modelo.lineas_bilbobus" Role="lineas_bilbobus" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="Modelo.viajes_bilbobus" Role="viajes_bilbobus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="lineas_bilbobus">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_bilbobus">
+        <PropertyRef Name="lineas_bilbobusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="lineas_euskotren">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Nullable="false" annotation:StoreGeneratedPattern="None" Type="Int32" />
+    <Property Name="abreviatura" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="nombre" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="tipo" Nullable="false" Type="Int32" />
+    <NavigationProperty Name="viajes_euskotren" Relationship="Modelo.lineas_euskotrenviajes_euskotren" FromRole="lineas_euskotren" ToRole="viajes_euskotren" />
+  </EntityType>
+  <EntityType Name="viajes_euskotren">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+    <NavigationProperty Name="lineas_euskotren" Relationship="Modelo.lineas_euskotrenviajes_euskotren" FromRole="viajes_euskotren" ToRole="lineas_euskotren" />
+    <Property Name="lineas_euskotrenId" Nullable="false" Type="Int32" />
+    <Property Name="idViaje" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="tiempoInicio" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="tiempoFin" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+    <NavigationProperty Name="viajes_parada_tiempos" Relationship="Modelo.viajes_euskotrenviajes_parada_tiempos" FromRole="viajes_euskotren" ToRole="viajes_parada_tiempos" />
+  </EntityType>
+  <Association Name="lineas_euskotrenviajes_euskotren">
+    <End Type="Modelo.lineas_euskotren" Multiplicity="1" Role="lineas_euskotren">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="Modelo.viajes_euskotren" Multiplicity="*" Role="viajes_euskotren" />
+    <ReferentialConstraint>
+      <Principal Role="lineas_euskotren">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_euskotren">
+        <PropertyRef Name="lineas_euskotrenId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="paradas_euskotren">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Nullable="false" annotation:StoreGeneratedPattern="None" Type="Int32" />
+    <Property Name="nombre" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="descripcion" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="latitud" Nullable="false" Type="Double" />
+    <Property Name="longitud" Nullable="false" Type="Double" />
+    <Property Name="url" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="tipoLocalizacion" Nullable="false" Type="Int32" />
+    <Property Name="codigoParada" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+    <NavigationProperty Name="viajes_parada_tiempos" Relationship="Modelo.paradas_euskotrenviajes_parada_tiempos" FromRole="paradas_euskotren" ToRole="viajes_parada_tiempos" />
+    <Property Name="codigoPostal" Nullable="false" Type="Int32" />
+  </EntityType>
+  <Association Name="lineas_metroviajes_metro">
+    <End Type="Modelo.lineas_metro" Role="lineas_metro" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="Modelo.viajes_metro" Role="viajes_metro" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="lineas_metro">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_metro">
+        <PropertyRef Name="lineas_metro_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="estados_parking">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="disponible" Type="Int32" Nullable="false" />
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="7" />
+    <NavigationProperty Name="parkings" Relationship="Modelo.parkingsestados_parking" FromRole="estados_parking" ToRole="parkings" />
+    <Property Name="parkings_id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="parkingsestados_parking">
+    <End Type="Modelo.parkings" Role="parkings" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="Modelo.estados_parking" Role="estados_parking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="parkings">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="estados_parking">
+        <PropertyRef Name="parkings_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="estados_puntobici">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="anclajeslibres" Type="Int32" Nullable="false" />
+    <Property Name="bicisLibres" Type="Int32" Nullable="false" />
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="7" />
+    <NavigationProperty Name="puntos_bici" Relationship="Modelo.puntos_biciestados_puntobici" FromRole="estados_puntobici" ToRole="puntos_bici" />
+    <Property Name="puntos_bici_id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="puntos_biciestados_puntobici">
+    <End Type="Modelo.puntos_bici" Role="puntos_bici" Multiplicity="1" />
+    <End Type="Modelo.estados_puntobici" Role="estados_puntobici" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="puntos_bici">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="estados_puntobici">
+        <PropertyRef Name="puntos_bici_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="parkingDeusto">
+    <Key>
+      <PropertyRef Name="fecha" />
+    </Key>
+    <Property Name="fecha" Type="DateTime" annotation:StoreGeneratedPattern="None" Nullable="false" Precision="7" />
+    <Property Name="dbs" Type="Int32" Nullable="false" />
+    <Property Name="general" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="viajes_parada_tiempos_euskotren">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+    <NavigationProperty Name="viajes_euskotren" Relationship="Modelo.viajes_euskotrenviajes_parada_tiempos" FromRole="viajes_parada_tiempos" ToRole="viajes_euskotren" />
+    <Property Name="viajes_euskotren_id" Nullable="false" Type="Int32" />
+    <NavigationProperty Name="paradas_euskotren" Relationship="Modelo.paradas_euskotrenviajes_parada_tiempos" FromRole="viajes_parada_tiempos" ToRole="paradas_euskotren" />
+    <Property Name="paradas_euskotren_id" Nullable="false" Type="Int32" />
+    <Property Name="tiempoLlegada" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="tiempoSalida" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+  </EntityType>
+  <Association Name="viajes_euskotrenviajes_parada_tiempos">
+    <End Type="Modelo.viajes_euskotren" Multiplicity="1" Role="viajes_euskotren">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="Modelo.viajes_parada_tiempos_euskotren" Multiplicity="*" Role="viajes_parada_tiempos" />
+    <ReferentialConstraint>
+      <Principal Role="viajes_euskotren">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos">
+        <PropertyRef Name="viajes_euskotren_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="paradas_euskotrenviajes_parada_tiempos">
+    <End Type="Modelo.paradas_euskotren" Multiplicity="1" Role="paradas_euskotren" />
+    <End Type="Modelo.viajes_parada_tiempos_euskotren" Multiplicity="*" Role="viajes_parada_tiempos" />
+    <ReferentialConstraint>
+      <Principal Role="paradas_euskotren">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos">
+        <PropertyRef Name="paradas_euskotren_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="viajes_parada_tiempos_metro">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="paradas_metro" Relationship="Modelo.paradas_metroviajes_parada_tiempos_metro" FromRole="viajes_parada_tiempos_metro" ToRole="paradas_metro" />
+    <Property Name="paradas_metro_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="viajes_metro" Relationship="Modelo.viajes_metroviajes_parada_tiempos_metro" FromRole="viajes_parada_tiempos_metro" ToRole="viajes_metro" />
+    <Property Name="viajes_metro_id" Type="Int32" Nullable="false" />
+    <Property Name="tiempoLlegada" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="tiempoSalida" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <Association Name="paradas_metroviajes_parada_tiempos_metro">
+    <End Type="Modelo.paradas_metro" Role="paradas_metro" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="Modelo.viajes_parada_tiempos_metro" Role="viajes_parada_tiempos_metro" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="paradas_metro">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos_metro">
+        <PropertyRef Name="paradas_metro_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="viajes_metroviajes_parada_tiempos_metro">
+    <End Type="Modelo.viajes_metro" Role="viajes_metro" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="Modelo.viajes_parada_tiempos_metro" Role="viajes_parada_tiempos_metro" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="viajes_metro">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos_metro">
+        <PropertyRef Name="viajes_metro_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="viajes_parada_tiempos_bizkaibus">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+    <NavigationProperty Name="paradas_bizkaibus" Relationship="Modelo.paradas_bizkaibusviajes_parada_tiempos_bizkaibus" FromRole="viajes_parada_tiempos_bizkaibus" ToRole="paradas_bizkaibus" />
+    <Property Name="paradas_bizkaibus_id" Nullable="false" Type="Int32" />
+    <NavigationProperty Name="viajes_bizkaibus" Relationship="Modelo.viajes_bizkaibusviajes_parada_tiempos_bizkaibus" FromRole="viajes_parada_tiempos_bizkaibus" ToRole="viajes_bizkaibus" />
+    <Property Name="viajes_bizkaibus_id" Nullable="false" Type="Int32" />
+    <Property Name="tiempoLlegada" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="tiempoSalida" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+  </EntityType>
+  <Association Name="paradas_bizkaibusviajes_parada_tiempos_bizkaibus">
+    <End Type="Modelo.paradas_bizkaibus" Multiplicity="1" Role="paradas_bizkaibus">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="Modelo.viajes_parada_tiempos_bizkaibus" Multiplicity="*" Role="viajes_parada_tiempos_bizkaibus" />
+    <ReferentialConstraint>
+      <Principal Role="paradas_bizkaibus">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos_bizkaibus">
+        <PropertyRef Name="paradas_bizkaibus_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="viajes_bizkaibusviajes_parada_tiempos_bizkaibus">
+    <End Type="Modelo.viajes_bizkaibus" Multiplicity="1" Role="viajes_bizkaibus">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="Modelo.viajes_parada_tiempos_bizkaibus" Multiplicity="*" Role="viajes_parada_tiempos_bizkaibus" />
+    <ReferentialConstraint>
+      <Principal Role="viajes_bizkaibus">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos_bizkaibus">
+        <PropertyRef Name="viajes_bizkaibus_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="viajes_parada_tiempos_bilbobus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="viajes_bilbobus" Relationship="Modelo.viajes_bilbobusviajes_parada_tiempos_bilbobus" FromRole="viajes_parada_tiempos_bilbobus" ToRole="viajes_bilbobus" />
+    <Property Name="viajes_bilbobus_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="paradas_bilbobus" Relationship="Modelo.paradas_bilbobusviajes_parada_tiempos_bilbobus" FromRole="viajes_parada_tiempos_bilbobus" ToRole="paradas_bilbobus" />
+    <Property Name="paradas_bilbobus_id" Type="Int32" Nullable="false" />
+    <Property Name="tiempoLlegada" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="tiempoSalida" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <Association Name="viajes_bilbobusviajes_parada_tiempos_bilbobus">
+    <End Type="Modelo.viajes_bilbobus" Role="viajes_bilbobus" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="Modelo.viajes_parada_tiempos_bilbobus" Role="viajes_parada_tiempos_bilbobus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="viajes_bilbobus">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos_bilbobus">
+        <PropertyRef Name="viajes_bilbobus_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="paradas_bilbobusviajes_parada_tiempos_bilbobus">
+    <End Type="Modelo.paradas_bilbobus" Role="paradas_bilbobus" Multiplicity="1" />
+    <End Type="Modelo.viajes_parada_tiempos_bilbobus" Role="viajes_parada_tiempos_bilbobus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="paradas_bilbobus">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="viajes_parada_tiempos_bilbobus">
+        <PropertyRef Name="paradas_bilbobus_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="tiempos_dia_ciudadtiempos_ciudad">
+    <End Type="Modelo.tiempos_dia_ciudad" Role="tiempos_dia_ciudad" Multiplicity="1" />
+    <End Type="Modelo.tiempos_ciudad" Role="tiempos_ciudad" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tiempos_dia_ciudad">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tiempos_ciudad">
+        <PropertyRef Name="tiempos_dia_ciudad_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

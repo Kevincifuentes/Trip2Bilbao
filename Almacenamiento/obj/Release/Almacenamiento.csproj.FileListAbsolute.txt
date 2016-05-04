@@ -1,0 +1,12 @@
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\bin\Release\Almacenamiento.exe.config
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\bin\Release\Almacenamiento.exe
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\bin\Release\Almacenamiento.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\bin\Release\Clases.dll
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\bin\Release\EntityFramework.dll
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\bin\Release\Clases.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\bin\Release\EntityFramework.xml
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\obj\Release\Almacenamiento.csprojResolveAssemblyReference.cache
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\obj\Release\Almacenamiento.exe
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\obj\Release\Almacenamiento.pdb

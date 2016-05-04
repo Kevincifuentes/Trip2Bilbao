@@ -34,7 +34,7 @@ namespace ExtractorDatos
             {
                 // Creación de factoria
                 IConnectionFactory connectionFactory = new ConnectionFactory(
-                    "tcp://localhost:61616");
+                    "tcp://dev.mobility.deustotech.eu:61616");
 
                 // Creación de la conexión
                 _connection = connectionFactory.CreateConnection();
@@ -85,21 +85,39 @@ namespace ExtractorDatos
 
                         string url = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=" + longitudS + "%2C" + latitudS + "&distance=200&outSR=&f=pjson";
                         string json = "";
-                        using (WebClient wc = new WebClient())
+                        //Convertimos la página web recibida en un objeto JSON
+                        //Obtenemos el código postal
+                        try
                         {
-                            json = wc.DownloadString(url);
-                        }
+                            using (WebClient wc = new WebClient())
+                            {
+                                json = wc.DownloadString(url);
+                            }
+                            JToken obj = JObject.Parse(json);
+                            JToken direccion = obj.SelectToken("address");
 
-                        JToken obj = JObject.Parse(json);
-                        JToken direccion = obj.SelectToken("address");
-                        cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+                            try
+                            {
+                                cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+                            }
+                            catch (NullReferenceException exception)
+                            {
+                                cp = 00000;
+                            }
+
+                        }
+                        catch (System.Net.WebException ex)
+                        {
+                            cp = 00000;
+                        }
+                        
                     }
                     XElement xml = convertirUnParking(parking, descarga, cp);
                     ITextMessage temporal = _producer.CreateXmlMessage(xml);
                     temporal.Properties.SetInt("CP", cp);
                     temporal.NMSType = "Parkings";
                     temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
-                    _producer.Send(temporal);
+                    _producer.Send(temporal, MsgDeliveryMode.Persistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(60000));
                 }
             }
         }
@@ -113,29 +131,38 @@ namespace ExtractorDatos
 
                 string url = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=" + longitudS + "%2C" + latitudS + "&distance=200&outSR=&f=pjson";
                 string json = "";
-                using (WebClient wc = new WebClient())
-                {
-                    json = wc.DownloadString(url);
-                }
-
-                JToken obj = JObject.Parse(json);
-                JToken direccion = obj.SelectToken("address");
-                int cp = 0;
+                //Convertimos la página web recibida en un objeto JSON
+                //Obtenemos el código postal
+                int cp = 00000;
                 try
                 {
-                    cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+                    using (WebClient wc = new WebClient())
+                    {
+                        json = wc.DownloadString(url);
+                    }
+                    JToken obj = JObject.Parse(json);
+                    JToken direccion = obj.SelectToken("address");
+
+                    try
+                    {
+                        cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+                    }
+                    catch (NullReferenceException exception)
+                    {
+                        cp = 00000;
+                    }
+
                 }
-                catch (NullReferenceException ex)
+                catch (System.Net.WebException ex)
                 {
-                    Console.WriteLine("Se desconoce el código postal de " + longitudS + "/" + latitudS);
+                    cp = 00000;
                 }
 
                 XElement xml = convertirTiempoDeUnaParada(paradaBilbo, descarga, cp);
                 ITextMessage temporal = _producer.CreateXmlMessage(xml);
                 temporal.Properties.SetInt("CP", cp);
                 temporal.NMSType = "TiemposParada";
-                temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
-                _producer.Send(temporal);
+                _producer.Send(temporal, MsgDeliveryMode.Persistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(60000));
             }
         }
 
@@ -162,16 +189,33 @@ namespace ExtractorDatos
                 //generamos la url y hacemos la consulta
                 string url = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=" + longitudS + "%2C" + latitudS + "&distance=200&outSR=&f=pjson";
                 string json = "";
-                using (WebClient wc = new WebClient())
-                {
-                    json = wc.DownloadString(url);
-                }
 
                 //Convertimos la página web recibida en un objeto JSON
                 //Obtenemos el código postal
-                JToken obj = JObject.Parse(json);
-                JToken direccion = obj.SelectToken("address");
-                int cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+                int cp = 00000;
+                try
+                {
+                    using (WebClient wc = new WebClient())
+                    {
+                        json = wc.DownloadString(url);
+                    }
+                    JToken obj = JObject.Parse(json);
+                    JToken direccion = obj.SelectToken("address");
+                    
+                    try
+                    {
+                        cp = int.Parse(direccion.SelectToken("Postal").Value<string>());
+                    }
+                    catch (NullReferenceException exception)
+                    {
+                        cp = 00000;
+                    }
+
+                }
+                catch (System.Net.WebException ex)
+                {
+                    cp = 00000;
+                }
 
                 //Llamamos a convertir el punto de bicicletas en XML
                 XElement xml = convertirUnPuntoBici(puntoBici, descarga, cp);
@@ -180,7 +224,7 @@ namespace ExtractorDatos
                 temporal.Properties.SetInt("CP", cp);
                 temporal.NMSType = "Bicis";
                 temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
-                _producer.Send(temporal);
+                _producer.Send(temporal, MsgDeliveryMode.Persistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(60000));
             }
         }
 
@@ -191,7 +235,7 @@ namespace ExtractorDatos
             temporal.Properties.SetInt("CP", 48014);
             temporal.NMSType = "Deusto";
             temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
-            _producer.Send(temporal);
+            _producer.Send(temporal, MsgDeliveryMode.Persistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(60000));
         }
 
         public void enviarIncidencias<U, T>(U arg, DateTime descarga) where U : IEnumerable<T>
@@ -203,7 +247,7 @@ namespace ExtractorDatos
                 temporal.Properties.SetInt("CP", cpIncidencia);
                 temporal.NMSType = "Incidencia";
                 temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(86400000);
-                _producer.Send(temporal);
+                _producer.Send(temporal, MsgDeliveryMode.Persistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(86400000));
             }
         }
 
@@ -213,7 +257,7 @@ namespace ExtractorDatos
             ITextMessage temporal = _producer.CreateXmlMessage(xml);
             temporal.NMSType = "TiempoCiudad";
             temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(86400000);
-            _producer.Send(temporal);
+            _producer.Send(temporal, MsgDeliveryMode.Persistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(86400000));
         }
 
 /// <summary>

@@ -125,6 +125,7 @@
     <Content Include="hospitales.html" />
     <Content Include="index.html" />
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -27,7 +27,7 @@ namespace ReceptorBus
 
         private IConnection _connection;
         private ISession _session;
-        private const String QUEUE_DESTINATION = "PruebaEMISOR";
+        private const String QUEUE_DESTINATION = "PruebaEMISOR?consumer.retroactive=true";
         private IMessageConsumer _consumer;
         private ModeloContainer contexto;
 
@@ -47,7 +47,7 @@ namespace ReceptorBus
             
             //obtenerTranvia(oe);
             //obtenerEuskotren(oe);
-            obtenerMetro(oe);
+            //obtenerMetro(oe);
             /*obtenerBizkaibus(oe);
             obtenerBilbobus(oe);*/
 
@@ -56,7 +56,7 @@ namespace ReceptorBus
             {
                 // Creación de factoria
                 IConnectionFactory connectionFactory = new ConnectionFactory(
-                        "tcp://localhost:61616");
+                        "tcp://dev.mobility.deustotech.eu:61616");
 
                 // Creación de la conexión
                 _connection = connectionFactory.CreateConnection();

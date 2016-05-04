@@ -1,0 +1,1715 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Trip2Bilbao</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    .columnas {
+    height: 300px;
+    overflow-y: scroll;
+  }
+     .modal.large {
+         width: 80%; /* respsonsive width */
+         margin-left:-40%; /* width/2) */ 
+     }
+    .dropdown-menu {
+        min-width: 200px;
+    }
+    .dropdown-menu.columns-2 {
+        min-width: 400px;
+    }
+    .dropdown-menu.columns-3 {
+        min-width: 600px;
+    }
+    .dropdown-menu li a {
+        padding: 5px 15px;
+        font-weight: 300;
+    }
+    .multi-column-dropdown {
+        list-style: none;
+    }
+    .multi-column-dropdown li a {
+        display: block;
+        clear: both;
+        line-height: 1.428571429;
+        color: #333;
+        white-space: normal;
+    }
+    .multi-column-dropdown li a:hover {
+        text-decoration: none;
+        color: #262626;
+        background-color: #f5f5f5;
+    }
+ 
+    @media (max-width: 767px) {
+        .dropdown-menu.multi-column {
+            min-width: 240px !important;
+            overflow-x: hidden;
+        }
+    }
+    #left {
+        width:200px;
+        height:200px;
+        float:left;
+    }
+
+    #right {
+        width:200px;
+        height:200px;
+        float:right;
+    }
+    
+    .Flexible-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        padding-top: 30px;
+        height: 0;
+        overflow: hidden;
+    }
+    .Flexible-container iframe,   
+    .Flexible-container object,  
+    .Flexible-container embed {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .adaptarse {
+        display:block;
+        overflow:auto;
+        height: 600px;
+    }
+</style>
+<style>
+        /* Remove the navbar's default margin-bottom and rounded borders */
+    .navbar {
+        margin-bottom: 0;
+        border-radius: 0;
+    }
+
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {
+        height: 450px;
+    }
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+        padding-top: 20px;
+        background-color: #f1f1f1;
+    }
+
+    /* Set black background color, white text and some padding */
+    footer {
+        background-color: #555;
+        color: white;
+        padding: 15px;
+    }
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+        .sidenav {
+            height: auto;
+            padding: 15px;
+        }
+
+        .row.content {
+            height: auto;
+        }
+    }
+</style>
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    #map {
+        height: 100%;
+    }
+    #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto', 'sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+    }
+
+    #right-panel {
+        font-family: 'Roboto', 'sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+    }
+
+    #right-panel select, #right-panel input {
+        font-size: 15px;
+    }
+
+    #right-panel select {
+        width: 100%;
+    }
+
+    #right-panel i {
+        font-size: 12px;
+    }
+
+    #right-panel {
+        overflow: auto;
+    }
+
+    #floating-panel {
+        background: #fff;
+        padding: 5px;
+        font-size: 14px;
+        font-family: Arial;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
+        display: none;
+    }
+
+    @media print {
+        #map {
+            height: 500px;
+            margin: 0;
+        }
+
+        #right-panel {
+            float: none;
+            width: auto;
+        }
+    }
+
+    /* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(255, 255, 255, .8)
+                    url('imagenes/cargando.gif')
+                    50% 50%
+                    no-repeat;
+    }
+
+    /* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+    body.loading {
+        overflow: hidden;
+    }
+
+    /* Anytime the body has the loading class, our
+   modal element will be visible */
+    body.loading .modal {
+        display: block;
+    }
+</style>
+<!--<script src="JS/googlemaps.js"></script>-->
+<script src="JS/jquery-2.0.3.min.js"></script>
+<link rel="stylesheet" href="CSS/bootstrap.min.css">
+<script src="JS/bootstrap.min.js"></script>
+<!--<script src="JS/jquery.min.js"></script>-->
+<script type="text/javascript" src="JS/amq_jquery_adapter.js"></script>
+<script type="text/javascript" src="JS/amq.js"></script>
+<script type="text/javascript" src="JS/funciones.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA48R0ThGkq0f9Ys6C5JPQQqdI4kJPxy6Y&libraries=places&callback=initMap"
+            async defer></script>
+<!--<script type="text/javascript">
+        var amq = org.activemq.Amq;
+        amq.init({
+            uri: 'amq',
+            logging: true,
+            timeout: 20
+        });
+        var myHandler =
+        {
+            rcvMessage: function (message) {
+                alert("received " + message);
+            }
+        };
+        amq.addListener("01", "topic://PruebaEMISOR", myHandler.rcvMessage);
+    </script>-->
+    <!--
+<script>
+    var ultimaBusqueda = false;
+    var map;
+    var markers = [];
+    var colores = ['#DF0174', '#905c1b', '#000000'];
+    var iconos = ["imagenes/defecto.png", "imagenes/farmacias.png", "imagenes/parking.png", "imagenes/incidencias.png", "imagenes/centros.png", "imagenes/hospitales.png", "imagenes/bilbobus.png", "imagenes/bizkaibus.png", "imagenes/euskotren.png", "imagenes/metro.png", "imagenes/tranvia.png", "imagenes/puntobici.png"];
+    var rutas = [];
+    var infoWindows = [];
+    var primera = true;
+    var visible = false;
+    var anterior = 0;
+    var pos;
+    var latlngParking;
+    var destino;
+    var noParkings = false;
+    var tiempoIrParking;
+    var latlong;
+    var ultimaBusquedaPorNombre;
+    var numeroDeParkings = 0;
+    var latlngParkingUnico;
+    var conClick = false;
+    var tambienDestino = false;
+
+    function initMap() {
+        modoViaje = google.maps.TravelMode.DRIVING;
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 13,
+            center: { lat: 43.271037, lng: -2.938546 }
+        });
+
+        var trafficLayer = new google.maps.TrafficLayer();
+        trafficLayer.setMap(map);
+
+        geocoder = new google.maps.Geocoder();
+
+        $body = $("body");
+
+        $(document).on({
+            ajaxStart: function() { $body.addClass("loading"); },
+            ajaxStop: function() { $body.removeClass("loading"); }
+        });
+
+        $('input:radio[name=medio]').change(function() {
+            if (this.value === 'DRIVING' && ultimaBusqueda === true) {
+                if (ultimaBusquedaPorNombre === true) {
+                    buscarPorNombre();
+                } else {
+                    enrutar(destinoFinal, 0);
+                }
+            } else if (this.value === 'WALKING' && ultimaBusqueda === true) {
+                if (ultimaBusquedaPorNombre === true) {
+                    buscarPorNombre();
+                } else {
+                    enrutar(destinoFinal, 1);
+                }
+            }
+        });
+
+        $('#btnAceptar').click(function() {
+            $('#modalTiempoEx').modal('hide');
+            tambienDestino = true;
+            if ($('input:radio[name=opcion]:checked').val() === "pie") {
+                //alert("a pie");
+                enrutarOrigenDestino(latlngParking, destinoFinal, google.maps.TravelMode.WALKING);
+                obtenerCodigo(latlngParking);
+            } else {
+
+                //alert("en transporte publico");
+                enrutarOrigenDestino(latlngParking, destinoFinal, google.maps.TravelMode.TRANSIT);
+                obtenerCodigo(latlngParking);
+            }
+        });
+
+        //AUTOCOMPLETAR
+
+        var input = /** @type {!HTMLInputElement} */(
+            document.getElementById('busqueda'));
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+
+        autocomplete.addListener('place_changed', function() {
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                window.alert("Autocomplete's returned place contains no geometry");
+                return;
+            }
+        });
+
+        var input2 = /** @type {!HTMLInputElement} */(
+            document.getElementById('desde'));
+
+        var autocomplete2 = new google.maps.places.Autocomplete(input2);
+        autocomplete.bindTo('bounds', map);
+
+        autocomplete2.addListener('place_changed', function () {
+            var place = autocomplete2.getPlace();
+            if (!place.geometry) {
+                window.alert("Autocomplete's returned place contains no geometry");
+                return;
+            }
+        });
+
+        //BOTÓN ENTER
+        $("#busqueda").keyup(function (event) {
+            if (event.keyCode == 13) {
+                conClick = false;
+                $("#btnBuscar").click();
+            }
+        });
+    }
+
+    function obtener(x, y) {
+        if (primera || x != anterior || seleccionar === true || conClick === true) {
+            anterior = x;
+            primera = false;
+            visible = true;
+            $(document).ready(function() {
+                // Send an AJAX request
+                $.getJSON(y)
+                    .fail(function() {
+                        if (x === 1) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Farmacias cercanas en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 2) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Parkings cercanos en Destino.");
+                            noParkings = true;
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 3) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Incidencias de tráfico cernanas en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 4) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Centros de salud cercanos en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 5) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Hospitales cercanos en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 6) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Paradas de Bilbobus cercanas en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 7) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Paradas de Bizkaibus cercanas en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 8) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Paradas de Euskotren cercanas en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 9) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Paradas de Metro cercanas en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 10) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Paradas de Tranvía cercanas en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        } else if (x === 11) {
+                            var node = document.createElement("LI");
+                            var textnode = document.createTextNode("No se han encontrado Puntos de Bicis cercanos en Destino.");
+                            node.appendChild(textnode);
+                            document.getElementById("noencontrado").appendChild(node);
+                        }
+                    })
+                    .done(function(data) {
+                        // On success, 'data' contains a list of products.
+                        if (x === 2) {
+                            numeroDeParkings = 0;
+                        }
+                        $.each(data, function(key, item) {
+                            if (x === 2) {
+                                numeroDeParkings++;
+                                latlngParkingUnico = new google.maps.LatLng(item.latitud, item.longitud);
+                            }
+                            // Add a list item for the product.
+                            if (item.latitud > 0 || item.longitud < 0) {
+                                var myLatlng = new google.maps.LatLng(item.latitud, item.longitud);
+
+                                var contentString = formatItem(item, x, y);
+
+                                var infowindow = new google.maps.InfoWindow({
+                                    content: contentString
+                                });
+
+                                var marker = new google.maps.Marker({
+                                    position: myLatlng,
+                                    title: contentString,
+                                    icon: iconos[x]
+                                });
+                                infoWindows.push(infowindow);
+                                markers.push(marker);
+
+
+                                marker.addListener('click', function(event) {
+                                    for (var i = 0; i < infoWindows.length; i++) {
+                                        infoWindows[i].close();
+                                    }
+                                    latlngParking = event.latLng;
+                                    //alert(latlngParking);
+                                    infowindow.open(map, marker);
+                                });
+
+                                // To add the marker to the map, call setMap();
+                                marker.setMap(map);
+
+                                if (x === 2) {
+                                    noParkings = false;
+                                }
+                            }
+
+                        });
+                    }).always(function() {
+                        if (x === 2) {
+                            resultadoParking();
+                        }
+                    });
+            });
+
+        } else {
+            if (visible) {
+                clearMarkers();
+                visible = false;
+            } else {
+                showMarkers();
+                visible = true;
+            }
+        }
+    }
+
+    function clearMarkers() {
+        setMapOnAll(null);
+    }
+
+    // Shows any markers currently in the array.
+    function showMarkers() {
+        setMapOnAll(map);
+    }
+
+    function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+        }
+    }
+
+    function formatItem(item, x, y) {
+        if (x === 1) {
+            return "<div><h3>" + item.nombreFarmacia + "</h3><br><b> Contácto:</b> " + item.telefono + "</div>";
+        } else if (x === 2) {
+            if (y === 'api/parkings/parkings' || seleccionar === true) {
+                return "<div><h3><b>Parking:</b> " + item.nombreParking + "</h3><br><b> Capacidad:</b> " + item.capacidad + "<br><button type='button' class='btn btn-info' onclick='seleccionParking()'>Seleccionar Parking</button></div>";
+            } else {
+                return "<div><h3><b>Parking:</b> " + item.nombreParking + "</h3><br><b> Capacidad:</b> " + item.capacidad + "</div>";
+            }
+        } else if (x === 3) {
+            return "<div><h3><b>" + item.tipo + ":</b> " + item.descripcion + "</h3><br> <b>Inicio:</b> " + item.inicio + " / <b>Fin: </b>" + item.fin + "</div>";
+        } else if (x === 4) {
+            return "<div><h3><b>Centro de Salud:</b> " + item.nombreCentro + "</h3><br><b>Dirección:</b> " + item.direccionCompleta + "</div>";
+        } else if (x === 5) {
+            return "<div><h3><b>Hospital:</b> " + item.nombreHospital + "</h3><br><b>Dirección:</b> " + item.direccionCompleta + "</div>";
+        } else if (x === 6) {
+            return "<div><h3><b>Parada de Bilbobus:</b> " + item.nombreParada + "</h3><br><b>Abreviatura:</b> " + item.abreviatura + "</div>";
+        } else if (x === 7) {
+            return "<div><h3><b>Parada de Bizkaibus:</b> " + item.nombreParada + "</h3></div>";
+        } else if (x === 8) {
+            return "<div><h3><b>Parada de Euskotren:</b> " + item.nombreParada + "</h3><br><b>Código de parada:</b> " + item.codigoParada + "</div>";
+        } else if (x === 9) {
+            return "<div><h3><b>Parada de Metro:</b> " + item.nombreParada + "</h3><br><b>Código de parada:</b> " + item.codigoParada + "</div>";
+        } else if (x === 10) {
+            return "<div><h3><b>Parada de Tranvía:</b> " + item.nombreParada + "</h3><br><b>Código de parada:</b> " + item.descripcion + "</div>";
+        } else if (x === 11) {
+            return "<div><h3><b>Punto de bicis:</b> " + item.nombrePunto + "</h3><br><b>Estado:</b> " + item.estado + "<br><b>Capacidad:</b> " + item.capacidad + "</div>";
+        }
+
+    }
+
+    var directionsService, directionsDisplay;
+    var modoViaje;
+
+    function enrutar(latlng, modo) {
+        ultimaBusquedaPorNombre = false;
+        ultimaBusqueda = true;
+        if (seleccionado === false) {
+            limpiarRutas();
+        }
+        if (modo === 1) {
+            modoViaje = google.maps.TravelMode.WALKING;
+        } else {
+            modoViaje = google.maps.TravelMode.DRIVING;
+        }
+
+        directionsService = new google.maps.DirectionsService();
+        directionsDisplay = new google.maps.DirectionsRenderer({
+            draggable: true,
+            map: map,
+            preserveViewport: false,
+            polylineOptions: {
+                strokeColor: "black"
+            }
+        });
+
+        //PARA EL PANEL
+        directionsDisplay.setPanel(document.getElementById('right-panel'));
+
+        if (navigator.geolocation) {
+            var desde = $("#desde").val();
+            var opcion;
+            navigator.geolocation.getCurrentPosition(function(position) {
+                pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                destino = latlng;
+
+                if (desde === "" || desde === undefined) {
+                    opcion = pos;
+                    map.setCenter(pos);
+                } else {
+                    opcion = desde;
+                }
+                directionsService.route({
+                    origin: opcion,
+                    destination: latlng,
+                    provideRouteAlternatives: true,
+                    travelMode: modoViaje,
+                    region: "ES",
+                    drivingOptions: {
+                        departureTime: new Date(Date.now()),
+                        trafficModel: "optimistic" //"pessimistic"
+                    }
+                }, function(response, status) {
+                    if (status === google.maps.DirectionsStatus.OK) {
+                        directionsDisplay.setDirections(response);
+                        tiempoIrParking = response.routes[0].legs[0].duration.value;
+                        //alert(tiempoIrParking);
+                        //alert("Número de rutas: " + response.routes.length);
+                        for (z = 0; z < response.routes.length; z++) {
+
+                            var polyline = new google.maps.Polyline({
+                                path: [],
+                                strokeColor: colores[z],
+                                strokeOpacity: 0.3,
+                                strokeWeight: 5
+                            });
+
+                            var bounds = new google.maps.LatLngBounds();
+                            var legs = response.routes[z].legs;
+                            for (i = 0; i < legs.length; i++) {
+                                var steps = legs[i].steps;
+                                for (j = 0; j < steps.length; j++) {
+                                    var nextSegment = steps[j].path;
+                                    for (k = 0; k < nextSegment.length; k++) {
+                                        polyline.getPath().push(nextSegment[k]);
+                                        bounds.extend(nextSegment[k]);
+                                    }
+                                }
+                            }
+                            polyline.setMap(map);
+                            rutas.push(polyline);
+                        }
+                        if (seleccionado === false) {
+                            //alert(latlng);
+                            obtenerCodigo(latlng);
+                        } else {
+                            //alert(latlng);
+                            obtenerInformacionDistanciasTiempos(latlng, destinoFinal);
+                        }
+                    } else {
+                        window.alert('Directions request failed due to ' + status);
+                    }
+                });
+            }, function() {
+                handleLocationError(true, infoWindow, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            directionsService.route({
+                origin: new google.maps.LatLng(43.271142, -2.938802),
+                destination: new google.maps.LatLng(43.259995, -2.946041),
+                provideRouteAlternatives: true,
+                travelMode: google.maps.TravelMode.DRIVING,
+                region: "ES",
+                drivingOptions: {
+                    departureTime: new Date(Date.now()),
+                    trafficModel: "optimistic" //"pessimistic"
+                }
+            }, function(response, status) {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                    //alert("Número de rutas: " + response.routes.length);
+                    for (z = 0; z < response.routes.length; z++) {
+
+                        var polyline = new google.maps.Polyline({
+                            path: [],
+                            strokeColor: colores[z],
+                            strokeOpacity: 0.3,
+                            strokeWeight: 5
+                        });
+
+                        var bounds = new google.maps.LatLngBounds();
+                        var legs = response.routes[z].legs;
+                        for (i = 0; i < legs.length; i++) {
+                            var steps = legs[i].steps;
+                            for (j = 0; j < steps.length; j++) {
+                                var nextSegment = steps[j].path;
+                                for (k = 0; k < nextSegment.length; k++) {
+                                    polyline.getPath().push(nextSegment[k]);
+                                    bounds.extend(nextSegment[k]);
+                                }
+                            }
+                        }
+                        polyline.setMap(map);
+                    }
+                } else {
+                    window.alert('Directions request failed due to ' + status);
+                }
+            });
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+    }
+
+    google.maps.event.addDomListener(window, "load", initMap);
+
+
+    var habilitado = false;
+
+    function habilitarEnrutado() {
+        if (habilitado === true) {
+            $("#habilitarEnrutado").html('Habilitar encontrar ruta');
+            habilitado = false;
+            conClick = false;
+            google.maps.event.clearListeners(map, 'click');
+        } else {
+            conClick = true;
+            google.maps.event.addListener(map, 'click', function(event) {
+                limpiarRutas();
+                destinoFinal = event.latLng;
+                if (document.getElementById('pie').checked) {
+                    enrutar(event.latLng, 1);
+                } else {
+                    destinoFinal = event.latLng;
+                    obtenerCodigo(event.latLng);
+                }
+
+            });
+            habilitado = true;
+            $("#habilitarEnrutado").html('Deshabilitar encontrar ruta');
+        }
+    }
+
+    function limpiarRutas() {
+
+        if (directionsDisplay != undefined) {
+            directionsDisplay.setMap(null);
+        }
+
+        if (otro2 != undefined) {
+            otro2.setMap(null);
+        }
+
+
+        for (i = 0; i < rutas.length; i++) {
+            rutas[i].setMap(null);
+        }
+
+        document.getElementById("right-panel").innerHTML = "";
+
+        clearMarkers();
+        markers = [];
+
+        var myNode = document.getElementById("noencontrado");
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+        }
+    }
+
+    function despejarParaEnrutadoDoble() {
+
+        if (directionsDisplay != undefined) {
+            directionsDisplay.setMap(null);
+        }
+
+        if (otro2 != undefined) {
+            otro2.setMap(null);
+        }
+
+
+        for (i = 0; i < rutas.length; i++) {
+            rutas[i].setMap(null);
+        }
+
+        document.getElementById("right-panel").innerHTML = "";
+
+        var myNode = document.getElementById("noencontrado");
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+        }
+    }
+
+    function buscarPorNombre() {
+        conClick = false;
+        ultimaBusquedaPorNombre = true;
+        ultimaBusqueda = true;
+        var introducido = $("#busqueda").val();
+
+        if (introducido === "" || introducido === undefined) {
+
+            $('#errorRuta').modal('show');
+        } else {
+            ultimaBusquedaPorNombre = true;
+            limpiarRutas();
+
+            if (document.getElementById('pie').checked) {
+                modoViaje = google.maps.TravelMode.WALKING;
+            } else {
+                modoViaje = google.maps.TravelMode.DRIVING;
+            }
+
+            directionsService = new google.maps.DirectionsService();
+            directionsDisplay = new google.maps.DirectionsRenderer({
+                draggable: true,
+                map: map,
+                preserveViewport: false,
+                polylineOptions: {
+                    strokeColor: "black"
+                }
+            });
+
+            //PARA EL PANEL
+            directionsDisplay.setPanel(document.getElementById('right-panel'));
+
+
+            if (navigator.geolocation) {
+                var desde = $("#desde").val();
+                var opcion;
+                
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    var lugar = introducido;
+                    if (desde === "" || desde === undefined) {
+                        opcion = pos;
+                        map.setCenter(pos);
+                    } else {
+                        opcion = desde;
+                    }
+                    alert(opcion);
+                    directionsService.route({
+                        origin: opcion,
+                        destination: lugar,
+                        provideRouteAlternatives: true,
+                        travelMode: modoViaje,
+                        region: "ES",
+                        drivingOptions: {
+                            departureTime: new Date(Date.now()),
+                            trafficModel: "optimistic" //"pessimistic"
+                        }
+                    }, function(response, status) {
+                        if (status === google.maps.DirectionsStatus.OK) {
+                            directionsDisplay.setDirections(response);
+                            //alert("Número de rutas: " + response.routes.length);
+                            for (z = 0; z < response.routes.length; z++) {
+
+                                var polyline = new google.maps.Polyline({
+                                    path: [],
+                                    strokeColor: colores[z],
+                                    strokeOpacity: 0.3,
+                                    strokeWeight: 5
+                                });
+
+                                var bounds = new google.maps.LatLngBounds();
+                                var legs = response.routes[z].legs;
+                                for (i = 0; i < legs.length; i++) {
+                                    var steps = legs[i].steps;
+                                    for (j = 0; j < steps.length; j++) {
+                                        var nextSegment = steps[j].path;
+                                        for (k = 0; k < nextSegment.length; k++) {
+                                            polyline.getPath().push(nextSegment[k]);
+                                            bounds.extend(nextSegment[k]);
+                                        }
+                                    }
+                                }
+                                polyline.setMap(map);
+                                rutas.push(polyline);
+                            }
+
+                            //obtener el punto
+                            geocoder.geocode({ 'address': lugar }, function(results, status) {
+                                if (status == google.maps.GeocoderStatus.OK) {
+                                    //alert(results[0].geometry.location);
+                                    destinoFinal = results[0].geometry.location;
+                                    obtenerCodigo(results[0].geometry.location);
+                                } else {
+                                    alert("No se pudo obtener el punto exacto por: " + status);
+                                }
+                            });
+                        } else {
+                            window.alert('La petición no pudo ser realizada porque: ' + status);
+                        }
+                    });
+                }, function() {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                });
+            } else {
+                alert("La geolocalización no está habilitado o soportada.");
+            }
+        }
+
+    }
+
+    function obtenerInfoCodigo(codigo) {
+
+        if (modoViaje === google.maps.TravelMode.WALKING || seleccionado === true) {
+
+            obtener(1, 'api/farmacias/codigo/' + codigo);
+            obtener(4, 'api/centros/codigo/' + codigo);
+            obtener(5, 'api/hospitales/codigo/' + codigo);
+            obtener(6, 'api/paradasbilbo/codigo/' + codigo);
+            obtener(7, 'api/paradasbizkaibus/codigo/' + codigo);
+            obtener(8, 'api/paradaseuskotren/codigo/' + codigo);
+            obtener(9, 'api/paradasmetro/codigo/' + codigo);
+            obtener(10, 'api/paradastranvia/codigo/' + codigo);
+            obtener(11, 'api/puntosbici/codigo/' + codigo);
+            if (tambienDestino === true) {
+                tambienDestino = false;
+                obtenerInfoDePosicion(destinoFinal);
+            }
+            seleccionado = false;
+        } else {
+            codigoPostalParking = codigo;
+            obtener(2, 'api/parkings/codigo/' + codigo);
+            /*obtener(1, 'api/farmacias/codigo/' + codigo);
+            obtener(3, 'api/incidencias/codigo/' + codigo);
+            obtener(4, 'api/centros/codigo/' + codigo);
+            obtener(5, 'api/hospitales/codigo/' + codigo);
+            obtener(6, 'api/paradasbilbo/codigo/' + codigo);
+            obtener(7, 'api/paradasbizkaibus/codigo/' + codigo);
+            obtener(8, 'api/paradaseuskotren/codigo/' + codigo);
+            obtener(9, 'api/paradasmetro/codigo/' + codigo);
+            obtener(10, 'api/paradastranvia/codigo/' + codigo);
+            obtener(11, 'api/puntosbici/codigo/' + codigo);*/
+        }
+    }
+
+    var codigoPostal;
+    var geocoder;
+
+    function obtenerCodigo(latilong) {
+        destino = latilong;
+        geocoder.geocode({ 'location': latilong }, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);
+                if (results[0].address_components[6] === undefined) {
+                    codigoPostal = results[0].address_components[5].long_name;
+                } else {
+                    codigoPostal = results[0].address_components[6].long_name;
+                }
+                //alert(codigoPostal);
+                obtenerInfoCodigo(codigoPostal);
+            } else {
+                alert("No pudo obtenerse el código postal por: " + status);
+            }
+        });
+
+    }
+
+    function obtenerInfoDePosicion(latilong) {
+        var cp;
+        geocoder.geocode({ 'location': latilong }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0].address_components[6] === undefined) {
+                    cp = results[0].address_components[5].long_name;
+                } else {
+                    cp = results[0].address_components[6].long_name;
+                }
+                obtener(1, 'api/farmacias/codigo/' + cp);
+                obtener(4, 'api/centros/codigo/' + cp);
+                obtener(5, 'api/hospitales/codigo/' + cp);
+                obtener(6, 'api/paradasbilbo/codigo/' + cp);
+                obtener(7, 'api/paradasbizkaibus/codigo/' + cp);
+                obtener(8, 'api/paradaseuskotren/codigo/' + cp);
+                obtener(9, 'api/paradasmetro/codigo/' + cp);
+                obtener(10, 'api/paradastranvia/codigo/' + cp);
+                obtener(11, 'api/puntosbici/codigo/' + cp);
+            } else {
+                alert("No pudo obtenerse el código postal por: " + status);
+                return null;
+            }
+        });
+
+    }
+
+    var seleccionado = false;
+    var seleccionar = false;
+    var codigoPostalParking;
+    var codigoPostalDestino;
+    function resultadoParking() {
+        if (noParkings === false) {
+            if (seleccionar === true) {
+                codigoPostalParking = codigoPostal;
+                seleccionar = false;
+            } else {
+                if (numeroDeParkings === 1) {
+                    //Realizar ruta a dicho parking y después al destino
+                    latlngParking = latlngParkingUnico;
+                    seleccionParking();
+                } else {
+                    //permitir elegir entre los parkings
+                    seleccionar = true;
+                    $("body").removeClass("loading");
+                    $('#variosParkings').modal('show');
+                    obtener(2, 'api/parkings/codigo/' + codigoPostal);
+                }
+                obtener(1, 'api/farmacias/codigo/' + codigoPostalParking);
+                obtener(3, 'api/incidencias/codigo/' + codigoPostalParking);
+                obtener(4, 'api/centros/codigo/' + codigoPostalParking);
+                obtener(5, 'api/hospitales/codigo/' + codigoPostalParking);
+                obtener(11, 'api/puntosbici/codigo/' + codigoPostalParking);
+            }
+        } else {
+            seleccionar = true;
+            $("body").removeClass("loading");
+            $('#noParking').modal('show');
+            obtener(2, 'api/parkings/parkings');
+        }
+    }
+
+    var destinoFinal;
+
+    function seleccionParking() {
+        for (var i = 0; i < infoWindows.length; i++) {
+            infoWindows[i].close();
+        }
+        //alert(latlngParking);
+        seleccionado = true;
+        despejarParaEnrutadoDoble();
+        enrutar(latlngParking, 0);
+    }
+
+    var otro, otro2;
+
+    function enrutarOrigenDestino(origen, destino, modo) {
+        ultimaBusqueda = true;
+        if (seleccionado === false) {
+            limpiarRutas();
+        }
+
+
+        otro = new google.maps.DirectionsService();
+        otro2 = new google.maps.DirectionsRenderer({
+            draggable: true,
+            map: map,
+            preserveViewport: false,
+            polylineOptions: {
+                strokeColor: "black"
+            }
+        });
+
+        //PARA EL PANEL
+        otro2.setPanel(document.getElementById('right-panel'));
+
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                map.setCenter(pos);
+                otro.route({
+                    origin: origen,
+                    destination: destino,
+                    provideRouteAlternatives: true,
+                    travelMode: modo,
+                    region: "ES",
+                    drivingOptions: {
+                        departureTime: new Date(Date.now()),
+                        trafficModel: "optimistic" //"pessimistic"
+                    }
+                }, function(response, status) {
+                    if (status === google.maps.DirectionsStatus.OK) {
+                        otro2.setDirections(response);
+                        //alert("Número de rutas: " + response.routes.length);
+                        for (z = 0; z < response.routes.length; z++) {
+
+                            var polyline = new google.maps.Polyline({
+                                path: [],
+                                strokeColor: "#0000ff",
+                                strokeOpacity: 0.3,
+                                strokeWeight: 5
+                            });
+
+                            var bounds = new google.maps.LatLngBounds();
+                            var legs = response.routes[z].legs;
+                            for (i = 0; i < legs.length; i++) {
+                                var steps = legs[i].steps;
+                                for (j = 0; j < steps.length; j++) {
+                                    var nextSegment = steps[j].path;
+                                    for (k = 0; k < nextSegment.length; k++) {
+                                        polyline.getPath().push(nextSegment[k]);
+                                        bounds.extend(nextSegment[k]);
+                                    }
+                                }
+                            }
+                            polyline.setMap(map);
+                            rutas.push(polyline);
+                        }
+                    } else {
+                        window.alert('Directions request failed due to ' + status);
+                    }
+                });
+            }, function() {
+                handleLocationError(true, infoWindow, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            otro.route({
+                origin: new google.maps.LatLng(43.271142, -2.938802),
+                destination: new google.maps.LatLng(43.259995, -2.946041),
+                provideRouteAlternatives: true,
+                travelMode: google.maps.TravelMode.DRIVING,
+                region: "ES",
+                drivingOptions: {
+                    departureTime: new Date(Date.now()),
+                    trafficModel: "optimistic" //"pessimistic"
+                }
+            }, function(response, status) {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    otro2.setDirections(response);
+                    //alert("Número de rutas: " + response.routes.length);
+                    for (z = 0; z < response.routes.length; z++) {
+
+                        var polyline = new google.maps.Polyline({
+                            path: [],
+                            strokeColor: colores[z],
+                            strokeOpacity: 0.3,
+                            strokeWeight: 5
+                        });
+
+                        var bounds = new google.maps.LatLngBounds();
+                        var legs = response.routes[z].legs;
+                        for (i = 0; i < legs.length; i++) {
+                            var steps = legs[i].steps;
+                            for (j = 0; j < steps.length; j++) {
+                                var nextSegment = steps[j].path;
+                                for (k = 0; k < nextSegment.length; k++) {
+                                    polyline.getPath().push(nextSegment[k]);
+                                    bounds.extend(nextSegment[k]);
+                                }
+                            }
+                        }
+                        polyline.setMap(map);
+                    }
+                } else {
+                    window.alert('Directions request failed due to ' + status);
+                }
+            });
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+
+    }
+
+    function obtenerInformacionDistanciasTiempos(origin, destiny) {
+        //seleccionado = false;
+        //informacion andando
+        var service = new google.maps.DistanceMatrixService();
+        service.getDistanceMatrix(
+        {
+            origins: [origin],
+            destinations: [destiny],
+            travelMode: google.maps.TravelMode.TRANSIT
+        }, function(response, status) {
+            if (status == google.maps.DistanceMatrixStatus.OK) {
+                $("#ttransporte").html(response.rows[0].elements[0].duration.text);
+                $("#dtransporte").html(response.rows[0].elements[0].distance.text);
+            }
+        });
+        service.getDistanceMatrix(
+        {
+            origins: [origin],
+            destinations: [destiny],
+            travelMode: google.maps.TravelMode.WALKING
+        }, function(response, status) {
+            if (status == google.maps.DistanceMatrixStatus.OK) {
+                var distanciaMetros = response.rows[0].elements[0].distance.value;
+                var tiempoSecs = response.rows[0].elements[0].duration.value;
+                $("#tpie").html(response.rows[0].elements[0].duration.text);
+                $("#dpie").html(response.rows[0].elements[0].distance.text);
+                if (tiempoSecs > (tiempoIrParking / 2) || distanciaMetros > 500) {
+                    $('#modalTiempoEx').modal('show');
+                } else {
+                    //alert(tiempoSecs + " > " + (tiempoIrParking / 2));
+                    enrutarOrigenDestino(origin, destiny, google.maps.TravelMode.WALKING);
+                    obtenerCodigo(latlngParking);
+                }
+            }
+        });
+    }
+</script>-->
+</head>
+<body>
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="#/index.html"><img src="imagenes/S.png"/></a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Lineas Bilbobus <b class="caret"></b></a>
+                        <ul class="dropdown-menu multi-column columns-3">
+                            <div class="row">
+                                <div id="columna1" class="col-sm-4">
+                                    <ul class="multi-column-dropdown">
+                                        <img src="imagenes/cargandoMeteo.gif"/>
+                                    </ul>
+                                </div>
+                                <div id="columna2" class="col-sm-4">
+                                    <ul class="multi-column-dropdown">
+                                        <img src="imagenes/cargandoMeteo.gif"/>
+                                    </ul>
+                                </div>
+                                <div id="columna3" class="col-sm-4">
+                                    <ul class="multi-column-dropdown">
+                                        <img src="imagenes/cargandoMeteo.gif"/>
+                                    </ul>
+                                </div>
+                            </div>
+                        </ul>
+                    </li>
+                    <li><a onclick='obtenerLineaTranvia()'>Tranvía Bilbao</a></li>
+                    <li><a onclick='obtenerLineaMetro()'>Metro Bilbao</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Lineas Euskotren <b class="caret"></b></a>
+                        <ul class="dropdown-menu" >
+                            <div id="euskotren" class="col-lg-12">
+                                <ul>
+                                    <img src="imagenes/cargandoMeteo.gif" />
+                                </ul>
+                            </div>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Lineas Bizkaibus <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        <div class="row">
+                            <div id="bizkaibus" class="col-lg-12 columnas">
+                                <ul class="dropdown-menu">
+                                    <img src="imagenes/cargandoMeteo.gif" />
+                                </ul>
+                            </div>
+                            </div>
+                        </ul>
+                    </li>
+                </ul>
+             </div>
+            </div>
+    </nav>
+
+    <div class="container-fluid text-center">
+        <div class="row content">
+        <div class="col-sm-2 sidenav">
+            <span id="lineaeleg"></span>
+            <h3>Servicios sanitarios</h3>
+            <ul class="media-list">
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/centros.png" alt="...">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Centros de salud</h4>
+                    </div>
+                </li>
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/hospitales.png" alt="...">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Hospitales</h4>
+                    </div>
+                </li>
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/farmacias.png" alt="...">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Farmacias</h4>
+                    </div>
+                </li>
+            </ul>
+            <h3>Transporte público</h3>
+            <ul class="media-list">
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/bilbobus.png" alt="bilbobus">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Paradas Bilbobus</h4>
+                    </div>
+                </li>
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/bizkaibus.png" alt="bizkaibus">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Paradas Bizkaibus</h4>
+                    </div>
+                </li>
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/euskotren.png" alt="euskotren">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Paradas Euskotren</h4>
+                    </div>
+                </li>
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/metro.png" alt="metrobilbao">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Paradas Metro Bilbao</h4>
+                    </div>
+                </li>
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/tranvia.png" alt="tranvia">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Paradas Tranvía</h4>
+                    </div>
+                </li>
+            </ul>
+            <h3>Otros</h3>
+            <ul class="media-list">
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/parking.png" alt="parkings">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Parkings</h4>
+                    </div>
+                </li>
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/puntobici.png" alt="puntos de bicicletas">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Puntos de bicicletas</h4>
+                    </div>
+                </li>
+                <li class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="imagenes/incidencias.png" alt="incidencias de tráfico">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Incidencias de Tráfico</h4>
+                    </div>
+                </li>
+            </ul>
+            <h3>El tiempo en Bilbao</h3>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active">
+                    <a href="#hoy" role="tab" data-toggle="tab">
+                        Hoy
+                    </a>
+                </li>
+                <li>
+                    <a href="#manana" role="tab" data-toggle="tab">
+                        Mañana
+                    </a>
+                </li>
+                <li>
+                    <a href="#pasado" role="tab" data-toggle="tab">
+                        Pasado
+                    </a>
+                </li>
+                <li>
+                    <button id="masInfo" class="btn btn-default" type="button" onclick="mostrarMasInfo();">+</button>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane fade active in" id="hoy">
+                    <img src="imagenes/cargandoMeteo.gif"/>
+                </div>
+                <div class="tab-pane fade" id="manana">
+                    <img src="imagenes/cargandoMeteo.gif"/>
+                </div>
+                <div class="tab-pane fade" id="pasado">
+                    <img src="imagenes/cargandoMeteo.gif"/>
+                </div>
+            </div>
+        </div>
+                    <div class="col-sm-7 text-left">
+                        <div>
+                            <div class="alert alert-info alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                Se utilizará la posición real del usuario si no se inserta nada en Origen.
+                            </div>
+                            <div class="input-group">
+                                <input id="desde" type="text" class="form-control" placeholder="Desde...">
+                                <input id="busqueda" type="text" class="form-control" placeholder="Hacia...">
+                                <span class="input-group-btn">
+                                    <button id="btnBuscar" class="btn btn-default" type="button" onclick="buscarPorNombre();">Buscar</button>
+                                </span>
+                            </div>
+                            <!--<input id="busqueda" type="text"/><input type="button" value="Buscar" onclick="buscarPorNombre();"/>-->
+                        </div>
+                        <table border="0">
+                            <!--<tr>
+
+                        <td>
+                            <form method="LINK" action="farmacias.html">
+                                <input type="submit" value="Farmacias">
+                            </form>
+                        </td>
+
+                        <td>
+                            <form method="LINK" action="hospitales.html">
+                                <input type="submit" value="Hospitales">
+                            </form>
+                        </td>
+
+                        <td>
+                            <form method="LINK" action="centros.html">
+                                <input type="submit" value="Centros de Salud">
+                            </form>
+                        </td>
+                        <td>
+                            <form method="LINK" action="parking.html">
+                                <input type="submit" value="Parkings">
+                            </form>
+                        </td>
+                        <td>
+                            <form method="LINK" action="puntosbici.html">
+                                <input type="submit" value="Puntos Bici">
+                            </form>
+                        </td>
+                        <td>
+                            <form method="LINK" action="paradasbilbo.html">
+                                <input type="submit" value="Paradas Bilbobus">
+                            </form>
+                        </td>
+                        <td>
+                            <form method="LINK" action="paradasbizkaibus.html">
+                                <input type="submit" value="Paradas Bilbobus">
+                            </form>
+                        </td>
+                        <td>
+                            <form method="LINK" action="paradaseuskotren.html">
+                                <input type="submit" value="Paradas Euskotren">
+                            </form>
+                        </td>
+                        <td>
+                            <form method="LINK" action="paradasmetro.html">
+                                <input type="submit" value="Paradas Metro">
+                            </form>
+                        </td>
+                        <td>
+                            <form method="LINK" action="paradastranvia.html">
+                                <input type="submit" value="Paradas Tranvia">
+                            </form>
+                        </td>
+                    </tr>-->
+                            <tr>
+                                <div id="map" class="Flexible-container"></div>
+                                <br />
+                            </tr>
+                            <!--<tr>
+                        <table>
+                            <tr>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <h3>Servicios sanitarios</h3>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Centros de salud: <span><img src="/imagenes/centros.png" /></span></td>
+                                            <td>Hospitales: <span><img src="/imagenes/hospitales.png" /></span></td>
+                                            <td>Farmacias: <span><img src="/imagenes/farmacias.png" /></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h3>Transportes</h3>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bilbobus: <span><img src="/imagenes/bilbobus.png" /></span></td>
+                                            <td>Bizkaibus: <span><img src="/imagenes/bizkaibus.png" /></span></td>
+                                            <td>Euskotren: <span><img src="/imagenes/euskotren.png" /></span></td>
+                                            <td>Metro Bilbao: <span><img src="/imagenes/metro.png" /></span></td>
+                                            <td>Tranvía: <span><img src="/imagenes/tranvia.png" /></span></td>
+                                            <td>Puntos de bicicletas: <span><img src="/imagenes/puntobici.png" /></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h3>Otros</h3>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Parkings: <span><img src="/imagenes/parking.png" /></span></td>
+                                            <td>Incidencias de tráfico: <span><img src="/imagenes/incidencias.png" /></span></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td>
+                                    <form action="">
+                                        <input id="coche" type="radio" name="medio" value="DRIVING" checked> En coche<br>
+                                        <input id="pie" type="radio" name="medio" value="WALKING"> A pie<br>
+                                    </form>
+                                    <ul id="noencontrado"></ul>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </tr-->
+                            <!--<tr>
+                        <br/>
+                        <input type="button" value="Mostrar Farmacias" onclick="obtener(1, 'api/farmacias/farmacias');"/>
+                        <input type="button" value="Mostrar Parkings" onclick="obtener(2, 'api/parkings/parkings');"/>
+                        <input type="button" value="Mostrar Incidencias" onclick="obtener(3, 'api/incidencias/fecha');"/>
+                    </tr>-->
+
+                        </table>
+                    </div>
+                    <div class="col-sm-3 sidenav">
+                        <h3>Habilitar enrutado mediante toque en el mapa: </h3>
+                        <button class="btn btn-default" id="habilitarEnrutado" onclick="habilitarEnrutado();">Habilitar encontrar ruta</button>
+                        <h3>Seleccionar modo de transporte:</h3>
+                        <div>
+                            <form action="">
+                                <input id="coche" type="radio" name="medio" value="DRIVING" checked> En coche<br>
+                                <input id="pie" type="radio" name="medio" value="WALKING"> A pie<br>
+                            </form>
+                            <ul id="noencontrado" hidden></ul>
+                        </div>
+                        <div class="adaptarse">
+                            <h3>Las indicaciones de ruta aparecerán aqui</h3>
+                            <div id="right-panel"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    <footer class="container-fluid text-center">
+        <p>Kevin Cifuentes Salas - Universidad de Deusto - Todos los derechos reservados</p>
+    </footer>
+
+</body>
+<div class="modal fade" id="errorRuta" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Error al obtener la ruta</h4>
+            </div>
+            <div class="modal-body">
+                <p>Ha ocurrido un error al obtener la ruta. Debe introducir un nombre correcto para la búsqueda.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="noParking" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">No hay ningún parking en destino</h4>
+            </div>
+            <div class="modal-body">
+                <p>Lamentablemente, el destino al que se quiere ir no ha generado ningún parking en sus alrededores. A continuación se le ruega que elija uno de los parkings más cercanos para generar la ruta completa.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="variosParkings" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Existen varios parkings en destino</h4>
+            </div>
+            <div class="modal-body">
+                <p>Existen varios parkings cercanos al destino seleccionado. Le rogamos que elija uno de los que se disponen en el mapa.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="modalTiempoEx" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Tiempo a pie excesivo</h4>
+            </div>
+            <div class="modal-body">
+                <p>El destino que se quiere alcanzar está bastante lejos del parking seleccionado (el tiempo es superior a la mitad del viaje completo desde el origen y la distancia mayor que 500 metros). Le pedimos que seleccione si quiere realizar el trayecto desde el parking <strong>a pie </strong> o <strong>en transporte público</strong>.
+                </p>
+                <p>
+                    A continuación se muestran los tiempos y distancia estimados para dicha ruta a modo de ejemplo:
+                </p>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Medio</th>
+                        <th>Tiempo</th>
+                        <th>Distancia</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>A pie</td>
+                        <td id="tpie"></td>
+                        <td id="dpie"></td>
+                    </tr>
+                    <tr>
+                        <td>En transporte público</td>
+                        <td id="ttransporte"></td>
+                        <td id="dtransporte"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p>
+                    Se le pide que seleccione una de las dos opciones de ruta al destino:
+                </p>
+                <label class="radio-inline">
+                    <input type="radio" name="opcion" id="inlineRadio1" value="pie" checked>A pie
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="opcion" id="inlineRadio2" value="transporte">En transporte público
+                </label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnAceptar" class="btn btn-primary">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="meteoInfo" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Información Meteorológica completa</h4>
+            </div>
+            <div class="modal-body">
+                <h2>Hoy</h2>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="active">
+                        <a href="#esHoy" role="tab" data-toggle="tab">
+                            Castellano
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#euHoy" role="tab" data-toggle="tab">
+                            Euskera
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade active in" id="esHoy">
+                        <img src="imagenes/cargandoMeteo.gif"/>
+                    </div>
+                    <div class="tab-pane fade" id="euHoy">
+                        <img src="imagenes/cargandoMeteo.gif"/>
+                    </div>
+                </div>
+                <h2>Mañana</h2>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="active">
+                        <a href="#esMa" role="tab" data-toggle="tab">
+                            Castellano
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#euMa" role="tab" data-toggle="tab">
+                            Euskera
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade active in" id="esMa">
+                        <img src="imagenes/cargandoMeteo.gif"/>
+                    </div>
+                    <div class="tab-pane fade" id="euMa">
+                        <img src="imagenes/cargandoMeteo.gif"/>
+                    </div>
+                </div>
+                <h2>Pasado mañana</h2>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="active">
+                        <a href="#esPa" role="tab" data-toggle="tab">
+                            Castellano
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#euPa" role="tab" data-toggle="tab">
+                            Euskera
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade active in" id="esPa">
+                        <img src="imagenes/cargandoMeteo.gif"/>
+                    </div>
+                    <div class="tab-pane fade" id="euPa">
+                        <img src="imagenes/cargandoMeteo.gif"/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="modal fade " id="modalmetro" tabindex="-1" role="dialog" aria-labelledby="modalmetro" aria-hidden="true">
+    <div class="modal-dialog large">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <img width="580px" height="200px" src="/imagenes/mapametro.png" />
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal"><!-- Place at bottom of page --></div>
+        <!--</body>-->
+</html>
