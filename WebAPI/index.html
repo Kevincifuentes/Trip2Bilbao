@@ -217,6 +217,14 @@
     body.loading .modal {
         display: block;
     }
+
+    @media (max-width: @screen-xs) {
+    div{font-size: 10px;}
+}
+
+@media (max-width: @screen-sm) {
+    div{font-size: 14px;}
+}
 </style>
 <!--<script src="JS/googlemaps.js"></script>-->
 <script src="JS/jquery-2.0.3.min.js"></script>
@@ -1512,6 +1520,7 @@
 
     <footer class="container-fluid text-center">
         <p>Kevin Cifuentes Salas - Universidad de Deusto - Todos los derechos reservados</p>
+        <img style="max-width:200px;max-height:100px;"src="imagenes/deutotech-mobility.png"/>
     </footer>
 
 </body>

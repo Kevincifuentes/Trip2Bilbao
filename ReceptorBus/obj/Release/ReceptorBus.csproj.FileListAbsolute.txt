@@ -23,3 +23,5 @@ C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\obj\Release\ReceptorBus.csprojResolveAssemblyReference.cache
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\obj\Release\ReceptorBus.exe
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\obj\Release\ReceptorBus.pdb
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\bin\Release\ReceptorBus.exe.CodeAnalysisLog.xml
+C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\ReceptorBus\bin\Release\ReceptorBus.exe.lastcodeanalysissucceeded

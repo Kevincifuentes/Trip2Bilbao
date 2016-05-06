@@ -1590,6 +1590,7 @@ namespace ExtractorDatos
 
             //Procesar los archivos
             Console.WriteLine("Extranyendo...");
+            double valor = DateTime.Now.TimeOfDay.TotalMilliseconds;
 
             ZipFile zf = null;
             try
@@ -1606,7 +1607,7 @@ namespace ExtractorDatos
                     Console.WriteLine("El fichero está dañado o la descarga no se ha realizado correctamente.");
                     zf = null;
                 }
-
+                
                 if (zf != null)
                 {
                     //Por cada archivo dentro del zip, voy descomprimiendo
@@ -1629,12 +1630,23 @@ namespace ExtractorDatos
                         string directoryName = Path.GetDirectoryName(fullZipToPath);
                         if (directoryName.Length > 0)
                             Directory.CreateDirectory(directoryName);
-
-                        using (FileStream streamWriter = File.Create(fullZipToPath))
+                        try
                         {
-                            StreamUtils.Copy(zipStream, streamWriter, buffer);
+                            using (FileStream streamWriter = File.Create(fullZipToPath))
+                            {
+                                StreamUtils.Copy(zipStream, streamWriter, buffer);
+                            }
+                            zipStream.Close();
                         }
-                        zipStream.Close();
+                        catch (IOException ex)
+                        {
+                            using (FileStream streamWriter = File.Create(fullZipToPath+"_"))
+                            {
+                                StreamUtils.Copy(zipStream, streamWriter, buffer);
+                            }
+                            zipStream.Close();
+                        }
+                        
                     }
                 }
                 else
@@ -1700,57 +1712,118 @@ namespace ExtractorDatos
 
                 // Leemos el fichero linea por linea para sacar los viajes
                 List<Clases.KeyValuePair<int, ViajeBilbobus>> viajes = new List<Clases.KeyValuePair<int, ViajeBilbobus>>();
-                using (
-                    System.IO.StreamReader file =
-                        new System.IO.StreamReader(
-                            @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\stop_times.txt")
-                    )
+                if (!File.Exists(
+                    @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\stop_times_.txt"))
                 {
-                    string primeraLinea = file.ReadLine();
-                    while ((line = file.ReadLine()) != null)
+                    using (
+                        System.IO.StreamReader file =
+                            new System.IO.StreamReader(
+                                @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\stop_times.txt")
+                        )
                     {
-
-                        //Obtengo la info que me interesa
-                        string[] valoresLinea = line.Split(',');
-
-                        //ID de viaje
-                        int id = int.Parse(valoresLinea[0]);
-
-                        //ID de la parada
-                        int idParada = int.Parse(valoresLinea[3]);
-
-                        //Comprobamos si contiene la clave
-                        bool encontrado = false;
-                        int index = 0;
-                        foreach (Clases.KeyValuePair<int, ViajeBilbobus> temporal in viajes)
+                        string primeraLinea = file.ReadLine();
+                        while ((line = file.ReadLine()) != null)
                         {
-                            if (temporal.Key == id)
+
+                            //Obtengo la info que me interesa
+                            string[] valoresLinea = line.Split(',');
+
+                            //ID de viaje
+                            int id = int.Parse(valoresLinea[0]);
+
+                            //ID de la parada
+                            int idParada = int.Parse(valoresLinea[3]);
+
+                            //Comprobamos si contiene la clave
+                            bool encontrado = false;
+                            int index = 0;
+                            foreach (Clases.KeyValuePair<int, ViajeBilbobus> temporal in viajes)
                             {
-                                encontrado = true;
-                                break;
+                                if (temporal.Key == id)
+                                {
+                                    encontrado = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    index++;
+                                }
+                            }
+
+                            if (encontrado)
+                            {
+                                //Se añade solo la parada al viaje
+                                viajes[index].Value.paradas.Add(new Clases.KeyValuePair<int, ParadaBilbo>(idParada,
+                                    paradasBilbobus[idParada]));
+                                viajes[index].Value.clavesParada.Add(idParada);
+
                             }
                             else
                             {
-                                index++;
+                                //Se añade el viaje completo
+                                viajes.Add(new Clases.KeyValuePair<int, ViajeBilbobus>(id,
+                                    new ViajeBilbobus(id, paradasBilbobus[idParada])));
                             }
                         }
 
-                        if (encontrado)
-                        {
-                            //Se añade solo la parada al viaje
-                            viajes[index].Value.paradas.Add(new Clases.KeyValuePair<int, ParadaBilbo>(idParada, paradasBilbobus[idParada]));
-                            viajes[index].Value.clavesParada.Add(idParada);
-
-                        }
-                        else
-                        {
-                            //Se añade el viaje completo
-                            viajes.Add(new Clases.KeyValuePair<int, ViajeBilbobus>(id, new ViajeBilbobus(id, paradasBilbobus[idParada])));
-                        }
+                        file.Close();
                     }
-
-                    file.Close();
                 }
+                else
+                {
+                    using (
+                    System.IO.StreamReader file =
+                        new System.IO.StreamReader(
+                            @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\stop_times_.txt")
+                    )
+                    {
+                        string primeraLinea = file.ReadLine();
+                        while ((line = file.ReadLine()) != null)
+                        {
+
+                            //Obtengo la info que me interesa
+                            string[] valoresLinea = line.Split(',');
+
+                            //ID de viaje
+                            int id = int.Parse(valoresLinea[0]);
+
+                            //ID de la parada
+                            int idParada = int.Parse(valoresLinea[3]);
+
+                            //Comprobamos si contiene la clave
+                            bool encontrado = false;
+                            int index = 0;
+                            foreach (Clases.KeyValuePair<int, ViajeBilbobus> temporal in viajes)
+                            {
+                                if (temporal.Key == id)
+                                {
+                                    encontrado = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    index++;
+                                }
+                            }
+
+                            if (encontrado)
+                            {
+                                //Se añade solo la parada al viaje
+                                viajes[index].Value.paradas.Add(new Clases.KeyValuePair<int, ParadaBilbo>(idParada, paradasBilbobus[idParada]));
+                                viajes[index].Value.clavesParada.Add(idParada);
+
+                            }
+                            else
+                            {
+                                //Se añade el viaje completo
+                                viajes.Add(new Clases.KeyValuePair<int, ViajeBilbobus>(id, new ViajeBilbobus(id, paradasBilbobus[idParada])));
+                            }
+                        }
+
+                        file.Close();
+                    }
+                }
+                
                 
 
                 Console.WriteLine("¡Completado viajes!");

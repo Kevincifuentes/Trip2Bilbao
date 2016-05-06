@@ -987,7 +987,7 @@ function obtenerInformacionDistanciasTiempos(origin, destiny) {
 
 function inicializarActiveMQ() {
     //Inicializo el WebSocket al puerto e Ip del ActiveMQ. Se utilizará un servicio STOMP.
-    ws = new WebSocket('ws://dev.mobility.deustotech.eu:61614', 'stomp');
+    ws = new WebSocket('wss://dev.mobility.deustotech.eu:61614?needClientAuth=true&amp;wantClientAuth=true&amp;transport.clientCertSubject=nms.client.170&amp;transport.clientCertPassword=trip2bilbao;transport.clientCertFilename=client.ks', 'stomp');
 
     //Notificar para la conexión
     ws.onopen = function (){
@@ -998,21 +998,21 @@ function inicializarActiveMQ() {
     };
     //En caso de mensaje de ejecutará la función
     ws.onmessage = function (e) {
-        //console.log(e);
         //Se comprueba que sea un mensaje de datos
         if (e.data.startsWith('MESSAGE')) {
-            //console.log(e.data);
+
             var lines = e.data.split('\n');
-            var tipo = lines[2].substring(lines[2].indexOf(":") + 1, lines[2].length);
+            var tipo = lines[4].substring(lines[4].indexOf(":") + 1, lines[4].length);
             var parser, xmlDoc;
             //Según el tipo se realiza un procesamiento
+            //console.log(tipo);
             switch (tipo) {
                 case "TiempoCiudad":
                     if (window.DOMParser) {
                         console.log("Tiempo!!")
                          parser = new DOMParser();
                          xmlDoc = parser.parseFromString(lines[9], "text/xml");
-
+                        console.log(xmlDoc);
                         var nombreCiudad = xmlDoc.getElementsByTagName("Nombre")[0].childNodes[0].nodeValue;
                         var descripcionGeneralHES = xmlDoc.getElementsByTagName("ES")[0].childNodes[0].nodeValue;
                         var descripcionGeneralHEU = xmlDoc.getElementsByTagName("EU")[0].childNodes[0].nodeValue;

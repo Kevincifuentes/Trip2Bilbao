@@ -89,6 +89,7 @@ namespace WebAPI.Controllers
                 List<viajes_bizkaibus> temporal2 =
                 primero.viajes_bizkaibus.ToList();
                 List<viajes_bizkaibus> viajes = new List<viajes_bizkaibus>();
+                List<viajes_bizkaibus> viajesDetodas = new List<viajes_bizkaibus>();
                 foreach (viajes_bizkaibus t in temporal2)
                 {
                     string[] tiempo1 = t.tiempoInicio.Split(':');
@@ -101,10 +102,28 @@ namespace WebAPI.Controllers
                     {
                         viajes.Add(t);
                     }
+                    else
+                    {
+                        viajesDetodas.Add(t);
+                    }
                 }
                 if (viajes.Count == 0)
                 {
-                    return NotFound();
+                    if (temporal2.Count > 0)
+                    {
+                        foreach (viajes_parada_tiempos_bizkaibus t2 in viajesDetodas[0].viajes_parada_tiempos_bizkaibus)
+                        {
+                            final.Add(t2.paradas_bizkaibus);
+                        }
+                    }
+                    if (final.Count != 0)
+                    {
+                        return Ok(fa.assemble(final));
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
                 }
                 else
                 {

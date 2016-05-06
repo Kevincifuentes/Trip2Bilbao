@@ -35,7 +35,7 @@ namespace ExtractorDatos
                 // Creación de factoria
                 IConnectionFactory connectionFactory = new ConnectionFactory(
                     "tcp://dev.mobility.deustotech.eu:61616");
-
+                //dev.mobility.deustotech.eu
                 // Creación de la conexión
                 _connection = connectionFactory.CreateConnection();
                 _connection.Start();
@@ -1343,13 +1343,13 @@ namespace ExtractorDatos
 
             XElement hoy = new XElement("Hoy");
             XElement descripcionGeneral = new XElement("DescripcionGeneral");
-            XElement descES = new XElement("ES", es["Hoy"]);
-            XElement descEU = new XElement("EU", eu["Hoy"]);
+            XElement descES = new XElement("ES", es["Hoy"].Trim());
+            XElement descEU = new XElement("EU", eu["Hoy"].Trim());
             descripcionGeneral.Add(descES);
             descripcionGeneral.Add(descEU);
 
-            XElement ciudadES = new XElement("DescripcionES", dt["Hoy"].descripcionES);
-            XElement ciudadEU = new XElement("DescripcionEU", dt["Hoy"].descripcionEU);
+            XElement ciudadES = new XElement("DescripcionES", dt["Hoy"].descripcionES.Trim());
+            XElement ciudadEU = new XElement("DescripcionEU", dt["Hoy"].descripcionEU.Trim());
             XElement max = new XElement("TempMax", dt["Hoy"].maxima);
             XElement min = new XElement("TempMin", dt["Hoy"].minima);
 
@@ -1361,13 +1361,13 @@ namespace ExtractorDatos
 
             XElement manana = new XElement("Mañana");
             descripcionGeneral = new XElement("DescripcionGeneral");
-            descES = new XElement("ES", es["Mañana"]);
-            descEU = new XElement("EU", eu["Mañana"]);
+            descES = new XElement("ES", es["Mañana"].Trim());
+            descEU = new XElement("EU", eu["Mañana"].Trim());
             descripcionGeneral.Add(descES);
             descripcionGeneral.Add(descEU);
 
-            ciudadES = new XElement("DescripcionES", dt["Mañana"].descripcionES);
-            ciudadEU = new XElement("DescripcionEU", dt["Mañana"].descripcionEU);
+            ciudadES = new XElement("DescripcionES", dt["Mañana"].descripcionES.Trim());
+            ciudadEU = new XElement("DescripcionEU", dt["Mañana"].descripcionEU.Trim());
             max = new XElement("TempMax", dt["Mañana"].maxima);
             min = new XElement("TempMin", dt["Mañana"].minima);
 
@@ -1379,13 +1379,13 @@ namespace ExtractorDatos
 
             XElement pasado = new XElement("Pasado");
             descripcionGeneral = new XElement("DescripcionGeneral");
-            descES = new XElement("ES", es["Pasado"]);
-            descEU = new XElement("EU", eu["Pasado"]);
+            descES = new XElement("ES", es["Pasado"].Trim());
+            descEU = new XElement("EU", eu["Pasado"].Trim());
             descripcionGeneral.Add(descES);
             descripcionGeneral.Add(descEU);
 
-            ciudadES = new XElement("DescripcionES", dt["Pasado"].descripcionES);
-            ciudadEU = new XElement("DescripcionEU", dt["Pasado"].descripcionEU);
+            ciudadES = new XElement("DescripcionES", dt["Pasado"].descripcionES.Trim());
+            ciudadEU = new XElement("DescripcionEU", dt["Pasado"].descripcionEU.Trim());
             max = new XElement("TempMax", dt["Pasado"].maxima);
             min = new XElement("TempMin", dt["Pasado"].minima);
 
@@ -1407,6 +1407,7 @@ namespace ExtractorDatos
             meteo.Add(cuerpo);
 
             Console.WriteLine(meteo.ToString());
+
             return meteo;
         }
 
