@@ -5,3 +5,5 @@ ExtractorDatos -> Contiene los programas que realizan las peticiones de los dato
 WrappersActiveMQ -> contiene las clases utilizadas a modo de Wrapper para enviar los objetos por el bus
 
 ReceptorBus -> Un programa inicial que coje los datos del bus y los muestra
+
+WebAPi -> Contiene la API REST que provee los datos, así como la página web
