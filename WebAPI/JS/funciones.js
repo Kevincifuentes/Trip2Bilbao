@@ -138,12 +138,12 @@ function obtener(x, y) {
         $(document).ready(function() {
             //se envia una petición AJAX
             $.getJSON(y)
-                .done(function(data) {
+                .done(function (data) {
                     //si la petición ha sido correcta, tendremos una lista de objetos JSON
                     if (x === 2) {
                         numeroDeParkings = 0;
                     }
-                    $.each(data, function(key, item) {
+                    $.each(data, function (key, item) {
                         if (x === 2) {
                             numeroDeParkings++;
                             latlngParkingUnico = new google.maps.LatLng(item.latitud, item.longitud);
@@ -168,7 +168,7 @@ function obtener(x, y) {
                             markers.push(marker);
 
                             //se añade un evento al marcador
-                            marker.addListener('click', function(event) {
+                            marker.addListener('click', function (event) {
                                 for (var i = 0; i < infoWindows.length; i++) {
                                     infoWindows[i].close();
                                 }
@@ -185,10 +185,6 @@ function obtener(x, y) {
                         }
 
                     });
-                }).always(function() {
-                    if (x === 2) {
-                        resultadoParking();
-                    }
                 }).fail(function () {
                     if (x === 1) {
                         var node = document.createElement("LI");
@@ -246,6 +242,11 @@ function obtener(x, y) {
                         var textnode = document.createTextNode("No se han encontrado Puntos de Bicis cercanos en Destino.");
                         node.appendChild(textnode);
                         document.getElementById("noencontrado").appendChild(node);
+                    }
+                }).always(function () {
+                    if (x === 2) {
+                        console.log(numeroDeParkings);
+                        resultadoParking();
                     }
                 });
         });
@@ -987,7 +988,7 @@ function obtenerInformacionDistanciasTiempos(origin, destiny) {
 
 function inicializarActiveMQ() {
     //Inicializo el WebSocket al puerto e Ip del ActiveMQ. Se utilizará un servicio STOMP.
-    ws = new WebSocket('wss://dev.mobility.deustotech.eu:61614?needClientAuth=true&amp;wantClientAuth=true&amp;transport.clientCertSubject=nms.client.170&amp;transport.clientCertPassword=trip2bilbao;transport.clientCertFilename=client.ks', 'stomp');
+    ws = new WebSocket('wss://dev.mobility.deustotech.eu:61614?needClientAuth=true&wantClientAuth=true&transport.clientCertSubject=nms.client.170&transport.clientCertPassword=trip2bilbao&transport.clientCertFilename=client.ks', 'stomp');
 
     //Notificar para la conexión
     ws.onopen = function (){
@@ -1003,149 +1004,169 @@ function inicializarActiveMQ() {
 
             var lines = e.data.split('\n');
             var tipo = lines[4].substring(lines[4].indexOf(":") + 1, lines[4].length);
-            var parser, xmlDoc;
-            //Según el tipo se realiza un procesamiento
-            //console.log(tipo);
-            switch (tipo) {
-                case "TiempoCiudad":
-                    if (window.DOMParser) {
-                        console.log("Tiempo!!")
-                         parser = new DOMParser();
-                         xmlDoc = parser.parseFromString(lines[9], "text/xml");
-                        console.log(xmlDoc);
-                        var nombreCiudad = xmlDoc.getElementsByTagName("Nombre")[0].childNodes[0].nodeValue;
-                        var descripcionGeneralHES = xmlDoc.getElementsByTagName("ES")[0].childNodes[0].nodeValue;
-                        var descripcionGeneralHEU = xmlDoc.getElementsByTagName("EU")[0].childNodes[0].nodeValue;
-                        var descripcionHES = xmlDoc.getElementsByTagName("DescripcionES")[0].childNodes[0].nodeValue;
-                        var descripcionHEU = xmlDoc.getElementsByTagName("DescripcionEU")[0].childNodes[0].nodeValue;
-                        var tempMaxH = xmlDoc.getElementsByTagName("TempMax")[0].childNodes[0].nodeValue;
-                        var tempMinH = xmlDoc.getElementsByTagName("TempMin")[0].childNodes[0].nodeValue;
 
-                        var descripcionGeneralMES = xmlDoc.getElementsByTagName("ES")[1].childNodes[0].nodeValue;
-                        var descripcionGeneralMEU = xmlDoc.getElementsByTagName("EU")[1].childNodes[0].nodeValue;
-                        var descripcionMES = xmlDoc.getElementsByTagName("DescripcionES")[1].childNodes[0].nodeValue;
-                        var descripcionMEU = xmlDoc.getElementsByTagName("DescripcionEU")[1].childNodes[0].nodeValue;
-                        var tempMaxM = xmlDoc.getElementsByTagName("TempMax")[1].childNodes[0].nodeValue;
-                        var tempMinM = xmlDoc.getElementsByTagName("TempMin")[1].childNodes[0].nodeValue;
+            var expirado = lines[5].substring(0, lines[5].indexOf(":"));
 
-                        var descripcionGeneralPES = xmlDoc.getElementsByTagName("ES")[2].childNodes[0].nodeValue;
-                        var descripcionGeneralPEU = xmlDoc.getElementsByTagName("EU")[2].childNodes[0].nodeValue;
-                        var descripcionPES = xmlDoc.getElementsByTagName("DescripcionES")[2].childNodes[0].nodeValue;
-                        var descripcionPEU = xmlDoc.getElementsByTagName("DescripcionEU")[2].childNodes[0].nodeValue;
-                        var tempMaxP = xmlDoc.getElementsByTagName("TempMax")[2].childNodes[0].nodeValue;
-                        var tempMinP = xmlDoc.getElementsByTagName("TempMin")[2].childNodes[0].nodeValue;
+            if (expirado !== "originalExpiration") {
+                var expirado = lines[6].substring(0, lines[6].indexOf(":"));
+                if (expirado !== "originalExpiration") {
+                    var expirado = lines[7].substring(0, lines[7].indexOf(":"));
 
-                        if (noHayMeteo === true) {
-                            $("#hoy").html(" <table class='table table-bordered'><tbody><td><img height='50' width='50' src='imagenes/cold.png'/><span id='spanHmin'>Min.<b>" + tempMinH + "°C</b></span></td><td><img height='50' width='50' src='imagenes/hot.png'/><span id='spanHmax'>Min.<b>" + tempMaxH + "°C</b></span></td></tbody></table>");
-                            $("#manana").html(" <table class='table table-bordered'><tbody><td><img height='50' width='50' src='imagenes/cold.png'/><span id='spanMmin'>Min.<b>" + tempMinM + "°C</b></span></td><td><img height='50' width='50' src='imagenes/hot.png'/><span id='spanMmax'>Min.<b>" + tempMaxM + "°C</b></span></td></tbody></table>");
-                            $("#pasado").html(" <table class='table table-bordered'><tbody><td><img height='50' width='50' src='imagenes/cold.png'/><span id='spanPmin'>Min.<b>" + tempMinP + "°C</b></span></td><td><img height='50' width='50' src='imagenes/hot.png'/><span id='spanPmax'>Min.<b>" + tempMaxP + "°C</b></span></td></tbody></table>");
-                            $("#esHoy").html("<p>" + descripcionGeneralHES + "<br><b>" + descripcionHES + "</b></p>");
-                            $("#euHoy").html("<p>" + descripcionGeneralHEU + "<br><b>" + descripcionHEU + "</b></p>");
-                            $("#esMa").html("<p>" + descripcionGeneralMES + "<br><b>" + descripcionMES + "</b></p>");
-                            $("#euMa").html("<p>" + descripcionGeneralMEU + "<br><b>" + descripcionMEU + "</b></p>");
-                            $("#esPa").html("<p>" + descripcionGeneralPES + "<br><b>" + descripcionPES + "</b></p>");
-                            $("#euPa").html("<p>" + descripcionGeneralPEU + "<br><b>" + descripcionPEU + "</b></p>");
-                            noHayMeteo = false;
-                        } else {
-                            $("#spanHmin").html("Min.<b>" + tempMinH + "°C</b>");
-                            $("#spanHmax").html("Max.<b>" + tempMaxH + "°C</b>");
-                            $("#spanMmin").html("Min.<b>" + tempMinM + "°C</b>");
-                            $("#spanMmax").html("Max.<b>" + tempMaxM + "°C</b>");
-                            $("#spanPmin").html("Min.<b>" + tempMinP + "°C</b>");
-                            $("#spanPmax").html("Max.<b>" + tempMaxP + "°C</b>");
-                            $("#esHoy").html("<p>" + descripcionGeneralHES + "<br><b>" + descripcionHES + "</b></p>");
-                            $("#euHoy").html("<p>" + descripcionGeneralHEU + "<br><b>" + descripcionHEU + "</b></p>");
-                            $("#esMa").html("<p>" + descripcionGeneralMES + "<br><b>" + descripcionMES + "</b></p>");
-                            $("#euMa").html("<p>" + descripcionGeneralMEU + "<br><b>" + descripcionMEU + "</b></p>");
-                            $("#esPa").html("<p>" + descripcionGeneralPES + "<br><b>" + descripcionPES + "</b></p>");
-                            $("#euPa").html("<p>" + descripcionGeneralPEU + "<br><b>" + descripcionPEU + "</b></p>");
+                    if (expirado !== "originalExpiration") {
+
+                        var parser, xmlDoc;
+                        //Según el tipo se realiza un procesamiento
+                        //console.log(tipo);
+                        switch (tipo) {
+                            case "TiempoCiudad":
+                                if (window.DOMParser) {
+                                    parser = new DOMParser();
+                                    xmlDoc = parser.parseFromString(lines[9], "text/xml");
+                                    var nombreCiudad = xmlDoc.getElementsByTagName("Nombre")[0].childNodes[0].nodeValue;
+                                    var descripcionGeneralHES = xmlDoc.getElementsByTagName("ES")[0].childNodes[0].nodeValue;
+                                    var descripcionGeneralHEU = xmlDoc.getElementsByTagName("EU")[0].childNodes[0].nodeValue;
+                                    var descripcionHES = xmlDoc.getElementsByTagName("DescripcionES")[0].childNodes[0].nodeValue;
+                                    var descripcionHEU = xmlDoc.getElementsByTagName("DescripcionEU")[0].childNodes[0].nodeValue;
+                                    var tempMaxH = xmlDoc.getElementsByTagName("TempMax")[0].childNodes[0].nodeValue;
+                                    var tempMinH = xmlDoc.getElementsByTagName("TempMin")[0].childNodes[0].nodeValue;
+
+                                    var descripcionGeneralMES = xmlDoc.getElementsByTagName("ES")[1].childNodes[0].nodeValue;
+                                    var descripcionGeneralMEU = xmlDoc.getElementsByTagName("EU")[1].childNodes[0].nodeValue;
+                                    var descripcionMES = xmlDoc.getElementsByTagName("DescripcionES")[1].childNodes[0].nodeValue;
+                                    var descripcionMEU = xmlDoc.getElementsByTagName("DescripcionEU")[1].childNodes[0].nodeValue;
+                                    var tempMaxM = xmlDoc.getElementsByTagName("TempMax")[1].childNodes[0].nodeValue;
+                                    var tempMinM = xmlDoc.getElementsByTagName("TempMin")[1].childNodes[0].nodeValue;
+
+                                    var descripcionGeneralPES = xmlDoc.getElementsByTagName("ES")[2].childNodes[0].nodeValue;
+                                    var descripcionGeneralPEU = xmlDoc.getElementsByTagName("EU")[2].childNodes[0].nodeValue;
+                                    var descripcionPES = xmlDoc.getElementsByTagName("DescripcionES")[2].childNodes[0].nodeValue;
+                                    var descripcionPEU = xmlDoc.getElementsByTagName("DescripcionEU")[2].childNodes[0].nodeValue;
+                                    var tempMaxP = xmlDoc.getElementsByTagName("TempMax")[2].childNodes[0].nodeValue;
+                                    var tempMinP = xmlDoc.getElementsByTagName("TempMin")[2].childNodes[0].nodeValue;
+
+                                    if (noHayMeteo === true) {
+                                        $("#hoy").html(" <table class='table table-bordered'><tbody><td><img height='50' width='50' src='imagenes/cold.png'/><span id='spanHmin'>Min.<b>" + tempMinH + "°C</b></span></td><td><img height='50' width='50' src='imagenes/hot.png'/><span id='spanHmax'>Min.<b>" + tempMaxH + "°C</b></span></td></tbody></table>");
+                                        $("#manana").html(" <table class='table table-bordered'><tbody><td><img height='50' width='50' src='imagenes/cold.png'/><span id='spanMmin'>Min.<b>" + tempMinM + "°C</b></span></td><td><img height='50' width='50' src='imagenes/hot.png'/><span id='spanMmax'>Min.<b>" + tempMaxM + "°C</b></span></td></tbody></table>");
+                                        $("#pasado").html(" <table class='table table-bordered'><tbody><td><img height='50' width='50' src='imagenes/cold.png'/><span id='spanPmin'>Min.<b>" + tempMinP + "°C</b></span></td><td><img height='50' width='50' src='imagenes/hot.png'/><span id='spanPmax'>Min.<b>" + tempMaxP + "°C</b></span></td></tbody></table>");
+                                        $("#esHoy").html("<p>" + descripcionGeneralHES + "<br><b>" + descripcionHES + "</b></p>");
+                                        $("#euHoy").html("<p>" + descripcionGeneralHEU + "<br><b>" + descripcionHEU + "</b></p>");
+                                        $("#esMa").html("<p>" + descripcionGeneralMES + "<br><b>" + descripcionMES + "</b></p>");
+                                        $("#euMa").html("<p>" + descripcionGeneralMEU + "<br><b>" + descripcionMEU + "</b></p>");
+                                        $("#esPa").html("<p>" + descripcionGeneralPES + "<br><b>" + descripcionPES + "</b></p>");
+                                        $("#euPa").html("<p>" + descripcionGeneralPEU + "<br><b>" + descripcionPEU + "</b></p>");
+                                        noHayMeteo = false;
+                                    } else {
+                                        $("#spanHmin").html("Min.<b>" + tempMinH + "°C</b>");
+                                        $("#spanHmax").html("Max.<b>" + tempMaxH + "°C</b>");
+                                        $("#spanMmin").html("Min.<b>" + tempMinM + "°C</b>");
+                                        $("#spanMmax").html("Max.<b>" + tempMaxM + "°C</b>");
+                                        $("#spanPmin").html("Min.<b>" + tempMinP + "°C</b>");
+                                        $("#spanPmax").html("Max.<b>" + tempMaxP + "°C</b>");
+                                        $("#esHoy").html("<p>" + descripcionGeneralHES + "<br><b>" + descripcionHES + "</b></p>");
+                                        $("#euHoy").html("<p>" + descripcionGeneralHEU + "<br><b>" + descripcionHEU + "</b></p>");
+                                        $("#esMa").html("<p>" + descripcionGeneralMES + "<br><b>" + descripcionMES + "</b></p>");
+                                        $("#euMa").html("<p>" + descripcionGeneralMEU + "<br><b>" + descripcionMEU + "</b></p>");
+                                        $("#esPa").html("<p>" + descripcionGeneralPES + "<br><b>" + descripcionPES + "</b></p>");
+                                        $("#euPa").html("<p>" + descripcionGeneralPEU + "<br><b>" + descripcionPEU + "</b></p>");
+                                    }
+                                }
+                                break;
+                            case "TiemposLinea":
+                                if (window.DOMParser) {
+                                    parser = new DOMParser();
+                                    xmlDoc = parser.parseFromString(lines[9], "text/xml");
+                                    var id = xmlDoc.getElementsByTagName("TiemposLinea")[0].getAttribute("Id");
+                                    var nombre = xmlDoc.getElementsByTagName("TiemposLinea")[0].getAttribute("Nombre");
+                                    if (primeraTiemposLinea === true) {
+                                        primeraTiemposLinea = false;
+                                        $("#columna3").empty();
+                                        $("#columna2").empty();
+                                        $("#columna1").empty();
+
+                                    }
+                                    if (!(id in lineasBilbobusArray)) {
+                                        if (Object.keys(lineasBilbobusArray).length > 14) {
+                                            if (Object.keys(lineasBilbobusArray).length > 29) {
+                                                $("#columna3").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRuta(&quot;" + id + "&quot;,&quot;" + nombre + "&quot;);'>" + id + " : " + nombre + "</a></li>");
+                                            } else {
+                                                $("#columna2").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRuta(&quot;" + id + "&quot;,&quot;" + nombre + "&quot;);'>" + id + " : " + nombre + "</a></li>");
+                                            }
+                                        } else {
+                                            $("#columna1").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRuta(&quot;" + id + "&quot;,&quot;" + nombre + "&quot;);'>" + id + " - " + nombre + "</a></li>");
+                                        }
+                                    }
+                                    lineasBilbobusArray[id] = xmlDoc;
+                                    if (mostrando === true) {
+                                        //actualizar
+                                        if (idRuta === id) {
+                                            obtenerTiemposParadas(id);
+                                            for (var i = 0; i < paradas.length; i++) {
+                                                if (paradas[i].id in paradasConTiempo) {
+                                                    //console.log(paradas[i].nombreParada + " Nuevo tiempo: " + paradasConTiempo[paradas[i].id]);
+                                                    informacionParadas[paradas[i].id].setContent(formatearParada(paradas[i], paradas[i].id));
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    var paradas = xmlDoc.getElementsByTagName("Paradas")[0].childNodes;
+                                    for (var i = 0; i < paradas.length; i++) {
+                                        var idP = paradas[i].getElementsByTagName("Id")[0].childNodes[0].nodeValue;
+                                        var tiempo = paradas[i].getElementsByTagName("TiempoRestante")[0].childNodes[0].nodeValue;
+                                        //console.log(idP + " " + tiempo);
+                                        if (idP in informacionSobreParadas) {
+                                            informacionSobreParadas[idP].push({ id: id, linea: nombre, tiempo: tiempo });
+                                        } else {
+                                            informacionSobreParadas[idP] = [];
+                                            informacionSobreParadas[idP].push({ id: id, linea: nombre, tiempo: tiempo });
+                                        }
+                                    }
+                                }
+                                break;
+                            case "Parkings":
+                                if (window.DOMParser) {
+                                    parser = new DOMParser();
+                                    //console.log(lines[10]);
+                                    xmlDoc = parser.parseFromString(lines[10], "text/xml");
+                                    nombre = xmlDoc.getElementsByTagName("Nombre")[0].childNodes[0].nodeValue;
+                                    var disponibilidad = xmlDoc.getElementsByTagName("Disponibilidad")[0].childNodes[0].nodeValue;
+                                    estadoParkings[nombre] = disponibilidad;
+                                    //console.log(nombre + " " +disponibilidad);
+                                }
+                                break;
+
+                            case "Deusto":
+                                if (window.DOMParser) {
+                                    parser = new DOMParser();
+                                    xmlDoc = parser.parseFromString(lines[10], "text/xml");
+                                    var general = xmlDoc.getElementsByTagName("General")[0].childNodes[0].nodeValue;
+                                    var dbs = xmlDoc.getElementsByTagName("Dbs")[0].childNodes[0].nodeValue;
+                                    estadoParkings["UD: DBS"] = dbs;
+                                    estadoParkings["UD: General"] = general;
+                                }
+                                break;
+
+                            case "Bicis":
+                                if (window.DOMParser) {
+                                    //Lo convertimos mediante un parseador
+                                    parser = new DOMParser();
+                                    //Obtenemos solo el XML
+                                    xmlDoc = parser.parseFromString(lines[10], "text/xml");
+                                    //Se obtienen los datos que interesan
+                                    nombre = xmlDoc.getElementsByTagName("Nombre")[0].childNodes[0].nodeValue;
+                                    var disponibilidadbicis = xmlDoc.getElementsByTagName("BicisLibres")[0].childNodes[0].nodeValue;
+                                    var disponibilidadAnclajes = xmlDoc.getElementsByTagName("DisponibilidadAnclaje")[0].childNodes[0].nodeValue;
+                                    estadosBici[nombre] = "<b>Bicis Libres: </b>" + disponibilidadbicis + " / <b> Anclajes Libres: </b>" + disponibilidadAnclajes;
+                                }
+                                break;
+                            default:
                         }
                     }
-                    break;
-                case "TiemposLinea":
-                     parser = new DOMParser();
-                     xmlDoc = parser.parseFromString(lines[9], "text/xml");
-                     var id = xmlDoc.getElementsByTagName("TiemposLinea")[0].getAttribute("Id");
-                     var nombre = xmlDoc.getElementsByTagName("TiemposLinea")[0].getAttribute("Nombre");
-                     if (primeraTiemposLinea === true) {
-                         primeraTiemposLinea = false;
-                         $("#columna3").empty();
-                         $("#columna2").empty();
-                         $("#columna1").empty();
-                         
-                     }
-                     if (!(id in lineasBilbobusArray)) {
-                         if (Object.keys(lineasBilbobusArray).length > 14) {
-                             if (Object.keys(lineasBilbobusArray).length > 29) {
-                                 $("#columna3").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRuta(&quot;" + id + "&quot;,&quot;" + nombre + "&quot;);'>" + id + " : " + nombre + "</a></li>");
-                             } else {
-                                 $("#columna2").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRuta(&quot;" + id + "&quot;,&quot;" + nombre + "&quot;);'>" + id + " : " + nombre + "</a></li>");
-                             }
-                         } else {
-                             $("#columna1").append("<li><span class='glyphicon glyphicon-menu-right' aria-hidden='true'></span><a onclick='obtenerRuta(&quot;" + id + "&quot;,&quot;" + nombre + "&quot;);'>" + id + " - " + nombre + "</a></li>");
-                         }
-                     }
-                     lineasBilbobusArray[id] = xmlDoc;
-                     if (mostrando === true) {
-                         //actualizar
-                         if (idRuta === id) {
-                             obtenerTiemposParadas(id);
-                             for (var i = 0; i < paradas.length; i++) {
-                                 if (paradas[i].id in paradasConTiempo) {
-                                     //console.log(paradas[i].nombreParada + " Nuevo tiempo: " + paradasConTiempo[paradas[i].id]);
-                                     informacionParadas[paradas[i].id].setContent(formatearParada(paradas[i], paradas[i].id));
-                                 }
-                             }
-                         }
-                     }
-                     
-                     var paradas = xmlDoc.getElementsByTagName("Paradas")[0].childNodes;
-                     for (var i = 0; i < paradas.length; i++) {
-                         var idP = paradas[i].getElementsByTagName("Id")[0].childNodes[0].nodeValue;
-                         var tiempo = paradas[i].getElementsByTagName("TiempoRestante")[0].childNodes[0].nodeValue;
-                         //console.log(idP + " " + tiempo);
-                         if (idP in informacionSobreParadas) {
-                             informacionSobreParadas[idP].push({ id: id, linea: nombre, tiempo: tiempo });
-                         } else {
-                             informacionSobreParadas[idP] = [];
-                             informacionSobreParadas[idP].push({ id: id, linea: nombre, tiempo: tiempo });
-                         }
-                         
-                     }
-                     break;
-                case "Parkings":
-                    parser = new DOMParser();
-                    //console.log(lines[10]);
-                    xmlDoc = parser.parseFromString(lines[10], "text/xml");
-                    nombre = xmlDoc.getElementsByTagName("Nombre")[0].childNodes[0].nodeValue;
-                    var disponibilidad = xmlDoc.getElementsByTagName("Disponibilidad")[0].childNodes[0].nodeValue;
-                    estadoParkings[nombre] = disponibilidad;
-                    //console.log(nombre + " " +disponibilidad);
-                    break;
 
-                case "Deusto":
-                    parser = new DOMParser();
-                    xmlDoc = parser.parseFromString(lines[10], "text/xml");
-                    var general = xmlDoc.getElementsByTagName("General")[0].childNodes[0].nodeValue;
-                    var dbs = xmlDoc.getElementsByTagName("Dbs")[0].childNodes[0].nodeValue;
-                    estadoParkings["UD: DBS"] = dbs;
-                    estadoParkings["UD: General"] = general;
-                    break;
-
-                case "Bicis":
-                    //Lo convertimos mediante un parseador
-                    parser = new DOMParser();
-                    //Obtenemos solo el XML
-                    xmlDoc = parser.parseFromString(lines[10], "text/xml");
-                    //Se obtienen los datos que interesan
-                    nombre = xmlDoc.getElementsByTagName("Nombre")[0].childNodes[0].nodeValue;
-                    var disponibilidadbicis = xmlDoc.getElementsByTagName("BicisLibres")[0].childNodes[0].nodeValue;
-                    var disponibilidadAnclajes = xmlDoc.getElementsByTagName("DisponibilidadAnclaje")[0].childNodes[0].nodeValue;
-                    estadosBici[nombre] = "<b>Bicis Libres: </b>" + disponibilidadbicis + " / <b> Anclajes Libres: </b>" + disponibilidadAnclajes;
-                    break;
-                default:
+                }
             }
 
+            
         }
 
     };

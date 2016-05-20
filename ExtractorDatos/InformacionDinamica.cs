@@ -229,7 +229,7 @@ namespace ExtractorDatos
             if (comarcasxml != null)
             {
                 XmlNodeList temp = comarcasxml.SelectNodes("//*");
-                Console.WriteLine(temp[0].Name);
+                //Console.WriteLine(temp[0].Name);
 
                 foreach (XmlNode node in temp[0].ChildNodes)
                 {

@@ -49,6 +49,7 @@ namespace ExtractorDatos
                 InformacionEstatica.emisor.enviarIncidencias<List<Mantenimiento>, Mantenimiento>(dinamico.mantenimientos, dinamico.descargaIncidencias);
 
                 //Espera un Dia
+                Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Fin Incidencias");
                 Thread.Sleep(86400000);
             }
             
@@ -63,6 +64,7 @@ namespace ExtractorDatos
                 InformacionEstatica.emisor.enviarBicicletas(dinamico.puntosBicisList, dinamico.descargaBicis);
 
                 //Espera un Minuto
+                Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Fin Bicis");
                 Thread.Sleep(60000);
             }
         }
@@ -77,6 +79,7 @@ namespace ExtractorDatos
                InformacionEstatica.emisor.enviarParkings(estatico.parkings, estatico.descargaParkings);
                 
                //Espera un Minuto
+               Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Fin Parkings");
                Thread.Sleep(60000);
             }
         }
@@ -90,6 +93,7 @@ namespace ExtractorDatos
                 InformacionEstatica.emisor.enviarParkingDeusto(dinamico.contadorDBSDeusto, dinamico.contadorGeneralDeusto, dinamico.descargaDeusto);
 
                 //Espera un Minuto
+                Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Fin Deusto");
                 Thread.Sleep(60000);
             }
         }
@@ -105,7 +109,8 @@ namespace ExtractorDatos
                 //InformacionEstatica.emisor.enviarTiemposParadas(estatico.paradasBilbobus, dinamico.descargaBilbobus);
                 InformacionEstatica.emisor.enviarTiemposLineas(estatico.lineasBilbo, dinamico.descargaBilbobus);
 
-                //Espera un Minuto y medio
+                //Espera un Minuto
+                Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Fin Bilbobus");
                 Thread.Sleep(60000);
             }
         }
@@ -131,6 +136,7 @@ namespace ExtractorDatos
                 InformacionEstatica.emisor.enviarTiempoBilbao(temporal, descripcionesES, descripcionesEU, "Bilbao");
 
                 //Espera un día
+                Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Fin Meteo");
                 Thread.Sleep(86400000);
             }
         }

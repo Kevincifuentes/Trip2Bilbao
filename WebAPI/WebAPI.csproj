@@ -128,7 +128,7 @@
     <Content Include="hospitales.html" />
     <Content Include="index.html" />
     <Content Include="packages.config" />
-    <Content Include="client.ks">
+    <Content Include="JS\client.ks">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
@@ -202,7 +202,7 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="client.ts">
+    <TypeScriptCompile Include="JS\client.ts">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </TypeScriptCompile>
   </ItemGroup>

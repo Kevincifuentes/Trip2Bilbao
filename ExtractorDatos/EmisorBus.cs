@@ -275,10 +275,10 @@ namespace ExtractorDatos
                 {
                     miKeyValue.Add(new Clases.KeyValuePair<string, TiempoCiudad>(valuePair.Key, valuePair.Value));
                 }
-                foreach (Clases.KeyValuePair<string, TiempoCiudad> pair in miKeyValue)
+                /*foreach (Clases.KeyValuePair<string, TiempoCiudad> pair in miKeyValue)
                 {
                     Console.WriteLine(pair.Value.descripcionES);
-                }
+                }*/
                 _producer.Send(new ParesTiempoCiudad(miKeyValue));
             }
             catch (System.NullReferenceException ex)
@@ -298,10 +298,10 @@ namespace ExtractorDatos
                 {
                     miKeyValue.Add(new Clases.KeyValuePair<string, TiempoComarca>(valuePair.Key, valuePair.Value));
                 }
-                foreach (Clases.KeyValuePair<string, TiempoComarca> pair in miKeyValue)
+                /*foreach (Clases.KeyValuePair<string, TiempoComarca> pair in miKeyValue)
                 {
                     Console.WriteLine(pair.Value.nombreComarcaES);
-                }
+                }*/
                 _producer.Send(new ParesTiempoComarca(miKeyValue));
             }
             catch (System.NullReferenceException ex)
@@ -615,7 +615,7 @@ namespace ExtractorDatos
             }
             coleccionParkings.Add(cuerpo);
 
-            Console.WriteLine(coleccionParkings.ToString());
+            //Console.WriteLine(coleccionParkings.ToString());
             return coleccionParkings;
         }
 
@@ -675,7 +675,7 @@ namespace ExtractorDatos
             }
 
             coleccionBicis.Add(cuerpo);
-            Console.WriteLine(coleccionBicis.ToString());
+            //Console.WriteLine(coleccionBicis.ToString());
             return coleccionBicis;
         }
 
@@ -735,7 +735,7 @@ namespace ExtractorDatos
                 }
                 if (!lineas.IsEmpty)
                 {
-                    Console.WriteLine(parada.ToString() + "" + lineas.ToString());
+                    //Console.WriteLine(parada.ToString() + "" + lineas.ToString());
                 }
                 
 
@@ -780,7 +780,7 @@ namespace ExtractorDatos
             //Contenido
 
             XElement cuerpo = new XElement("Cuerpo");
-            Console.WriteLine(lineasBilbo.Values.Count);
+            //Console.WriteLine(lineasBilbo.Values.Count);
             foreach (LineaBilbobus temp in lineasBilbo.Values)
             {
                 XElement nodoLinea = new XElement("Linea", new XAttribute("id", temp.id));
@@ -814,7 +814,7 @@ namespace ExtractorDatos
                         }
                         else
                         {
-                            Console.WriteLine(objParada.lineasYTiempo[temp.id].tiempoEspera);
+                           // Console.WriteLine(objParada.lineasYTiempo[temp.id].tiempoEspera);
                             tiempoRestante = new XElement("TiempoRestante", objParada.lineasYTiempo[temp.id].tiempoEspera);
                         }
 
@@ -916,7 +916,7 @@ namespace ExtractorDatos
 
             xmlParking.Add(cuerpo);
 
-            Console.WriteLine(xmlParking.ToString());
+            //Console.WriteLine(xmlParking.ToString());
             return xmlParking;
         }
 
@@ -975,7 +975,7 @@ namespace ExtractorDatos
 
 
             puntoBici.Add(cuerpo);
-            Console.WriteLine(puntoBici.ToString());
+            //Console.WriteLine(puntoBici.ToString());
             return puntoBici;
         }
 
@@ -1034,7 +1034,7 @@ namespace ExtractorDatos
             }
             if (!lineas.IsEmpty)
             {
-                Console.WriteLine(pbi.ToString() + "" + lineas.ToString());
+                //Console.WriteLine(pbi.ToString() + "" + lineas.ToString());
             }
 
 
@@ -1106,7 +1106,7 @@ namespace ExtractorDatos
                     }
                     else
                     {
-                        Console.WriteLine(objParada.lineasYTiempo[lb.id].tiempoEspera);
+                        //Console.WriteLine(objParada.lineasYTiempo[lb.id].tiempoEspera);
                         tiempoRestante = new XElement("TiempoRestante", objParada.lineasYTiempo[lb.id].tiempoEspera);
                     }
 
@@ -1304,7 +1304,7 @@ namespace ExtractorDatos
 
             incidencia.Add(cuerpo);
 
-            Console.WriteLine(incidencia.ToString());
+            //Console.WriteLine(incidencia.ToString());
             return incidencia;
         }
 
@@ -1406,7 +1406,7 @@ namespace ExtractorDatos
 
             meteo.Add(cuerpo);
 
-            Console.WriteLine(meteo.ToString());
+            //Console.WriteLine(meteo.ToString());
 
             return meteo;
         }

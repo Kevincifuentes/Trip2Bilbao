@@ -216,7 +216,7 @@ namespace ExtractorDatos
             catch (System.Xml.XmlException ex)
             {
                 Console.WriteLine("Error al intentar obtener la url (XmlException): " + url);
-                Console.Write(ex.Message);
+                //Console.Write(ex.Message);
               /*  document.Load(new StreamReader(url, Encoding.GetEncoding("ISO-8859-9")));
                 Console.WriteLine(document.InnerText);*/
                 document = null;
@@ -254,7 +254,7 @@ namespace ExtractorDatos
             {
                 XmlNodeList temp = aparcamientosxml.SelectNodes("//*");
 
-                Console.WriteLine("Empiezo Foreach");
+                //Console.WriteLine("Empiezo Foreach");
 
                 //Con esto obtengo los PARKINGS unicamente
                 foreach (XmlNode node in temp[0].ChildNodes[0].ChildNodes)
@@ -264,29 +264,29 @@ namespace ExtractorDatos
 
                     //Obtiene el class del parking (id)
                     string tipo = atributos.Item(0).InnerText;
-                    Console.WriteLine(tipo);
+                    //Console.WriteLine(tipo);
 
                     //Obtenemos unicamente el ID
                     string id = tipo.Substring(15, 6);
-                    Console.WriteLine("ID: " + id);
+                    //Console.WriteLine("ID: " + id);
 
                     /* Añadir a una clase*/
                     Parking temporal = new Parking();
                     temporal.id = int.Parse(id);
-                    Console.WriteLine("Despues del parse: " + temporal.id);
+                    //Console.WriteLine("Despues del parse: " + temporal.id);
 
 
                     //Empezamos a obtener los datos para ese ID especifico
                     // Nodo por Nodo
                     int indice = 0;
-                    Console.WriteLine(node.ChildNodes[indice].FirstChild);
+                    //Console.WriteLine(node.ChildNodes[indice].FirstChild);
 
                     //Ocupacion
                     if (node.ChildNodes[indice].Name.Equals("eti:occupancy"))
                     {
                         double ocupacion = double.Parse(node.ChildNodes[indice].InnerText, CultureInfo.InvariantCulture);
                         temporal.ocupacion = ocupacion;
-                        Console.WriteLine("Despues del parse ocupacion: " + temporal.ocupacion);
+                        //Console.WriteLine("Despues del parse ocupacion: " + temporal.ocupacion);
                         indice++;
                     }
                     else
@@ -298,10 +298,10 @@ namespace ExtractorDatos
                     //Porcentaje
                     if (node.ChildNodes[indice].Name.Equals("eti:occupancyPercentage"))
                     {
-                        Console.WriteLine(node.ChildNodes[indice].InnerText);
+                        //Console.WriteLine(node.ChildNodes[indice].InnerText);
                         double porcentaje = double.Parse(node.ChildNodes[indice].InnerText, CultureInfo.InvariantCulture);
                         temporal.porcentaje = porcentaje;
-                        Console.WriteLine("Despues del parse ocupacion: " + temporal.porcentaje);
+                        //Console.WriteLine("Despues del parse ocupacion: " + temporal.porcentaje);
                         indice++;
                     }
                     else
@@ -364,7 +364,7 @@ namespace ExtractorDatos
             {
                 XmlNodeList temp = aparcamientosxml.SelectNodes("//*");
 
-                Console.WriteLine("Empiezo Foreach Estatico");
+                //Console.WriteLine("Empiezo Foreach Estatico");
 
                 //Con esto obtengo los PARKINGS unicamente
                 foreach (XmlNode node in temp[0].ChildNodes[0].ChildNodes)
@@ -384,9 +384,9 @@ namespace ExtractorDatos
                         List<Tarifa> tarifas = new List<Tarifa>();
 
                         //Empieza
-                        Console.WriteLine(node.Name);
+                        //Console.WriteLine(node.Name);
                         XmlNode temporal = node.ChildNodes[0];
-                        Console.WriteLine(temporal.Name);
+                        //Console.WriteLine(temporal.Name);
 
                         //Obtener el nombre del parking
                         if (temporal.ChildNodes[0] != null)
@@ -394,7 +394,7 @@ namespace ExtractorDatos
                             nombreParking =
                                 temporal.ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0]
                                     .InnerText;
-                            Console.WriteLine("Nombre: " + nombreParking);
+                            //Console.WriteLine("Nombre: " + nombreParking);
                         }
 
                         //Obtener la Longitud/Latitud del parking
@@ -407,8 +407,8 @@ namespace ExtractorDatos
                             double longitud = double.Parse(aLatLong[0], CultureInfo.InvariantCulture);
                             double latitud = double.Parse(aLatLong[1], CultureInfo.InvariantCulture);
 
-                            Console.WriteLine("Longitud " + longitud);
-                            Console.WriteLine("Latitud " + latitud);
+                            //Console.WriteLine("Longitud " + longitud);
+                            //Console.WriteLine("Latitud " + latitud);
 
                             c.longitud = longitud;
                             c.latitud = latitud;
@@ -431,7 +431,7 @@ namespace ExtractorDatos
                             Entrada entrada = new Entrada();
 
                             entrada.nombre = "Entrada " + numeroEntrada;
-                            Console.WriteLine(entrada.nombre);
+                            //Console.WriteLine(entrada.nombre);
                             entrada.puntoEntrada = new Coordenadas(latitud, longitud);
                             entradas.Add(entrada);
 
@@ -454,7 +454,7 @@ namespace ExtractorDatos
                         {
                             capacidad = int.Parse(capacidadS);
                             tipo = node.ChildNodes[index].ChildNodes[0].ChildNodes[1].InnerText;
-                            Console.WriteLine(capacidad + " y " + tipo);
+                            //Console.WriteLine(capacidad + " y " + tipo);
                             if (tipo.Equals("underground"))
                             {
                                 tipo = "Subterraneo";
@@ -520,7 +520,7 @@ namespace ExtractorDatos
                         Parking p = parkings[id];
                         if (p != null)
                         {
-                            Console.WriteLine("Se ha encontrado. ID= " + p.id);
+                            //Console.WriteLine("Se ha encontrado. ID= " + p.id);
                             p.latlong = c;
                             p.nombre = nombreParking;
                             p.entradas = entradas;
@@ -811,7 +811,7 @@ namespace ExtractorDatos
                         if (masInfo.HasChildNodes)
                         {
                             //Obtengo información como la latitud y longitud, el teléfono o web/email si tiene
-                            Console.WriteLine(masInfo.ChildNodes[1].Name);
+                            //Console.WriteLine(masInfo.ChildNodes[1].Name);
 
                             //Localización
                             double latitud = double.Parse(masInfo.ChildNodes[1].ChildNodes[4].ChildNodes[6].ChildNodes[0].InnerText, CultureInfo.InvariantCulture);
@@ -1113,7 +1113,7 @@ namespace ExtractorDatos
                     {
                         temporal = temporal.Substring(9);
                         horario = temporal.Replace("&lt;/p&gt;", "");
-                        Console.WriteLine(horario);
+                        //Console.WriteLine(horario);
                     }
                     else
                     {
@@ -1204,8 +1204,8 @@ namespace ExtractorDatos
                             web = masInfo.ChildNodes[1].ChildNodes[5].ChildNodes[4].InnerText;
                         }
 
-                        Console.WriteLine(latitud + " " + longitud + " " + telefono + " " + fax + " " + email + " " +
-                                          web);
+                        //Console.WriteLine(latitud + " " + longitud + " " + telefono + " " + fax + " " + email + " " +
+                          //                web);
                     }
 
                     //Añado a la lista
@@ -2599,7 +2599,7 @@ namespace ExtractorDatos
             XmlDocument tranvia = descargaDeURL("https://mapsengine.google.com/map/kml?mid=z5Ze7dtSm54M.krTEjXdoqZCo&forcekml=1");
             if (tranvia != null)
             {
-                Console.WriteLine(tranvia.ChildNodes[0].Name);
+                //Console.WriteLine(tranvia.ChildNodes[0].Name);
                 XmlNodeList temp = tranvia.SelectNodes("//*");
 
                 Console.WriteLine("Empiezo Foreach");
@@ -2649,10 +2649,10 @@ namespace ExtractorDatos
                     }
                     
                 }
-                foreach (ParadaTranvia temporal in paradasTranvia)
+                /*foreach (ParadaTranvia temporal in paradasTranvia)
                 {
                     Console.WriteLine(temporal.ToString());
-                }
+                }*/
             }
         }
 
