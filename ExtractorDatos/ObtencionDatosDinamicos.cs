@@ -25,10 +25,10 @@ namespace ExtractorDatos
             Thread obtenerBilbo = new Thread(new ThreadStart(this.obtenerBilbobus));
             Thread tiempo = new Thread(new ThreadStart(this.obtenerTiempoBilbao));
 
-            obtenerBilbo.Start();
-            incidencias.Start();
+            //obtenerBilbo.Start();
+            //incidencias.Start();
             obtenerBicis.Start();
-            obtenerParkings.Start();
+            //obtenerParkings.Start();
             deusto.Start();
             tiempo.Start();
         }

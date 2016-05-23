@@ -10,5 +10,3 @@ C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamien
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\obj\Release\Almacenamiento.csprojResolveAssemblyReference.cache
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\obj\Release\Almacenamiento.exe
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\obj\Release\Almacenamiento.pdb
-C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\bin\Release\Almacenamiento.exe.CodeAnalysisLog.xml
-C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Almacenamiento\bin\Release\Almacenamiento.exe.lastcodeanalysissucceeded

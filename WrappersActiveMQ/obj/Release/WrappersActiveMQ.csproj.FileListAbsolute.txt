@@ -5,5 +5,3 @@ C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WrappersActi
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WrappersActiveMQ\obj\Release\WrappersActiveMQ.csprojResolveAssemblyReference.cache
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WrappersActiveMQ\obj\Release\WrappersActiveMQ.dll
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WrappersActiveMQ\obj\Release\WrappersActiveMQ.pdb
-C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WrappersActiveMQ\bin\Release\WrappersActiveMQ.dll.CodeAnalysisLog.xml
-C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\WrappersActiveMQ\bin\Release\WrappersActiveMQ.dll.lastcodeanalysissucceeded

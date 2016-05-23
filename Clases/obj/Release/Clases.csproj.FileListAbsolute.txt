@@ -3,5 +3,3 @@ C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Clases\bin\R
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Clases\bin\Release\Clases.pdb
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Clases\obj\Release\Clases.dll
 C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Clases\obj\Release\Clases.pdb
-C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Clases\bin\Release\Clases.dll.CodeAnalysisLog.xml
-C:\Users\Kevin\documents\visual studio 2013\Projects\ExtractorDatos\Clases\bin\Release\Clases.dll.lastcodeanalysissucceeded

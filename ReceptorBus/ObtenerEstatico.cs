@@ -421,7 +421,7 @@ namespace ExtractorDatos
             }
 
             Console.WriteLine("Empiezo Aparcamiento");
-            XmlDocument aparcamientosxml=this.descargaDeURL("http://www.geobilbao.net/wfsCocities?service=wfs&version=1.1.0&request=GetFeature&typeName=eti:CarParkDynamic");
+            XmlDocument aparcamientosxml=this.descargaDeURL("https://www.geobilbao.net/wfsCocities?service=wfs&version=1.1.0&request=GetFeature&typeName=eti:CarParkDynamic");
 
             //Obtengo los nodos desde el padre de todos
             if (aparcamientosxml != null)
@@ -509,7 +509,7 @@ namespace ExtractorDatos
         {
 
             Console.WriteLine("Empiezo Aparcamiento Estatico");
-            XmlDocument aparcamientosxml = this.descargaDeURL("http://www.geobilbao.net/wfsCocities?service=wfs&version=1.1.0&request=GetFeature&typeName=edi:ParkingPoint");
+            XmlDocument aparcamientosxml = this.descargaDeURL("https://www.geobilbao.net/wfsCocities?service=wfs&version=1.1.0&request=GetFeature&typeName=edi:ParkingPoint");
 
             /* XmlNamespaceManager nsm = new XmlNamespaceManager(aparcamientosxml.NameTable);
              nsm.AddNamespace("wfs", "http://www.geobilbao.net/wfsCocities/schemas/wfs/1.1.0/wfs.xsd");
@@ -716,7 +716,7 @@ namespace ExtractorDatos
             }
 
             Console.WriteLine("Empiezo BilboBus");
-            XmlDocument bilbobus = this.descargaDeURL("http://www.geobilbao.net/wfsCocities?service=wfs&version=1.1.0&request=getFeature&typeName=ept:StopPoint");
+            XmlDocument bilbobus = this.descargaDeURL("https://www.geobilbao.net/wfsCocities?service=wfs&version=1.1.0&request=getFeature&typeName=ept:StopPoint");
             if (bilbobus != null)
             {
                 XmlNodeList temp = bilbobus.SelectNodes("//*");
