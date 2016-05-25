@@ -25,10 +25,10 @@ namespace ExtractorDatos
             Thread obtenerBilbo = new Thread(new ThreadStart(this.obtenerBilbobus));
             Thread tiempo = new Thread(new ThreadStart(this.obtenerTiempoBilbao));
 
-            //obtenerBilbo.Start();
-            //incidencias.Start();
+            obtenerBilbo.Start();
+            incidencias.Start();
             obtenerBicis.Start();
-            //obtenerParkings.Start();
+            obtenerParkings.Start();
             deusto.Start();
             tiempo.Start();
         }
@@ -63,9 +63,9 @@ namespace ExtractorDatos
                 dinamico.bicicletas();
                 InformacionEstatica.emisor.enviarBicicletas(dinamico.puntosBicisList, dinamico.descargaBicis);
 
-                //Espera un Minuto
+                //Espera 45 segundos
                 Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Fin Bicis");
-                Thread.Sleep(60000);
+                Thread.Sleep(45000);
             }
         }
 
@@ -78,9 +78,9 @@ namespace ExtractorDatos
                estatico.obtenerInformacionParkings();
                InformacionEstatica.emisor.enviarParkings(estatico.parkings, estatico.descargaParkings);
                 
-               //Espera un Minuto
+               //Espera 45 segundos
                Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Fin Parkings");
-               Thread.Sleep(60000);
+               Thread.Sleep(45000);
             }
         }
 
@@ -109,9 +109,9 @@ namespace ExtractorDatos
                 //InformacionEstatica.emisor.enviarTiemposParadas(estatico.paradasBilbobus, dinamico.descargaBilbobus);
                 InformacionEstatica.emisor.enviarTiemposLineas(estatico.lineasBilbo, dinamico.descargaBilbobus);
 
-                //Espera un Minuto
+                //Espera 45 segundos
                 Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Fin Bilbobus");
-                Thread.Sleep(60000);
+                Thread.Sleep(45000);
             }
         }
 

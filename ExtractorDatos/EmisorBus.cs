@@ -20,7 +20,7 @@ namespace ExtractorDatos
     {
         private IConnection _connection;
         private ISession _session;
-        private const String QUEUE_DESTINATION = "PruebaEMISOR";
+        private const String QUEUE_DESTINATION = "Trip2Bilbao";
         private IMessageProducer _producer;
 
         private DateTime inicio;
@@ -117,7 +117,7 @@ namespace ExtractorDatos
                     temporal.Properties.SetInt("CP", cp);
                     temporal.NMSType = "Parkings";
                     temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
-                    _producer.Send(temporal, MsgDeliveryMode.Persistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(60000));
+                    _producer.Send(temporal, MsgDeliveryMode.NonPersistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(60000));
                 }
             }
         }
@@ -162,7 +162,7 @@ namespace ExtractorDatos
                 ITextMessage temporal = _producer.CreateXmlMessage(xml);
                 temporal.Properties.SetInt("CP", cp);
                 temporal.NMSType = "TiemposParada";
-                _producer.Send(temporal, MsgDeliveryMode.Persistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(60000));
+                _producer.Send(temporal, MsgDeliveryMode.NonPersistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(60000));
             }
         }
 
@@ -224,7 +224,7 @@ namespace ExtractorDatos
                 temporal.Properties.SetInt("CP", cp);
                 temporal.NMSType = "Bicis";
                 temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
-                _producer.Send(temporal, MsgDeliveryMode.Persistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(60000));
+                _producer.Send(temporal, MsgDeliveryMode.NonPersistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(60000));
             }
         }
 
@@ -235,7 +235,7 @@ namespace ExtractorDatos
             temporal.Properties.SetInt("CP", 48014);
             temporal.NMSType = "Deusto";
             temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(60000);
-            _producer.Send(temporal, MsgDeliveryMode.Persistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(60000));
+            _producer.Send(temporal, MsgDeliveryMode.NonPersistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(60000));
         }
 
         public void enviarIncidencias<U, T>(U arg, DateTime descarga) where U : IEnumerable<T>
@@ -247,7 +247,7 @@ namespace ExtractorDatos
                 temporal.Properties.SetInt("CP", cpIncidencia);
                 temporal.NMSType = "Incidencia";
                 temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(86400000);
-                _producer.Send(temporal, MsgDeliveryMode.Persistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(86400000));
+                _producer.Send(temporal, MsgDeliveryMode.NonPersistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(86400000));
             }
         }
 
@@ -257,7 +257,7 @@ namespace ExtractorDatos
             ITextMessage temporal = _producer.CreateXmlMessage(xml);
             temporal.NMSType = "TiempoCiudad";
             temporal.NMSTimeToLive = TimeSpan.FromMilliseconds(86400000);
-            _producer.Send(temporal, MsgDeliveryMode.Persistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(86400000));
+            _producer.Send(temporal, MsgDeliveryMode.NonPersistent, MsgPriority.Normal, TimeSpan.FromMilliseconds(86400000));
         }
 
 /// <summary>

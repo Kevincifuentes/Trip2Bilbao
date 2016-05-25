@@ -525,7 +525,7 @@ namespace ExtractorDatos
         public void eventosTrafico()
         {
             XmlDocument eventosxml =
-                this.descargaDeURL("https://www.geobilbao.net/wfsCocities?service=wfs&version=1.1.0&request=GetFeature&typeName=eti:Activities");
+                this.descargaDeURL("http://www.geobilbao.net/wfsCocities?service=wfs&version=1.1.0&request=GetFeature&typeName=eti:Activities");
 
             if (eventosxml != null)
             {
@@ -599,7 +599,7 @@ namespace ExtractorDatos
         {
             XmlDocument obrasxml =
                 this.descargaDeURL(
-                    "https://www.geobilbao.net/wfsCocities?service=wfs&version=1.1.0&request=GetFeature&typeName=eti:ConstructionWorks");
+                    "http://www.geobilbao.net/wfsCocities?service=wfs&version=1.1.0&request=GetFeature&typeName=eti:ConstructionWorks");
 
             if (obrasxml != null)
             {
@@ -670,7 +670,7 @@ namespace ExtractorDatos
         {
             XmlDocument incidenciasxml =
                 this.descargaDeURL(
-                    "https://www.geobilbao.net/wfsCocities?service=wfs&version=1.1.0&request=GetFeature&typeName=eti:GeneralObstruction");
+                    "http://www.geobilbao.net/wfsCocities?service=wfs&version=1.1.0&request=GetFeature&typeName=eti:GeneralObstruction");
             if (incidenciasxml != null)
             {
                 XmlNodeList temp = incidenciasxml.SelectNodes("//*");
@@ -740,7 +740,7 @@ namespace ExtractorDatos
         {
             XmlDocument mantenimientoxml =
                 this.descargaDeURL(
-                    "https://www.geobilbao.net/wfsCocities?service=wfs&version=1.1.0&request=GetFeature&typeName=eti:MaintenanceWorks");
+                    "http://www.geobilbao.net/wfsCocities?service=wfs&version=1.1.0&request=GetFeature&typeName=eti:MaintenanceWorks");
 
             if (mantenimientoxml != null)
             {

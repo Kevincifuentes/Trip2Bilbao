@@ -27,7 +27,7 @@ namespace ReceptorBus
 
         private IConnection _connection;
         private ISession _session;
-        private const String QUEUE_DESTINATION = "PruebaEMISOR?consumer.retroactive=true";
+        private const String QUEUE_DESTINATION = "trip2bilbao?consumer.retroactive=true";
         private IMessageConsumer _consumer;
         private ModeloContainer contexto;
 
