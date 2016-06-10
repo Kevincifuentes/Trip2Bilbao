@@ -47,7 +47,7 @@ namespace ReceptorBus
             
             //obtenerTranvia(oe);
             //obtenerEuskotren(oe);
-            //obtenerMetro(oe);
+            obtenerMetro(oe);
             /*obtenerBizkaibus(oe);
             obtenerBilbobus(oe);*/
 

@@ -1574,7 +1574,7 @@ namespace ExtractorDatos
         public void lineasBilbobus()
         {
             lineasBilbo.Clear();
-
+            string dia = DateTime.UtcNow.ToString("yyyy_MM_dd_HH_mm_ss_fff", CultureInfo.InvariantCulture);
             Console.WriteLine("Empiezo Lineas Bilbobus");
 
             if (
@@ -1590,7 +1590,6 @@ namespace ExtractorDatos
 
             //Procesar los archivos
             Console.WriteLine("Extranyendo...");
-            double valor = DateTime.Now.TimeOfDay.TotalMilliseconds;
 
             ZipFile zf = null;
             try
@@ -1621,7 +1620,7 @@ namespace ExtractorDatos
                         //Obtiene el nombre del fichero que contiene el zip
                         String entryFileName = zipEntry.Name;
 
-
+                        
                         byte[] buffer = new byte[4096];
                         Stream zipStream = zf.GetInputStream(zipEntry);
 
@@ -1632,7 +1631,7 @@ namespace ExtractorDatos
                             Directory.CreateDirectory(directoryName);
                         try
                         {
-                            using (FileStream streamWriter = File.Create(fullZipToPath))
+                            using (FileStream streamWriter = File.Create(fullZipToPath+dia))
                             {
                                 StreamUtils.Copy(zipStream, streamWriter, buffer);
                             }
@@ -1675,7 +1674,7 @@ namespace ExtractorDatos
                 // Leemos el fichero linea por linea para sacar las rutas
                 using (System.IO.StreamReader file =
                     new System.IO.StreamReader(
-                        @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\routes.txt")
+                        @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\routes.txt"+dia)
                     )
                 {
                     string primeraLinea = file.ReadLine();
@@ -1713,12 +1712,12 @@ namespace ExtractorDatos
                 // Leemos el fichero linea por linea para sacar los viajes
                 List<Clases.KeyValuePair<int, ViajeBilbobus>> viajes = new List<Clases.KeyValuePair<int, ViajeBilbobus>>();
                 if (!File.Exists(
-                    @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\stop_times_.txt"))
+                    @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\stop_times_.txt"+dia))
                 {
                     using (
                         System.IO.StreamReader file =
                             new System.IO.StreamReader(
-                                @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\stop_times.txt")
+                                @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\stop_times.txt"+dia)
                         )
                     {
                         string primeraLinea = file.ReadLine();
@@ -1774,7 +1773,7 @@ namespace ExtractorDatos
                     using (
                     System.IO.StreamReader file =
                         new System.IO.StreamReader(
-                            @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\stop_times_.txt")
+                            @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\stop_times_.txt"+dia)
                     )
                     {
                         string primeraLinea = file.ReadLine();
@@ -1833,7 +1832,7 @@ namespace ExtractorDatos
                 using (
                     System.IO.StreamReader file =
                         new System.IO.StreamReader(
-                            @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\trips.txt")
+                            @"C:\Users\Kevin\Documents\visual studio 2013\Projects\ExtractorDatos\ExtractorDatos\BilbobusFTP\trips.txt"+dia)
                     )
                 {
                     string primeraLinea = file.ReadLine();

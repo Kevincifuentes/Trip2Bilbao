@@ -778,6 +778,7 @@ var seleccionar = false;
 var codigoPostalParking;
 var codigoPostalDestino;
 function resultadoParking() {
+    console.log("No PARKING: "+ noParkings);
     if (noParkings === false) {
         if (seleccionar === true) {
             codigoPostalParking = codigoPostal;
@@ -988,7 +989,7 @@ function obtenerInformacionDistanciasTiempos(origin, destiny) {
 
 function inicializarActiveMQ() {
     //Inicializo el WebSocket al puerto e Ip del ActiveMQ. Se utilizará un servicio STOMP.
-    ws = new WebSocket('wss://dev.mobility.deustotech.eu:61614?needClientAuth=true&wantClientAuth=true&transport.clientCertSubject=nms.client.170&transport.clientCertPassword=trip2bilbao&transport.clientCertFilename=client.ks', 'stomp');
+    ws = new WebSocket('ws://localhost:61614', 'stomp');
 
     //Notificar para la conexión
     ws.onopen = function (){
@@ -1003,7 +1004,7 @@ function inicializarActiveMQ() {
         if (e.data.startsWith('MESSAGE')) {
 
             var lines = e.data.split('\n');
-            var tipo = lines[4].substring(lines[4].indexOf(":") + 1, lines[4].length);
+            var tipo = lines[2].substring(lines[2].indexOf(":") + 1, lines[2].length);
 
             var expirado = lines[5].substring(0, lines[5].indexOf(":"));
 
@@ -1021,7 +1022,7 @@ function inicializarActiveMQ() {
                             case "TiempoCiudad":
                                 if (window.DOMParser) {
                                     parser = new DOMParser();
-                                    xmlDoc = parser.parseFromString(lines[9], "text/xml");
+                                    xmlDoc = parser.parseFromString(lines[8], "text/xml");
                                     var nombreCiudad = xmlDoc.getElementsByTagName("Nombre")[0].childNodes[0].nodeValue;
                                     var descripcionGeneralHES = xmlDoc.getElementsByTagName("ES")[0].childNodes[0].nodeValue;
                                     var descripcionGeneralHEU = xmlDoc.getElementsByTagName("EU")[0].childNodes[0].nodeValue;
@@ -1127,7 +1128,7 @@ function inicializarActiveMQ() {
                                 if (window.DOMParser) {
                                     parser = new DOMParser();
                                     //console.log(lines[10]);
-                                    xmlDoc = parser.parseFromString(lines[10], "text/xml");
+                                    xmlDoc = parser.parseFromString(lines[9], "text/xml");
                                     nombre = xmlDoc.getElementsByTagName("Nombre")[0].childNodes[0].nodeValue;
                                     var disponibilidad = xmlDoc.getElementsByTagName("Disponibilidad")[0].childNodes[0].nodeValue;
                                     estadoParkings[nombre] = disponibilidad;
@@ -1138,7 +1139,7 @@ function inicializarActiveMQ() {
                             case "Deusto":
                                 if (window.DOMParser) {
                                     parser = new DOMParser();
-                                    xmlDoc = parser.parseFromString(lines[10], "text/xml");
+                                    xmlDoc = parser.parseFromString(lines[9], "text/xml");
                                     var general = xmlDoc.getElementsByTagName("General")[0].childNodes[0].nodeValue;
                                     var dbs = xmlDoc.getElementsByTagName("Dbs")[0].childNodes[0].nodeValue;
                                     estadoParkings["UD: DBS"] = dbs;
@@ -1151,7 +1152,7 @@ function inicializarActiveMQ() {
                                     //Lo convertimos mediante un parseador
                                     parser = new DOMParser();
                                     //Obtenemos solo el XML
-                                    xmlDoc = parser.parseFromString(lines[10], "text/xml");
+                                    xmlDoc = parser.parseFromString(lines[9], "text/xml");
                                     //Se obtienen los datos que interesan
                                     nombre = xmlDoc.getElementsByTagName("Nombre")[0].childNodes[0].nodeValue;
                                     var disponibilidadbicis = xmlDoc.getElementsByTagName("BicisLibres")[0].childNodes[0].nodeValue;
